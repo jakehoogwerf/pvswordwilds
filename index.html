@@ -1151,6 +1151,10 @@ label.field .tinput{margin-top:4px;font-size:1rem}
 @media (max-width:380px){ .tt{font-size:.66rem;min-height:48px} .tt b{font-size:1.05rem} }
 .dsb .bplate b{display:inline}
 .dsb .bplate .bhp{margin-top:3px}
+.fpin{position:absolute;transform:translate(-50%,-50%);z-index:6;display:flex;flex-direction:column;align-items:center;pointer-events:none}
+.fpin i{width:12px;height:12px;border-radius:50%;border:2.5px solid #fff;box-shadow:0 0 0 2px #1d1b3a,0 0 10px rgba(255,255,255,.8);animation:pinbob 1.6s ease-in-out infinite}
+.fpin b{margin-top:2px;background:#1d1b3a;color:#fff;border-radius:6px;padding:0 5px;font:800 .62rem/1.5 "Baloo 2",system-ui,sans-serif;white-space:nowrap}
+.emoterow .btn{font-size:1.4rem;min-width:56px}
 </style>
 </head>
 <body>
@@ -1161,7 +1165,7 @@ label.field .tinput{margin-top:4px;font-size:1rem}
    To let pupils trade and battle with friends on every device, paste your Supabase
    Project URL and anon public key below (Supabase: Project Settings, then API).
    Leave them empty to keep online play switched off. */
-const ONLINE_CONFIG = { url: "https://awxmgiindzlwtgoxtxdt.supabase.co", anonKey: "sb_publishable_9YTsc1bf-_IZKj-KdmQVfg_uOhr997p" };
+const ONLINE_CONFIG = { url: "", anonKey: "" };
 
 /* ---------- helpers ---------- */
 const app = document.getElementById("app");
@@ -3339,7 +3343,7 @@ function startGym() {
 
 /* ---------- battle flow ---------- */
 function startBattle(cfg) {
-  clearInterval(zoneTimer);
+  clearInterval(zoneTimer); setTimeout(() => netPos(true), 600);
   let ready; const rp = new Promise(r => ready = r);
   BT = Object.assign({ mi: 0, fi: 0, busy: true, over: false, turn: "me", q: rp, ready, topics: enabledCats(), hard: false }, cfg);
   const go = () => { renderBattle(); introSendOut(); };
@@ -3873,8 +3877,8 @@ function emote(target, kind) { EMOTES.push({ target, kind, age: 0 }); }
 function drawEmotes(g, dt) {
   for (let i = EMOTES.length - 1; i >= 0; i--) {
     const e = EMOTES[i]; e.age += dt; if (e.age > 1300) { EMOTES.splice(i, 1); continue; }
-    const pos = e.target === "buddy" ? { x: W.buddy.fx, y: W.buddy.fy } : e.target === "player" ? { x: W.fx, y: W.fy } : e.target;
-    const pop = Math.min(1, e.age / 120), X = Math.round(pos.x * TS + 3), Y = Math.round(pos.y * TS - 16 - 3 * pop);
+    const pos = e.target === "buddy" ? { x: W.buddy.fx, y: W.buddy.fy } : e.target === "player" ? { x: W.fx, y: W.fy } : e.target.fx !== undefined ? { x: e.target.fx, y: e.target.fy } : e.target;
+    const pop = Math.min(1, e.age / 120), X = Math.round(pos.x * TS + 3), Y = Math.round(pos.y * TS - 16 - 3 * pop - (e.target && e.target.fx !== undefined ? 9 : 0));
     g.fillStyle = "#1d1b3a"; g.fillRect(X - 1, Y - 1, 12, 11); g.fillRect(X + 3, Y + 10, 3, 2);
     g.fillStyle = "#fff"; g.fillRect(X, Y, 10, 9); g.fillRect(X + 4, Y + 9, 1, 2);
     if (e.kind === "!") { g.fillStyle = "#E63946"; g.fillRect(X + 4, Y + 1, 2, 5); g.fillRect(X + 4, Y + 7, 2, 1); }
@@ -4333,7 +4337,7 @@ function showWorld() {
       </div>
     </div></section>`;
   bindPad();
-  W.region = null; W.greeted = W.greeted || {}; updateLoc(); setMusic(REGION_TRACK[W.region] || "town");
+  W.region = null; W.greeted = W.greeted || {}; updateLoc(); setMusic(REGION_TRACK[W.region] || "town"); netPos(true);
   cancelAnimationFrame(W.raf); W.last = performance.now(); W.raf = requestAnimationFrame(tick);
 }
 const navDot = () => { const n = allQuests().filter(q => q.prog >= q.goal && !save.claimed[q.id]).length; return n ? `<i class="dot">${n}</i>` : ""; };
@@ -4371,6 +4375,7 @@ function tick(now) {
   if (app.dataset.screen !== "world") return;
   const dt = Math.min(50, now - W.last); W.last = now; W.dt = dt;
   if (!W.lock && ov.hidden) step(dt);
+  netPos();
   render(now);
   W.raf = requestAnimationFrame(tick);
 }
@@ -4416,6 +4421,7 @@ function interact() {
   if (!W || W.moving || app.dataset.screen !== "world") return;
   if (DLG) { dlgNext(); return; }
   const [x, y] = facingTile(), t = MAP[y] && MAP[y][x];
+  const fo = friendAt(x, y) || friendAt(W.x, W.y); if (fo) return friendMenu(fo);
   const n = NPCS.find(n => n.x === x && n.y === y);
   if (n) return talkTo(n);
   if (W.buddy.x === x && W.buddy.y === y && buddySpecies()) return talkToBuddy();
@@ -4481,6 +4487,7 @@ function render(now) {
   if (bs) ents.push({ y: W.buddy.fy, draw: () => { const s = svgSprite(bs.id, creatureSVG(bs), 22, save.team[bs.id] && save.team[bs.id].shiny); const bob = Math.round(Math.sin(now / 160) * 1); dropShadow(g, W.buddy.fx * TS, W.buddy.fy * TS, 12); if (s) g.drawImage(s, W.buddy.fx * TS - 3, W.buddy.fy * TS - 7 + bob, 22, 22); } });
   const fr = W.moving ? (W.frame % 2 ? 1 : 2) : 0;
   ents.push({ y: W.fy + 0.01, draw: () => { dropShadow(g, W.fx * TS, W.fy * TS); g.drawImage(pFrame(W.dir, fr), W.fx * TS, W.fy * TS - 5, 16, 20); } });
+  updateOthers(W.dt || 16); drawOthersEnts(g, ents, now);
   ents.sort((a, b) => a.y - b.y).forEach(e => e.draw());
   // tall grass in front of feet
   const front = (x, y) => { if (MAP[y] && MAP[y][x] === ",") { const c = TILECACHE.tall; if (c) g.drawImage(c, 0, 18, 32, 14, x * TS, y * TS + 9, 16, 7); } };
@@ -4489,6 +4496,7 @@ function render(now) {
   drawParts(g, now);
   drawLighting(g, camX, camY, WINDOWS);
   drawFireflies(g);
+  drawNameTags(g);
   drawEmotes(g, W.dt || 16);
   g.setTransform(1, 0, 0, 1, 0, 0);
 }
@@ -4689,6 +4697,7 @@ function showMap() {
         <span class="zicon" aria-hidden="true">${z.icon}${badge ? `<i class="pinbadge">${badgeSVG(a.id, true)}</i>` : gym ? `<i class="pingym">🏟️</i>` : ""}</span><b>${a.cls}</b><small>${f}/${t} found</small></button>`; }).join("")}
       <button class="zpin lab${W && regionAt(W.x, W.y) === "gate" ? " here" : ""}" style="left:${(AREA_RECTS.gate[0] + AREA_RECTS.gate[2] / 2) / MW * 100}%;top:${(AREA_RECTS.gate[1] + AREA_RECTS.gate[3] / 2) / MH * 100}%" data-act="mapInfo" data-arg="lab"><span class="zicon" aria-hidden="true">🏫</span><b>School Gate</b></button>
       <button class="zpin fortress${W && regionAt(W.x, W.y) === "office" ? " here" : ""}" style="left:50%;top:${(AREA_RECTS.office[1] + AREA_RECTS.office[3] / 2) / MH * 100}%" data-act="mapInfo" data-arg="fortress"><span class="zicon" aria-hidden="true">🏛️</span><b>Principal’s Office</b><small>${save.story.champion ? "Champion!" : allBadges() ? "Final battle" : "Locked"}</small></button>
+      ${friendPins()}
     </div>
     <div class="buddycard" data-act="buddyView" role="button" tabindex="0"><div class="bsp">${creatureSVG(b, { shiny: save.team[b.id].shiny })}</div>
       <div class="binfo"><b>${b.name}</b> ${typeChip(b.type)}
@@ -4790,7 +4799,7 @@ function rollSpecies(z) {
 }
 let E = null;
 function startEncounter() {
-  clearInterval(zoneTimer);
+  clearInterval(zoneTimer); setTimeout(() => netPos(true), 600);
   const sp = rollSpecies(curZone);
   const [need, tries] = HEARTS[sp.rarity];
   const baseLv = curZone.id === "custom" ? 3 : areaLv(curZone.id);
@@ -5097,22 +5106,23 @@ async function joinRoom(code) {
   netMsg("Connecting…");
   try {
     const lib = await loadSupabase();
-    if (!NET.sb) NET.sb = lib.createClient(cfg.u, cfg.k, { auth: { persistSession: false, autoRefreshToken: false } });
+    if (!NET.sb) NET.sb = lib.createClient(cfg.u, cfg.k, { auth: { persistSession: false, autoRefreshToken: false }, realtime: { params: { eventsPerSecond: 20 } } });
     await leaveRoom(true);
     NET.pid = NET.pid || ("u" + Math.random().toString(36).slice(2, 10));
     const ch = NET.sb.channel("wordwilds-" + code, { config: { presence: { key: NET.pid }, broadcast: { self: false } } });
     NET.ch = ch; NET.code = code; NET.status = "joining";
     ch.on("presence", { event: "sync" }, onPeers);
     ch.on("broadcast", { event: "m" }, msg => onNet(msg.payload || {}));
+    ch.on("broadcast", { event: "p" }, msg => onPos(msg.payload || {}));
     const timer = setTimeout(() => { if (NET.status === "joining") { NET.status = "error"; leaveRoom(true); netMsg("Couldn’t connect. Check the internet connection, then try again."); } }, 12000);
     ch.subscribe(async st => {
-      if (st === "SUBSCRIBED" && NET.ch === ch) { clearTimeout(timer); NET.status = "on"; await ch.track(meInfo()); showRoom(); }
+      if (st === "SUBSCRIBED" && NET.ch === ch) { clearTimeout(timer); NET.status = "on"; await ch.track(meInfo()); clearInterval(NET.hb); NET.hb = setInterval(() => netPos(true), 3000); netPos(true); showRoom(); }
       else if ((st === "CHANNEL_ERROR" || st === "TIMED_OUT") && NET.ch === ch) { clearTimeout(timer); NET.status = "error"; leaveRoom(true); netMsg("Couldn’t connect to the room. Ask your teacher to check the online settings."); }
     });
   } catch (e) { NET.status = "error"; netMsg("Online play couldn’t load. Check the internet connection, then try again."); }
 }
 async function leaveRoom(quiet) {
-  const ch = NET.ch; NET.ch = null; NET.code = null; NET.peers = []; NET.trade = null; NET.pvp = null;
+  const ch = NET.ch; NET.ch = null; NET.code = null; NET.peers = []; NET.trade = null; NET.pvp = null; NET.others = {}; NET.lastPos = null; clearInterval(NET.hb);
   if (NET.status !== "error") NET.status = "off";
   if (ch) { try { await ch.untrack(); } catch (e) {} try { NET.sb && NET.sb.removeChannel(ch); } catch (e) {} }
   if (!quiet) showOnline();
@@ -5123,9 +5133,12 @@ function netSend(to, type, data = {}) {
   try { NET.ch.send({ type: "broadcast", event: "m", payload: Object.assign({ to, from: NET.pid, name: save.name || "Explorer", colour: save.colour || "blue", type }, data) }); } catch (e) {}
 }
 function onPeers() {
+  const before = NET.peers.map(p => p.pid);
   NET.peers = peersNow();
+  Object.keys(NET.others).forEach(pid => { if (!NET.peers.some(p => p.pid === pid)) delete NET.others[pid]; });
+  if (NET.peers.some(p => !before.includes(p.pid))) netPos(true);
   const here = pid => NET.peers.some(p => p.pid === pid);
-  if (NET.trade && !here(NET.trade.pid)) { const n = NET.trade.name; NET.trade = null; toast(`${n} left the room.`); if (app.dataset.screen === "trade") showRoom(); }
+  if (NET.trade && !here(NET.trade.pid)) { const n = NET.trade.name; NET.trade = null; toast(`${n} left the room.`); if (app.dataset.screen === "trade") netBack(); }
   if (BT && BT.mode === "pvp" && !BT.over && !here(BT.opp)) { BT.q = BT.q.then(async () => { if (BT.over) return; battleMsg(`${esc(BT.leaderName)} left the room. You win!`); await sleepW(900); endBattle(true); }); }
   if (app.dataset.screen === "room") showRoom();
   const d = document.querySelector('[data-act="online"] .dot'); if (d) d.textContent = NET.peers.length;
@@ -5151,7 +5164,7 @@ function onNet(p) {
     case "byes": NET.ask = null; pvpSetup(p.from, p.name, p.colour, true); break;
     case "toffer": if (NET.trade && NET.trade.pid === p.from) { NET.trade.theirs = sanitizeOffer(p.offer); NET.trade.myReady = false; NET.trade.theirReady = null; showTrade(); } break;
     case "tready": if (NET.trade && NET.trade.pid === p.from) { NET.trade.theirReady = { mine: p.mine, theirs: p.theirs }; if (!tryCommit()) showTrade(); } break;
-    case "tcancel": if (NET.trade && NET.trade.pid === p.from) { NET.trade = null; toast(`${p.name} cancelled the trade.`); if (app.dataset.screen === "trade") showRoom(); } break;
+    case "tcancel": if (NET.trade && NET.trade.pid === p.from) { NET.trade = null; toast(`${p.name} cancelled the trade.`); if (app.dataset.screen === "trade") netBack(); } break;
     case "bteam": if (NET.pvp && NET.pvp.pid === p.from) { NET.pvp.theirs = (p.team || []).filter(t => SPECIES[t.id] && SPECIES[t.id].type).slice(0, 3); pvpMaybeStart(); } break;
     case "bmove": case "bberry": case "bswitch": case "bquit": pvpOnMsg(p); break;
   }
@@ -5193,13 +5206,14 @@ function showRoom() {
     ${peers.length ? `<div class="peers">${peers.map(p => `<div class="peer">${trainerPreview(p.colour || "blue", 44)}<div class="pinfo"><b>${esc(p.name || "Explorer")}</b><small>📖 ${p.dex || 0}  🏅 ${p.badges || 0}</small></div>
         <button class="btn small" data-act="netTrade" data-arg="${esc(p.pid)}">🤝 Trade</button><button class="btn small ghost" data-act="netBattle" data-arg="${esc(p.pid)}">⚔️ Battle</button></div>`).join("")}</div>`
       : `<div class="panel center"><p><b>No one else is here yet.</b></p><p class="hint">Tell a friend the code above. They’ll appear here when they join.</p></div>`}
-    <div class="row" style="justify-content:center;margin-top:12px"><button class="btn ghost" data-act="netLeave">Leave room</button></div>${navbar("map")}`;
+    <p class="center hint" style="margin-top:12px">Everyone in this room can see each other around the school. Walk up to a friend and press A to trade, battle or say hi.</p>
+    <div class="row" style="justify-content:center"><button class="btn" data-act="explore">🌍 Explore together</button><button class="btn ghost" data-act="netLeave">Leave room</button></div>${navbar("map")}`;
 }
 
 /* ---------- trading ---------- */
 function offerObj(id) { const e = save.team[id]; return { id, shiny: !!e.shiny, exp: e.exp || 0, xp: e.xp || 0 }; }
 function sanitizeOffer(o) { if (!o || !SPECIES[o.id]) return null; return { id: o.id, shiny: !!o.shiny, exp: Math.max(0, Math.min(expForLv(MAX_LV), +o.exp || 0)), xp: Math.max(0, Math.min(EVOLVE_XP, +o.xp || 0)) }; }
-function startTrade(pid, name, colour) { NET.trade = { pid, name, colour, mine: null, theirs: null, myReady: false, theirReady: null, done: false }; showTrade(); }
+function startTrade(pid, name, colour) { NET.back = app.dataset.screen === "world" ? "world" : "room"; NET.trade = { pid, name, colour, mine: null, theirs: null, myReady: false, theirReady: null, done: false }; showTrade(); }
 function showTrade() {
   const T = NET.trade; if (!T || T.done) return;
   app.dataset.screen = "trade";
@@ -5223,7 +5237,7 @@ function tradeReady() {
   T.myReady = true; netSend(T.pid, "tready", { mine: T.mine, theirs: T.theirs.id });
   if (!tryCommit()) showTrade();
 }
-function tradeCancel() { const T = NET.trade; if (T) netSend(T.pid, "tcancel", {}); NET.trade = null; showRoom(); }
+function tradeCancel() { const T = NET.trade; if (T) netSend(T.pid, "tcancel", {}); NET.trade = null; netBack(); }
 function tryCommit() {
   const T = NET.trade;
   if (!T || T.done || !T.myReady || !T.theirReady || !T.mine || !T.theirs) return false;
@@ -5255,12 +5269,13 @@ function tradeAnim(gave, got, shiny, name) {
 }
 function tradeAfter(id) {
   const sp = SPECIES[id], e = save.team[id];
-  if (sp && sp.evo && e && (e.xp || 0) >= EVOLVE_XP) { evolve(id, () => showRoom()); return; }
-  showRoom();
+  if (sp && sp.evo && e && (e.xp || 0) >= EVOLVE_XP) { evolve(id, netBack); return; }
+  netBack();
 }
 
 /* ---------- friend battles ---------- */
 function pvpSetup(pid, name, colour, iStart) {
+  NET.back = app.dataset.screen === "world" ? "world" : "room";
   const mine = party().map(id => ({ id, shiny: !!save.team[id].shiny }));
   NET.pvp = { pid, name, colour, iStart, mine, theirs: null, started: false };
   netSend(pid, "bteam", { team: mine });
@@ -5300,7 +5315,85 @@ function pvpEnd(won) {
     <p>${won ? `You beat ${esc(BT.leaderName)}!` : `${esc(BT.leaderName)} won this time.`}</p><p class="hint">🪙 +${coins} Word Coins, and your team gained experience.</p>
     <button class="btn" data-act="pvpDone">OK</button></div>`);
 }
-function pvpDone() { closeModal(); NET.pvp = null; afterBattle(() => NET.status === "on" && NET.ch ? showRoom() : showWorld()); }
+function pvpDone() { closeModal(); NET.pvp = null; afterBattle(netBack); }
+
+/* ---------- exploring together ---------- */
+NET.others = {};
+const OTHER_FRAMES = {};
+function otherFrame(dir, f, colour) { const k = dir + f + colour; return OTHER_FRAMES[k] || (OTHER_FRAMES[k] = trainerCanvas(dir, f, colour)); }
+function netPos(force) {
+  if (!NET.ch || NET.status !== "on" || !save) return;
+  const inWorld = app.dataset.screen === "world" && !!W;
+  const p = { pid: NET.pid, name: save.name || "Explorer", colour: save.colour || "blue", buddy: save.buddy,
+    status: inWorld ? "world" : app.dataset.screen === "battle" || app.dataset.screen === "encounter" ? "battle" : "busy",
+    x: W ? W.x : 26, y: W ? W.y : 57, dir: W ? W.dir : "down", run: !!(W && W.running) };
+  const key = [p.x, p.y, p.dir, p.status, p.buddy].join();
+  if (!force && key === NET.lastPos) return;
+  NET.lastPos = key;
+  try { NET.ch.send({ type: "broadcast", event: "p", payload: p }); } catch (e) {}
+}
+function onPos(p) {
+  if (!p || !p.pid || p.pid === NET.pid) return;
+  const o0 = NET.others[p.pid];
+  if (p.emote) { if (o0 && ["heart", "note", "!"].includes(p.emote)) { emote(o0, p.emote); if (app.dataset.screen === "world") SFX.heart(); } return; }
+  const tx = Math.round(+p.x), ty = Math.round(+p.y);
+  if (!Number.isFinite(tx) || !Number.isFinite(ty) || tx < 0 || ty < 0 || tx >= MW || ty >= MH) return;
+  const o = o0 || (NET.others[p.pid] = { pid: p.pid, fx: tx, fy: ty, x: tx, y: ty, bx: tx, by: ty - 1, bfx: tx, bfy: ty - 1 });
+  if (tx !== o.x || ty !== o.y) { o.bx = o.x; o.by = o.y; }
+  o.x = tx; o.y = ty;
+  if (Math.abs(tx - o.fx) + Math.abs(ty - o.fy) > 2) { o.fx = tx; o.fy = ty; o.bx = tx; o.by = ty - 1; o.bfx = o.bx; o.bfy = o.by; }
+  o.name = String(p.name || "Explorer").slice(0, 14); o.colour = TRAINER_COLOURS[p.colour] ? p.colour : "blue";
+  o.buddy = SPECIES[p.buddy] ? p.buddy : null; o.dir = DIRS[p.dir] ? p.dir : "down"; o.run = !!p.run;
+  o.status = p.status === "world" ? "world" : p.status === "battle" ? "battle" : "busy";
+}
+function updateOthers(dt) {
+  for (const o of Object.values(NET.others)) {
+    const sp = dt / (o.run ? RUN_MS : STEP_MS), mv = (a, b) => Math.abs(b - a) <= sp ? b : a + Math.sign(b - a) * sp;
+    o.moving = o.fx !== o.x || o.fy !== o.y;
+    o.fx = mv(o.fx, o.x); o.fy = mv(o.fy, o.y); o.bfx = mv(o.bfx, o.bx); o.bfy = mv(o.bfy, o.by);
+    if (o.moving) o.anim = (o.anim || 0) + dt;
+  }
+}
+function drawOthersEnts(g, ents, now) {
+  for (const o of Object.values(NET.others)) {
+    const alpha = o.status === "world" ? 1 : 0.45, bs = o.buddy && SPECIES[o.buddy];
+    if (bs) ents.push({ y: o.bfy, draw: () => { const s = svgSprite(bs.id, creatureSVG(bs), 22); g.globalAlpha = alpha; dropShadow(g, o.bfx * TS, o.bfy * TS, 12); if (s) g.drawImage(s, o.bfx * TS - 3, o.bfy * TS - 7 + Math.round(Math.sin(now / 160 + 1)), 22, 22); g.globalAlpha = 1; } });
+    const fr = o.moving ? (Math.floor((o.anim || 0) / (o.run ? RUN_MS : STEP_MS)) % 2 ? 1 : 2) : 0;
+    ents.push({ y: o.fy, draw: () => { g.globalAlpha = alpha; dropShadow(g, o.fx * TS, o.fy * TS); g.drawImage(otherFrame(o.dir, fr, o.colour), o.fx * TS, o.fy * TS - 5, 16, 20); g.globalAlpha = 1; } });
+  }
+}
+function drawNameTags(g) {
+  const list = Object.values(NET.others); if (!list.length) return;
+  g.font = "bold 5px 'Baloo 2', 'Trebuchet MS', sans-serif"; g.textAlign = "center"; g.textBaseline = "middle";
+  for (const o of list) {
+    const label = o.name + (o.status === "battle" ? " ⚔️" : o.status === "busy" ? " …" : "");
+    const w = g.measureText(label).width + 8, X = o.fx * TS + 8, Y = o.fy * TS - 10;
+    g.globalAlpha = o.status === "world" ? 1 : 0.7;
+    g.fillStyle = "rgba(29,27,58,.88)"; g.beginPath(); if (g.roundRect) g.roundRect(X - w / 2, Y - 4, w, 8, 3); else g.rect(X - w / 2, Y - 4, w, 8); g.fill();
+    g.fillStyle = (TRAINER_COLOURS[o.colour] || TRAINER_COLOURS.blue).hat; g.fillRect(X - w / 2 + 1.5, Y - 2.5, 1.6, 5);
+    g.fillStyle = "#fff"; g.fillText(label, X + 1, Y + .4); g.globalAlpha = 1;
+  }
+  g.textAlign = "start"; g.textBaseline = "alphabetic";
+}
+function friendAt(x, y) { return Object.values(NET.others).find(o => o.status === "world" && Math.round(o.fx) === x && Math.round(o.fy) === y); }
+function friendMenu(o) {
+  if (!NET.peers.some(p => p.pid === o.pid)) return;
+  SFX.blip();
+  showModal(`<div class="qcard center" role="dialog" aria-modal="true">${trainerPreview(o.colour, 64)}<h2>${esc(o.name)}</h2>
+    <p class="hint">What would you like to do?</p>
+    <div class="row" style="justify-content:center"><button class="btn" data-act="worldTrade" data-arg="${esc(o.pid)}">🤝 Trade</button><button class="btn" data-act="worldBattle" data-arg="${esc(o.pid)}">⚔️ Battle</button></div>
+    <p class="hint" style="margin-top:12px">Or say hi:</p>
+    <div class="row emoterow" style="justify-content:center"><button class="btn ghost" data-act="netEmote" data-arg="heart" aria-label="Send a heart">💛</button><button class="btn ghost" data-act="netEmote" data-arg="note" aria-label="Sing a song">🎵</button><button class="btn ghost" data-act="netEmote" data-arg="!" aria-label="Say wow">❗</button></div>
+    <button class="btn ghost" data-act="close" style="margin-top:12px">Close</button></div>`);
+}
+function netEmote(kind) {
+  closeModal(); emote("player", kind); SFX.heart();
+  if (NET.ch) { try { NET.ch.send({ type: "broadcast", event: "p", payload: { pid: NET.pid, emote: kind } }); } catch (e) {} }
+}
+function netBack() { if (NET.back === "world" || !NET.ch) showWorld(); else showRoom(); }
+function friendPins() {
+  return Object.values(NET.others).map(o => `<span class="fpin" style="left:${(o.x + .5) / MW * 100}%;top:${(o.y + .5) / MH * 100}%"><i style="background:${(TRAINER_COLOURS[o.colour] || TRAINER_COLOURS.blue).hat}"></i><b>${esc(o.name)}</b></span>`).join("");
+}
 
 /* ---------- teacher settings ---------- */
 function onlinePanel() {
@@ -5498,7 +5591,8 @@ Object.assign(ACT, {
   trainerRematch: id => { closeModal(); const n = NPCS.find(x => x.id === id); if (n) trainerChallenge(n, true); }, bQuit,
   online: () => showOnline(), netCreate: () => joinRoom(newCode()), netJoin: () => joinRoom((document.getElementById("joincode") || {}).value),
   netLeave: () => leaveRoom(false), netTrade: pid => netAsk(pid, "trade"), netBattle: pid => netAsk(pid, "battle"), netYes, netNo,
-  tradePick, tradeReady, tradeCancel, tradeAfter: id => tradeAfter(id), pvpDone
+  tradePick, tradeReady, tradeCancel, tradeAfter: id => tradeAfter(id), pvpDone,
+  worldTrade: pid => { closeModal(); netAsk(pid, "trade"); }, worldBattle: pid => { closeModal(); netAsk(pid, "battle"); }, netEmote
 });
 document.addEventListener("keydown", e => { if (e.key === "Enter" && e.target && e.target.id === "joincode") joinRoom(e.target.value); });
 Object.assign(ACT, {
