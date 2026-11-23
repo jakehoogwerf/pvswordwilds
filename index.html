@@ -1155,6 +1155,20 @@ label.field .tinput{margin-top:4px;font-size:1rem}
 .fpin i{width:12px;height:12px;border-radius:50%;border:2.5px solid #fff;box-shadow:0 0 0 2px #1d1b3a,0 0 10px rgba(255,255,255,.8);animation:pinbob 1.6s ease-in-out infinite}
 .fpin b{margin-top:2px;background:#1d1b3a;color:#fff;border-radius:6px;padding:0 5px;font:800 .62rem/1.5 "Baloo 2",system-ui,sans-serif;white-space:nowrap}
 .emoterow .btn{font-size:1.4rem;min-width:56px}
+.mfx.tile.jum{background:#E3D4FF;color:#5C3487}
+.chapcard{position:fixed;left:50%;top:22%;transform:translate(-50%,-50%);z-index:45;width:min(340px,86vw);text-align:center;pointer-events:none;
+  background:linear-gradient(#FFFFFF,#E9EEF8);color:#1d1b3a;border:4px solid #4A6FA5;border-radius:18px;padding:12px 16px 14px;
+  box-shadow:inset 0 0 0 3px #fff,0 0 0 3px #1E2233,0 10px 0 rgba(0,0,0,.35);animation:chapIn 3.6s ease both}
+.chapcard small{display:block;font:800 .85rem "Baloo 2",system-ui,sans-serif;color:#E0404C}
+.chapcard b{display:block;font:800 1.6rem/1.1 "Baloo 2",system-ui,sans-serif;margin:2px 0 6px}
+.chapcard span{display:block;font-weight:700;font-size:.92rem;color:#4A5068}
+@keyframes chapIn{0%{opacity:0;transform:translate(-50%,-80%) scale(.85)}10%,85%{opacity:1;transform:translate(-50%,-50%) scale(1)}100%{opacity:0;transform:translate(-50%,-40%) scale(.95)}}
+.storylist{display:grid;gap:6px;max-width:620px;margin:0 auto 6px}
+.schap{display:flex;gap:10px;align-items:flex-start;padding:8px 12px;border-radius:14px;background:var(--panel);border:2px solid var(--line)}
+.schap i{font-style:normal;font-size:1.1rem;line-height:1.4}
+.schap b{display:block;font-size:.98rem} .schap small{display:block;color:var(--muted);line-height:1.3}
+.schap.cur{border-color:var(--gold);box-shadow:0 0 14px rgba(255,212,71,.35)}
+.schap.locked{opacity:.6}
 </style>
 </head>
 <body>
@@ -1165,7 +1179,7 @@ label.field .tinput{margin-top:4px;font-size:1rem}
    To let pupils trade and battle with friends on every device, paste your Supabase
    Project URL and anon public key below (Supabase: Project Settings, then API).
    Leave them empty to keep online play switched off. */
-const ONLINE_CONFIG = { url: "https://awxmgiindzlwtgoxtxdt.supabase.co", anonKey: "sb_publishable_9YTsc1bf-_IZKj-KdmQVfg_uOhr997p" };
+const ONLINE_CONFIG = { url: "", anonKey: "" };
 
 /* ---------- helpers ---------- */
 const app = document.getElementById("app");
@@ -1963,6 +1977,39 @@ const SPECIES_LIST = [
   { id: "opposum", name: "Opposum", type: "vocab", arch: "pup", stage: 1, evo: "contrapossum", rarity: 2, desc: "It hangs upside down, so it sees everything the opposite way." },
   { id: "contrapossum", name: "Contrapossum", type: "vocab", arch: "pup", stage: 2, rarity: 3, desc: "Hot and cold, up and down, happy and sad. A master of opposites, upside down!" },
   { id: "inktopus", name: "Inktopus", type: "legend", arch: "blob", stage: 2, rarity: 4, desc: "The second legendary creature. It writes with eight quills at once." },
+  // ---- even more creatures ----
+  { id: "syllapup", name: "Syllapup", type: "spelling", arch: "pup", stage: 1, evo: "syllaseal", rarity: 1, desc: "It claps out the syllables of every word it hears. Ba-na-na: three claps!" },
+  { id: "syllaseal", name: "Syllaseal", type: "spelling", arch: "pup", stage: 2, rarity: 3, desc: "It balances a ball with three parts on its head: syl-la-ble." },
+  { id: "twinnit", name: "Twinnit", type: "spelling", arch: "blob", stage: 1, evo: "twindrake", rarity: 2, desc: "Two heads, two letters. It loves double letters, like in “ball” and “happy”." },
+  { id: "twindrake", name: "Twindrake", type: "spelling", arch: "dino", stage: 2, rarity: 3, desc: "A two-headed dragon that never forgets the double S in “dress” and “class”." },
+  { id: "flourbud", name: "Flourbud", type: "homophones", arch: "blob", stage: 1, evo: "flourbloom", rarity: 1, desc: "Is it a flower, or is it flour? It’s both! It always has a bag of flour nearby." },
+  { id: "flourbloom", name: "Flourbloom", type: "homophones", arch: "blob", stage: 2, rarity: 3, desc: "A flower that bakes with flour. Its cakes smell like roses." },
+  { id: "peekpip", name: "Peekpip", type: "homophones", arch: "bird", stage: 1, evo: "peakeagle", rarity: 2, desc: "It peeks out of its egg at the top of a mountain peak." },
+  { id: "peakeagle", name: "Peakeagle", type: "homophones", arch: "bird", stage: 2, rarity: 3, desc: "From the highest peak, it takes a peek through its telescope." },
+  { id: "quoki", name: "Quoki", type: "punctuation", arch: "pup", stage: 1, evo: "quokkaquote", rarity: 1, desc: "A smiley quokka whose ears are speech marks. It loves to say “G’day!”" },
+  { id: "quokkaquote", name: "Quokkaquote", type: "punctuation", arch: "pup", stage: 2, rarity: 3, desc: "It puts inverted commas around everything anyone says." },
+  { id: "brackit", name: "Brackit", type: "punctuation", arch: "bug", stage: 1, evo: "brackrab", rarity: 2, desc: "Its claws are brackets. It hugs extra information ( like this )." },
+  { id: "brackrab", name: "Brackrab", type: "punctuation", arch: "bug", stage: 2, rarity: 3, desc: "A giant crab that adds (helpful) extra details to every sentence." },
+  { id: "whereling", name: "Whereling", type: "wordclass", arch: "blob", stage: 1, evo: "positaur", rarity: 1, desc: "A shy chameleon that hides behind, under and inside things. It loves prepositions." },
+  { id: "positaur", name: "Positaur", type: "wordclass", arch: "dino", stage: 2, rarity: 3, desc: "It carries a signpost: over, under, beside. It always knows where things are." },
+  { id: "propaca", name: "Propaca", type: "wordclass", arch: "pup", stage: 1, evo: "capitalpaca", rarity: 2, desc: "It has a name badge. Names are proper nouns, so they start with a capital letter!" },
+  { id: "capitalpaca", name: "Capitalpaca", type: "wordclass", arch: "pup", stage: 2, rarity: 3, desc: "The queen of proper nouns. Perth, Monday and Sam all bow to her crown." },
+  { id: "clausepillar", name: "Clausepillar", type: "grammar", arch: "bug", stage: 1, evo: "sentenfly", rarity: 1, desc: "Each part of its body is a word. Together they make a clause: the cat sat." },
+  { id: "sentenfly", name: "Sentenfly", type: "grammar", arch: "bug", stage: 2, rarity: 3, desc: "A clause grew wings and became a whole sentence, with a full stop on its wing." },
+  { id: "commandoggo", name: "Commandoggo", type: "grammar", arch: "pup", stage: 1, evo: "commandingo", rarity: 2, desc: "It speaks in commands. Sit! Stay! Read a book!" },
+  { id: "commandingo", name: "Commandingo", type: "grammar", arch: "pup", stage: 2, rarity: 3, desc: "A bossy dingo with a megaphone. Every sentence is an order. Go!" },
+  { id: "joeying", name: "Joeying", type: "affixes", arch: "bunny", stage: 1, evo: "suffixaroo", rarity: 1, desc: "A little joey that adds “-ing” to everything: hopping, jumping, bouncing!" },
+  { id: "suffixaroo", name: "Suffixaroo", type: "affixes", arch: "bunny", stage: 2, rarity: 3, desc: "It boxes with “-ed” and “-ing” gloves, and keeps “-ful” in its pouch." },
+  { id: "unhappo", name: "Unhappo", type: "affixes", arch: "blob", stage: 1, evo: "unbelievahippo", rarity: 2, desc: "“Un” means not. It’s not happy… until you answer a question right!" },
+  { id: "unbelievahippo", name: "Unbelievahippo", type: "affixes", arch: "blob", stage: 2, rarity: 3, desc: "It used to be unhappy. Now it’s unbelievably cheerful!" },
+  { id: "simililamb", name: "Simililamb", type: "vocab", arch: "pup", stage: 1, evo: "simililion", rarity: 1, desc: "As gentle as a lamb. It speaks only in similes." },
+  { id: "simililion", name: "Simililion", type: "vocab", arch: "pup", stage: 2, rarity: 3, desc: "As brave as a lion, but still as fluffy as a lamb. Look at that woolly mane!" },
+  { id: "whooshling", name: "Whooshling", type: "vocab", arch: "blob", stage: 1, evo: "kaboomerang", rarity: 2, desc: "A little gust of wind that says its own sound: whoosh! Words like that are onomatopoeia." },
+  { id: "kaboomerang", name: "Kaboomerang", type: "vocab", arch: "blob", stage: 2, rarity: 3, desc: "BOOM! ZAP! POW! Every move it makes comes with a sound word." },
+  { id: "jumblob", name: "Jumblob", type: "muddle", arch: "blob", stage: 1, evo: "jumblegeist", rarity: 2, desc: "A blob full of jumbled letters. It belonged to Team Jumble, but now it just wants a friend." },
+  { id: "jumblegeist", name: "Jumblegeist", type: "muddle", arch: "blob", stage: 2, rarity: 3, desc: "Letters spin around it in the wrong order. Can you unscramble them?" },
+  { id: "typoling", name: "Typoling", type: "muddle", arch: "blob", stage: 1, evo: "typogre", rarity: 2, desc: "It writes “teh” instead of “the”. Help it check its spelling!" },
+  { id: "typogre", name: "Typogre", type: "muddle", arch: "dino", stage: 2, rarity: 3, desc: "A huge ogre with a giant eraser. It is slowly learning to spell “spelling”." },
   // legendary
   { id: "thesaurex", name: "Thesaurex", type: "legend", arch: "dino", stage: 2, c1: "#FFC93C", c2: "#FFF3C4", c3: "#B0263A", wings: true, wing: "#B0263A", crown: true, motif: "📖", rarity: 4, desc: "The legendary keeper of every word. Its wings are the pages of a giant book." }
 ];
@@ -2851,6 +2898,407 @@ Object.assign(HAND, {
     </g></g>`
 });
 
+const clapMarks = (x, y, s = 1) => `<g transform="translate(${x} ${y}) scale(${s})" stroke="#E07A3A" stroke-width="4" stroke-linecap="round"><path d="M-14 -10 L-22 -18 M0 -14 L0 -24 M14 -10 L22 -18"/></g>`;
+const peak = (x, y, w, h, snow = true) => `<path d="M${x - w / 2} ${y} L${x} ${y - h} L${x + w / 2} ${y}Z" fill="#8E9AB8" ${HO}/>${snow ? `<path d="M${x - w * .16} ${y - h * .68} L${x} ${y - h} L${x + w * .16} ${y - h * .68} L${x + w * .06} ${y - h * .6} L${x - w * .04} ${y - h * .7}Z" fill="#fff" stroke="${OL}" stroke-width="2.5" stroke-linejoin="round"/>` : ""}`;
+Object.assign(HAND, {
+  syllapup: () => `${hs(52)}<g class="idle">
+    <path d="M40 172 Q36 140 70 128 Q110 116 148 150 Q172 170 160 178 Q100 186 40 172Z" fill="#9AB4CE" ${HO}/>
+    <path d="M70 172 Q100 160 140 166" fill="none" stroke="#C9DAEA" stroke-width="10" stroke-linecap="round"/>
+    <path d="M150 164 Q178 150 186 166 Q172 172 160 176Z" fill="#7E99B5" ${HO}/>
+    <g class="wag" style="transform-origin:96px 140px"><path d="M90 138 Q78 120 92 104 Q102 118 102 136Z" fill="#7E99B5" ${HO}/><path d="M110 138 Q124 120 112 104 Q100 118 100 136Z" fill="#7E99B5" ${HO}/></g>
+    ${clapMarks(102, 98, .8)}
+    <circle cx="64" cy="108" r="32" fill="#9AB4CE" ${HO}/>
+    <ellipse cx="54" cy="120" rx="14" ry="9" fill="#C9DAEA"/><ellipse cx="54" cy="114" rx="4.5" ry="3" fill="${OL}"/>
+    <path d="M38 120 L26 116 M38 124 L26 126 M70 120 L82 116 M70 124 L82 126" stroke="${OL}" stroke-width="2" stroke-linecap="round"/>
+    ${eyes2(52, 76, 100, 8)}${smile(54, 128, 4)}
+    <g fill="#E07A3A">${[0, 1, 2].map(i => `<circle cx="${120 + i * 16}" cy="${70 - i * 4}" r="5" stroke="${OL}" stroke-width="2.5"/>`).join("")}</g>
+  </g>`,
+
+  syllaseal: () => `${hs(62)}<g class="idle">
+    <g class="wag" style="transform-origin:72px 40px"><circle cx="72" cy="38" r="24" fill="#fff" ${HO}/>
+      <path d="M72 14 A24 24 0 0 1 93 50 L72 38Z" fill="#E63946"/><path d="M93 50 A24 24 0 0 1 51 50 L72 38Z" fill="#FFD447"/><path d="M51 50 A24 24 0 0 1 72 14 L72 38Z" fill="#3F6FD8"/>
+      <circle cx="72" cy="38" r="24" fill="none" ${HO}/>
+      <text x="80" y="30" font-family="${CF}" font-weight="800" font-size="9" fill="#fff">syl</text><text x="66" y="56" font-family="${CF}" font-weight="800" font-size="9" fill="#7A4A00">la</text><text x="54" y="32" font-family="${CF}" font-weight="800" font-size="9" fill="#fff">ble</text></g>
+    <path d="M36 176 Q30 130 70 108 Q120 92 162 140 Q186 168 172 180 Q100 190 36 176Z" fill="#7E99B5" ${HO}/>
+    <path d="M66 176 Q100 158 150 166" fill="none" stroke="#C9DAEA" stroke-width="14" stroke-linecap="round"/>
+    <path d="M164 168 Q192 150 198 172 Q184 180 170 182Z" fill="#5E7894" ${HO}/>
+    <path d="M100 148 Q84 128 98 112 Q110 128 112 146Z M130 150 Q148 132 136 116 Q122 130 122 148Z" fill="#5E7894" ${HO}/>
+    <circle cx="72" cy="88" r="30" fill="#7E99B5" ${HO}/>
+    <ellipse cx="68" cy="66" rx="10" ry="6" fill="#7E99B5" ${HO}/>
+    <ellipse cx="62" cy="100" rx="15" ry="9" fill="#C9DAEA"/><ellipse cx="62" cy="94" rx="5" ry="3.5" fill="${OL}"/>
+    <path d="M46 100 L32 96 M46 104 L32 106 M78 100 L90 96 M78 104 L90 106" stroke="${OL}" stroke-width="2" stroke-linecap="round"/>
+    ${eyes2(58, 84, 80, 8)}${grin(62, 108, 6)}
+  </g>`,
+
+  twinnit: () => `${hs(46)}<g class="idle">
+    <path d="M128 162 Q164 166 172 140 Q160 156 136 152Z" fill="#6CC66B" ${HO}/>
+    <ellipse cx="84" cy="180" rx="12" ry="6" fill="#4CAF50" ${HO}/><ellipse cx="118" cy="180" rx="12" ry="6" fill="#4CAF50" ${HO}/>
+    <ellipse cx="100" cy="150" rx="38" ry="28" fill="#6CC66B" ${HO}/>
+    <path d="M78 150 Q100 162 122 150" fill="none" stroke="#B5E8A0" stroke-width="8" stroke-linecap="round"/>
+    ${[[-1, 70, 90, -14], [1, 130, 86, 12]].map(([d, x, y, r]) => `<path d="M${100 + d * 12} 128 Q${x - d * 4} ${y + 30} ${x} ${y + 12}" fill="none" stroke="${OL}" stroke-width="20" stroke-linecap="round"/><path d="M${100 + d * 12} 128 Q${x - d * 4} ${y + 30} ${x} ${y + 12}" fill="none" stroke="#6CC66B" stroke-width="13" stroke-linecap="round"/>
+      <g transform="rotate(${r} ${x} ${y})"><ellipse cx="${x}" cy="${y}" rx="24" ry="20" fill="#6CC66B" ${HO}/>${cEye(x - 8, y - 4, 7)}${cEye(x + 8, y - 4, 7)}${smile(x, y + 8, 5)}
+      <g transform="translate(${x} ${y - 26})"><rect x="-9" y="-9" width="18" height="18" rx="4" fill="#FFF3D6" stroke="${OL}" stroke-width="3"/><text y="5" text-anchor="middle" font-family="${CF}" font-weight="800" font-size="14" fill="#B5541B">l</text></g></g>`).join("")}
+  </g>`,
+
+  twindrake: () => `${hs(62)}<g class="idle">
+    <g class="flapBL" style="transform-origin:76px 120px"><path d="M78 118 Q34 70 8 92 Q24 100 18 116 Q36 110 40 126 Q56 118 72 132Z" fill="#E07A3A" ${HO}/></g>
+    <g class="flapBR" style="transform-origin:124px 120px"><path d="M122 118 Q166 70 192 92 Q176 100 182 116 Q164 110 160 126 Q144 118 128 132Z" fill="#E07A3A" ${HO}/></g>
+    <path d="M130 168 Q172 176 186 146 Q178 168 150 182Z" fill="#F28B30" ${HO}/>
+    <ellipse cx="78" cy="184" rx="16" ry="8" fill="#C9622B" ${HO}/><ellipse cx="122" cy="184" rx="16" ry="8" fill="#C9622B" ${HO}/>
+    <path d="M58 182 Q52 124 100 116 Q148 124 142 182Z" fill="#F28B30" ${HO}/>
+    <path d="M78 182 Q78 144 100 138 Q122 144 122 182Z" fill="#FFE3B0"/>
+    ${[150, 162, 174].map(y => `<path d="M84 ${y} Q100 ${y + 5} 116 ${y}" fill="none" stroke="#E9B27A" stroke-width="3"/>`).join("")}
+    ${[[-1, 66, 64, -12], [1, 134, 60, 12]].map(([d, x, y, r]) => `<path d="M${100 + d * 14} 124 Q${x} ${y + 40} ${x} ${y + 16}" fill="none" stroke="${OL}" stroke-width="24" stroke-linecap="round"/><path d="M${100 + d * 14} 124 Q${x} ${y + 40} ${x} ${y + 16}" fill="none" stroke="#F28B30" stroke-width="16" stroke-linecap="round"/>
+      <g transform="rotate(${r} ${x} ${y})"><path d="M${x - 14} ${y - 18} l-4 -16 l12 10z M${x + 14} ${y - 18} l4 -16 l-12 10z" fill="#FFD447" ${HO}/>
+      <ellipse cx="${x}" cy="${y}" rx="26" ry="22" fill="#F28B30" ${HO}/><ellipse cx="${x}" cy="${y + 10}" rx="14" ry="8" fill="#FFE3B0"/>${cEye(x - 9, y - 6, 7, true)}${cEye(x + 9, y - 6, 7, true)}
+      <circle cx="${x}" cy="${y - 30}" r="9" fill="#FFF3D6" stroke="${OL}" stroke-width="3"/><text x="${x}" y="${y - 25}" text-anchor="middle" font-family="${CF}" font-weight="800" font-size="13" fill="#B5541B">s</text></g>`).join("")}
+  </g>`,
+
+  flourbud: () => `${hs(40)}<g class="idle">
+    <path d="M100 176 V140" stroke="#3E9E4C" stroke-width="8" stroke-linecap="round"/>
+    <path d="M100 162 Q78 150 70 162 Q84 172 100 166Z M100 156 Q122 142 130 154 Q116 166 100 160Z" fill="#6CC66B" ${HO}/>
+    ${[0, 1, 2, 3, 4].map(i => { const a = -Math.PI / 2 + i * Math.PI * 2 / 5; return `<ellipse cx="${100 + Math.cos(a) * 28}" cy="${102 + Math.sin(a) * 28}" rx="18" ry="22" fill="#FF9AB5" ${HO} transform="rotate(${i * 72} ${100 + Math.cos(a) * 28} ${102 + Math.sin(a) * 28})"/>`; }).join("")}
+    <circle cx="100" cy="102" r="28" fill="#FFE9A8" ${HO}/>
+    ${eyes2(90, 110, 98, 7)}${blush(82, 110, 4)}${blush(118, 110, 4)}${smile(100, 112, 5)}
+    <g transform="translate(146 150) rotate(10)"><path d="M-14 -16 H14 L16 16 H-16Z" fill="#F3E3C6" ${HO}/><path d="M-14 -16 Q0 -24 14 -16" fill="none" stroke="${OL}" stroke-width="3"/><text y="6" text-anchor="middle" font-family="${CF}" font-weight="800" font-size="7" fill="#9C6638">FLOUR</text></g>
+    <g class="drift" fill="#fff" opacity=".9"><circle cx="150" cy="122" r="4"/><circle cx="160" cy="112" r="3"/><circle cx="142" cy="110" r="2.5"/></g>
+  </g>`,
+
+  flourbloom: () => `${hs(58)}<g class="idle">
+    <path d="M100 186 V140" stroke="#2E7D32" stroke-width="10" stroke-linecap="round"/>
+    <path d="M100 170 Q70 152 58 170 Q78 184 100 176Z M100 162 Q132 144 144 160 Q124 176 100 168Z" fill="#4CAF50" ${HO}/>
+    ${Array.from({ length: 8 }, (_, i) => { const a = i * Math.PI / 4; return `<ellipse cx="${100 + Math.cos(a) * 40}" cy="${96 + Math.sin(a) * 40}" rx="20" ry="26" fill="${i % 2 ? "#FF7FAF" : "#FF9AB5"}" ${HO} transform="rotate(${i * 45 + 90} ${100 + Math.cos(a) * 40} ${96 + Math.sin(a) * 40})"/>`; }).join("")}
+    <circle cx="100" cy="96" r="34" fill="#FFE9A8" ${HO}/>
+    <path d="M70 66 Q66 38 86 40 Q92 24 108 30 Q124 22 130 40 Q146 42 132 66Z" fill="#fff" ${HO}/><rect x="72" y="60" width="56" height="12" rx="4" fill="#fff" ${HO}/>
+    ${eyes2(88, 112, 94, 8)}${blush(78, 108, 5)}${blush(122, 108, 5)}${grin(100, 108, 7)}
+    <g transform="translate(160 132) rotate(-30)"><rect x="-24" y="-6" width="48" height="12" rx="6" fill="#D9A066" ${HO}/><rect x="-32" y="-3" width="9" height="6" rx="2" fill="#9C6638" ${HO}/><rect x="23" y="-3" width="9" height="6" rx="2" fill="#9C6638" ${HO}/></g>
+    <g class="drift" fill="#fff" opacity=".9"><circle cx="40" cy="60" r="4"/><circle cx="30" cy="80" r="3"/><circle cx="168" cy="72" r="3.5"/><circle cx="176" cy="54" r="2.5"/></g>
+  </g>`,
+
+  peekpip: () => `${hs(52)}<g class="idle">
+    ${peak(100, 184, 150, 92)}
+    <path d="M70 120 Q70 80 100 78 Q130 80 130 120Z" fill="#FFF8E6" ${HO}/>
+    <circle cx="100" cy="92" r="20" fill="#FFE066" ${HO}/>
+    <path d="M80 80 L84 64 L92 76 L100 60 L108 76 L116 64 L120 80" fill="#FFF8E6" stroke="${OL}" stroke-width="3.5" stroke-linejoin="round"/>
+    ${cEye(92, 90, 6)}${cEye(108, 90, 6)}
+    <path d="M96 98 L104 98 L100 104Z" fill="#FFB020" stroke="${OL}" stroke-width="2.5" stroke-linejoin="round"/>
+    <path d="M70 108 Q86 100 100 112 Q114 100 130 108 L130 120 L70 120Z" fill="#FFF8E6" stroke="${OL}" stroke-width="3.5" stroke-linejoin="round"/>
+    <path d="M78 108 l6 6 l6 -6 l6 6 l6 -6 l6 6 l6 -6 l6 6" fill="none" stroke="${OL}" stroke-width="2.5"/>
+  </g>`,
+
+  peakeagle: () => `${hs(62)}<g class="idle">
+    ${peak(100, 186, 180, 70)}
+    <g class="flapBL" style="transform-origin:76px 104px"><path d="M78 98 Q30 60 6 80 Q26 86 20 102 Q40 96 44 112 Q58 104 72 118Z" fill="#7A4E32" ${HO}/></g>
+    <g class="flapBR" style="transform-origin:124px 104px"><path d="M122 98 Q170 60 194 80 Q174 86 180 102 Q160 96 156 112 Q142 104 128 118Z" fill="#7A4E32" ${HO}/></g>
+    <path d="M86 150 L80 166 M100 150 L100 166 M114 150 L120 166" stroke="#FFB020" stroke-width="6" stroke-linecap="round"/>
+    <ellipse cx="100" cy="122" rx="30" ry="34" fill="#8B5A3C" ${HO}/><ellipse cx="100" cy="132" rx="16" ry="20" fill="#E8C9A8"/>
+    <circle cx="100" cy="74" r="28" fill="#fff" ${HO}/>
+    <path d="M100 76 L122 82 Q114 96 100 92Z" fill="#FFB020" ${HO}/>
+    ${cEye(88, 70, 7, true)}
+    <g transform="translate(130 70) rotate(-12)"><rect x="-4" y="-7" width="38" height="14" rx="4" fill="#C9962B" ${HO}/><rect x="30" y="-10" width="10" height="20" rx="3" fill="#2B5BD7" ${HO}/><circle cx="-4" cy="0" r="7" fill="#9EC0FF" ${HO}/></g>
+  </g>`
+});
+
+const quoteEar = (x, y, s, rot, col) => `<g transform="translate(${x} ${y}) rotate(${rot}) scale(${s})"><circle cx="0" cy="0" r="9" fill="${col}" stroke="${OL}" stroke-width="${3.5 / s}"/><path d="M6 4 Q8 20 -6 26 Q2 16 0 8Z" fill="${col}" stroke="${OL}" stroke-width="${3.5 / s}" stroke-linejoin="round"/></g>`;
+const bubble = (x, y, w, txt, fs = 12) => `<g transform="translate(${x} ${y})"><rect x="${-w / 2}" y="-14" width="${w}" height="24" rx="10" fill="#fff" stroke="${OL}" stroke-width="3"/><path d="M-6 10 L-12 22 L4 10Z" fill="#fff" stroke="${OL}" stroke-width="3" stroke-linejoin="round"/><path d="M-6 9 L4 9" stroke="#fff" stroke-width="4"/><text y="3" text-anchor="middle" font-family="${CF}" font-weight="800" font-size="${fs}" fill="#2B2F55">${txt}</text></g>`;
+const signBoard = (x, y, w, txt, col = "#FFF3D6", fs = 10, rot = 0) => `<g transform="translate(${x} ${y}) rotate(${rot})"><rect x="${-w / 2}" y="-9" width="${w}" height="18" rx="4" fill="${col}" stroke="${OL}" stroke-width="2.5"/><text y="4" text-anchor="middle" font-family="${CF}" font-weight="800" font-size="${fs}" fill="#2B2F55">${txt}</text></g>`;
+Object.assign(HAND, {
+  quoki: () => `${hs(44)}<g class="idle">
+    <ellipse cx="84" cy="180" rx="12" ry="7" fill="#8B6A4E" ${HO}/><ellipse cx="116" cy="180" rx="12" ry="7" fill="#8B6A4E" ${HO}/>
+    <ellipse cx="100" cy="150" rx="32" ry="30" fill="#A9825F" ${HO}/><ellipse cx="100" cy="156" rx="18" ry="18" fill="#E8D2B6"/>
+    <circle cx="80" cy="150" r="8" fill="#A9825F" ${HO}/><circle cx="120" cy="150" r="8" fill="#A9825F" ${HO}/>
+    ${quoteEar(70, 66, 1.3, -10, "#2B2F55")}${quoteEar(86, 60, 1.3, -10, "#2B2F55")}${quoteEar(116, 60, 1.3, 190, "#2B2F55")}${quoteEar(132, 66, 1.3, 190, "#2B2F55")}
+    <circle cx="100" cy="102" r="34" fill="#A9825F" ${HO}/>
+    <ellipse cx="100" cy="116" rx="17" ry="12" fill="#E8D2B6"/><ellipse cx="100" cy="110" rx="5" ry="3.5" fill="${OL}"/>
+    ${eyes2(86, 114, 98, 8)}${blush(74, 112, 5)}${blush(126, 112, 5)}${grin(100, 118, 8)}
+    ${bubble(158, 54, 58, "G’day!")}
+  </g>`,
+
+  quokkaquote: () => `${hs(58)}<g class="idle">
+    <ellipse cx="78" cy="184" rx="16" ry="8" fill="#7A5A3E" ${HO}/><ellipse cx="122" cy="184" rx="16" ry="8" fill="#7A5A3E" ${HO}/>
+    <path d="M60 184 Q54 124 100 116 Q146 124 140 184Z" fill="#8B6A4E" ${HO}/>
+    <path d="M80 184 Q80 142 100 136 Q120 142 120 184Z" fill="#E8D2B6"/>
+    <g transform="translate(140 142) rotate(6) scale(.85)"><rect x="-30" y="-24" width="60" height="44" rx="6" fill="#fff" ${HO}/><text y="-4" text-anchor="middle" font-family="${CF}" font-weight="800" font-size="18" fill="#E63946">“Hi!”</text><text y="14" text-anchor="middle" font-family="${CF}" font-weight="700" font-size="8" fill="#2B2F55">said Quokka.</text></g>
+    <circle cx="124" cy="148" r="9" fill="#8B6A4E" ${HO}/>
+    ${quoteEar(62, 54, 1.7, -10, "#E63946")}${quoteEar(82, 46, 1.7, -10, "#E63946")}${quoteEar(118, 46, 1.7, 190, "#E63946")}${quoteEar(138, 54, 1.7, 190, "#E63946")}
+    <circle cx="100" cy="90" r="38" fill="#8B6A4E" ${HO}/>
+    <ellipse cx="100" cy="106" rx="19" ry="13" fill="#E8D2B6"/><ellipse cx="100" cy="99" rx="6" ry="4" fill="${OL}"/>
+    ${eyes2(84, 116, 86, 9)}${blush(70, 102, 5)}${blush(130, 102, 5)}${grin(100, 108, 10)}
+  </g>`,
+
+  brackit: () => `${hs(46)}<g class="hop">
+    <g stroke="${OL}" stroke-width="5" stroke-linecap="round" fill="none"><path d="M76 160 l-16 14 M80 166 l-10 16 M124 160 l16 14 M120 166 l10 16"/></g>
+    <ellipse cx="100" cy="150" rx="40" ry="26" fill="#E8604F" ${HO}/>
+    <path d="M70 146 Q100 160 130 146" fill="none" stroke="#FF9A8A" stroke-width="5" stroke-linecap="round"/>
+    <path d="M62 140 Q44 126 42 104" fill="none" stroke="${OL}" stroke-width="10" stroke-linecap="round"/><path d="M62 140 Q44 126 42 104" fill="none" stroke="#E8604F" stroke-width="5" stroke-linecap="round"/>
+    <path d="M138 140 Q156 126 158 104" fill="none" stroke="${OL}" stroke-width="10" stroke-linecap="round"/><path d="M138 140 Q156 126 158 104" fill="none" stroke="#E8604F" stroke-width="5" stroke-linecap="round"/>
+    <path d="M50 70 Q24 96 50 122" fill="none" stroke="${OL}" stroke-width="16" stroke-linecap="round"/><path d="M50 70 Q24 96 50 122" fill="none" stroke="#E8604F" stroke-width="9" stroke-linecap="round"/>
+    <path d="M150 70 Q176 96 150 122" fill="none" stroke="${OL}" stroke-width="16" stroke-linecap="round"/><path d="M150 70 Q176 96 150 122" fill="none" stroke="#E8604F" stroke-width="9" stroke-linecap="round"/>
+    <path d="M88 128 V106 M112 128 V106" stroke="${OL}" stroke-width="4" stroke-linecap="round"/>
+    ${cEye(88, 100, 8)}${cEye(112, 100, 8)}${smile(100, 144, 6)}
+  </g>`,
+
+  brackrab: () => `${hs(66)}<g class="idle">
+    <g stroke="${OL}" stroke-width="6" stroke-linecap="round" fill="none"><path d="M66 166 l-22 14 M70 174 l-14 14 M134 166 l22 14 M130 174 l14 14"/></g>
+    <ellipse cx="100" cy="150" rx="52" ry="32" fill="#C2384C" ${HO}/>
+    <path d="M62 140 Q100 162 138 140" fill="none" stroke="#FF8A8A" stroke-width="6" stroke-linecap="round"/>
+    <path d="M58 132 Q34 116 34 92" fill="none" stroke="${OL}" stroke-width="12" stroke-linecap="round"/><path d="M58 132 Q34 116 34 92" fill="none" stroke="#C2384C" stroke-width="6" stroke-linecap="round"/>
+    <path d="M142 132 Q166 116 166 92" fill="none" stroke="${OL}" stroke-width="12" stroke-linecap="round"/><path d="M142 132 Q166 116 166 92" fill="none" stroke="#C2384C" stroke-width="6" stroke-linecap="round"/>
+    <path d="M44 34 Q4 72 44 112" fill="none" stroke="${OL}" stroke-width="22" stroke-linecap="round"/><path d="M44 34 Q4 72 44 112" fill="none" stroke="#C2384C" stroke-width="14" stroke-linecap="round"/>
+    <path d="M156 34 Q196 72 156 112" fill="none" stroke="${OL}" stroke-width="22" stroke-linecap="round"/><path d="M156 34 Q196 72 156 112" fill="none" stroke="#C2384C" stroke-width="14" stroke-linecap="round"/>
+    ${signBoard(100, 62, 66, "extra info", "#FFF3D6", 10)}
+    <path d="M86 130 V100 M114 130 V100" stroke="${OL}" stroke-width="5" stroke-linecap="round"/>
+    ${cEye(86, 96, 9, true)}${cEye(114, 96, 9, true)}${grin(100, 146, 8)}
+  </g>`,
+
+  whereling: () => `${hs(46)}<g class="idle">
+    <rect x="96" y="112" width="66" height="66" rx="6" fill="#D9A066" ${HO}/><path d="M96 130 H162 M129 112 V178" stroke="#B5814A" stroke-width="4"/>
+    <path d="M100 172 Q60 178 44 160 Q40 146 56 144 Q48 160 70 164" fill="none" stroke="${OL}" stroke-width="11" stroke-linecap="round"/><path d="M100 172 Q60 178 44 160 Q40 146 56 144 Q48 160 70 164" fill="none" stroke="#6CC66B" stroke-width="5" stroke-linecap="round"/>
+    <path d="M110 124 Q80 112 74 128 Q72 150 100 156" fill="#8FD67F" ${HO}/>
+    <circle cx="82" cy="120" r="24" fill="#8FD67F" ${HO}/>
+    <path d="M62 112 Q72 96 88 98" fill="none" stroke="#4CAF50" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="76" cy="116" r="11" fill="#fff" stroke="${OL}" stroke-width="3"/><circle cx="72" cy="116" r="5" fill="${OL}"/><circle cx="70" cy="114" r="1.6" fill="#fff"/>
+    ${smile(76, 132, 4)}
+    ${signBoard(130, 98, 54, "behind", "#E8FFE8", 11, -8)}
+  </g>`,
+
+  positaur: () => `${hs(62)}<g class="idle">
+    <path d="M128 160 Q172 168 186 136 Q176 156 140 150Z" fill="#4CAF50" ${HO}/>
+    <ellipse cx="80" cy="182" rx="17" ry="9" fill="#3E9B4E" ${HO}/><ellipse cx="122" cy="182" rx="17" ry="9" fill="#3E9B4E" ${HO}/>
+    <path d="M58 180 Q52 120 100 112 Q148 120 142 180Z" fill="#4CAF50" ${HO}/>
+    <path d="M78 180 Q78 140 100 134 Q122 140 122 180Z" fill="#E8FFE8"/>
+    <rect x="128" y="40" width="6" height="96" rx="3" fill="#8B5A2B" ${HO}/>
+    <g transform="translate(150 50)"><path d="M-14 -9 H24 L32 0 L24 9 H-14Z" fill="#FFF3D6" stroke="${OL}" stroke-width="2.5"/><text x="7" y="3.5" text-anchor="middle" font-family="${CF}" font-weight="800" font-size="9" fill="#2E7D32">over</text></g>
+    <g transform="translate(150 74)"><path d="M-14 -9 H24 L32 0 L24 9 H-14Z" fill="#FFF3D6" stroke="${OL}" stroke-width="2.5"/><text x="7" y="3.5" text-anchor="middle" font-family="${CF}" font-weight="800" font-size="9" fill="#2E7D32">under</text></g>
+    <g transform="translate(150 98)"><path d="M-14 -9 H24 L32 0 L24 9 H-14Z" fill="#FFF3D6" stroke="${OL}" stroke-width="2.5"/><text x="7" y="3.5" text-anchor="middle" font-family="${CF}" font-weight="800" font-size="8.5" fill="#2E7D32">beside</text></g>
+    <ellipse cx="80" cy="92" rx="36" ry="30" fill="#4CAF50" ${HO}/>
+    <ellipse cx="80" cy="108" rx="22" ry="11" fill="#E8FFE8"/><circle cx="74" cy="104" r="2.4" fill="${OL}"/><circle cx="86" cy="104" r="2.4" fill="${OL}"/>
+    ${eyes2(66, 94, 86, 9)}${smile(80, 112, 5)}
+    <path d="M60 66 l6 -14 l6 12 M78 62 l6 -14 l6 12" fill="#FFD447" ${HO}/>
+  </g>`,
+
+  propaca: () => `${hs(44)}<g class="idle">
+    <rect x="76" y="160" width="10" height="24" rx="4" fill="#F2E6D0" ${HO}/><rect x="114" y="160" width="10" height="24" rx="4" fill="#F2E6D0" ${HO}/>
+    <ellipse cx="100" cy="146" rx="34" ry="26" fill="#F2E6D0" ${HO}/>
+    <rect x="86" y="70" width="28" height="74" rx="14" fill="#F2E6D0" ${HO}/>
+    <g transform="translate(100 140)"><rect x="-22" y="-10" width="44" height="20" rx="5" fill="#fff" stroke="${OL}" stroke-width="2.5"/><text y="5" text-anchor="middle" font-family="${CF}" font-weight="800" font-size="12" fill="#2E7D32">Sam</text></g>
+    <ellipse cx="100" cy="70" rx="24" ry="26" fill="#F2E6D0" ${HO}/>
+    <path d="M80 50 L74 30 L88 44Z M120 50 L126 30 L112 44Z" fill="#F2E6D0" ${HO}/>
+    <text x="100" y="56" text-anchor="middle" font-family="${CF}" font-weight="800" font-size="30" fill="#E0C79E" stroke="${OL}" stroke-width="2.5" paint-order="stroke">S</text>
+    ${eyes2(91, 109, 70, 6)}<ellipse cx="100" cy="84" rx="9" ry="6" fill="#E0C79E"/><path d="M96 86 Q100 90 104 86" fill="none" stroke="${OL}" stroke-width="2.5" stroke-linecap="round"/>
+  </g>`,
+
+  capitalpaca: () => `${hs(56)}<g class="idle">
+    <rect x="68" y="156" width="13" height="28" rx="5" fill="#F7F0E2" ${HO}/><rect x="119" y="156" width="13" height="28" rx="5" fill="#F7F0E2" ${HO}/>
+    <ellipse cx="100" cy="142" rx="46" ry="32" fill="#F7F0E2" ${HO}/>
+    <path d="M62 128 Q100 168 140 128" fill="none" stroke="#3E9B4E" stroke-width="10" stroke-linecap="round"/>
+    <rect x="84" y="58" width="32" height="84" rx="16" fill="#F7F0E2" ${HO}/>
+    <text x="100" y="150" text-anchor="middle" font-family="${CF}" font-weight="800" font-size="15" fill="#fff" stroke="#1F5A34" stroke-width="3" paint-order="stroke">Perth</text>
+    <ellipse cx="100" cy="58" rx="28" ry="28" fill="#F7F0E2" ${HO}/>
+    <path d="M76 38 L70 16 L86 32Z M124 38 L130 16 L114 32Z" fill="#F7F0E2" ${HO}/>
+    <path d="M78 34 L74 6 L88 20 L100 0 L112 20 L126 6 L122 34Z" fill="#FFC93C" ${HO}/>
+    <text x="88" y="27" text-anchor="middle" font-family="${CF}" font-weight="800" font-size="9" fill="#9B2335">A</text><text x="100" y="22" text-anchor="middle" font-family="${CF}" font-weight="800" font-size="9" fill="#9B2335">B</text><text x="112" y="27" text-anchor="middle" font-family="${CF}" font-weight="800" font-size="9" fill="#9B2335">C</text>
+    ${eyes2(90, 110, 58, 7, true)}<ellipse cx="100" cy="74" rx="10" ry="7" fill="#E0C79E"/>${smile(100, 76, 4)}
+  </g>`
+});
+
+const wordSeg = (x, y, r, txt, col) => `<circle cx="${x}" cy="${y}" r="${r}" fill="${col}" ${HO}/><text x="${x}" y="${y + 4}" text-anchor="middle" font-family="${CF}" font-weight="800" font-size="${r * .7}" fill="#3A1F5C">${txt}</text>`;
+Object.assign(HAND, {
+  clausepillar: () => `${hs(60)}<g class="idle">
+    ${[[150, 160, "sat"], [118, 152, "cat"], [86, 156, "the"]].map(([x, y, t], i) => `<path d="M${x - 6} ${y + 18} l-3 8 M${x + 6} ${y + 18} l3 8" stroke="${OL}" stroke-width="4" stroke-linecap="round"/>${wordSeg(x, y, 20, t, i % 2 ? "#C9A6FF" : "#B48CF2")}`).join("")}
+    <circle cx="170" cy="168" r="6" fill="#7E4BBD" ${HO}/>
+    <circle cx="56" cy="138" r="28" fill="#A06CD5" ${HO}/>
+    <path d="M44 112 Q36 92 26 90 M66 112 Q74 92 84 90" fill="none" stroke="${OL}" stroke-width="3.5" stroke-linecap="round"/><circle cx="26" cy="88" r="5" fill="#FFC93C" stroke="${OL}" stroke-width="2.5"/><circle cx="84" cy="88" r="5" fill="#FFC93C" stroke="${OL}" stroke-width="2.5"/>
+    ${eyes2(46, 66, 134, 8)}${blush(38, 148, 4)}${blush(74, 148, 4)}${smile(56, 150, 5)}
+  </g>`,
+
+  sentenfly: () => `${hs(46)}<g class="hover2">
+    <g class="flapBL" style="transform-origin:92px 100px"><path d="M92 96 Q36 30 14 70 Q6 104 50 110 Q20 130 40 160 Q70 162 92 116Z" fill="#B48CF2" ${HO}/>
+      <path d="M36 72 Q58 74 76 96" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".7"/><text x="28" y="96" font-family="${CF}" font-weight="800" font-size="12" fill="#3A1F5C" transform="rotate(-14 28 96)">The cat</text>
+      <circle cx="50" cy="138" r="8" fill="#FFD447" stroke="${OL}" stroke-width="2.5"/></g>
+    <g class="flapBR" style="transform-origin:108px 100px"><path d="M108 96 Q164 30 186 70 Q194 104 150 110 Q180 130 160 160 Q130 162 108 116Z" fill="#9B5DE5" ${HO}/>
+      <text x="124" y="84" font-family="${CF}" font-weight="800" font-size="12" fill="#fff" transform="rotate(14 124 84)">sat.</text>
+      <circle cx="152" cy="138" r="8" fill="#FFD447" stroke="${OL}" stroke-width="2.5"/><circle cx="170" cy="78" r="6" fill="#1d1b3a"/></g>
+    <ellipse cx="100" cy="120" rx="12" ry="40" fill="#5C3487" ${HO}/>
+    <circle cx="100" cy="76" r="18" fill="#7E4BBD" ${HO}/>
+    <path d="M92 60 Q84 40 74 36 M108 60 Q116 40 126 36" fill="none" stroke="${OL}" stroke-width="3.5" stroke-linecap="round"/><circle cx="74" cy="34" r="5" fill="#FFC93C" stroke="${OL}" stroke-width="2.5"/><circle cx="126" cy="34" r="5" fill="#FFC93C" stroke="${OL}" stroke-width="2.5"/>
+    ${eyes2(93, 107, 74, 6)}${smile(100, 84, 4)}
+  </g>`,
+
+  commandoggo: () => `${hs(44)}<g class="idle">
+    <g class="wag" style="transform-origin:128px 160px"><path d="M126 162 Q154 156 150 132" fill="none" stroke="${OL}" stroke-width="10" stroke-linecap="round"/><path d="M126 162 Q154 156 150 132" fill="none" stroke="#D9A066" stroke-width="5" stroke-linecap="round"/></g>
+    <ellipse cx="100" cy="150" rx="32" ry="30" fill="#D9A066" ${HO}/><ellipse cx="100" cy="158" rx="18" ry="18" fill="#FFF3D6"/>
+    <ellipse cx="84" cy="180" rx="12" ry="7" fill="#D9A066" ${HO}/><ellipse cx="116" cy="180" rx="12" ry="7" fill="#D9A066" ${HO}/>
+    <path d="M70 70 Q52 74 56 100 Q66 96 72 84Z M130 70 Q148 74 144 100 Q134 96 128 84Z" fill="#B5814A" ${HO}/>
+    <circle cx="100" cy="98" r="32" fill="#D9A066" ${HO}/>
+    <path d="M70 80 Q100 56 130 80 L130 86 Q100 74 70 86Z" fill="#7E4BBD" ${HO}/><path d="M126 84 L150 86 L128 92Z" fill="#5C3487" ${HO}/>
+    <ellipse cx="100" cy="112" rx="15" ry="10" fill="#FFF3D6"/><ellipse cx="100" cy="106" rx="5" ry="3.5" fill="${OL}"/>
+    ${eyes2(88, 112, 96, 7)}${smile(100, 116, 4)}
+    <path d="M108 120 L128 132" stroke="#B5BAC6" stroke-width="5" stroke-linecap="round"/><circle cx="132" cy="134" r="6" fill="#B5BAC6" ${HO}/>
+    ${signBoard(54, 140, 38, "Sit!", "#fff", 12, -10)}
+  </g>`,
+
+  commandingo: () => `${hs(60)}<g class="idle">
+    <g class="wag" style="transform-origin:136px 170px"><path d="M134 172 Q180 168 182 128 Q170 146 150 150" fill="#E8833A" ${HO}/><path d="M180 132 Q176 146 166 150" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round"/></g>
+    <path d="M62 184 Q56 124 100 114 Q144 124 138 184Z" fill="#E8833A" ${HO}/>
+    <path d="M82 184 Q82 142 100 136 Q118 142 118 184Z" fill="#FFF3D6"/>
+    <ellipse cx="80" cy="184" rx="15" ry="7" fill="#E8833A" ${HO}/><ellipse cx="120" cy="184" rx="15" ry="7" fill="#E8833A" ${HO}/>
+    <path d="M68 62 L60 24 L88 48Z M132 62 L140 24 L112 48Z" fill="#E8833A" ${HO}/><path d="M70 54 L66 34 L82 48Z M130 54 L134 34 L118 48Z" fill="#FFF3D6"/>
+    <path d="M62 74 Q62 42 100 42 Q138 42 138 74 Q140 98 120 106 L80 106 Q60 98 62 74Z" fill="#E8833A" ${HO}/>
+    <path d="M78 88 Q100 118 122 88 Q118 106 100 110 Q82 106 78 88Z" fill="#FFF3D6"/>
+    <path d="M70 50 Q100 30 130 50 L128 58 Q100 46 72 58Z" fill="#2B2F55" ${HO}/><path d="M66 58 Q100 50 134 58 L136 64 Q100 56 64 64Z" fill="#2B2F55" ${HO}/><path d="M94 40 l6 -6 6 6 -6 6z" fill="#FFD447" stroke="${OL}" stroke-width="2"/>
+    ${eyes2(86, 114, 74, 8, true)}<ellipse cx="100" cy="96" rx="6" ry="4" fill="${OL}"/>${grin(100, 102, 6)}
+    <g transform="translate(150 120) rotate(-20)"><path d="M-10 -8 L20 -20 L20 20 L-10 8Z" fill="#E63946" ${HO}/><rect x="-18" y="-6" width="10" height="12" rx="3" fill="#B5BAC6" ${HO}/></g>
+    <text x="178" y="92" font-family="${CF}" font-weight="800" font-size="13" fill="#E63946" stroke="#fff" stroke-width="3" paint-order="stroke" transform="rotate(-14 178 92)">GO!</text>
+  </g>`,
+
+  joeying: () => `${hs(42)}<g class="hop">
+    <path d="M68 176 Q58 146 80 128 Q110 116 132 138 Q146 162 130 178Z" fill="#C68642" ${HO}/>
+    <path d="M86 150 Q100 162 118 150 L118 170 Q100 178 86 170Z" fill="#E8C9A8" ${HO}/>
+    <text x="102" y="166" text-anchor="middle" font-family="${CF}" font-weight="800" font-size="12" fill="#3F6FD8">-ing</text>
+    <path d="M66 172 Q42 170 34 150" fill="none" stroke="${OL}" stroke-width="12" stroke-linecap="round"/><path d="M66 172 Q42 170 34 150" fill="none" stroke="#C68642" stroke-width="6" stroke-linecap="round"/>
+    <ellipse cx="88" cy="180" rx="18" ry="6" fill="#A06A34" ${HO}/><ellipse cx="122" cy="180" rx="14" ry="6" fill="#A06A34" ${HO}/>
+    <path d="M90 76 Q84 40 96 38 Q104 56 102 76Z M116 76 Q122 40 110 38 Q102 56 104 76Z" fill="#C68642" ${HO}/><path d="M93 70 Q90 50 96 46 Q100 60 99 70Z M113 70 Q116 50 110 46 Q106 60 107 70Z" fill="#FFB3C7"/>
+    <ellipse cx="104" cy="100" rx="28" ry="26" fill="#C68642" ${HO}/>
+    <ellipse cx="116" cy="110" rx="12" ry="9" fill="#E8C9A8"/><ellipse cx="122" cy="106" rx="4" ry="3" fill="${OL}"/>
+    ${eyes2(94, 112, 94, 7)}${blush(88, 108, 4)}${smile(114, 116, 4)}
+  </g>`,
+
+  suffixaroo: () => `${hs(58)}<g class="idle">
+    <path d="M62 178 Q24 182 14 150" fill="none" stroke="${OL}" stroke-width="18" stroke-linecap="round"/><path d="M62 178 Q24 182 14 150" fill="none" stroke="#B5763A" stroke-width="10" stroke-linecap="round"/>
+    <ellipse cx="78" cy="184" rx="24" ry="8" fill="#8B5A2B" ${HO}/><ellipse cx="124" cy="184" rx="20" ry="8" fill="#8B5A2B" ${HO}/>
+    <path d="M62 180 Q50 120 96 102 Q138 96 142 146 Q144 176 130 182Z" fill="#B5763A" ${HO}/>
+    <path d="M86 140 Q104 156 126 142 L124 170 Q104 180 88 168Z" fill="#E8C9A8" ${HO}/>
+    <g transform="translate(106 150) rotate(-6)"><rect x="-14" y="-12" width="28" height="18" rx="3" fill="#fff" stroke="${OL}" stroke-width="2.5"/><text y="1" text-anchor="middle" font-family="${CF}" font-weight="800" font-size="10" fill="#3F6FD8">-ful</text></g>
+    <path d="M98 52 Q90 10 104 8 Q112 30 108 54Z M122 54 Q132 14 118 10 Q110 32 114 56Z" fill="#B5763A" ${HO}/><path d="M101 46 Q96 22 104 18 Q108 34 106 46Z M119 48 Q124 26 118 20 Q114 36 116 48Z" fill="#FFB3C7"/>
+    <ellipse cx="114" cy="74" rx="28" ry="26" fill="#B5763A" ${HO}/>
+    <ellipse cx="128" cy="84" rx="13" ry="10" fill="#E8C9A8"/><ellipse cx="134" cy="80" rx="4.5" ry="3.5" fill="${OL}"/>
+    ${eyes2(104, 122, 68, 7, true)}${grin(126, 90, 5)}
+    ${[[60, 118, "-ed"], [150, 116, "-ing"]].map(([x, y, t]) => `<circle cx="${x}" cy="${y}" r="16" fill="#3F6FD8" ${HO}/><text x="${x}" y="${y + 4}" text-anchor="middle" font-family="${CF}" font-weight="800" font-size="11" fill="#fff">${t}</text>`).join("")}
+  </g>`,
+
+  unhappo: () => `${hs(52)}<g class="idle">
+    <g class="drift"><ellipse cx="146" cy="40" rx="24" ry="13" fill="#B5BAC6" ${HO}/><path d="M136 58 l-3 8 M148 58 l-3 8 M160 56 l-3 8" stroke="#5B8FF0" stroke-width="3" stroke-linecap="round"/></g>
+    <ellipse cx="80" cy="180" rx="14" ry="7" fill="#7FA0D8" ${HO}/><ellipse cx="120" cy="180" rx="14" ry="7" fill="#7FA0D8" ${HO}/>
+    <ellipse cx="100" cy="148" rx="46" ry="34" fill="#9EB8E8" ${HO}/>
+    <circle cx="74" cy="80" r="9" fill="#9EB8E8" ${HO}/><circle cx="126" cy="80" r="9" fill="#9EB8E8" ${HO}/>
+    <ellipse cx="100" cy="106" rx="38" ry="32" fill="#9EB8E8" ${HO}/>
+    <ellipse cx="100" cy="124" rx="30" ry="18" fill="#BFD2F4" ${HO}/><ellipse cx="88" cy="120" rx="3.5" ry="2.5" fill="${OL}"/><ellipse cx="112" cy="120" rx="3.5" ry="2.5" fill="${OL}"/>
+    <path d="M86 98 Q90 94 94 98 M106 98 Q110 94 114 98" fill="none" stroke="${OL}" stroke-width="3.5" stroke-linecap="round"/>
+    <path d="M90 134 Q100 128 110 134" fill="none" stroke="${OL}" stroke-width="3" stroke-linecap="round"/>
+    <path d="M118 102 q2 8 -2 10" fill="none" stroke="#5B8FF0" stroke-width="3" stroke-linecap="round"/>
+    ${signBoard(100, 160, 30, "un", "#fff", 12)}
+  </g>`,
+
+  unbelievahippo: () => `${hs(64)}<g class="idle">
+    <g class="shinesparks" fill="#FFE066"><path d="M30 60 l3 8 8 3 -8 3 -3 8 -3 -8 -8 -3 8 -3z"/><path d="M170 50 l2 6 6 2 -6 2 -2 6 -2 -6 -6 -2 6 -2z"/></g>
+    <ellipse cx="70" cy="184" rx="18" ry="8" fill="#E86A8A" ${HO}/><ellipse cx="130" cy="184" rx="18" ry="8" fill="#E86A8A" ${HO}/>
+    <ellipse cx="100" cy="146" rx="62" ry="40" fill="#FF9AB5" ${HO}/>
+    <path d="M42 130 Q20 110 30 90" fill="none" stroke="${OL}" stroke-width="16" stroke-linecap="round"/><path d="M42 130 Q20 110 30 90" fill="none" stroke="#FF9AB5" stroke-width="9" stroke-linecap="round"/>
+    <path d="M158 130 Q180 110 170 90" fill="none" stroke="${OL}" stroke-width="16" stroke-linecap="round"/><path d="M158 130 Q180 110 170 90" fill="none" stroke="#FF9AB5" stroke-width="9" stroke-linecap="round"/>
+    <circle cx="70" cy="62" r="10" fill="#FF9AB5" ${HO}/><circle cx="130" cy="62" r="10" fill="#FF9AB5" ${HO}/>
+    <ellipse cx="100" cy="92" rx="44" ry="36" fill="#FF9AB5" ${HO}/>
+    <ellipse cx="100" cy="114" rx="36" ry="22" fill="#FFC6D6" ${HO}/><ellipse cx="86" cy="106" rx="4" ry="3" fill="${OL}"/><ellipse cx="114" cy="106" rx="4" ry="3" fill="${OL}"/>
+    ${eyes2(84, 116, 80, 10)}
+    <ellipse cx="100" cy="124" rx="10" ry="8" fill="#8a2433" stroke="${OL}" stroke-width="3"/>
+    ${signBoard(100, 26, 110, "UNBELIEVABLE!", "#FFE066", 11)}
+  </g>`
+});
+
+const fluff = (cx, cy, r, n, col, stroke = true) => Array.from({ length: n }, (_, i) => { const a = i / n * Math.PI * 2; return `<circle cx="${cx + Math.cos(a) * r}" cy="${cy + Math.sin(a) * r}" r="${r * .55}" fill="${col}" ${stroke ? HO : ""}/>`; }).join("");
+const jumbleTile = (x, y, l, rot, col = "#E3D4FF") => `<g transform="translate(${x} ${y}) rotate(${rot})"><rect x="-9" y="-9" width="18" height="18" rx="4" fill="${col}" stroke="${OL}" stroke-width="2.5"/><text y="5" text-anchor="middle" font-family="${CF}" font-weight="800" font-size="13" fill="#3A1F5C">${l}</text></g>`;
+const dizzyEye = (x, y, r) => `<circle cx="${x}" cy="${y}" r="${r}" fill="#fff" stroke="${OL}" stroke-width="3"/><path d="M${x} ${y} m${-r * .55} 0 a${r * .55} ${r * .55} 0 1 1 ${r * .55} ${r * .55} a${r * .3} ${r * .3} 0 1 1 ${-r * .2} ${-r * .3}" fill="none" stroke="${OL}" stroke-width="2.5" stroke-linecap="round"/>`;
+Object.assign(HAND, {
+  simililamb: () => `${hs(46)}<g class="idle">
+    <rect x="78" y="164" width="9" height="20" rx="4" fill="#5A4A4A" ${HO}/><rect x="114" y="164" width="9" height="20" rx="4" fill="#5A4A4A" ${HO}/>
+    ${fluff(100, 146, 26, 9, "#fff")}<ellipse cx="100" cy="146" rx="34" ry="26" fill="#fff"/>
+    <ellipse cx="68" cy="102" rx="12" ry="7" fill="#5A4A4A" ${HO} transform="rotate(-24 68 102)"/><ellipse cx="132" cy="102" rx="12" ry="7" fill="#5A4A4A" ${HO} transform="rotate(24 132 102)"/>
+    <ellipse cx="100" cy="106" rx="24" ry="26" fill="#5A4A4A" ${HO}/>
+    ${fluff(100, 82, 12, 6, "#fff")}<circle cx="100" cy="82" r="12" fill="#fff"/>
+    <circle cx="91" cy="104" r="6" fill="#fff" stroke="${OL}" stroke-width="2.5"/><circle cx="109" cy="104" r="6" fill="#fff" stroke="${OL}" stroke-width="2.5"/><circle cx="92" cy="105" r="3" fill="${OL}"/><circle cx="110" cy="105" r="3" fill="${OL}"/>
+    <path d="M96 120 Q100 124 104 120" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
+    ${signBoard(100, 40, 112, "as gentle as a lamb", "#FFE8EF", 10)}
+  </g>`,
+
+  simililion: () => `${hs(60)}<g class="idle">
+    <g class="wag" style="transform-origin:136px 170px"><path d="M134 172 Q178 176 178 140" fill="none" stroke="${OL}" stroke-width="10" stroke-linecap="round"/><path d="M134 172 Q178 176 178 140" fill="none" stroke="#E9A23B" stroke-width="5" stroke-linecap="round"/>${fluff(178, 132, 7, 5, "#fff")}</g>
+    <path d="M62 186 Q56 128 100 118 Q144 128 138 186Z" fill="#E9A23B" ${HO}/>
+    <path d="M80 186 Q80 146 100 140 Q120 146 120 186Z" fill="#FFE9B8"/>
+    <ellipse cx="78" cy="184" rx="15" ry="7" fill="#E9A23B" ${HO}/><ellipse cx="122" cy="184" rx="15" ry="7" fill="#E9A23B" ${HO}/>
+    ${fluff(100, 84, 40, 12, "#fff")}<circle cx="100" cy="84" r="42" fill="#fff"/>
+    <circle cx="100" cy="86" r="32" fill="#E9A23B" ${HO}/>
+    <ellipse cx="100" cy="102" rx="17" ry="11" fill="#FFE9B8"/>
+    ${eyes2(86, 114, 80, 8, true)}
+    <path d="M94 94 L106 94 L100 100Z" fill="#8a4a2a" stroke="${OL}" stroke-width="2.5" stroke-linejoin="round"/>${grin(100, 106, 6)}
+    ${signBoard(100, 26, 110, "as brave as a lion", "#FFE8EF", 10)}
+  </g>`,
+
+  whooshling: () => `${hs(36)}<g class="hover2">
+    <path d="M150 90 Q120 70 96 86 Q74 102 92 120 Q110 134 128 118 Q140 104 126 96" fill="none" stroke="${OL}" stroke-width="16" stroke-linecap="round"/>
+    <path d="M150 90 Q120 70 96 86 Q74 102 92 120 Q110 134 128 118 Q140 104 126 96" fill="none" stroke="#BFE6FF" stroke-width="10" stroke-linecap="round"/>
+    <path d="M160 104 Q180 110 190 100 M156 120 Q176 130 188 124" fill="none" stroke="#9FD9FF" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="80" cy="110" r="28" fill="#E3F6FF" ${HO}/>
+    ${eyes2(70, 90, 106, 7)}${blush(62, 120, 4)}${blush(98, 120, 4)}
+    <ellipse cx="80" cy="124" rx="6" ry="5" fill="#8a2433" stroke="${OL}" stroke-width="2.5"/>
+    <text x="40" y="160" font-family="${CF}" font-weight="800" font-size="20" fill="#5B8FF0" stroke="#fff" stroke-width="4" paint-order="stroke" transform="rotate(-10 40 160)">whoosh!</text>
+  </g>`,
+
+  kaboomerang: () => `${hs(58)}<g class="hover2">
+    <g>
+      <path d="M40 140 Q60 70 100 64 Q140 70 160 140 Q140 150 130 134 Q118 98 100 96 Q82 98 70 134 Q60 150 40 140Z" fill="#E84B6A" ${HO}/>
+      <path d="M52 132 Q68 84 100 78 Q132 84 148 132" fill="none" stroke="#FFD1DE" stroke-width="5" stroke-linecap="round"/>
+    </g>
+    <circle cx="100" cy="74" r="0" fill="none"/>
+    <ellipse cx="100" cy="92" rx="22" ry="18" fill="#FFE066" ${HO}/>
+    ${eyes2(92, 108, 90, 6, true)}${grin(100, 100, 5)}
+    ${[[30, 52, "BOOM!", -14, "#E63946"], [150, 40, "ZAP!", 12, "#3F6FD8"], [160, 172, "POW!", -8, "#F28B30"]].map(([x, y, t, r, c]) => `<g transform="translate(${x} ${y}) rotate(${r})"><path d="M-26 0 L-14 -8 L-16 -20 L-4 -12 L4 -24 L10 -10 L24 -16 L18 -2 L28 6 L14 10 L16 22 L2 14 L-8 24 L-10 10 L-24 12Z" fill="#FFE066" stroke="${OL}" stroke-width="2.5" stroke-linejoin="round"/><text y="5" text-anchor="middle" font-family="${CF}" font-weight="800" font-size="11" fill="${c}">${t}</text></g>`).join("")}
+  </g>`,
+
+  jumblob: () => `${hs(50)}<g class="squish" style="transform-origin:100px 186px">
+    <path d="M46 178 C38 130 54 76 100 76 C146 76 162 130 154 178 Q100 190 46 178Z" fill="#7E4BBD" ${HO}/>
+    <path d="M64 104 C70 92 80 86 92 86" fill="none" stroke="#C9A6FF" stroke-width="7" stroke-linecap="round" opacity=".7"/>
+    ${jumbleTile(70, 150, "q", -20)}${jumbleTile(100, 162, "z", 10)}${jumbleTile(132, 148, "x", 24)}${jumbleTile(132, 104, "k", -12)}
+    ${dizzyEye(84, 118, 11)}${dizzyEye(116, 118, 11)}
+    <path d="M88 140 Q94 134 100 140 Q106 146 112 140" fill="none" stroke="${OL}" stroke-width="3.5" stroke-linecap="round"/>
+  </g>`,
+
+  jumblegeist: () => `${hs(52)}<g class="floaty">
+    <path d="M52 176 L52 92 C52 38 148 38 148 92 L148 176 Q136 162 124 176 Q112 162 100 176 Q88 162 76 176 Q64 162 52 176Z" fill="#5C3487" ${HO}/>
+    <path d="M66 90 C66 64 84 56 96 56" fill="none" stroke="#9B5DE5" stroke-width="7" stroke-linecap="round"/>
+    ${[["r", 30, 60, -20], ["e", 170, 70, 16], ["d", 26, 130, 10], ["a", 172, 140, -14], ["w", 100, 26, 6]].map(([l, x, y, r]) => `<g class="orbit o${(x % 3) + 1}">${jumbleTile(x, y, l, r, "#C9A6FF")}</g>`).join("")}
+    <g class="blink" style="transform-origin:100px 96px"><path d="M74 90 L96 100 L74 104Z M126 90 L104 100 L126 104Z" fill="#FFE066" stroke="${OL}" stroke-width="3" stroke-linejoin="round"/></g>
+    <path d="M80 126 Q90 118 100 126 Q110 134 120 126" fill="none" stroke="#FFE066" stroke-width="4" stroke-linecap="round"/>
+    <path d="M52 120 Q28 110 24 128 Q38 124 52 134 M148 120 Q172 110 176 128 Q162 124 148 134" fill="#5C3487" ${HO}/>
+  </g>`,
+
+  typoling: () => `${hs(44)}<g class="idle">
+    <ellipse cx="84" cy="180" rx="12" ry="7" fill="#6B8E4E" ${HO}/><ellipse cx="116" cy="180" rx="12" ry="7" fill="#6B8E4E" ${HO}/>
+    <ellipse cx="100" cy="150" rx="30" ry="28" fill="#8FB07A" ${HO}/>
+    <g transform="translate(100 150) rotate(-6)"><rect x="-18" y="-12" width="36" height="22" rx="3" fill="#fff" stroke="${OL}" stroke-width="2.5"/><text y="4" text-anchor="middle" font-family="${CF}" font-weight="800" font-size="11" fill="#C2384C">teh</text></g>
+    <path d="M66 96 L44 72 L74 84Z M134 96 L156 72 L126 84Z" fill="#8FB07A" ${HO}/>
+    <circle cx="100" cy="104" r="32" fill="#8FB07A" ${HO}/>
+    ${cEye(88, 100, 9)}${cEye(114, 96, 12)}
+    <path d="M84 122 Q96 130 112 120" fill="none" stroke="${OL}" stroke-width="3.5" stroke-linecap="round"/><path d="M90 124 l3 5 3 -4" fill="#fff" stroke="${OL}" stroke-width="1.5"/>
+    <g transform="translate(146 140) rotate(40)"><path d="M-6 -36 Q4 -20 -4 -6 Q6 6 0 20" fill="none" stroke="${OL}" stroke-width="11" stroke-linecap="round"/><path d="M-6 -36 Q4 -20 -4 -6 Q6 6 0 20" fill="none" stroke="#FFD447" stroke-width="6" stroke-linecap="round"/><path d="M-4 20 L0 30 L4 20Z" fill="#F7D9B0" stroke="${OL}" stroke-width="2.5"/></g>
+    <circle cx="136" cy="146" r="8" fill="#8FB07A" ${HO}/>
+  </g>`,
+
+  typogre: () => `${hs(66)}<g class="heavy">
+    <rect x="62" y="156" width="28" height="30" rx="8" fill="#5A7A3E" ${HO}/><rect x="110" y="156" width="28" height="30" rx="8" fill="#5A7A3E" ${HO}/>
+    <path d="M46 162 Q40 92 100 86 Q160 92 154 162 Q100 176 46 162Z" fill="#7A9A5E" ${HO}/>
+    <path d="M66 112 H134 V156 Q100 166 66 156Z" fill="#E3D4FF" ${HO}/>
+    <text x="100" y="138" text-anchor="middle" font-family="${CF}" font-weight="800" font-size="14" fill="#5C3487">SPELING</text>
+    <path d="M70 148 H130" stroke="#C2384C" stroke-width="3" stroke-dasharray="4 4"/>
+    <path d="M150 120 Q178 92 172 52" fill="none" stroke="${OL}" stroke-width="16" stroke-linecap="round"/><path d="M150 120 Q178 92 172 52" fill="none" stroke="#7A9A5E" stroke-width="10" stroke-linecap="round"/>
+    <g transform="translate(172 40) rotate(20)"><rect x="-16" y="-26" width="32" height="40" rx="6" fill="#FF9AB5" ${HO}/><rect x="-16" y="4" width="32" height="12" rx="3" fill="#7FB0FF" ${HO}/></g>
+    <path d="M50 120 Q28 120 30 148" fill="none" stroke="${OL}" stroke-width="16" stroke-linecap="round"/><path d="M50 120 Q28 120 30 148" fill="none" stroke="#7A9A5E" stroke-width="10" stroke-linecap="round"/>
+    <path d="M68 58 L60 34 L80 50Z M132 58 L140 34 L120 50Z" fill="#E3D4FF" ${HO}/>
+    <ellipse cx="100" cy="68" rx="36" ry="30" fill="#7A9A5E" ${HO}/>
+    ${cEye(86, 62, 8, true)}${cEye(114, 62, 8, true)}
+    <path d="M80 82 Q100 96 120 82" fill="none" stroke="${OL}" stroke-width="4" stroke-linecap="round"/><path d="M86 84 l4 7 4 -6 M110 84 l-4 7 -4 -6" fill="#fff" stroke="${OL}" stroke-width="2"/>
+  </g>`
+});
+
 /* ---------- people, badges and eggs ---------- */
 function professorSVG() {
   return `<svg viewBox="0 0 200 200" class="sprite" aria-hidden="true"><ellipse cx="100" cy="188" rx="46" ry="8" fill="rgba(0,0,0,.22)"/>
@@ -2973,7 +3421,7 @@ function areaSpecies(id) {
   const a = AREA[id]; if (!a) return [];
   return SPECIES_LIST.filter(s => s.type !== "legend" && a.topics.includes(s.type));
 }
-const TYPE_ICON = { spelling: "🔤", homophones: "🎵", punctuation: "❗", wordclass: "🏷️", grammar: "⏳", affixes: "🧩", vocab: "📚", legend: "🌟" };
+const TYPE_ICON = { spelling: "🔤", homophones: "🎵", punctuation: "❗", wordclass: "🏷️", grammar: "⏳", affixes: "🧩", vocab: "📚", muddle: "🌀", legend: "🌟" };
 
 /* ===================== CHIPTUNE AUDIO (Web Audio, no files) ===================== */
 const AUDIO = { ctx: null, master: null, music: null, sfx: null, on: store.get("sound", true), cur: null, timer: null, step: 0, next: 0, track: null };
@@ -3083,7 +3531,7 @@ function soundToggle() {
 const ROUTE_ALL = AREA_LIST.map(a => a.id);
 const route = () => ROUTE_ALL.filter(id => areaTopics(id).length > 0);
 const STRONG = { spelling: "homophones", homophones: "punctuation", punctuation: "grammar", grammar: "wordclass", wordclass: "affixes", affixes: "vocab", vocab: "spelling" };
-const MOVES = { spelling: "Letter Launch", homophones: "Echo Blast", punctuation: "Comma Clobber", wordclass: "Noun Pound", grammar: "Tense Twister", affixes: "Prefix Punch", vocab: "Synonym Storm", legend: "Dictionary Drop" };
+const MOVES = { spelling: "Letter Launch", homophones: "Echo Blast", punctuation: "Comma Clobber", wordclass: "Noun Pound", grammar: "Tense Twister", affixes: "Prefix Punch", vocab: "Synonym Storm", muddle: "Jumble Jab", legend: "Dictionary Drop" };
 const SHOP = [
   { id: "berry", name: "Word Berry", icon: "🫐", price: 15, desc: "Wild creature: get 1 extra question. Battle: heal 20 HP." },
   { id: "book", name: "Golden Book", icon: "📒", price: 40, desc: "Wild creature: start with 1 heart already filled." },
@@ -3144,6 +3592,7 @@ function dialogue(lines, who, done) {
   drawDialogue();
 }
 function drawDialogue() {
+  document.querySelectorAll(".chapcard").forEach(x => x.remove());
   const { lines, i, who } = DLG;
   const obj = typeof who === "object" && who;
   const portrait = obj ? obj.svg : who === "prof" ? professorSVG() : who === "mac" ? personSVG(PRINCIPAL.look) : personSVG(LEADERS[who].look);
@@ -3166,9 +3615,12 @@ function introStory(done) {
     "Every class has a gym, and the gym leaders are your teachers!",
     "Win a badge from every class, and Principal Mr Mac will battle you to become School Champion.",
     "Jumbled letter blocks block some paths. Each badge you win clears the next one.",
+    "And lately… letters keep disappearing from the signs around school. Strange. Keep your eyes open!",
     "First, every explorer needs a buddy. Choose one!"], "prof", () => { save.story.intro = true; persist(); done(); });
 }
 function nextGoalText() {
+  const sc = typeof currentChapter === "function" && currentChapter();
+  if (sc) return `📖 ${fillStory(sc.quest, sc)}`;
   const r = route(), open = unlockedZones();
   if (allBadges()) return save.story.champion ? "You’re the School Champion! Keep filling your Word Book." : "You have every badge! Principal Mr Mac is waiting in his office.";
   const z = open.find(t => !save.badges[t]) || r.find(t => !save.badges[t]);
@@ -3192,6 +3644,7 @@ function sideQuests() {
     { id: "side-book10", text: "Fill 10 pages of your Word Book", prog: Math.min(10, dexCount()), goal: 10, reward: { egg: "mystery" } },
     { id: "side-treasure", text: "Find 5 hidden treasures in the Wilds", prog: Math.min(5, save.treasures || 0), goal: 5, reward: { book: 1, coins: 30 } },
     { id: "side-book30", text: "Fill 30 pages of your Word Book", prog: Math.min(30, dexCount()), goal: 30, reward: { egg: "mystery", coins: 50 } },
+    { id: "side-book60", text: "Fill 60 pages of your Word Book", prog: Math.min(60, dexCount()), goal: 60, reward: { egg: "mystery", book: 2, coins: 80 } },
     { id: "side-trainers", text: "Beat 5 trainers around the school", prog: Math.min(5, Object.keys(save.beat || {}).length), goal: 5, reward: { coins: 40, berry: 2 } },
     { id: "side-shiny", text: "Find a shiny creature", prog: Object.values(save.team).some(e => e.shiny) ? 1 : 0, goal: 1, reward: { coins: 100 } }
   ].concat(netCfg() ? [{ id: "side-trade", text: "Trade a creature with a friend", prog: Math.min(1, save.trades || 0), goal: 1, reward: { book: 1, coins: 30 } }] : []);
@@ -3224,6 +3677,7 @@ function showQuests() {
   const ready = allQuests().filter(q => q.prog >= q.goal && !save.claimed[q.id]).length;
   app.innerHTML = topbar() + `<h2 class="center">📜 Quests</h2>
     <div class="goalcard"><div class="gp">${professorSVG()}</div><div><b>Professor Quill says:</b><p>${nextGoalText()}</p></div></div>
+    ${storyHTML()}
     ${unlockedZones().slice().reverse().map(z => `<h3 class="dexh">${ZONE[z].icon} ${ZONE[z].name} ${save.badges[z] ? `<span class="minibadge">${badgeSVG(z, true)}</span>` : ""}</h3>${zoneQuests(z).map(questRow).join("")}`).join("")}
     <h3 class="dexh">⭐ Extra quests</h3>${sideQuests().map(questRow).join("")}
     ${settings.story !== false && unlockedZones().length < route().length ? `<p class="hint center">🔒 Win badges to open more of the Wilds.</p>` : ""}
@@ -3343,6 +3797,7 @@ function startGym() {
 
 /* ---------- battle flow ---------- */
 function startBattle(cfg) {
+  document.querySelectorAll(".chapcard").forEach(x => x.remove());
   clearInterval(zoneTimer); setTimeout(() => netPos(true), 600);
   let ready; const rp = new Promise(r => ready = r);
   BT = Object.assign({ mi: 0, fi: 0, busy: true, over: false, turn: "me", q: rp, ready, topics: enabledCats(), hard: false }, cfg);
@@ -3523,6 +3978,7 @@ function endBattle(won) {
   if (m === "gym" || m === "champion") return won ? winGym() : loseGym();
   if (m === "trainer") return won ? winTrainer() : loseTrainer();
   if (m === "pvp") return pvpEnd(won);
+  if (m === "story") return won ? winStory() : loseStory();
 }
 function afterBattle(next) {
   const ids = [...new Set((BT && BT.mine ? BT.mine.map(f => f.id) : []).concat(save.buddy ? [save.buddy] : []))];
@@ -4304,7 +4760,7 @@ function isOpen(z) {
 }
 function showWorld() {
   if (!MAP.length) { buildWorld(); placeTreasures(); }
-  migrateSave();
+  migrateSave(); syncStory();
   if (!W) W = worldState();
   W.lock = false; W.held = null;
   app.dataset.screen = "world";
@@ -4339,6 +4795,7 @@ function showWorld() {
   bindPad();
   W.region = null; W.greeted = W.greeted || {}; updateLoc(); setMusic(REGION_TRACK[W.region] || "town"); netPos(true);
   cancelAnimationFrame(W.raf); W.last = performance.now(); W.raf = requestAnimationFrame(tick);
+  setTimeout(storyAnnounce, 450);
 }
 const navDot = () => { const n = allQuests().filter(q => q.prog >= q.goal && !save.claimed[q.id]).length; return n ? `<i class="dot">${n}</i>` : ""; };
 const eggDot = () => save.eggs.some(e => e.have >= e.need) ? `<i class="dot">🥚</i>` : "";
@@ -4408,6 +4865,7 @@ function arrive() {
   const tr = treasureAt(W.x, W.y); if (tr) { W.held = null; pickUpTreasure(tr); return; }
   for (const n of NPCS) { const k = n.name; if (!W.greeted[k] && Math.abs(n.x - W.x) + Math.abs(n.y - W.y) <= 2) { W.greeted[k] = true; emote({ x: n.x, y: n.y }, "!"); SFX.blip(); } }
   if (checkTrainerSight()) return;
+  if (checkStoryTrigger()) return;
   if (t === ",") {
     leaves(W.x * TS, W.y * TS); SFX.rustle();
     const reg = regionAt(W.x, W.y);
@@ -4426,7 +4884,7 @@ function interact() {
   if (n) return talkTo(n);
   if (W.buddy.x === x && W.buddy.y === y && buddySpecies()) return talkToBuddy();
   const tr = treasureAt(x, y); if (tr) return pickUpTreasure(tr);
-  if (t === "S") return dialogue([SIGNS[x + "," + y]], { name: "Sign", svg: SIGN_SVG });
+  if (t === "S") return dialogue(signLines(x, y), { name: "Sign", svg: SIGN_SVG });
   if (t === "D") return enterDoor(DOORS[x + "," + y]);
   if (t === "B") return barrierMsg(BARRIERS[x + "," + y]);
   if (t === "W") return dialogue(["The water is sparkling. Better not swim without a boat!"], { name: "", svg: SIGN_SVG });
@@ -4443,13 +4901,14 @@ function talkTo(n) {
   if (n.kind === "prof") return dialogue([`Hoo-hoo! ${nextGoalText()}`, "Pop into the Library any time to buy berries, books and eggs!"], "prof");
   if (n.kind === "leader") return gymDoor(n.lines[0].slice(4));
   if (n.kind === "trainer") return trainerTalk(n);
+  if (n.kind === "story") return runChapter(CH[n.chap]);
   dialogue(n.lines, { name: n.name, svg: personSVG(n.look) });
 }
 function enterDoor(d) {
   if (!d) return;
   if (d.kind === "lab") { W.lock = true; stepBack(); SFX.door(); showLab(); return; }
   if (d.kind === "house") { stepBack(); dialogue(["The canteen is closed. It opens at lunchtime!"], { name: "Canteen", svg: SIGN_SVG }); return; }
-  if (d.kind === "fortress") { stepBack(); if (allBadges()) dialogue(["Come in, come in! I’ve been expecting you."], "mac", () => prepareGym("champion")); else barrierMsg("office"); return; }
+  if (d.kind === "fortress") { stepBack(); if (allBadges() && !(save.chapters || {}).c7) { runChapter(CH.c7); return; } if (allBadges()) dialogue(["Come in, come in! I’ve been expecting you."], "mac", () => prepareGym("champion")); else barrierMsg("office"); return; }
   if (d.kind === "gym") { stepBack(); gymDoor(d.id); }
 }
 function stepBack() { if (MAP[W.y][W.x] === "D") { W.y += 1; W.x = W.x; W.fx = W.x; W.fy = W.y; W.dir = "down"; save.pos = { x: W.x, y: W.y, dir: "down", map: "school" }; persist(); } }
@@ -4501,13 +4960,19 @@ function render(now) {
   g.setTransform(1, 0, 0, 1, 0, 0);
 }
 function drawNPC(g, n, now) {
-  const svg = n.kind === "prof" ? professorSVG() : personSVG(n.look);
+  const svg = n.kind === "prof" ? professorSVG() : n.svg || personSVG(n.look);
   const s = svgSprite("npc" + n.name, svg, 22);
   const bob = n.kind === "leader" ? Math.round(Math.sin(now / 300 + n.x) * 1) : 0;
   dropShadow(g, n.x * TS, n.y * TS, 12);
   if (s) g.drawImage(s, n.x * TS - 3, n.y * TS - 7 + bob, 22, 22);
   if (n.kind === "leader" && !save.badges[n.lines[0].slice(4)] && gymReady(n.lines[0].slice(4))) {
     g.fillStyle = "#fff"; g.fillRect(n.x * TS + 5, n.y * TS - 14 + bob, 6, 8); g.fillStyle = "#E63946"; g.fillRect(n.x * TS + 7, n.y * TS - 13 + bob, 2, 4); g.fillRect(n.x * TS + 7, n.y * TS - 8 + bob, 2, 1);
+  }
+  if (n.kind === "story") {
+    const X = n.x * TS + 4, Y = n.y * TS - 17 + Math.round(Math.sin(now / 200) * 1.5);
+    g.fillStyle = "rgba(255,224,102,.35)"; g.beginPath(); g.arc(X + 4, Y + 4.5, 7, 0, Math.PI * 2); g.fill();
+    g.fillStyle = "#1d1b3a"; g.fillRect(X - 1, Y - 1, 10, 11); g.fillStyle = "#FFD447"; g.fillRect(X, Y, 8, 9);
+    g.fillStyle = "#1d1b3a"; g.fillRect(X + 3, Y + 1, 2, 5); g.fillRect(X + 3, Y + 7, 2, 1);
   }
 }
 
@@ -4517,7 +4982,7 @@ const TYPE_INFO = {
   spelling: { name: "Spelling", color: "#F28B30" }, homophones: { name: "Homophones", color: "#1E8C82" },
   punctuation: { name: "Punctuation", color: "#C2384C" }, wordclass: { name: "Word classes", color: "#3E9B3C" },
   grammar: { name: "Grammar", color: "#7E4BBD" }, affixes: { name: "Prefixes", color: "#3F6FD8" },
-  vocab: { name: "Vocabulary", color: "#D6457A" }, legend: { name: "Legendary", color: "#B8860B" }
+  vocab: { name: "Vocabulary", color: "#D6457A" }, muddle: { name: "Muddle", color: "#5C3487" }, legend: { name: "Legendary", color: "#B8860B" }
 };
 const ZONES = AREA_LIST.map(a => ({ id: a.id, name: a.name, icon: a.icon, sky: a.sky, g1: a.g1, g2: a.g2, deco: a.deco }))
   .concat([{ id: "custom", name: "Teacher’s Garden", icon: "🍎", sky: ["#FFD1E3", "#FFF2F7"], g1: "#7CC86B", g2: "#5FB04F", deco: "garden" }]);
@@ -4668,7 +5133,7 @@ function showStarters() {
       <span class="pedestal">${creatureSVG(s)}</span><b>${s.name}</b>${typeChip(s.type)}<small>${s.desc}</small></button>`; }).join("")}</div>`;
 }
 function pickStarter(id) {
-  save.team[id] = { n: 1, xp: 0, exp: expForLv(2), shiny: false }; save.seen[id] = true; save.dex = save.dex || {}; save.dex[id] = true; save.buddy = id; save.party = [id]; save.caught = 1; persist();
+  save.team[id] = { n: 1, xp: 0, exp: expForLv(2), shiny: false }; save.starter = id; save.seen[id] = true; save.dex = save.dex || {}; save.dex[id] = true; save.buddy = id; save.party = [id]; save.caught = 1; persist();
   const s = SPECIES[id];
   showModal(`<div class="qcard center" role="dialog" aria-modal="true"><div class="bigsp">${creatureSVG(s)}</div>
     <h2>${s.name} is your buddy!</h2><p>Let’s explore the Word Wilds together.</p><button class="btn" data-act="closeToMap">Let’s go!</button></div>`);
@@ -4787,6 +5252,7 @@ function tapGrass(i, el) {
 /* ---------- encounters ---------- */
 function rollSpecies(z) {
   const caughtKinds = dexCount();
+  if (save.chapters && save.chapters.c8 && Math.random() < 0.08) { const mu = SPECIES_LIST.filter(s => s.type === "muddle" && (s.stage === 1 || Math.random() < 0.3)); return pick(mu); }
   if (caughtKinds >= 10 && Math.random() < 0.025) return caughtKinds >= 25 && Math.random() < 0.5 ? SPECIES.inktopus : SPECIES.thesaurex;
   let pool = areaSpecies(z.id);
   if (z.id !== "custom") { const t = areaTopics(z.id); const p2 = pool.filter(s => t.includes(s.type)); if (p2.length) pool = p2; }
@@ -4799,6 +5265,7 @@ function rollSpecies(z) {
 }
 let E = null;
 function startEncounter() {
+  document.querySelectorAll(".chapcard").forEach(x => x.remove());
   clearInterval(zoneTimer); setTimeout(() => netPos(true), 600);
   const sp = rollSpecies(curZone);
   const [need, tries] = HEARTS[sp.rarity];
@@ -5073,6 +5540,196 @@ const _answer = answer;
 answer = function (i) { const was = qState && qState.done; _answer(i); if (qState && !was) (qState.ok ? SFX.right : SFX.wrong)(); };
 if (save) migrateSave();
 showTitle();
+
+/* ===================== STORY: THE GREAT JUMBLE ===================== */
+const RIVAL_LOOK = { skin: "#F1C27D", hair: "#E07A3A", hairStyle: "spiky", outfit: "#F28B30", outfit2: "#FFE3B0" };
+const JUMBLER_LOOK = { skin: "#E0AC69", hair: "#3A1F5C", hairStyle: "short", outfit: "#5C3487", outfit2: "#FFE066", hat: "beanie" };
+const TYPO_LOOK = { skin: "#F7C9A3", hair: "#2B2B2B", hairStyle: "long", outfit: "#3A1F5C", outfit2: "#E63946", hat: "captain", glasses: true };
+const routeAt = i => { const r = route(); return r[Math.min(i, r.length - 1)] || "gate"; };
+function rivalStarter(evolved) {
+  let st = save.starter;
+  if (!st) st = ["letterpup", "commakit", "nounlet"].find(id => save.team[id]) || "commakit";
+  const base = { letterpup: "synonymouse", commakit: "echoo", nounlet: "tensel" }[st] || "echoo";
+  return evolved ? SPECIES[base].evo : base;
+}
+const areaPick = (area, stage, k = 0) => { const l = areaSpecies(area).filter(s => s.stage === stage); return (l[k % Math.max(1, l.length)] || SPECIES.spellbug).id; };
+const CHAPTERS = [
+  { id: "c1", n: 1, title: "A New Rival", need: 0, area: () => "gate", who: "rival",
+    quest: "Meet the new pupil waiting at the School Gate.", summary: "You met Sunny, your new rival, and heard about the scrambled signs.",
+    intro: ["Hi! I’m Sunny. I just started at this school too!", "Professor Quill gave me a buddy as well. I picked one that’s strong against yours. Hee hee!", "Let’s see whose buddy is better. Battle!"],
+    team: () => [[rivalStarter(), 3]],
+    win: ["Wow, you’re good! I’ll train harder.", "Hey… have you noticed some signs around school look funny? Like the letters are all mixed up?", "Weird. See you around!"],
+    after: ["Hoo-hoo! A friendly rival is the best way to get stronger.", "But Sunny is right. Letters have been going missing from signs all week… I wonder who is behind it?"], afterWho: "prof",
+    reward: { coins: 20, berry: 2 } },
+  { id: "c2", n: 2, title: "Scrambled Signs", need: 1, area: () => routeAt(1), who: "grunt", grunt: "Jumbler Jo", scramble: true,
+    quest: "Stop whoever is scrambling the signs in {place}.", summary: "You stopped Jumbler Jo and found out about Team Jumble.",
+    call: ["Hoo-hoo! Explorer, come quickly!", "Someone is scrambling the signs in {place}! Try reading one. Can you still work out what it says?", "Find whoever is doing it!"], callWho: "prof",
+    intro: ["Hee hee! I’m scrambling every sign in {place}!", "I’m a Jumbler, from Team Jumble. Lord Muddle says nobody needs neat words.", "You want to stop me? Then battle me!"],
+    team: () => [["jumblob", 5]],
+    win: ["Oh no! My scrambles are coming undone!", "Lord Muddle won’t be happy… He wants to jumble the WHOLE school!", "I’m out of here!"],
+    after: ["You did it! The signs are back to normal.", "Team Jumble… and Lord Muddle? I’ve read about him in an old book. I must check my Golden Dictionary."], afterWho: "prof",
+    reward: { coins: 30, book: 1 } },
+  { id: "c3", n: 3, title: "The Stolen Dictionary", need: 2, area: () => routeAt(2), who: "grunt", grunt: "Jumbler Max",
+    quest: "Get Professor Quill’s Golden Dictionary back from the Jumbler in {place}.", summary: "You rescued the Golden Dictionary and learnt Lord Muddle’s secret.",
+    call: ["Oh dear, oh dear! My Golden Dictionary is gone!", "It holds every word in the school. Without it, I can’t check any spellings!", "A Jumbler was seen running towards {place}. Please get it back!"], callWho: "prof",
+    intro: ["You again? You’re too late!", "This dictionary is going straight to Lord Muddle. With it, he can jumble every word at once!", "Unless you can beat my team!"],
+    team: () => [["typoling", 7], ["jumblob", 8]],
+    win: ["Argh! Fine, take your silly dictionary!", "But Captain Typo is coming, and she’s much tougher than me!"],
+    after: ["My Golden Dictionary! Thank you!", "Let me read about Lord Muddle… Hmm. Long ago, he found reading so hard that he decided words should be jumbled for everyone.", "If he jumbles the school, nobody will be able to read. We must stop him!"], afterWho: "prof",
+    reward: { coins: 40, book: 2 } },
+  { id: "c4", n: 4, title: "Sunny’s Challenge", need: 3, area: () => routeAt(3), who: "rival",
+    quest: "Sunny wants a rematch in {place}.", summary: "You beat Sunny again, and you agreed to stop Team Jumble together.",
+    intro: ["There you are! I’ve been chasing Jumblers too.", "They ran off before I could battle them. So I’ll battle YOU instead!", "My team has been training. Ready?"],
+    team: () => [[rivalStarter(), 10], [areaPick(routeAt(3), 1, 1), 9]],
+    win: ["You’re amazing! Okay, let’s team up against Team Jumble.", "I’ll keep watch for Jumblers and call you if I see any!"],
+    reward: { coins: 40, berry: 3 } },
+  { id: "c5", n: 5, title: "Captain Typo", need: 5, area: () => routeAt(5), who: "typo",
+    quest: "Stop Captain Typo in {place}.", summary: "You beat Captain Typo and discovered Lord Muddle’s plan.",
+    call: ["Quick! Captain Typo is in {place}!", "She’s turning all the full stops into commas! Go and stop her!"], callWho: "rival",
+    intro: ["Ahoy! I’m Captain Typo, Lord Muddle’s right-hand Jumbler!", "Why spell things properly? Speling is mutch more fun like this!", "Let’s battle, and I’ll jumble your answers too!"],
+    team: () => [["typoling", 14], ["jumblob", 14], ["jumblegeist", 15]],
+    win: ["Shiver my spellings! You’re too good!", "Fine. Here’s Lord Muddle’s plan: he’ll use the Principal’s Office to jumble every word in the school!", "He’s waiting there right now. Only someone with every badge can get in. Good luck!"],
+    after: ["The Principal’s Office! So that’s his plan.", "Win every class badge, then head there. Mr Mac will need your help!"], afterWho: "prof",
+    reward: { coins: 50, egg: "mystery" } },
+  { id: "c6", n: 6, title: "Friends and Rivals", need: 7, area: () => routeAt(7), who: "rival",
+    quest: "Sunny is waiting for you in {place}.", summary: "You and Sunny had your best battle yet.",
+    intro: ["I knew I’d find you here! Before you face Lord Muddle, let’s have one more battle.", "Give it everything you’ve got!"],
+    team: () => [[rivalStarter(true), 18], [areaPick(routeAt(7), 2, 0), 17], [areaPick(routeAt(6), 2, 1), 17]],
+    win: ["You’re ready. I just know it.", "Here, take these. They helped me lots!"],
+    reward: { coins: 60, berry: 3, book: 1 } },
+  { id: "c7", n: 7, title: "The Great Jumble", need: "all", area: () => "office", who: "muddle",
+    quest: "You have every badge! Go to the Principal’s Office and stop Lord Muddle.", summary: "You stopped the Great Jumble and rescued Mr Mac.",
+    intro: ["MWAHAHA! So you’re the explorer who keeps undoing my jumbles!", "I’ve locked Principal Mr Mac in his stationery cupboard. Soon every word in this school will be scrambled!", "If I can’t read the words, then NOBODY should! Battle me!"],
+    team: () => [["jumblegeist", 22], ["typogre", 23], ["typogre", 24]],
+    win: ["No… no! My jumbles are falling apart…", "…", "I suppose… I was just cross because reading is hard for me. The letters always seemed to jump around.", "I thought if everything was jumbled, nobody would notice that I struggle."],
+    after: ["Thank you for letting me out of that cupboard!", "Lord Muddle, reading can be hard for lots of people, and that’s okay. We all learn at our own pace, and we help each other.", "Professor Quill would love to read with you in the Library.", "Now, young explorer… you’ve won every badge AND saved the school. Let’s see if you can become School Champion!"], afterWho: "mac",
+    reward: { coins: 100 } },
+  { id: "c8", n: 8, title: "A New Chapter", need: "champ", area: () => "gate", who: "muddle", noBattle: true,
+    quest: "Lord Muddle is waiting at the School Gate. Go and say hello.", summary: "Lord Muddle is learning to read, and his creatures are free to make friends.",
+    intro: ["Oh, hello! Professor Quill is helping me read, one word at a time. It’s getting easier!", "I’m sorry for all the jumbling. I never meant to make the school sad.", "My Muddle creatures got loose in the tall grass. They’re friendly now. Would you look after some of them?", "Oh, and I once saw a legendary Inktopus writing in the sky. Keep your eyes open!"],
+    win: ["Here, take these. Thank you for being kind to me."],
+    reward: { coins: 100, book: 3 } }
+];
+const CH = Object.fromEntries(CHAPTERS.map(c => [c.id, c]));
+const fillStory = (t, ch) => t.replace(/\{place\}/g, regionName(ch.area()));
+function chapterReady(ch) {
+  if (ch.need === "all") return allBadges();
+  if (ch.need === "champ") return !!save.story.champion;
+  return route().filter(z => save.badges[z]).length >= ch.need;
+}
+function currentChapter() {
+  if (!save || !save.buddy) return null;
+  save.chapters = save.chapters || {};
+  for (const ch of CHAPTERS) { if (save.chapters[ch.id]) continue; return chapterReady(ch) ? ch : null; }
+  return null;
+}
+function whoOf(ch) {
+  if (ch.who === "rival") return { name: "Sunny", look: RIVAL_LOOK, svg: personSVG(RIVAL_LOOK) };
+  if (ch.who === "grunt") return { name: ch.grunt, look: JUMBLER_LOOK, svg: personSVG(JUMBLER_LOOK) };
+  if (ch.who === "typo") return { name: "Captain Typo", look: TYPO_LOOK, svg: personSVG(TYPO_LOOK) };
+  return { name: "Lord Muddle", look: null, svg: ART.muddle() };
+}
+const sayWho = w => w === "prof" || w === "mac" ? w : w === "rival" ? { name: "Sunny", svg: personSVG(RIVAL_LOOK) } : w;
+function storySpot(area) {
+  const [x0, y0, w, h] = AREA_RECTS[area], ground = AREA_GROUND[area], cx = x0 + w / 2, cy = y0 + h / 2, cands = [];
+  const bad = (x, y) => { for (let j = -1; j <= 1; j++) for (let i = -1; i <= 1; i++) { const t = MAP[y + j] && MAP[y + j][x + i]; if (t === "D" || t === "H" || t === "S" || t === "B") return true; } return false; };
+  for (let y = y0 + 1; y < y0 + h - 1; y++) for (let x = x0 + 1; x < x0 + w - 1; x++) {
+    const t = MAP[y][x]; if ((t !== ground && t !== "F") || REGION[y][x] !== area || bad(x, y)) continue;
+    if (NPCS.some(n => n.kind !== "story" && Math.abs(n.x - x) + Math.abs(n.y - y) < 3)) continue;
+    if (HIDDEN.some(hd => Math.abs(hd.x - x) + Math.abs(hd.y - y) < 2)) continue;
+    for (const d of ["up", "down", "left", "right"]) { const [dx, dy] = DIRS[d]; if (MAP[y + dy] && MAP[y + dy][x + dx] === "=") { cands.push({ x, y, d, dist: Math.abs(x - cx) + Math.abs(y - cy) }); break; } }
+  }
+  cands.sort((a, b) => a.dist - b.dist);
+  return cands[0] || null;
+}
+function syncStory() {
+  for (let i = NPCS.length - 1; i >= 0; i--) if (NPCS[i].kind === "story") NPCS.splice(i, 1);
+  const ch = currentChapter(); if (!ch || ch.area() === "office") return;
+  const spot = storySpot(ch.area()); if (!spot) return;
+  const who = whoOf(ch);
+  NPCS.push({ kind: "story", chap: ch.id, x: spot.x, y: spot.y, dir: spot.d, name: who.name, look: who.look, svg: who.look ? null : who.svg, lines: [] });
+}
+let STORY_COOL = 0;
+function checkStoryTrigger() {
+  if (STORY_COOL > 0) { STORY_COOL--; return false; }
+  const n = NPCS.find(x => x.kind === "story"); if (!n) return false;
+  if (Math.abs(n.x - W.x) + Math.abs(n.y - W.y) > 2) return false;
+  W.held = null; W.lock = true; persist();
+  W.dir = Math.abs(n.x - W.x) > Math.abs(n.y - W.y) ? (n.x > W.x ? "right" : "left") : (n.y > W.y ? "down" : "up");
+  emote({ x: n.x, y: n.y }, "!"); SFX.encounter();
+  setTimeout(() => runChapter(CH[n.chap]), reduced ? 50 : 750);
+  return true;
+}
+function runChapter(ch) {
+  if (!ch || (save.chapters || {})[ch.id]) return;
+  const who = whoOf(ch), area = ch.area();
+  const lines = ch.intro.map(l => fillStory(l, ch));
+  if (ch.noBattle) { dialogue(lines, { name: who.name, svg: who.svg }, () => finishChapter(ch)); return; }
+  dialogue(lines, { name: who.name, svg: who.svg }, () => startBattle({
+    mode: "story", chapter: ch.id, z: area, mine: myFighters(party()), foes: ch.team().map(([id, lv]) => mkFighter(id, lv, false, true)),
+    leaderName: who.name, portrait: who.svg, scene: area === "office" ? officeScene() : ZONE[area] || ZONE.custom,
+    topics: ch.who === "grunt" || ch.who === "typo" ? (areaTopics(area).length ? areaTopics(area) : enabledCats()) : enabledCats(), hard: ch.n >= 5
+  }));
+}
+function giveReward(r) {
+  if (r.coins) save.coins += r.coins;
+  if (r.berry) save.items.berry += r.berry;
+  if (r.book) save.items.book += r.book;
+  if (r.egg) { if (save.eggs.length < MAX_EGGS) addEgg(r.egg); else save.coins += 40; }
+}
+function finishChapter(ch) {
+  save.chapters = save.chapters || {}; save.chapters[ch.id] = true; giveReward(ch.reward); persist();
+  const who = whoOf(ch);
+  const next = () => {
+    if (ch.id === "c7") { prepareGym("champion"); return; }
+    if (ch.id === "c8") toast("🌀 Muddle creatures now appear in the tall grass!");
+    showWorld();
+  };
+  const afterLines = () => ch.after ? dialogue(ch.after.map(l => fillStory(l, ch)), sayWho(ch.afterWho), next) : next();
+  dialogue(ch.win.concat(`📖 Chapter ${ch.n} complete! Reward: ${rewardText(ch.reward)}`), { name: who.name, svg: who.svg }, afterLines);
+}
+function winStory() { const ch = CH[BT.chapter]; partyBonus(15, 20); afterBattle(() => finishChapter(ch)); }
+function loseStory() {
+  const ch = CH[BT.chapter], who = whoOf(ch); STORY_COOL = 6;
+  dialogue([ch.who === "rival" ? "Yes! I won! Practise your answers and come back for a rematch." : "Ha! Come back when your team is stronger!", "Your team had a rest and feels better now."], { name: who.name, svg: who.svg }, () => afterBattle(showWorld));
+}
+function storyAnnounce() {
+  const ch = currentChapter(); if (!ch || save.chapSeen === ch.id) return;
+  save.chapSeen = ch.id; persist();
+  document.querySelectorAll(".chapcard").forEach(x => x.remove());
+  const c = document.createElement("div"); c.className = "chapcard"; c.setAttribute("role", "status");
+  c.innerHTML = `<small>📖 Chapter ${ch.n}</small><b>${ch.title}</b><span>${esc(fillStory(ch.quest, ch))}</span>`;
+  document.body.appendChild(c); jingle("levelup");
+  setTimeout(() => c.remove(), reduced ? 2500 : 3600);
+  if (ch.call) setTimeout(() => { if (app.dataset.screen === "world" && !DLG && ov.hidden) dialogue(ch.call.map(l => fillStory(l, ch)), sayWho(ch.callWho)); }, reduced ? 300 : 3000);
+}
+function storyHTML() {
+  const cur = currentChapter(); save.chapters = save.chapters || {};
+  return `<h3 class="dexh">📖 The Great Jumble</h3><div class="storylist">${CHAPTERS.map(ch => {
+    const done = save.chapters[ch.id], isCur = cur && cur.id === ch.id;
+    return `<div class="schap ${done ? "done" : isCur ? "cur" : "locked"}"><i>${done ? "✅" : isCur ? "▶️" : "🔒"}</i><div><b>Chapter ${ch.n}: ${done || isCur ? ch.title : "???"}</b>
+      ${isCur ? `<small>${esc(fillStory(ch.quest, ch))}</small>` : done ? `<small>${ch.summary}</small>` : ""}</div></div>`; }).join("")}</div>`;
+}
+function jumbleText(s) {
+  return s.replace(/[A-Za-z’]{4,}/g, w => {
+    const mid = w.slice(1, -1).split("");
+    for (let k = 0; k < 4; k++) { for (let i = mid.length - 1; i > 0; i--) { const j = rnd(i + 1); [mid[i], mid[j]] = [mid[j], mid[i]]; } if (mid.join("") !== w.slice(1, -1)) break; }
+    return w[0] + mid.join("") + w[w.length - 1];
+  });
+}
+function signLines(x, y) {
+  const txt = SIGNS[x + "," + y], ch = currentChapter(), reg = regionAt(x, y);
+  if (ch && ch.scramble && (reg === ch.area() || reg === "gate")) return [jumbleText(txt), "🌀 Someone has scrambled this sign! Can you still read it?"];
+  return [txt];
+}
+MOVE_FX.muddle = async (a, b, m) => {
+  const L = "qzxjkvwy", n = m ? 8 : 5, ps = [];
+  for (let i = 0; i < n; i++) {
+    const frames = []; for (let t = 0; t <= 10; t++) { const ang = t / 10 * Math.PI * 2.5 + i * Math.PI * 2 / n, R = 74 * (1 - t / 13); frames.push({ transform: mT(Math.cos(ang) * R, Math.sin(ang) * R * .7, 1, t * 40), opacity: t === 0 ? 0 : 1 }); }
+    ps.push(fly(mfx(L[i % L.length], "tile jum", b), frames, 760, i * 50, "linear"));
+  }
+  await Promise.all(ps); burst(b, ["🌀"], m ? 8 : 5, "emo small");
+};
 
 /* ===================== PLAY WITH FRIENDS (Supabase Realtime) ===================== */
 /* Rooms use Supabase Realtime “broadcast” and “presence”, so no database tables are needed.
