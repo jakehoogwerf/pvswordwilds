@@ -6,7 +6,7 @@
 <title>Word Wilds</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Baloo+2:wght@600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Baloo+2:wght@600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{
   --bg:#262864; --bg2:#3B3E8E; --ink:#F7F4FF; --muted:#C9CBF0; --panel:#34377E; --panel2:#2A2C69; --line:#5E62B4; --edge:#14112B; --gold:#FFC93C; --goldtext:#FFE08A;
@@ -1077,12 +1077,92 @@ table.prog th,table.prog td{border-bottom-color:rgba(255,255,255,.1)}
 .dexno{position:absolute;left:5px;top:3px;font:800 .6rem "Baloo 2",system-ui,sans-serif;font-style:normal;color:#E0404C;background:#fff;border-radius:6px;padding:0 4px;border:1.5px solid #1E2233}
 .dexprog .xpbar{border-color:#1E2233}
 
+/* ===================== TEAM, LEVELS, MOVE EFFECTS, FRIENDS ===================== */
+.tmenu{grid-template-columns:repeat(4,1fr);gap:6px}
+.tt{min-height:52px;font-size:.72rem;padding:5px 1px 4px}
+.tt b{font-size:1.2rem}
+.t-teal{background:linear-gradient(#5FE0CF,#1E9C8E)} .t-grey{background:linear-gradient(#B4BCD0,#6B7591)}
+.lvtag{display:inline-block;margin-left:6px;font:800 .72rem/1.45 "Baloo 2",system-ui,sans-serif;background:#2A2F45;color:#fff;border-radius:6px;padding:0 6px;vertical-align:middle;letter-spacing:.02em}
+.hpname .lvtag{margin-left:0}
+.bexp{height:5px;border-radius:3px;background:#C8D3E6;margin-top:3px;overflow:hidden}
+.bexp i{display:block;height:100%;background:linear-gradient(90deg,#6FC8FF,#3A7BE0);transition:width .7s ease}
+.bb-grey{background:linear-gradient(#B4BCD0,#6B7591)}
+.pvpport{display:block;width:100%;height:auto}
+.dsb .leader img{display:block;width:100%}
+.lvchip{position:absolute;right:4px;top:3px;font:800 .6rem/1.5 "Baloo 2",system-ui,sans-serif;font-style:normal;background:#2A2F45;color:#fff;border-radius:6px;padding:0 4px}
+.dexcell.inteam{outline:3px solid #FF7FAF;outline-offset:-2px}
+.dexcell.picked{outline:4px solid var(--gold);outline-offset:-2px;box-shadow:0 0 14px rgba(255,212,71,.55)}
+.dexcell small{font-size:.65rem;color:var(--muted)}
+
+/* move effects */
+.mfx{position:absolute;transform:translate(-50%,-50%);pointer-events:none;z-index:6;white-space:nowrap;will-change:transform,opacity}
+.mfx.tile{width:30px;height:30px;border-radius:7px;background:#FFF3D6;border:2.5px solid #1d1b3a;color:#B5541B;font:800 18px/25px "Baloo 2",system-ui,sans-serif;text-align:center;box-shadow:0 3px 0 rgba(0,0,0,.3)}
+.mfx.tile.small{width:20px;height:20px;font-size:12px;line-height:16px;border-width:2px;border-radius:5px}
+.mfx.ring{width:46px;height:46px;border-radius:50%;border:5px solid #7FE0D4;box-shadow:0 0 12px #7FE0D4}
+.mfx.bigmark{font:800 96px/1 "Baloo 2",system-ui,sans-serif;color:#2B2F55;-webkit-text-stroke:3px #fff;paint-order:stroke fill;text-shadow:0 6px 0 rgba(0,0,0,.25)}
+.mfx.tag{background:#E8FFE8;border:2.5px solid #1d1b3a;border-radius:8px;padding:0 8px;font:800 13px/1.6 "Baloo 2",system-ui,sans-serif;color:#2E7D32;box-shadow:0 2px 0 rgba(0,0,0,.3)}
+.mfx.word{background:#A8E6A3;color:#1F5A34;border:2px solid #1d1b3a;border-radius:12px 2px 12px 2px;padding:0 8px;font:800 13px/1.6 "Baloo 2",system-ui,sans-serif}
+.mfx.note{font:800 24px/1 "Baloo 2",system-ui,sans-serif;color:#1E8C82;text-shadow:0 2px 0 #fff,0 0 6px #fff}
+.mfx.emo{font-size:30px;line-height:1}
+.mfx.emo.small{font-size:18px}
+.mfx.emo.big{font-size:40px}
+.mfx.emo.huge{font-size:86px;filter:drop-shadow(0 6px 0 rgba(0,0,0,.3))}
+.mfx.spark{color:#FFE066;font-size:20px;line-height:1;text-shadow:0 0 8px #FFE066}
+.mfx.mflash{left:0 !important;top:0 !important;width:100%;height:100%;transform:none;background:#fff;z-index:7}
+.bpop.info{color:#fff;font-size:1.2rem}
+
+/* team */
+.teamslots{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;max-width:620px;margin:10px auto}
+.tslot{position:relative;display:flex;flex-direction:column;align-items:center;gap:2px;padding:10px 6px 10px;border-radius:16px;background:linear-gradient(#FFFFFF,#E3EAF8);color:#1d1b3a;border:3px solid #4A6FA5;box-shadow:0 4px 0 rgba(0,0,0,.3);min-width:0}
+.tslot.sel{border-color:#FFC93C;box-shadow:0 0 0 3px #FFC93C,0 4px 0 rgba(0,0,0,.3)}
+.tslot svg{width:100%;max-width:110px}
+.tslot b{font:800 .95rem/1.1 "Baloo 2",system-ui,sans-serif;text-align:center}
+.tslot b.long{font-size:.78rem}
+.tslot small{font-size:.72rem;font-weight:700;color:#4A5068}
+.tslot .bexp{width:90%}
+.tslot.empty{justify-content:center;min-height:150px;border-style:dashed}
+.tslot.empty span{font-size:2rem;color:#4A6FA5}
+.buddytag{position:absolute;left:6px;top:4px;font:800 .62rem/1.5 "Baloo 2",system-ui,sans-serif;font-style:normal;background:#FF7FAF;color:#fff;border-radius:6px;padding:0 5px;z-index:1}
+.evohint{color:#7E4BBD !important}
+
+/* friends */
+.roomcode{margin:6px 0 10px}
+.peers{display:grid;gap:8px;max-width:620px;margin:0 auto}
+.peer{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:16px;background:var(--panel);border:2px solid var(--line);flex-wrap:wrap}
+.peer .pinfo{flex:1;min-width:6em} .peer b{font-family:"Baloo 2",system-ui,sans-serif;font-size:1.1rem} .peer small{display:block;color:var(--muted)}
+.peer .tprev{width:44px;height:auto}
+.codein{text-transform:uppercase;letter-spacing:.35em;text-align:center;font:800 1.6rem "Baloo 2",system-ui,sans-serif}
+label.field{display:block;font-weight:700;margin:8px 0}
+label.field .tinput{margin-top:4px;font-size:1rem}
+.tradebox{display:grid;grid-template-columns:1fr auto 1fr;gap:8px;align-items:center;max-width:620px;margin:10px auto}
+.tside{text-align:center;min-width:0} .tside h3{margin:0 0 4px;font-size:1rem}
+.toffer{background:linear-gradient(#FFFFFF,#E3EAF8);color:#1d1b3a;border:3px solid #4A6FA5;border-radius:16px;padding:8px;display:flex;flex-direction:column;align-items:center;min-height:150px;justify-content:center}
+.toffer.empty{border-style:dashed;color:#4A5068;font-weight:700;font-size:.85rem;padding:12px}
+.toffer svg{width:96px}
+.toffer b{font-family:"Baloo 2",system-ui,sans-serif}
+.tswap{font-size:2rem;color:var(--gold)}
+.tready{display:inline-block;margin-top:4px;font-weight:800;color:var(--good)}
+.tradestage{position:relative;width:min(320px,86%);aspect-ratio:1.4;margin:0 auto 16px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.3),rgba(255,212,71,.1) 50%,transparent 70%)}
+.tradestage>div{position:absolute;top:12%;width:46%}
+.tgo{left:2%;animation:tgo 2.4s ease-in forwards}
+.tcome{right:2%;opacity:0;animation:tcome 2.4s ease-out forwards}
+@keyframes tgo{0%{transform:none}35%{transform:translateY(-12px) scale(1.06)}100%{transform:translate(140%,-130%) scale(.15);opacity:0}}
+@keyframes tcome{0%,50%{transform:translate(-140%,-130%) scale(.15);opacity:0}100%{transform:none;opacity:1}}
+@media (max-width:380px){ .tt{font-size:.66rem;min-height:48px} .tt b{font-size:1.05rem} }
+.dsb .bplate b{display:inline}
+.dsb .bplate .bhp{margin-top:3px}
 </style>
 </head>
 <body>
 <main id="app"></main>
 <div id="ov" class="ov" hidden></div>
 <script>
+/* ===================== ONLINE SETTINGS (Supabase) =====================
+   To let pupils trade and battle with friends on every device, paste your Supabase
+   Project URL and anon public key below (Supabase: Project Settings, then API).
+   Leave them empty to keep online play switched off. */
+const ONLINE_CONFIG = { url: "", anonKey: "" };
+
 /* ---------- helpers ---------- */
 const app = document.getElementById("app");
 const ov = document.getElementById("ov");
@@ -3018,6 +3098,14 @@ function migrateSave() {
   if (save.hatched == null) save.hatched = 0;
   if (save.evolved == null) save.evolved = 0;
   if (save.story == null) save.story = { intro: !!save.buddy, unlocked: 1, champion: false };
+  if (save.dex == null) { save.dex = {}; Object.keys(save.team || {}).forEach(id => save.dex[id] = true); }
+  if (save.beat == null) save.beat = {};
+  const nb0 = Object.values(save.badges).filter(Boolean).length;
+  Object.entries(save.team || {}).forEach(([id, e]) => {
+    if (e.exp != null) return;
+    const sp = SPECIES[id], lv = !sp ? 1 : sp.type === "legend" ? 25 : sp.stage === 2 ? 8 + nb0 * 2 : 3 + nb0 * 2;
+    e.exp = expForLv(Math.min(MAX_LV, lv));
+  });
   persist();
 }
 function unlockedZones() {
@@ -3097,11 +3185,12 @@ function sideQuests() {
   return [
     { id: "side-hatch", text: "Hatch an egg", prog: Math.min(1, save.hatched), goal: 1, reward: { coins: 30 } },
     { id: "side-evolve", text: "Help a creature evolve", prog: Math.min(1, save.evolved), goal: 1, reward: { book: 1 } },
-    { id: "side-book10", text: "Fill 10 pages of your Word Book", prog: Math.min(10, Object.keys(save.team).length), goal: 10, reward: { egg: "mystery" } },
+    { id: "side-book10", text: "Fill 10 pages of your Word Book", prog: Math.min(10, dexCount()), goal: 10, reward: { egg: "mystery" } },
     { id: "side-treasure", text: "Find 5 hidden treasures in the Wilds", prog: Math.min(5, save.treasures || 0), goal: 5, reward: { book: 1, coins: 30 } },
-    { id: "side-book30", text: "Fill 30 pages of your Word Book", prog: Math.min(30, Object.keys(save.team).length), goal: 30, reward: { egg: "mystery", coins: 50 } },
+    { id: "side-book30", text: "Fill 30 pages of your Word Book", prog: Math.min(30, dexCount()), goal: 30, reward: { egg: "mystery", coins: 50 } },
+    { id: "side-trainers", text: "Beat 5 trainers around the school", prog: Math.min(5, Object.keys(save.beat || {}).length), goal: 5, reward: { coins: 40, berry: 2 } },
     { id: "side-shiny", text: "Find a shiny creature", prog: Object.values(save.team).some(e => e.shiny) ? 1 : 0, goal: 1, reward: { coins: 100 } }
-  ];
+  ].concat(netCfg() ? [{ id: "side-trade", text: "Trade a creature with a friend", prog: Math.min(1, save.trades || 0), goal: 1, reward: { book: 1, coins: 30 } }] : []);
 }
 function gymReady(z) { const q = zoneQuests(z); return q[0].prog >= q[0].goal && q[1].prog >= q[1].goal; }
 function rewardText(r) {
@@ -3145,10 +3234,10 @@ function hatchEgg(id) {
   let pool = SPECIES_LIST.filter(s => s.stage === 1 && types.includes(s.type));
   if (!pool.length) pool = SPECIES_LIST.filter(s => s.stage === 1);
   const fresh = pool.filter(s => !owned(s.id));
-  const sp = pick(fresh.length ? fresh : pool), shiny = Math.random() < 1 / 8;
+  const sp = pick(fresh.length ? fresh : pool), shiny = Math.random() < 1 / 20;
   save.eggs = save.eggs.filter(e => e !== egg);
   const ent = save.team[sp.id] || (save.team[sp.id] = { n: 0, xp: 0, shiny: false });
-  ent.n++; if (shiny) ent.shiny = true; save.seen[sp.id] = true; save.hatched++; persist();
+  ent.n++; if (shiny) ent.shiny = true; if (ent.exp == null) ent.exp = expForLv(3); save.seen[sp.id] = true; save.dex[sp.id] = true; save.hatched++; persist();
   app.dataset.screen = "hatch"; setMusic(null); jingle("evolve");
   app.innerHTML = `<section class="evo hatch"><p class="evomsg" id="hmsg">Oh? The egg is moving!</p>
     <div class="evostage"><div class="hegg">${eggSVG(egg.type, 3)}</div><div class="hbaby">${creatureSVG(sp, { shiny })}</div><div class="evoflash"></div></div>
@@ -3195,183 +3284,263 @@ function buy(id) {
   app.dataset.screen === "lab" ? showLab() : showBag();
 }
 
-/* ---------- gyms ---------- */
+/* ---------- gyms, trainers and friend battles ---------- */
+let G = null, BT = null, EVO_NEXT = null;
+const PVP_LV = 12;
+const areaLv = z => ROUTE_ALL.includes(z) ? 2 + ROUTE_ALL.indexOf(z) * 2 : 3;
+function officeScene() { return { ...ZONE.custom, id: "office", sky: ["#14306E", "#6B8FD8"], g1: "#C9B79A", g2: "#B5A283", deco: "garden" }; }
 function gymTeam(z, champion) {
-  if (champion) return ["alphawolf", "questiosaur", "megafox"].map(id => ({ sp: SPECIES[id], hpMax: 62, atk: 13 }))
-    .concat([{ sp: SPECIES.thesaurex, hpMax: 92, atk: 15 }]);
+  if (champion) return [["alphawolf", 22], ["questiosaur", 22], ["megafox", 23], ["thesaurex", 26]];
   const i = Math.max(0, ROUTE_ALL.indexOf(z)), list = areaSpecies(z), a = AREA[z];
   let picks;
   if (a.topics.length === 1) picks = i < 2 ? [list[0], list[2]] : [list[0], list[2], list[1]];
-  else { const evo = shuffle(list.filter(s => s.stage === 2)); picks = evo.slice(0, 3); }
-  return picks.map(s => ({ sp: s, hpMax: (s.stage === 1 ? 34 : 52) + i * 4, atk: 7 + Math.round(i * 0.8) }));
+  else picks = shuffle(list.filter(s => s.stage === 2)).slice(0, 3);
+  return picks.map(s => [s.id, 3 + i * 2 + (s.stage === 2 ? 1 : 0)]);
 }
-function battleStats(sp) { return { hpMax: sp.stage === 1 ? 36 : sp.type === "legend" ? 70 : 54, atk: sp.stage === 1 ? 14 : sp.type === "legend" ? 24 : 20 }; }
+function mkFighter(id, lv, shiny, foe) {
+  const sp = SPECIES[id], st = foe ? foeStats(sp, lv) : statsFor(sp, lv);
+  return { id, sp, lv, shiny: !!shiny, hp: st.hpMax, hpMax: st.hpMax, atk: st.atk };
+}
+const myFighters = ids => ids.filter(id => save.team[id] && SPECIES[id]).slice(0, 3).map(id => mkFighter(id, lvOf(id), save.team[id].shiny));
+
 function prepareGym(z) {
   const champion = z === "champion";
   if (!champion && !gymReady(z)) { toast("Finish this place’s first two quests to open the gym!"); return; }
   const foeType = champion || AREA[z].topics.length > 1 ? null : AREA[z].topics[0];
   const mine = Object.keys(save.team).map(id => SPECIES[id]).filter(Boolean);
-  const score = s => (foeType && STRONG[s.type] === foeType ? 10 : 0) + s.stage * 3 + (s.id === save.buddy ? 1 : 0);
+  const p = party();
+  const score = s => (foeType && STRONG[s.type] === foeType ? 10 : 0) + lvOf(s.id) * 0.4 + (p.includes(s.id) ? 3 : 0);
   const pre = mine.slice().sort((a, b) => score(b) - score(a)).slice(0, 3).map(s => s.id);
   G = { z, champion, pick: pre };
   const who = champion ? PRINCIPAL.name : `${LEADERS[z].name} (${AREA[z].cls})`;
   const strongTypes = foeType ? Object.keys(STRONG).filter(t => STRONG[t] === foeType) : [];
   app.dataset.screen = "teampick";
-  app.innerHTML = topbar(champion ? "map" : "backZone") + `<h2 class="center">Choose your team</h2>
+  app.innerHTML = topbar(champion ? "map" : "explore") + `<h2 class="center">Choose your team</h2>
     <p class="center">Pick up to 3 creatures to battle ${who}.${strongTypes.length ? ` <b class="tip-strong">💥 ${TYPE_INFO[strongTypes[0]].name} creatures are strong against ${TYPE_INFO[foeType].name}!</b>` : ""}</p>
     <div class="dexgrid pickgrid">${mine.map(s => `<button class="dexcell got pickc ${pre.includes(s.id) ? "picked" : ""}" data-act="togglePick" data-arg="${s.id}" aria-pressed="${pre.includes(s.id)}">
-      ${creatureSVG(s, { shiny: save.team[s.id].shiny })}<span>${s.name}</span>${foeType && STRONG[s.type] === foeType ? `<i class="strongtag">💥 Strong</i>` : ""}</button>`).join("")}</div>
+      ${creatureSVG(s, { shiny: save.team[s.id].shiny })}<i class="lvchip">Lv${lvOf(s.id)}</i><span class="${s.name.length > 10 ? "long" : ""}">${s.name}</span>${foeType && STRONG[s.type] === foeType ? `<i class="strongtag">💥 Strong</i>` : ""}</button>`).join("")}</div>
     <div class="row" style="justify-content:center;margin-top:12px"><button class="btn" data-act="startGym">⚔️ Battle!</button></div>`;
 }
-function togglePick(id, el) {
+function togglePick(id) {
   const i = G.pick.indexOf(id);
   if (i >= 0) { if (G.pick.length > 1) G.pick.splice(i, 1); }
   else { if (G.pick.length >= 3) G.pick.shift(); G.pick.push(id); }
   document.querySelectorAll(".pickc").forEach(b => { const on = G.pick.includes(b.dataset.arg); b.classList.toggle("picked", on); b.setAttribute("aria-pressed", on); });
 }
-let G = null, BT = null;
 function startGym() {
   const { z, champion } = G;
-  BT = {
-    z, champion, topics: champion ? enabledCats() : areaTopics(z), hard: champion || !!(AREA[z] && AREA[z].hard),
-    mine: G.pick.map(id => { const sp = SPECIES[id], st = battleStats(sp); return { sp, ...st, hp: st.hpMax, shiny: save.team[id].shiny }; }),
-    foes: gymTeam(z, champion).map(f => ({ ...f, hp: f.hpMax })), mi: 0, fi: 0, busy: false, berryUsed: 0, over: false
-  };
-  const who = champion ? "mac" : z;
-  const hello = champion ? PRINCIPAL.hello : [LEADERS[z].hello];
-  dialogue(hello, who, () => { renderBattle(); battleMsg(`${champion ? PRINCIPAL.name : LEADERS[z].name} sends out ${BT.foes[0].sp.name}! Go, ${BT.mine[0].sp.name}!`); });
+  startBattle({
+    mode: champion ? "champion" : "gym", z, mine: myFighters(G.pick), foes: gymTeam(z, champion).map(([id, lv]) => mkFighter(id, lv, false, true)),
+    leaderName: champion ? PRINCIPAL.name : LEADERS[z].name, portrait: personSVG(champion ? PRINCIPAL.look : LEADERS[z].look),
+    intro: champion ? PRINCIPAL.hello : [LEADERS[z].hello], introWho: champion ? "mac" : z,
+    scene: champion ? officeScene() : ZONE[z], topics: champion ? enabledCats() : areaTopics(z), hard: champion || !!AREA[z].hard
+  });
 }
-const foeArt = f => creatureSVG(f.sp);
-function hpBar(c) { const p = Math.max(0, Math.round(c.hp / c.hpMax * 100)); return `<div class="bhp"><i style="width:${p}%" class="${p < 25 ? "low" : p < 50 ? "mid" : ""}"></i></div><small>${Math.max(0, c.hp)} / ${c.hpMax}</small>`; }
-function renderBattle() {
-  app.dataset.screen = "battle"; setMusic(BT.champion ? "champion" : "gym");
-  const z = BT.champion ? { ...ZONE.custom, id: "office", sky: ["#14306E", "#6B8FD8"], g1: "#C9B79A", g2: "#B5A283", deco: "garden" } : ZONE[BT.z];
+
+/* ---------- battle flow ---------- */
+function startBattle(cfg) {
+  clearInterval(zoneTimer);
+  let ready; const rp = new Promise(r => ready = r);
+  BT = Object.assign({ mi: 0, fi: 0, busy: true, over: false, turn: "me", q: rp, ready, topics: enabledCats(), hard: false }, cfg);
+  const go = () => { renderBattle(); introSendOut(); };
+  if (cfg.intro) dialogue(cfg.intro, cfg.introWho, go); else go();
+}
+const sleepW = ms => new Promise(r => setTimeout(r, reduced ? 40 : ms));
+function battleMsg(t) { const m = document.getElementById("bmsg"); if (m) m.innerHTML = t; }
+async function introSendOut() {
   const me = BT.mine[BT.mi], foe = BT.foes[BT.fi];
-  app.innerHTML = `<section class="dsl dsb">
+  setActions(false);
+  document.getElementById("bme").style.opacity = 0;
+  battleMsg(`${esc(BT.leaderName)} sends out ${foe.sp.name}!`); await appear("bfoe"); await sleepW(450);
+  document.getElementById("bme").style.opacity = "";
+  battleMsg(`Go, ${me.sp.name}!`); await appear("bme"); await sleepW(350);
+  BT.ready();
+  if (BT.mode === "pvp" && BT.turn !== "me") waitTurn(); else yourTurn();
+}
+function yourTurn() { if (BT.over) return; BT.busy = false; battleMsg(`What will ${BT.mine[BT.mi].sp.name} do?`); drawActions(true); }
+function waitTurn() { if (BT.over) return; BT.busy = false; drawActions(false); battleMsg(`Waiting for ${esc(BT.leaderName)} to answer…`); }
+function hpBar(c) { const p = Math.max(0, Math.round(c.hp / c.hpMax * 100)); return `<div class="bhp"><i style="width:${p}%" class="${p < 25 ? "low" : p < 50 ? "mid" : ""}"></i></div><small>${Math.max(0, c.hp)} / ${c.hpMax}</small>`; }
+function expPct(id) { const lv = lvOf(id), e = save.team[id]; return lv >= MAX_LV ? 100 : Math.round(((e.exp || 0) - expForLv(lv)) / EXP_PER_LV * 100); }
+function plateHTML(f, mine) {
+  return `<b>${f.sp.name}${f.shiny ? " ✨" : ""}</b><span class="lvtag">Lv${f.lv}</span>${hpBar(f)}${mine && BT.mode !== "pvp" && save.team[f.id] ? `<div class="bexp" aria-hidden="true"><i style="width:${expPct(f.id)}%"></i></div>` : ""}`;
+}
+function renderBattle() {
+  app.dataset.screen = "battle"; setMusic(BT.mode === "champion" ? "champion" : BT.mode === "gym" ? "gym" : "battle");
+  const me = BT.mine[BT.mi], foe = BT.foes[BT.fi];
+  app.innerHTML = `<section class="dsb dsl">
     <div class="dsl-top"><div class="dsl-cam" aria-hidden="true"></div><div class="scr scr-top">
-      <section class="stage arena" id="bstage"><div class="scene-bg">${zoneSceneSVG(z)}</div>
+      <section class="stage arena" id="bstage"><div class="scene-bg">${zoneSceneSVG(BT.scene)}</div>
       <div class="plat plat-foe"></div><div class="plat plat-me"></div>
-      <div class="leader">${personSVG(BT.champion ? PRINCIPAL.look : LEADERS[BT.z].look)}</div>
-      <div class="bplate foeplate"><b>${foe.sp.name}</b>${hpBar(foe)}</div>
-      <div class="bfoe" id="bfoe">${foeArt(foe)}</div>
+      <div class="leader">${BT.portrait}</div>
+      <div class="bplate foeplate">${plateHTML(foe, false)}</div>
+      <div class="bfoe" id="bfoe">${creatureSVG(foe.sp, { shiny: foe.shiny })}</div>
       <div class="bme" id="bme">${creatureSVG(me.sp, { shiny: me.shiny })}</div>
-      <div class="bplate meplate"><b>${me.sp.name}</b>${hpBar(me)}</div>
+      <div class="bplate meplate">${plateHTML(me, true)}</div>
       <div class="fx" id="fx"></div>
-      <div class="balls">${BT.foes.map((f, i) => `<i class="${f.hp <= 0 ? "out" : ""}"></i>`).join("")}</div></section></div>
+      <div class="balls">${BT.foes.map(f => `<i class="${f.hp <= 0 ? "out" : ""}"></i>`).join("")}</div></section></div>
       <div class="dsl-spk" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
     <div class="dsl-hinge" aria-hidden="true"><i></i></div>
     <div class="dsl-bot"><div class="scr scr-bot touch bt-touch">
-    <p class="dstext" id="bmsg" aria-live="polite"></p>
-    <div class="bigbtns" id="bact">
-      <button class="bb bb-red" data-act="bMove" data-arg="quick"><b>⚡</b>${MOVES[me.sp.type]}<small>Normal question</small></button>
-      <button class="bb bb-orange" data-act="bMove" data-arg="power"><b>💥</b>Mega ${MOVES[me.sp.type]}<small>Tricky, bigger hit</small></button>
-      <button class="bb bb-green" data-act="bBerry" ${save.items.berry && me.hp < me.hpMax ? "" : "disabled"}><b>🫐</b>Berry<small>Heal 20 (x${save.items.berry})</small></button>
-      <button class="bb bb-blue" data-act="bSwitch" ${BT.mine.filter(c => c.hp > 0).length > 1 ? "" : "disabled"}><b>🔄</b>Switch<small>Change creature</small></button>
-    </div>`;
+      <p class="dstext" id="bmsg" aria-live="polite"></p><div class="bigbtns" id="bact"></div></div></div></section>`;
+  drawActions(false);
 }
-function battleMsg(t) { const m = document.getElementById("bmsg"); if (m) m.innerHTML = t; }
-function setActions(on) { document.querySelectorAll("#bact button").forEach(b => { if (!on) b.dataset.was = b.disabled; b.disabled = on ? b.dataset.was === "true" : true; }); }
-function popAt(id, text, cls) {
-  const fx = document.getElementById("fx"), el = document.getElementById(id), st = document.getElementById("bstage");
-  if (!fx || !el) return;
-  const sr = st.getBoundingClientRect(), r = el.getBoundingClientRect();
-  const s = document.createElement("span"); s.className = "bpop " + (cls || ""); s.textContent = text;
-  s.style.left = (r.left - sr.left + r.width / 2) + "px"; s.style.top = (r.top - sr.top + r.height * 0.3) + "px";
-  fx.appendChild(s); setTimeout(() => s.remove(), 1300);
+function drawActions(on) {
+  const b = document.getElementById("bact"); if (!b || !BT) return;
+  const me = BT.mine[BT.mi], mv = MOVES[me.sp.type];
+  const noBerry = !(save.items.berry > 0 && me.hp < me.hpMax), noSwitch = BT.mine.filter(c => c.hp > 0).length < 2;
+  b.innerHTML = `<button class="bb bb-red" data-act="bMove" data-arg="quick"><b>⚡</b>${mv}<small>Normal question</small></button>
+    <button class="bb bb-orange" data-act="bMove" data-arg="power"><b>💥</b>Mega ${mv}<small>Tricky, bigger hit</small></button>
+    <button class="bb bb-green" data-act="bBerry" data-off="${noBerry ? 1 : 0}"><b>🫐</b>Berry<small>Heal 20 (x${save.items.berry})</small></button>
+    <button class="bb bb-blue" data-act="bSwitch" data-off="${noSwitch ? 1 : 0}"><b>🔄</b>Switch<small>Change creature</small></button>
+    ${BT.mode === "pvp" ? `<button class="bb bb-grey bb-wide" data-act="bQuit" data-keep="1"><b>🏳️</b>Give up</button>` : ""}`;
+  setActions(on);
 }
-function lunge(id, dx) { const el = document.getElementById(id), f = ""; if (el && !reduced) el.animate([{ transform: "translate(0,0)" + f }, { transform: `translate(${dx}px,${-dx / 2}px)` + f }, { transform: "translate(0,0)" + f }], { duration: 380, easing: "ease-in-out" }); }
-function flashHit(id) { SFX.hit(); const el = document.getElementById(id); if (!el) return; el.classList.remove("bhit"); void el.offsetWidth; el.classList.add("bhit"); }
+function setActions(on) { document.querySelectorAll("#bact button").forEach(b => { b.disabled = b.dataset.keep === "1" ? !!(BT && BT.over) : (!on || b.dataset.off === "1"); }); }
+function updatePlates() {
+  const set = (sel, f, mine) => {
+    const pl = document.querySelector(sel); if (!pl || !f) return;
+    const p = Math.max(0, Math.round(f.hp / f.hpMax * 100)), i = pl.querySelector(".bhp i");
+    if (i) { i.style.width = p + "%"; i.className = p < 25 ? "low" : p < 50 ? "mid" : ""; }
+    const s = pl.querySelector("small"); if (s) s.textContent = `${Math.max(0, f.hp)} / ${f.hpMax}`;
+    const lt = pl.querySelector(".lvtag"); if (lt) lt.textContent = "Lv" + f.lv;
+    const x = pl.querySelector(".bexp i"); if (x && mine && save.team[f.id]) x.style.width = expPct(f.id) + "%";
+  };
+  set(".foeplate", BT.foes[BT.fi]); set(".meplate", BT.mine[BT.mi], true);
+}
+const calcDmg = (att, kind, strong) => Math.max(1, Math.round(att.atk * (kind === "power" ? 1.6 : 1) * (strong ? 1.5 : 1) * (0.9 + Math.random() * 0.2)));
+const canAct = () => BT && !BT.busy && !BT.over && !(BT.mode === "pvp" && BT.turn !== "me");
 function bMove(kind) {
-  if (BT.busy || BT.over) return;
+  if (!canAct()) return;
   BT.busy = true; setActions(false);
-  const me = BT.mine[BT.mi], foe = BT.foes[BT.fi];
-  const topic = pick(BT.topics.length ? BT.topics : enabledCats());
-  askQuestion(kind === "power" ? `Mega ${MOVES[me.sp.type]}!` : `${MOVES[me.sp.type]}!`, kind === "power" ? "A tricky question. Get it right for a much bigger hit!" : "Get it right to attack!", async (ok) => {
-    if (ok) {
-      onRightAnswer(BT.champion ? null : BT.z);
-      const strong = STRONG[me.sp.type] === foe.sp.type;
-      let dmg = Math.round(me.atk * (kind === "power" ? 1.6 : 1) * (strong ? 1.5 : 1) * (0.9 + Math.random() * 0.2));
-      battleMsg(`${me.sp.name} used ${kind === "power" ? "Mega " : ""}${MOVES[me.sp.type]}!`);
-      lunge("bme", 60); await sleepW(260);
-      foe.hp = Math.max(0, foe.hp - dmg); flashHit("bfoe"); popAt("bfoe", `−${dmg}`, "dmg");
-      updatePlates();
-      if (strong) { await sleepW(350); battleMsg("💥 It’s super effective!"); popAt("bfoe", "Super effective!", "super"); }
-      await sleepW(700);
-      if (foe.hp <= 0) { if (await foeFaints()) return; }
-    } else {
-      battleMsg(`${me.sp.name}’s attack missed!`);
-      const el = document.getElementById("bme"); if (el && !reduced) el.animate([{ transform: "rotate(0)" }, { transform: "rotate(-10deg)" }, { transform: "rotate(10deg)" }, { transform: "rotate(0)" }], { duration: 400 });
-      await sleepW(800);
-    }
-    await foeTurn();
+  const me = BT.mine[BT.mi], foe = BT.foes[BT.fi], topic = pick(BT.topics.length ? BT.topics : enabledCats());
+  askQuestion(kind === "power" ? `Mega ${MOVES[me.sp.type]}!` : `${MOVES[me.sp.type]}!`, kind === "power" ? "A tricky question. Get it right for a much bigger hit!" : "Get it right to attack!", ok => {
+    const strong = STRONG[me.sp.type] === foe.sp.type, dmg = ok ? calcDmg(me, kind, strong) : 0;
+    if (ok) onRightAnswer(BT.mode === "gym" || BT.mode === "trainer" ? BT.z : null);
+    if (BT.mode === "pvp") netSend(BT.opp, "bmove", { kind, ok, dmg, strong });
+    BT.q = BT.q.then(async () => {
+      await doAttack("me", kind, ok, dmg, strong);
+      const r = await afterMyHit(); if (r === true) return;
+      if (BT.mode === "pvp") { BT.turn = "them"; waitTurn(); return; }
+      if (r === "next") { yourTurn(); return; }
+      await foeTurn();
+    });
   }, { cat: topic, harder: kind === "power" || BT.hard });
 }
-const sleepW = ms => new Promise(r => setTimeout(r, reduced ? 60 : ms));
-function updatePlates() {
-  const me = BT.mine[BT.mi], foe = BT.foes[BT.fi];
-  const fp = document.querySelector(".foeplate"), mp = document.querySelector(".meplate");
-  if (fp) fp.innerHTML = `<b>${foe.sp.name}</b>${hpBar(foe)}`;
-  if (mp) mp.innerHTML = `<b>${me.sp.name}</b>${hpBar(me)}`;
-}
-async function foeFaints() {
-  const foe = BT.foes[BT.fi];
-  document.getElementById("bfoe").classList.add("faint");
-  battleMsg(`${foe.sp.name} fainted!`); await sleepW(1000);
-  if (BT.fi < BT.foes.length - 1) {
-    BT.fi++; renderBattle(); setActions(false);
-    battleMsg(`${BT.champion ? PRINCIPAL.name : LEADERS[BT.z].name} sends out ${BT.foes[BT.fi].sp.name}!`);
-    await sleepW(900); BT.busy = false; setActions(true); return true;
+async function doAttack(side, kind, ok, dmg, strong) {
+  const mine = side === "me", att = mine ? BT.mine[BT.mi] : BT.foes[BT.fi], def = mine ? BT.foes[BT.fi] : BT.mine[BT.mi];
+  const aid = mine ? "bme" : "bfoe", did = mine ? "bfoe" : "bme", owner = mine ? "" : `${esc(BT.leaderName)}’s `;
+  battleMsg(`${owner}${att.sp.name} used ${kind === "power" ? "Mega " : ""}${MOVES[att.sp.type]}!`);
+  await sleepW(450);
+  if (!ok) {
+    const el = document.getElementById(aid); if (el && !reduced) el.animate([{ transform: "rotate(0)" }, { transform: "rotate(-12deg)" }, { transform: "rotate(10deg)" }, { transform: "rotate(0)" }], { duration: 420 });
+    SFX.flee(); battleMsg(`${owner}${att.sp.name}’s attack missed!`); await sleepW(900); return;
   }
-  winGym(); return true;
+  lunge(aid, mine ? 46 : -46);
+  await playMove(att.sp.type, aid, did, kind === "power");
+  def.hp = Math.max(0, def.hp - dmg); flashHit(did); popAt(did, `−${dmg}`, "dmg"); updatePlates();
+  if (kind === "power") quake();
+  await sleepW(550);
+  if (strong) { battleMsg("💥 It’s super effective!"); popAt(did, "Super effective!", "super"); await sleepW(800); }
+}
+async function afterMyHit() {
+  const foe = BT.foes[BT.fi]; if (foe.hp > 0) return false;
+  await faint("bfoe"); battleMsg(`${esc(BT.leaderName)}’s ${foe.sp.name} fainted!`); await sleepW(800);
+  if (BT.mode !== "pvp") await awardKO(foe);
+  const next = BT.foes.findIndex(f => f.hp > 0);
+  if (next < 0) { endBattle(true); return true; }
+  BT.fi = next; renderBattle();
+  battleMsg(`${esc(BT.leaderName)} sends out ${BT.foes[next].sp.name}!`); await appear("bfoe"); await sleepW(450);
+  return "next";
+}
+async function afterTheirHit() {
+  const me = BT.mine[BT.mi]; if (me.hp > 0) return false;
+  await faint("bme"); battleMsg(`${me.sp.name} is too tired to battle!`); await sleepW(900);
+  const next = BT.mine.findIndex(c => c.hp > 0);
+  if (next < 0) { endBattle(false); return true; }
+  BT.mi = next; renderBattle(); battleMsg(`Go, ${BT.mine[next].sp.name}!`); await appear("bme"); await sleepW(400);
+  return "next";
 }
 async function foeTurn() {
-  const me = BT.mine[BT.mi], foe = BT.foes[BT.fi];
-  const strong = STRONG[foe.sp.type] === me.sp.type;
-  const dmg = Math.round(foe.atk * (strong ? 1.5 : 1) * (0.85 + Math.random() * 0.3));
-  battleMsg(`${foe.sp.name} attacks!`);
-  lunge("bfoe", -50); await sleepW(260);
-  me.hp = Math.max(0, me.hp - dmg); flashHit("bme"); popAt("bme", `−${dmg}`, "dmg"); updatePlates();
-  await sleepW(800);
-  if (me.hp <= 0) {
-    document.getElementById("bme").classList.add("faint");
-    battleMsg(`${me.sp.name} is too tired to battle!`); await sleepW(1000);
-    const next = BT.mine.findIndex(c => c.hp > 0);
-    if (next < 0) { loseGym(); return; }
-    BT.mi = next; renderBattle(); setActions(false); battleMsg(`Go, ${BT.mine[next].sp.name}!`); await sleepW(800);
-  } else battleMsg(`What will ${me.sp.name} do?`);
-  BT.busy = false; setActions(true);
+  if (BT.over) return;
+  const foe = BT.foes[BT.fi], me = BT.mine[BT.mi], power = Math.random() < 0.25, ok = Math.random() > (power ? 0.3 : 0.12), strong = STRONG[foe.sp.type] === me.sp.type;
+  await doAttack("foe", power ? "power" : "quick", ok, ok ? calcDmg(foe, power ? "power" : "quick", strong) : 0, strong);
+  const r = await afterTheirHit(); if (r === true) return;
+  yourTurn();
+}
+async function awardKO(foe) {
+  const me = BT.mine[BT.mi], e = save.team[me.id]; if (!e) return;
+  const gain = 10 + foe.lv * 3, up = addExp(me.id, gain);
+  e.xp = Math.min(EVOLVE_XP * 2, (e.xp || 0) + 15); persist();
+  battleMsg(`${me.sp.name} gained ${gain} EXP!`); updatePlates(); await sleepW(900);
+  if (up > 0) {
+    const lv = lvOf(me.id), st = statsFor(me.sp, lv);
+    me.hp += st.hpMax - me.hpMax; me.hpMax = st.hpMax; me.atk = st.atk; me.lv = lv; updatePlates();
+    jingle("levelup"); popAt("bme", "LEVEL UP!", "super"); burst(fxPos("bme"), "⭐✨", 8, "spark");
+    battleMsg(`⭐ ${me.sp.name} grew to Lv ${lv}!`); await sleepW(1100);
+  }
+}
+function partyBonus(xp, exp) { (BT ? BT.mine : []).forEach(f => { const e = save.team[f.id]; if (!e) return; e.xp = Math.min(EVOLVE_XP * 2, (e.xp || 0) + xp); if (exp) addExp(f.id, exp); }); persist(); }
+async function healFx(side, n) {
+  const c = side === "me" ? BT.mine[BT.mi] : BT.foes[BT.fi], id = side === "me" ? "bme" : "bfoe";
+  c.hp = Math.min(c.hpMax, c.hp + n); SFX.heart(); burst(fxPos(id), "💚✨+", 9, "spark"); popAt(id, `+${n}`, "heal"); updatePlates();
+  battleMsg(`${side === "me" ? "" : esc(BT.leaderName) + "’s "}${c.sp.name} ate a Word Berry. Yum!`); await sleepW(1000);
 }
 function bBerry() {
-  if (BT.busy || BT.over || !save.items.berry) return;
+  if (!canAct() || !save.items.berry) return;
   const me = BT.mine[BT.mi]; if (me.hp >= me.hpMax) return;
-  save.items.berry--; persist(); BT.busy = true; setActions(false);
-  me.hp = Math.min(me.hpMax, me.hp + 20); popAt("bme", "+20", "heal"); updatePlates(); battleMsg(`${me.sp.name} ate a Word Berry. Yum!`);
-  setTimeout(() => foeTurn(), reduced ? 60 : 900);
+  BT.busy = true; setActions(false); save.items.berry--; persist();
+  if (BT.mode === "pvp") netSend(BT.opp, "bberry", {});
+  BT.q = BT.q.then(async () => { await healFx("me", 20); if (BT.mode === "pvp") { BT.turn = "them"; waitTurn(); return; } await foeTurn(); });
 }
 function bSwitch() {
-  if (BT.busy || BT.over) return;
+  if (!canAct()) return;
   const opts = BT.mine.map((c, i) => [c, i]).filter(([c, i]) => c.hp > 0 && i !== BT.mi);
-  showModal(`<div class="qcard" role="dialog" aria-modal="true"><h2>Switch to…</h2><div class="dexgrid">${opts.map(([c, i]) => `<button class="dexcell got" data-act="doSwitch" data-arg="${i}">${creatureSVG(c.sp, { shiny: c.shiny })}<span>${c.sp.name}</span><small>${c.hp}/${c.hpMax}</small></button>`).join("")}</div><button class="btn ghost" data-act="close">Cancel</button></div>`);
+  showModal(`<div class="qcard" role="dialog" aria-modal="true"><h2>Switch to…</h2><div class="dexgrid">${opts.map(([c, i]) => `<button class="dexcell got" data-act="doSwitch" data-arg="${i}">${creatureSVG(c.sp, { shiny: c.shiny })}<i class="lvchip">Lv${c.lv}</i><span>${c.sp.name}</span><small>${c.hp}/${c.hpMax}</small></button>`).join("")}</div><button class="btn ghost" data-act="close">Cancel</button></div>`);
 }
-async function doSwitch(i) {
-  closeModal(); BT.busy = true; BT.mi = +i; renderBattle(); setActions(false);
-  battleMsg(`Go, ${BT.mine[BT.mi].sp.name}!`); await sleepW(700); await foeTurn();
+function doSwitch(i) {
+  closeModal(); if (!canAct()) return;
+  BT.busy = true; BT.mi = +i;
+  if (BT.mode === "pvp") netSend(BT.opp, "bswitch", { i: +i });
+  BT.q = BT.q.then(async () => {
+    renderBattle(); battleMsg(`Go, ${BT.mine[BT.mi].sp.name}!`); await appear("bme"); await sleepW(450);
+    if (BT.mode === "pvp") { BT.turn = "them"; waitTurn(); return; }
+    await foeTurn();
+  });
+}
+function bQuit(a, el) {
+  if (!BT || BT.mode !== "pvp" || BT.over) return;
+  if (!el.dataset.sure) { el.dataset.sure = "1"; el.innerHTML = "<b>🏳️</b>Tap again to give up"; return; }
+  netSend(BT.opp, "bquit", {}); endBattle(false);
+}
+function endBattle(won) {
+  if (BT.over) return; BT.over = true; setActions(false); setMusic(null);
+  if (won) jingle("victory");
+  const m = BT.mode;
+  if (m === "gym" || m === "champion") return won ? winGym() : loseGym();
+  if (m === "trainer") return won ? winTrainer() : loseTrainer();
+  if (m === "pvp") return pvpEnd(won);
+}
+function afterBattle(next) {
+  const ids = [...new Set((BT && BT.mine ? BT.mine.map(f => f.id) : []).concat(save.buddy ? [save.buddy] : []))];
+  const ready = ids.find(id => SPECIES[id] && SPECIES[id].evo && save.team[id] && (save.team[id].xp || 0) >= EVOLVE_XP);
+  if (ready) { evolve(ready, () => afterBattle(next)); return; }
+  next();
 }
 function winGym() {
-  BT.over = true; setMusic(null); jingle("victory");
-  const { z, champion } = BT;
-  if (champion) { save.story.champion = true; save.coins += 100; persist(); dialogue(PRINCIPAL.win, "mac", showChampion); return; }
+  const { z } = BT, champion = BT.mode === "champion";
+  partyBonus(15, 20);
+  if (champion) { save.story.champion = true; save.coins += 100; persist(); dialogue(PRINCIPAL.win, "mac", () => afterBattle(showChampion)); return; }
   const first = !save.badges[z];
   save.badges[z] = true; save.coins += 30;
   const r = route(), i = r.indexOf(z);
   if (first && settings.story !== false) save.story.unlocked = Math.max(save.story.unlocked, i + 2);
   persist();
-  dialogue([LEADERS[z].win], z, () => {
+  dialogue([LEADERS[z].win], z, () => afterBattle(() => {
     app.dataset.screen = "badge";
     app.innerHTML = `<section class="evo"><p class="evomsg">You earned the <b>${LEADERS[z].badge}</b>!</p>
       <div class="badgebig">${badgeSVG(z, true)}</div><p class="center">🪙 +30 Word Coins. Claim more rewards in your Quests!</p>
       <div class="row" style="justify-content:center"><button class="btn" data-act="afterBadge" data-arg="${z}">Brilliant!</button></div></section>`;
-  });
+  }));
 }
 function afterBadge(z) {
   const r = route(), next = r[r.indexOf(z) + 1];
@@ -3380,13 +3549,191 @@ function afterBadge(z) {
   dialogue(lines, "prof", showWorld);
 }
 function loseGym() {
-  BT.over = true;
-  const who = BT.champion ? "mac" : BT.z;
-  dialogue([BT.champion ? PRINCIPAL.lose : LEADERS[BT.z].lose], who, () => {
-    toast("Your team had a rest and feels better. Try again!");
-    showWorld();
+  const who = BT.mode === "champion" ? "mac" : BT.z;
+  dialogue([BT.mode === "champion" ? PRINCIPAL.lose : LEADERS[BT.z].lose], who, () => { toast("Your team had a rest and feels better. Try again!"); afterBattle(showWorld); });
+}
+
+/* ---------- trainers around the school ---------- */
+const TRAINER_LIST = [["Jack", "Spelling Fan"], ["Ruby", "Story Writer"], ["Leo", "Junior Reporter"], ["Isla", "Bookworm"], ["Oliver", "Word Detective"], ["Chloe", "Poem Maker"],
+  ["Hamish", "Grammar Guard"], ["Priya", "Comma Captain"], ["Ethan", "Dictionary Diver"], ["Mei", "Rhyme Racer"], ["Lucas", "Prefix Pro"], ["Amara", "Library Helper"],
+  ["Finn", "Sentence Builder"], ["Sofia", "Vocab Viking"], ["Arlo", "Full Stop Fan"], ["Zoe", "Synonym Seeker"], ["Kobi", "Quiz Whiz"], ["Harper", "Book Club Boss"]];
+const TR_INTRO = ["Hey! You walked right into my spot. Let’s battle!", "I’ve been training all lunchtime. Ready?", "My creatures know their stuff. Do yours?", "Stop right there! It’s battle time!", "I bet my team can beat yours!", "Ooh, a new challenger! Let’s go!"];
+const TR_WIN = ["Yes! I won! Keep practising!", "Ha! My team was too strong this time.", "Better luck next time!"];
+const TR_LOSE = ["Wow, you’re really good!", "Oh no, I lost! Your answers were brilliant.", "Amazing! I need to practise more.", "You beat me fair and square!"];
+const TR_AFTER = ["That was a great battle. Have you tried the gym yet?", "I’m off to the Library to practise.", "Your team looks really strong now!", "My creatures are having a little rest."];
+const LOOK_SKIN = ["#F7D6BF", "#F1C27D", "#E0AC69", "#C68642", "#8D5524", "#FFDBAC"], LOOK_HAIR = ["#2B2B2B", "#5A3A1A", "#8B4513", "#D9A400", "#B0263A", "#1E1E1E"];
+const LOOK_STYLE = ["short", "bun", "long", "curly", "spiky"], LOOK_OUT = [["#E84B5F", "#FFE0E0"], ["#2EC4B6", "#D7FFF8"], ["#5B8FF0", "#E3EDFF"], ["#F28B30", "#FFE3B0"], ["#9B5DE5", "#EBDDFF"], ["#3E9B4E", "#D9F2C9"]];
+function addTrainers() {
+  const r = seeded(2024), ri = a => a[Math.floor(r() * a.length)]; let k = 0;
+  const nearBad = (x, y) => { for (let j = -1; j <= 1; j++) for (let i = -1; i <= 1; i++) { const t = MAP[y + j] && MAP[y + j][x + i]; if (t === "D" || t === "H" || t === "S" || t === "B") return true; } return false; };
+  AREA_LIST.forEach((a, idx) => {
+    const [x0, y0, w, h] = AREA_RECTS[a.id], cands = [];
+    for (let y = y0 + 1; y < y0 + h - 1; y++) for (let x = x0 + 1; x < x0 + w - 1; x++) {
+      const t = MAP[y][x]; if (t !== AREA_GROUND[a.id] && t !== "F") continue;
+      if (nearBad(x, y)) continue;
+      for (const d of ["left", "right", "up", "down"]) { const [dx, dy] = DIRS[d]; if (MAP[y + dy] && MAP[y + dy][x + dx] === "=") { cands.push({ x, y, d }); break; } }
+    }
+    let placed = 0;
+    while (placed < 2 && cands.length) {
+      const c = cands.splice(Math.floor(r() * cands.length), 1)[0];
+      if (NPCS.some(n => Math.abs(n.x - c.x) + Math.abs(n.y - c.y) < 4)) continue;
+      const [name, title] = TRAINER_LIST[k % TRAINER_LIST.length], lv = 2 + idx * 2 + placed;
+      const pool = areaSpecies(a.id).filter(s => idx >= 5 || s.stage === 1), count = idx < 3 ? 1 : idx < 6 ? 2 : 3;
+      const team = Array.from({ length: count }, () => { const s = ri(pool); return [s.id, lv + Math.floor(r() * 2) + (s.stage === 2 ? 1 : 0)]; });
+      const out = ri(LOOK_OUT);
+      NPCS.push({ kind: "trainer", id: `tr-${a.id}-${placed}`, x: c.x, y: c.y, dir: c.d, name, title, area: a.id, lv, team, lines: [],
+        look: { skin: ri(LOOK_SKIN), hair: ri(LOOK_HAIR), hairStyle: ri(LOOK_STYLE), outfit: out[0], outfit2: out[1], hat: r() < 0.2 ? "beanie" : "none" },
+        intro: TR_INTRO[k % TR_INTRO.length], win: TR_WIN[k % TR_WIN.length], lose: TR_LOSE[k % TR_LOSE.length], after: TR_AFTER[k % TR_AFTER.length] });
+      placed++; k++;
+    }
   });
 }
+const trainerWho = n => ({ name: `${n.title} ${n.name}`, svg: personSVG(n.look) });
+function checkTrainerSight() {
+  if (!save.team || !dexCount()) return false;
+  for (const n of NPCS) {
+    if (n.kind !== "trainer" || save.beat[n.id]) continue;
+    if (n.cool > 0) { n.cool--; continue; }
+    const [dx, dy] = DIRS[n.dir];
+    for (let k = 1; k <= 3; k++) {
+      const x = n.x + dx * k, y = n.y + dy * k;
+      if (x === W.x && y === W.y) { trainerSpot(n); return true; }
+      const t = MAP[y] && MAP[y][x]; if (!t || !WALK.has(t)) break;
+    }
+  }
+  return false;
+}
+function trainerSpot(n) {
+  W.held = null; W.lock = true; persist();
+  W.dir = { up: "down", down: "up", left: "right", right: "left" }[n.dir];
+  emote({ x: n.x, y: n.y }, "!"); SFX.encounter();
+  setTimeout(() => trainerChallenge(n), reduced ? 50 : 800);
+}
+function trainerChallenge(n, rematch) {
+  dialogue(rematch ? ["A practice battle? You’re on!"] : [n.intro], trainerWho(n), () => startBattle({
+    mode: "trainer", z: n.area, trainer: n, rematch: !!rematch, mine: myFighters(party()), foes: n.team.map(([id, lv]) => mkFighter(id, lv, false, true)),
+    leaderName: n.name, portrait: personSVG(n.look), scene: ZONE[n.area], topics: areaTopics(n.area), hard: !!AREA[n.area].hard
+  }));
+}
+function trainerTalk(n) {
+  if (!save.beat[n.id]) return trainerChallenge(n);
+  dialogue([n.after], trainerWho(n), () => showModal(`<div class="qcard center" role="dialog" aria-modal="true"><h2>Practice battle?</h2><p>${esc(n.name)} is happy to battle again. You won’t get coins, but your team still gains experience.</p>
+    <div class="row" style="justify-content:center"><button class="btn" data-act="trainerRematch" data-arg="${n.id}">⚔️ Battle</button><button class="btn ghost" data-act="close">Not now</button></div></div>`));
+}
+function winTrainer() {
+  const n = BT.trainer, first = !BT.rematch; let coins = 0;
+  if (first) { save.beat[n.id] = true; coins = 10 + n.lv * 2; save.coins += coins; }
+  partyBonus(10, 10); persist();
+  dialogue([n.lose, first ? `You got 🪙 ${coins} Word Coins!` : "Thanks for the practice battle!"], trainerWho(n), () => afterBattle(showWorld));
+}
+function loseTrainer() {
+  const n = BT.trainer; n.cool = 6;
+  dialogue([n.win, "Your team had a rest and feels better now. Train up and try again!"], trainerWho(n), () => afterBattle(showWorld));
+}
+
+/* ---------- move animations ---------- */
+const mT = (dx = 0, dy = 0, s = 1, r = 0) => `translate(calc(-50% + ${dx}px), calc(-50% + ${dy}px)) scale(${s}) rotate(${r}deg)`;
+function fxPos(id, stageId = "bstage") {
+  const st = document.getElementById(stageId), el = document.getElementById(id);
+  if (!st || !el) return { x: 0, y: 0, w: 60, stageId };
+  const sr = st.getBoundingClientRect(), r = el.getBoundingClientRect();
+  return { x: r.left - sr.left + r.width / 2, y: r.top - sr.top + r.height * 0.55, w: r.width, stageId };
+}
+function mfx(html, cls, p) {
+  const fx = document.querySelector(`#${p.stageId || "bstage"} .fx`), e = document.createElement("div");
+  e.className = "mfx " + (cls || ""); e.innerHTML = html; e.style.left = p.x + "px"; e.style.top = p.y + "px";
+  if (fx) fx.appendChild(e); return e;
+}
+const fly = (e, frames, dur, delay = 0, easing = "ease-in-out") => e.animate(frames, { duration: dur, delay, easing, fill: "both" }).finished.then(() => e.remove(), () => e.remove());
+function burst(p, items, n, cls, spread = 70) {
+  if (reduced) return Promise.resolve();
+  const arr = Array.isArray(items) ? items : [...items], ps = [];
+  for (let i = 0; i < n; i++) {
+    const a = Math.PI * 2 * i / n + Math.random() * 0.5, d = spread * (0.6 + Math.random() * 0.6);
+    ps.push(fly(mfx(arr[i % arr.length], cls, p), [{ transform: mT(0, 0, .4, 0), opacity: 1 }, { transform: mT(Math.cos(a) * d, Math.sin(a) * d, 1, rnd(180) - 90), opacity: 0 }], 650, 0, "ease-out"));
+  }
+  return Promise.all(ps);
+}
+function rings(p, n, color, size = 1) {
+  if (reduced) return;
+  for (let i = 0; i < n; i++) { const e = mfx("", "ring", p); e.style.borderColor = color; e.style.boxShadow = `0 0 12px ${color}`; fly(e, [{ transform: mT(0, 0, .2), opacity: 1 }, { transform: mT(0, 0, 2.4 * size), opacity: 0 }], 600, i * 130, "ease-out"); }
+}
+function quake(stageId = "bstage") { const st = document.getElementById(stageId); if (st && !reduced) st.animate([{ transform: "translate(0,0)" }, { transform: "translate(-7px,3px)" }, { transform: "translate(6px,-3px)" }, { transform: "translate(-3px,2px)" }, { transform: "translate(0,0)" }], { duration: 380 }); }
+function megaFlash(stageId = "bstage") { if (reduced) return; fly(mfx("", "mflash", { x: 0, y: 0, stageId }), [{ opacity: 0 }, { opacity: .85, offset: .3 }, { opacity: 0 }], 420); }
+const MOVE_FX = {
+  async spelling(a, b, m) {
+    const n = m ? 7 : 4, L = "ABCDEFGHIKLMNOPRSTW", dx = b.x - a.x, dy = b.y - a.y, ps = [];
+    for (let i = 0; i < n; i++) ps.push(fly(mfx(L[rnd(L.length)], "tile", a), [{ transform: mT(0, 0, .3, 0), opacity: 0 }, { transform: mT(dx * .5 + (i - n / 2) * 8, dy * .5 - 60 - rnd(30), 1.15, 200), opacity: 1, offset: .5 }, { transform: mT(dx + rnd(30) - 15, dy + rnd(24) - 12, .9, 360), opacity: 1 }], 560, i * 70, "ease-in"));
+    await Promise.all(ps); burst(b, "ABCDE!", m ? 12 : 7, "tile small");
+  },
+  async homophones(a, b, m) {
+    const n = m ? 5 : 3, dx = b.x - a.x, dy = b.y - a.y, ps = [];
+    for (let i = 0; i < n; i++) ps.push(fly(mfx("", "ring", a), [{ transform: mT(0, 0, .3), opacity: .9 }, { transform: mT(dx, dy, 1.4), opacity: .9, offset: .85 }, { transform: mT(dx, dy, 2.2), opacity: 0 }], 620, i * 120, "ease-in"));
+    await Promise.all(ps); rings(b, m ? 4 : 2, "#7FE0D4"); burst(b, "♪♫", m ? 9 : 5, "note");
+  },
+  async punctuation(a, b, m) {
+    const marks = m ? [",", "!", "?"] : [","];
+    for (let i = 0; i < marks.length; i++) {
+      const p = { x: b.x + (i - (marks.length - 1) / 2) * 34, y: b.y, stageId: b.stageId };
+      const html = marks[i] === "," ? `<svg viewBox="0 0 60 92" width="62" height="95" aria-hidden="true"><circle cx="30" cy="30" r="24" fill="#2B2F55" stroke="#fff" stroke-width="5"/><path d="M50 34 Q54 72 16 88 Q36 66 33 50Z" fill="#2B2F55" stroke="#fff" stroke-width="5" stroke-linejoin="round"/></svg>` : marks[i];
+      await fly(mfx(html, "bigmark", p), [{ transform: mT(0, -190, 1.6, -25), opacity: 0 }, { transform: mT(0, -40, 1.4, -10), opacity: 1, offset: .55 }, { transform: mT(0, 6, 1.1, 0), opacity: 1, offset: .8 }, { transform: mT(0, 0, 1, 0), opacity: 0 }], 460, 0, "ease-in");
+      burst(p, ["💨"], 4, "emo small", 50);
+    }
+  },
+  async wordclass(a, b, m) {
+    const tags = ["noun", "verb", "adjective", "adverb", "pronoun"], n = m ? 5 : 3, dx = b.x - a.x, dy = b.y - a.y, ps = [];
+    for (let i = 0; i < n; i++) { const ox = rnd(50) - 25, oy = rnd(40) - 20, rr = rnd(40) - 20; ps.push(fly(mfx(tags[i % tags.length], "tag", a), [{ transform: mT(0, 0, .3, 0), opacity: 0 }, { transform: mT(dx * .5, dy * .5 - 50, 1.2, rr), opacity: 1, offset: .5 }, { transform: mT(dx + ox, dy + oy, 1.5, rr), opacity: 1, offset: .85 }, { transform: mT(dx + ox, dy + oy, 1, rr), opacity: 0 }], 640, i * 110, "ease-in")); }
+    await Promise.all(ps); burst(b, ["🏷️"], m ? 8 : 5, "emo small");
+  },
+  async grammar(a, b, m) {
+    const n = m ? 4 : 2, ps = [];
+    for (let i = 0; i < n; i++) {
+      const frames = []; for (let t = 0; t <= 10; t++) { const ang = t / 10 * Math.PI * 3 + i * Math.PI * 2 / n, R = 70 * (1 - t / 12); frames.push({ transform: mT(Math.cos(ang) * R, Math.sin(ang) * R * .6, 1 - t / 25, t * 36), opacity: t === 0 ? 0 : 1 }); }
+      ps.push(fly(mfx("⏰", "emo", b), frames, 760, i * 60, "linear"));
+    }
+    await Promise.all(ps); burst(b, "⏳⌛", m ? 8 : 5, "emo small");
+  },
+  async affixes(a, b, m) {
+    const n = m ? 3 : 1, dx = b.x - a.x, dy = b.y - a.y, ps = [];
+    for (let i = 0; i < n; i++) ps.push(fly(mfx("🧩", "emo big", a), [{ transform: mT(0, 0, .4, 0), opacity: 0 }, { transform: mT(dx * .5, dy * .5 - 40 - i * 20, 1.2, 360), opacity: 1, offset: .5 }, { transform: mT(dx, dy, 1, 720), opacity: 1 }], 560, i * 140, "ease-in"));
+    await Promise.all(ps); burst(b, ["🧩"], m ? 10 : 6, "emo small"); popAt(b.id || (b.x > a.x ? "bfoe" : "bme"), "click!", "info");
+  },
+  async vocab(a, b, m) {
+    const words = ["huge", "tiny", "swift", "glad", "calm", "bright", "brave"], n = m ? 6 : 4, dx = b.x - a.x, dy = b.y - a.y, ps = [];
+    for (let i = 0; i < n; i++) { const frames = []; for (let t = 0; t <= 8; t++) { const k = t / 8; frames.push({ transform: mT(dx * k + Math.sin(k * Math.PI * 2 + i) * 30, dy * k - Math.sin(k * Math.PI) * 60 + Math.cos(k * 6 + i) * 14, .6 + k * .6, k * 200), opacity: t === 0 ? 0 : 1 }); } ps.push(fly(mfx(words[i % words.length], "word", a), frames, 700, i * 90, "ease-in")); }
+    await Promise.all(ps); burst(b, ["🍃"], m ? 10 : 6, "emo small");
+  },
+  async legend(a, b, m) {
+    await fly(mfx("📖", "emo huge", b), [{ transform: mT(0, -220, 2, -20), opacity: 0 }, { transform: mT(0, -30, 1.6, 0), opacity: 1, offset: .7 }, { transform: mT(0, 0, 1.4, 0), opacity: 1, offset: .85 }, { transform: mT(0, 0, 1.2, 0), opacity: 0 }], 620, 0, "ease-in");
+    rings(b, 3, "#FFD447", 1.4); burst(b, "✨⭐", m ? 14 : 8, "spark", 90);
+  }
+};
+async function playMove(type, aid, did, mega) {
+  if (reduced) return;
+  const a = fxPos(aid), b = fxPos(did); b.id = did;
+  if (mega) { megaFlash(); await sleepW(160); }
+  try { await (MOVE_FX[type] || MOVE_FX.spelling)(a, b, mega); } catch (e) {}
+}
+function appear(id, stageId = "bstage") {
+  const el = document.getElementById(id); if (!el || reduced) return Promise.resolve();
+  SFX.door(); rings(fxPos(id, stageId), 2, "#ffffff");
+  return el.animate([{ transform: "scale(0)", filter: "brightness(8)", opacity: 0 }, { transform: "scale(1.12)", filter: "brightness(3)", opacity: 1, offset: .6 }, { transform: "scale(1)", filter: "brightness(1)", opacity: 1 }], { duration: 560, easing: "ease-out" }).finished.catch(() => {});
+}
+async function faint(id) { const el = document.getElementById(id); SFX.flee(); if (el) el.classList.add("faint"); await sleepW(800); }
+function popAt(id, text, cls, stageId = "bstage") {
+  const p = fxPos(id, stageId), fx = document.querySelector(`#${stageId} .fx`); if (!fx) return;
+  const s = document.createElement("span"); s.className = "bpop " + (cls || ""); s.textContent = text;
+  s.style.left = p.x + "px"; s.style.top = (p.y - p.w * 0.25) + "px"; fx.appendChild(s); setTimeout(() => s.remove(), 1300);
+}
+function lunge(id, dx) { const el = document.getElementById(id); if (el && !reduced) el.animate([{ transform: "translate(0,0)" }, { transform: `translate(${dx}px,${-dx / 2}px)` }, { transform: "translate(0,0)" }], { duration: 380, easing: "ease-in-out" }); }
+function flashHit(id) { SFX.hit(); const el = document.getElementById(id); if (!el) return; el.classList.remove("bhit"); void el.offsetWidth; el.classList.add("bhit"); }
+function shinySparkle() {
+  if (!document.getElementById("estage")) return;
+  const p = fxPos("wild", "estage"); jingle("item");
+  burst(p, "✨⭐✨", 14, "spark", 90); rings(p, 2, "#FFE066");
+  const t = document.getElementById("etip"); if (t) t.textContent = `✨ Wow, a shiny ${E.sp.name}! These are super rare.`;
+}
+
 function showChampion() {
   app.dataset.screen = "champion";
   app.innerHTML = `<section class="evo champ"><div class="ending"><div class="scene-bg">${zoneSceneSVG(ZONE.emus)}</div><div class="rays"></div>
@@ -3564,7 +3911,7 @@ function drawShore(g, x0, y0, now) {
 function updateHud() {
   const h = document.querySelector(".hud"); if (!h || !save) return;
   const nb = Object.values(save.badges).filter(Boolean).length;
-  h.querySelector(".h-dex").textContent = `📖 ${Object.keys(save.team).length}/${SPECIES_LIST.length}`;
+  h.querySelector(".h-dex").textContent = `📖 ${dexCount()}/${SPECIES_LIST.length}`;
   h.querySelector(".h-coins").textContent = `🪙 ${save.coins}`;
   h.querySelector(".h-badges").textContent = `🏅 ${nb}/${route().length}`;
 }
@@ -3669,6 +4016,7 @@ function buildWorld() {
   kid(11, 6, "Noah", { skin: "#FFDBAC", hair: "#D9A400", hairStyle: "short", outfit: "#B0263A", outfit2: "#2B2B3A" }, ["The Year 5 and 6 gyms ask tricky questions from lots of topics.", "Bring your strongest team!"]);
   kid(38, 6, "Mia", { skin: "#F1C27D", hair: "#5A3A1A", hairStyle: "long", outfit: "#8B5A2B", outfit2: "#F2D59B" }, ["Principal Mr Mac has a legendary creature on his team!", "I wonder if anyone can beat him…"]);
   for (const b of BUILDINGS.filter(b => b.kind === "gym")) NPCS.push({ x: b.x + 1, y: b.y + b.h, name: LEADERS[b.id].name, look: LEADERS[b.id].look, lines: ["gym:" + b.id], dir: "down", kind: "leader" });
+  addTrainers();
   for (const n of NPCS) { const t = MAP[n.y][n.x]; if (!WALK.has(t) || t === ",") MAP[n.y][n.x] = AREA_GROUND[REGION[n.y][n.x]] || "."; }
 }
 const regionAt = (x, y) => (REGION[y] && REGION[y][x]) || null;
@@ -3965,15 +4313,17 @@ function showWorld() {
     <div class="dsl-hinge" aria-hidden="true"><i></i></div>
     <div class="dsl-bot">
       <div class="scr scr-bot touch">
-        <div class="tbar"><span class="h-name">${esc(save.name || "Explorer")}</span><span class="h-dex">📖 ${Object.keys(save.team).length}/${SPECIES_LIST.length}</span><span class="h-coins">🪙 ${save.coins}</span><span class="h-badges">🏅 ${nb}/${route().length}</span>
+        <div class="tbar"><span class="h-name">${esc(save.name || "Explorer")}</span><span class="h-dex">📖 ${dexCount()}/${SPECIES_LIST.length}</span><span class="h-coins">🪙 ${save.coins}</span><span class="h-badges">🏅 ${nb}/${route().length}</span>
           <span class="h-time" title="Time of day">${settings.daynight === false ? "☀️" : PHASE_ICON[phase()]}</span><button class="sndbtn" data-act="sound" aria-label="${AUDIO.on ? "Sound on. Tap to mute." : "Sound off. Tap to turn on."}">${AUDIO.on ? "🔊" : "🔇"}</button></div>
         <div class="tmenu">
           <button class="tt t-red" data-act="dex"><b>📖</b>Word Book</button>
+          <button class="tt t-pink" data-act="team"><b>💛</b>Team</button>
           <button class="tt t-orange" data-act="quests"><b>📜</b>Quests${navDot()}</button>
           <button class="tt t-green" data-act="bag"><b>🎒</b>Bag${eggDot()}</button>
           <button class="tt t-blue" data-act="townmap"><b>🗺️</b>Map</button>
-          <button class="tt t-pink" data-act="buddyView"><b>💛</b>Buddy</button>
-          <button class="tt t-purple" data-act="saveMenu"><b>💾</b>Save</button></div>
+          <button class="tt t-teal" data-act="online"><b>🌐</b>Friends${NET.status === "on" ? `<i class="dot">${NET.peers.length}</i>` : ""}</button>
+          <button class="tt t-purple" data-act="saveMenu"><b>💾</b>Save</button>
+          <button class="tt t-grey" data-act="how"><b>❓</b>Help</button></div>
         <div class="tgoal" data-act="quests" role="button" tabindex="0"><i>NEXT</i>${nextGoalText()}</div>
       </div>
       <div class="dsl-ctrl">
@@ -4052,6 +4402,7 @@ function arrive() {
   if (t === "D") { W.held = null; SFX.door(); enterDoor(DOORS[W.x + "," + W.y]); return; }
   const tr = treasureAt(W.x, W.y); if (tr) { W.held = null; pickUpTreasure(tr); return; }
   for (const n of NPCS) { const k = n.name; if (!W.greeted[k] && Math.abs(n.x - W.x) + Math.abs(n.y - W.y) <= 2) { W.greeted[k] = true; emote({ x: n.x, y: n.y }, "!"); SFX.blip(); } }
+  if (checkTrainerSight()) return;
   if (t === ",") {
     leaves(W.x * TS, W.y * TS); SFX.rustle();
     const reg = regionAt(W.x, W.y);
@@ -4085,6 +4436,7 @@ function talkTo(n) {
   const opp = { up: "down", down: "up", left: "right", right: "left" }; n.dir = opp[W.dir];
   if (n.kind === "prof") return dialogue([`Hoo-hoo! ${nextGoalText()}`, "Pop into the Library any time to buy berries, books and eggs!"], "prof");
   if (n.kind === "leader") return gymDoor(n.lines[0].slice(4));
+  if (n.kind === "trainer") return trainerTalk(n);
   dialogue(n.lines, { name: n.name, svg: personSVG(n.look) });
 }
 function enterDoor(d) {
@@ -4165,6 +4517,50 @@ const ZONE = Object.fromEntries(ZONES.map(z => [z.id, z]));
 const RARITY = { 1: "Common", 2: "Uncommon", 3: "Rare", 4: "Legendary" };
 const HEARTS = { 1: [2, 3], 2: [2, 3], 3: [3, 4], 4: [3, 4] }; // [needed, tries]
 const EVOLVE_XP = 100;
+/* ---------- levels, Word Book pages and team ---------- */
+const EXP_PER_LV = 40, MAX_LV = 50;
+const expForLv = lv => (lv - 1) * EXP_PER_LV;
+const lvFromExp = x => Math.min(MAX_LV, 1 + Math.floor((x || 0) / EXP_PER_LV));
+function lvOf(id) { const e = save && save.team[id]; return e ? lvFromExp(e.exp) : 1; }
+function addExp(id, n) { const e = save.team[id]; if (!e) return 0; const before = lvFromExp(e.exp); e.exp = Math.min(expForLv(MAX_LV), (e.exp || 0) + n); return lvFromExp(e.exp) - before; }
+function statsFor(sp, lv) { const b = sp.type === "legend" ? [60, 18] : sp.stage === 2 ? [44, 14] : [30, 10]; return { hpMax: b[0] + lv * 3, atk: b[1] + lv }; }
+function foeStats(sp, lv) { const s = statsFor(sp, lv); return { hpMax: s.hpMax, atk: Math.round(s.atk * 0.55 + lv * 0.35) }; }
+function dexCount() { return save ? Object.keys(save.dex || save.team || {}).length : 0; }
+function inDex(id) { return !!(save && (save.dex ? save.dex[id] : save.team[id])); }
+function party() {
+  let p = (save.party || []).filter(id => save.team[id] && SPECIES[id]);
+  if (save.buddy && save.team[save.buddy]) p = [save.buddy, ...p.filter(id => id !== save.buddy)];
+  if (p.length < 3) { const rest = Object.keys(save.team).filter(id => SPECIES[id] && !p.includes(id)).sort((a, b) => lvOf(b) - lvOf(a)); while (p.length < 3 && rest.length) p.push(rest.shift()); }
+  save.party = p.slice(0, 3);
+  if (save.party[0] && save.buddy !== save.party[0]) save.buddy = save.party[0];
+  return save.party;
+}
+let TEAMSEL = 0;
+function showTeam() {
+  clearInterval(zoneTimer); app.dataset.screen = "team";
+  const p = party(); persist();
+  const all = Object.keys(save.team).filter(id => SPECIES[id]).sort((a, b) => lvOf(b) - lvOf(a) || SPECIES[a].name.localeCompare(SPECIES[b].name));
+  app.innerHTML = topbar("explore") + `<h2 class="center">💛 Your team</h2>
+    <p class="center hint">Your team battles trainers, gyms and friends. The first one is your buddy and follows you around.</p>
+    <div class="teamslots">${[0, 1, 2].map(i => {
+      const id = p[i];
+      if (!id) return `<button class="tslot empty ${TEAMSEL === i ? "sel" : ""}" data-act="teamSlot" data-arg="${i}"><span>＋</span><small>Empty</small></button>`;
+      const sp = SPECIES[id], e = save.team[id], lv = lvOf(id), st = statsFor(sp, lv);
+      return `<button class="tslot ${TEAMSEL === i ? "sel" : ""}" data-act="teamSlot" data-arg="${i}" aria-pressed="${TEAMSEL === i}">${i === 0 ? `<i class="buddytag">💛 Buddy</i>` : ""}
+        ${creatureSVG(sp, { shiny: e.shiny })}<b class="${sp.name.length > 10 ? "long" : ""}">${sp.name}</b><span class="lvtag">Lv${lv}</span><small>❤️ ${st.hpMax}  ⚔️ ${st.atk}</small>
+        <div class="bexp" title="Experience to the next level"><i style="width:${lv >= MAX_LV ? 100 : Math.round(((e.exp || 0) - expForLv(lv)) / EXP_PER_LV * 100)}%"></i></div>
+        ${sp.evo ? `<small class="evohint">${Math.min(e.xp || 0, EVOLVE_XP)}/${EVOLVE_XP} to evolve</small>` : ""}</button>`; }).join("")}</div>
+    <p class="center hint">Tap a slot, then tap a creature below to put it there.</p>
+    <h3 class="dexh">All your creatures</h3><div class="dexgrid">${all.map(id => `<button class="dexcell got ${p.includes(id) ? "inteam" : ""}" data-act="teamPut" data-arg="${id}">${creatureSVG(SPECIES[id], { shiny: save.team[id].shiny })}<i class="lvchip">Lv${lvOf(id)}</i><span class="${SPECIES[id].name.length > 10 ? "long" : ""}">${SPECIES[id].name}</span></button>`).join("")}</div>
+    ${navbar("map")}`;
+}
+function teamPut(id) {
+  const p = party().slice(), at = p.indexOf(id), sel = Math.min(TEAMSEL, p.length);
+  if (at >= 0) { if (sel < p.length) [p[at], p[sel]] = [p[sel], p[at]]; }
+  else if (sel < p.length) p[sel] = id; else p.push(id);
+  save.party = p.filter(Boolean); save.buddy = save.party[0]; persist(); SFX.blip(); showTeam();
+}
+
 
 let save = store.get(PKEY("save"), null);
 function newSave() { return { buddy: null, team: {}, seen: {}, caught: 0 }; }
@@ -4180,12 +4576,12 @@ function zonesOpen() {
 function speciesOfType(t) { return SPECIES_LIST.filter(s => s.type === t); }
 function zoneFound(z) {
   const list = areaSpecies(z.id);
-  return [list.filter(s => owned(s.id)).length, list.length];
+  return [list.filter(s => inDex(s.id)).length, list.length];
 }
 
 /* ---------- small helpers ---------- */
 function topbar(back) {
-  const n = Object.keys(save.team).length;
+  const n = dexCount();
   return `<header class="top wtop">${back ? `<button class="tbtn" data-act="${back}" aria-label="Back">‹ Back</button>` : `<button class="tbtn" data-act="title" aria-label="Home">🏠</button>`}
     <span>📖 ${n}/${SPECIES_LIST.length}</span><span id="coinCount">🪙 ${save.coins || 0}</span></header>`;
 }
@@ -4230,11 +4626,14 @@ function showTitle() {
 }
 function showHow() {
   showModal(`<div class="qcard" role="dialog" aria-modal="true"><h2>How to play</h2>
-    <p>🗺️ Pick a place on the map. Each place is about a different part of English.</p>
-    <p>🌿 Tap the rustling grass to find a wild word creature.</p>
-    <p>💛 Answer questions to fill its hearts. Fill them all and it joins your team!</p>
-    <p>⭐ Every right answer gives your buddy experience. When it’s full, your buddy evolves!</p>
-    <p>✨ Some creatures are rare, and a very few are shiny. Can you fill your whole Word Book?</p>
+    <p>🕹️ Walk with the pad, hold B to run, and press A to talk or read signs.</p>
+    <p>🌿 Walk through tall grass to meet wild creatures. Answer questions to fill their hearts and make friends.</p>
+    <p>⚔️ Your team of 3 battles trainers, gyms and friends. Every right answer is an attack. Mega moves ask trickier questions but hit much harder.</p>
+    <p>💥 Some types are strong against others. Look for the Strong tag when you pick a team.</p>
+    <p>⭐ Creatures gain experience, level up and evolve. Choose your best three in 💛 Team.</p>
+    <p>👀 Trainers around the school will spot you if you walk in front of them!</p>
+    <p>🌐 In Friends, make a room or join one with a code to trade creatures and battle.</p>
+    <p>✨ Very rarely, you’ll meet a shiny creature with special colours.</p>
     <button class="btn" data-act="close">Got it</button></div>`);
 }
 function play() {
@@ -4261,7 +4660,7 @@ function showStarters() {
       <span class="pedestal">${creatureSVG(s)}</span><b>${s.name}</b>${typeChip(s.type)}<small>${s.desc}</small></button>`; }).join("")}</div>`;
 }
 function pickStarter(id) {
-  save.team[id] = { n: 1, xp: 0, shiny: false }; save.seen[id] = true; save.buddy = id; save.caught = 1; persist();
+  save.team[id] = { n: 1, xp: 0, exp: expForLv(2), shiny: false }; save.seen[id] = true; save.dex = save.dex || {}; save.dex[id] = true; save.buddy = id; save.party = [id]; save.caught = 1; persist();
   const s = SPECIES[id];
   showModal(`<div class="qcard center" role="dialog" aria-modal="true"><div class="bigsp">${creatureSVG(s)}</div>
     <h2>${s.name} is your buddy!</h2><p>Let’s explore the Word Wilds together.</p><button class="btn" data-act="closeToMap">Let’s go!</button></div>`);
@@ -4378,7 +4777,7 @@ function tapGrass(i, el) {
 
 /* ---------- encounters ---------- */
 function rollSpecies(z) {
-  const caughtKinds = Object.keys(save.team).length;
+  const caughtKinds = dexCount();
   if (caughtKinds >= 10 && Math.random() < 0.025) return caughtKinds >= 25 && Math.random() < 0.5 ? SPECIES.inktopus : SPECIES.thesaurex;
   let pool = areaSpecies(z.id);
   if (z.id !== "custom") { const t = areaTopics(z.id); const p2 = pool.filter(s => t.includes(s.type)); if (p2.length) pool = p2; }
@@ -4394,7 +4793,8 @@ function startEncounter() {
   clearInterval(zoneTimer);
   const sp = rollSpecies(curZone);
   const [need, tries] = HEARTS[sp.rarity];
-  E = { sp, shiny: Math.random() < 1 / 16, need, tries, hearts: 0, used: 0, zone: curZone, busy: false, isNew: !owned(sp.id) };
+  const baseLv = curZone.id === "custom" ? 3 : areaLv(curZone.id);
+  E = { sp, shiny: Math.random() < 1 / 40, need, tries, hearts: 0, used: 0, zone: curZone, busy: false, isNew: !inDex(sp.id), lv: sp.rarity === 4 ? 25 : baseLv + (sp.stage === 2 ? 2 : 0) + rnd(2) };
   save.seen[sp.id] = true; persist();
   const wipe = document.createElement("div"); wipe.className = "wipe"; document.body.appendChild(wipe);
   setTimeout(renderEncounter, reduced ? 0 : 520);
@@ -4410,7 +4810,7 @@ function renderEncounter() {
       <div class="wild ${E.isNew ? "isnew" : ""}" id="wild">${creatureSVG(sp, { shiny })}</div>
       <div class="fx" id="fx"></div>
       <div class="wizback"><img src="${trainerCanvas("up", 0, save.colour || "blue", 5).toDataURL()}" alt=""></div>
-      <div class="hpbox foebox"><div class="hpname"><b>${shiny ? "✨ " : ""}${sp.name}</b>${E.isNew ? `<span class="newtag">NEW!</span>` : ""}</div>
+      <div class="hpbox foebox"><div class="hpname"><b>${shiny ? "✨ " : ""}${sp.name}</b><span class="lvtag">Lv${E.lv}</span>${E.isNew ? `<span class="newtag">NEW!</span>` : ""}</div>
         <div class="hpmeta">${typeChip(sp.type)} ${rarityStars(sp.rarity)}</div><div class="hearts" id="hearts" aria-live="polite"></div></div>
       </section></div><div class="dsl-spk" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
     <div class="dsl-hinge" aria-hidden="true"><i></i></div>
@@ -4418,6 +4818,7 @@ function renderEncounter() {
       <p class="dstext" id="etip">${sp.rarity === 4 ? "A legendary creature! Answer questions to win its trust." : shiny ? `Wow, a shiny ${sp.name}! These are super rare.` : `A wild ${sp.name} appeared!`}</p>
       <div class="bigbtns" id="ebtns"></div></div></div></section>`;
   drawHearts(); drawEncButtons();
+  if (shiny) setTimeout(shinySparkle, reduced ? 50 : 800);
 }
 function drawHearts() {
   const h = document.getElementById("hearts"); if (!h) return;
@@ -4470,9 +4871,10 @@ function floatHearts() {
 }
 function catchIt() {
   setMusic(null); jingle("catch");
-  const { sp, shiny } = E, first = !owned(sp.id);
+  const { sp, shiny } = E, first = !inDex(sp.id);
   const ent = save.team[sp.id] || (save.team[sp.id] = { n: 0, xp: 0, shiny: false });
   ent.n++; if (shiny) ent.shiny = true; save.caught++; save.coins += 5;
+  if (ent.exp == null) ent.exp = expForLv(E.lv); else ent.exp = Math.max(ent.exp + 30, expForLv(E.lv)); save.dex[sp.id] = true;
   save.areaCaught = save.areaCaught || {}; const ac = save.areaCaught[E.zone.id] = save.areaCaught[E.zone.id] || []; if (!ac.includes(sp.id)) ac.push(sp.id);
   if (!first) ent.xp = (ent.xp || 0) + 20;
   persist();
@@ -4496,8 +4898,10 @@ function fleeIt() {
   drawEncButtons(true);
 }
 function giveXP(n) {
-  const b = buddySpecies(); if (!b) return;
-  const ent = save.team[b.id]; ent.xp = (ent.xp || 0) + n; persist();
+  const b = buddySpecies(); if (!b || !save.team[b.id]) return;
+  const ent = save.team[b.id]; ent.xp = (ent.xp || 0) + n;
+  const up = addExp(b.id, n); persist();
+  if (up > 0) setTimeout(() => { toast(`⭐ ${b.name} grew to Lv ${lvOf(b.id)}!`); jingle("levelup"); }, 900);
 }
 function afterEncounter(to) {
   const b = buddySpecies();
@@ -4508,17 +4912,21 @@ function afterEncounter(to) {
 /* ---------- evolution ---------- */
 function evolve(id, to) {
   const a = SPECIES[id], z = SPECIES[a.evo], sh = save.team[id].shiny;
+  EVO_NEXT = typeof to === "function" ? to : null;
   app.dataset.screen = "evolve"; setMusic(null); jingle("evolve");
   app.innerHTML = `<section class="evo" aria-live="polite"><p class="evomsg" id="evomsg">What? ${a.name} is evolving!</p>
     <div class="evostage"><div class="evoa">${creatureSVG(a, { shiny: sh })}</div><div class="evob">${creatureSVG(z, { shiny: sh })}</div><div class="evoflash"></div></div>
     <div class="row" style="justify-content:center" id="evobtn"></div></section>`;
   const done = () => {
-    save.team[z.id] = save.team[z.id] || { n: 0, xp: 0, shiny: false };
-    save.team[z.id].n++; if (sh) save.team[z.id].shiny = true;
-    save.team[id].xp = 0; save.seen[z.id] = true; save.buddy = z.id; save.evolved = (save.evolved || 0) + 1; persist();
+    const old = save.team[id], ne = save.team[z.id] || (save.team[z.id] = { n: 0, xp: 0, exp: 0, shiny: false });
+    ne.n++; ne.exp = Math.max(ne.exp || 0, old.exp || 0); if (sh) ne.shiny = true;
+    old.xp = 0; save.seen[z.id] = true; save.dex[z.id] = true;
+    if (save.buddy === id) save.buddy = z.id;
+    save.party = [...new Set((save.party || []).map(p => p === id ? z.id : p))];
+    save.evolved = (save.evolved || 0) + 1; persist();
     document.querySelector(".evo").classList.add("evodone"); jingle("catch");
     document.getElementById("evomsg").innerHTML = `Congratulations! ${a.name} evolved into <b>${z.name}</b>!`;
-    document.getElementById("evobtn").innerHTML = `<button class="btn" data-act="${to === "map" ? "map" : "backZone"}">Amazing!</button>`;
+    document.getElementById("evobtn").innerHTML = `<button class="btn" data-act="${EVO_NEXT ? "evoNext" : to === "map" ? "map" : "backZone"}">Amazing!</button>`;
   };
   setTimeout(done, reduced ? 100 : 4200);
 }
@@ -4526,26 +4934,33 @@ function evolve(id, to) {
 /* ---------- word book ---------- */
 function showDex() {
   app.dataset.screen = "dex";
-  const n = Object.keys(save.team).length;
+  const n = dexCount();
   const groups = Object.keys(TYPE_INFO).map(t => [t, SPECIES_LIST.filter(s => s.type === t)]);
   app.innerHTML = topbar() + `<h2 class="center">📖 Word Book</h2>
     <div class="dexprog"><div class="xpbar big"><i style="width:${Math.round(n / SPECIES_LIST.length * 100)}%"></i></div><small>${n} of ${SPECIES_LIST.length} creatures found</small></div>
     ${groups.map(([t, list]) => `<h3 class="dexh">${TYPE_ICON[t]} ${TYPE_INFO[t].name}</h3><div class="dexgrid">
-      ${list.map(s => { const o = owned(s.id), seen = save.seen[s.id];
+      ${list.map(s => { const o = inDex(s.id), seen = save.seen[s.id], have = owned(s.id);
         return `<button class="dexcell ${o ? "got" : ""}" data-act="${o ? "dexInfo" : "dexUnknown"}" data-arg="${s.id}" aria-label="${o ? s.name : seen ? s.name + ", not caught yet" : "Unknown creature"}">
-          <i class="dexno">${String(SPECIES_LIST.indexOf(s) + 1).padStart(3, "0")}</i>${creatureSVG(s, { sil: !o, shiny: o && save.team[s.id].shiny })}<span class="${s.name.length > 10 ? "long" : ""}">${o || seen ? s.name : "???"}</span>${o && save.team[s.id].shiny ? `<i class="shinytag">✨</i>` : ""}</button>`; }).join("")}</div>`).join("")}
+          <i class="dexno">${String(SPECIES_LIST.indexOf(s) + 1).padStart(3, "0")}</i>${creatureSVG(s, { sil: !o, shiny: have && save.team[s.id].shiny })}<span class="${s.name.length > 10 ? "long" : ""}">${o || seen ? s.name : "???"}</span>${have && save.team[s.id].shiny ? `<i class="shinytag">✨</i>` : ""}</button>`; }).join("")}</div>`).join("")}
     ${navbar("dex")}`;
 }
 function dexInfo(id) {
-  const s = SPECIES[id], e = save.team[id], buddy = save.buddy === id, xp = e.xp || 0;
+  const s = SPECIES[id], e = save.team[id], buddy = save.buddy === id;
   const prev = SPECIES_LIST.find(x => x.evo === id);
+  if (!e) {
+    showModal(`<div class="qcard dexcard" role="dialog" aria-modal="true"><div class="bigsp">${creatureSVG(s)}</div><h2 class="center">${s.name}</h2>
+      <p class="center">${typeChip(s.type)} ${rarityStars(s.rarity)}</p><p>${s.desc}</p>
+      <p class="hint">You traded this creature away, but its page stays in your Word Book.</p><div class="row"><button class="btn ghost" data-act="close">Close</button></div></div>`);
+    return;
+  }
+  const xp = e.xp || 0, lv = lvOf(id), st = statsFor(s, lv);
   showModal(`<div class="qcard dexcard" role="dialog" aria-modal="true">
     <div class="bigsp">${creatureSVG(s, { shiny: e.shiny })}</div>
     <h2 class="center">${e.shiny ? "✨ " : ""}${s.name}</h2>
-    <p class="center">${typeChip(s.type)} ${rarityStars(s.rarity)}</p>
+    <p class="center">${typeChip(s.type)} ${rarityStars(s.rarity)} <span class="lvtag">Lv${lv}</span></p>
     <p>${s.desc}</p>
-    <p class="hint">Caught ${e.n} time${e.n === 1 ? "" : "s"}.${prev ? ` Evolves from ${prev.name}.` : ""}${s.evo ? ` Evolves into ${owned(s.evo) ? SPECIES[s.evo].name : "???"} at ${EVOLVE_XP} XP.` : ""}</p>
-    ${s.evo ? `<div class="xpbar"><i style="width:${Math.min(100, xp)}%"></i></div><p class="hint">${Math.min(xp, EVOLVE_XP)} of ${EVOLVE_XP} XP</p>` : ""}
+    <p class="hint">❤️ ${st.hpMax} HP and ⚔️ ${st.atk} attack. Caught ${e.n} time${e.n === 1 ? "" : "s"}.${e.ot ? ` Traded from ${esc(e.ot)}.` : ""}${prev ? ` Evolves from ${prev.name}.` : ""}${s.evo ? ` Evolves into ${inDex(s.evo) ? SPECIES[s.evo].name : "???"} at ${EVOLVE_XP} XP.` : ""}</p>
+    ${s.evo ? `<div class="xpbar"><i style="width:${Math.min(100, xp)}%"></i></div><p class="hint">${Math.min(xp, EVOLVE_XP)} of ${EVOLVE_XP} XP towards evolving</p>` : ""}
     <div class="row">${buddy ? `<span class="chip star">💛 Your buddy</span>` : `<button class="btn" data-act="setBuddy" data-arg="${id}">Make buddy</button>`}<button class="btn ghost" data-act="close">Close</button></div></div>`);
 }
 function buddyView() { dexInfo(save.buddy); }
@@ -4559,7 +4974,7 @@ function progressPanel() {
   }).join("");
   return `<div class="panel"><h3>Progress on this device</h3>
     <div class="tablewrap"><table class="prog"><thead><tr><th scope="col">Topic</th><th scope="col">Level</th><th scope="col">Recently</th><th scope="col">Answered</th></tr></thead><tbody>${rows}</tbody></table></div>
-    <p class="hint">Creatures caught on this device: ${save ? Object.keys(save.team).length : 0} of ${SPECIES_LIST.length}.</p>
+    <p class="hint">Creatures caught on this device: ${save ? dexCount() : 0} of ${SPECIES_LIST.length}.</p>
     <div class="row"><button class="btn ghost" data-act="resetProg">Reset question progress</button><button class="btn ghost" data-act="resetSave">Reset creatures</button></div></div>`;
 }
 function showSettings() {
@@ -4582,6 +4997,7 @@ function showSettings() {
       <p class="hint">One per line: question | right answer | wrong answer | wrong answer. They appear in the 🍎 Teacher’s Garden.</p>
       <textarea id="custom" placeholder="Which word is a noun? | table | quickly | jump">${esc(settings.custom)}</textarea>
       <label class="opt"><input type="checkbox" id="onlyCustom" ${settings.onlyCustom ? "checked" : ""}> Only show the Teacher’s Garden</label></div>
+    ${onlinePanel()}
     ${progressPanel()}
     ${profilesPanel()}
     <div class="row"><button class="btn" data-act="saveSettings">Save settings</button><button class="btn ghost" data-act="title">Back</button></div>
@@ -4598,6 +5014,12 @@ function saveSettings() {
   settings.story = app.querySelector("#story").checked;
   settings.daynight = app.querySelector("#daynight").checked;
   if (app.querySelector("#soundOpt").checked !== AUDIO.on) soundToggle();
+  const su = app.querySelector("#sbUrl"), sk = app.querySelector("#sbKey");
+  if (su && sk) {
+    const nu = su.value.trim(), nk = sk.value.trim();
+    if (nu !== (settings.sbUrl || "") || nk !== (settings.sbKey || "")) { NET.sb = null; leaveRoom(true); }
+    settings.sbUrl = nu; settings.sbKey = nk;
+  }
   store.set("settings", settings);
   showSettings(); app.querySelector("#saved").textContent = "Saved.";
 }
@@ -4643,6 +5065,252 @@ answer = function (i) { const was = qState && qState.done; _answer(i); if (qStat
 if (save) migrateSave();
 showTitle();
 
+/* ===================== PLAY WITH FRIENDS (Supabase Realtime) ===================== */
+/* Rooms use Supabase Realtime “broadcast” and “presence”, so no database tables are needed.
+   Add the project URL and anon key in ONLINE_CONFIG at the top of this script, or in Teacher settings. */
+const NET = { sb: null, ch: null, code: null, pid: null, status: "off", peers: [], trade: null, pvp: null, incoming: null, ask: null };
+function netCfg() {
+  const u = ((settings && settings.sbUrl) || ONLINE_CONFIG.url || "").trim(), k = ((settings && settings.sbKey) || ONLINE_CONFIG.anonKey || "").trim();
+  return u && k ? { u, k } : null;
+}
+let SB_LOAD = null;
+function loadSupabase() {
+  if (window.supabase && window.supabase.createClient) return Promise.resolve(window.supabase);
+  if (!SB_LOAD) SB_LOAD = new Promise((res, rej) => {
+    const s = document.createElement("script");
+    s.src = "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js";
+    s.onload = () => window.supabase ? res(window.supabase) : rej(new Error("load"));
+    s.onerror = () => { SB_LOAD = null; rej(new Error("load")); };
+    document.head.appendChild(s);
+  });
+  return SB_LOAD;
+}
+const CODE_CHARS = "ABCDEFGHJKMNPQRSTUVWXYZ23456789";
+const newCode = () => Array.from({ length: 5 }, () => CODE_CHARS[rnd(CODE_CHARS.length)]).join("");
+function meInfo() { return { pid: NET.pid, name: save.name || "Explorer", colour: save.colour || "blue", dex: dexCount(), badges: Object.values(save.badges || {}).filter(Boolean).length }; }
+function peersNow() { if (!NET.ch) return []; return Object.values(NET.ch.presenceState()).map(a => a && a[0]).filter(p => p && p.pid && p.pid !== NET.pid); }
+function netMsg(t) { const m = document.getElementById("netmsg"); if (m) m.textContent = t; else toast(t); }
+async function joinRoom(code) {
+  const cfg = netCfg(); if (!cfg) return showOnline();
+  code = String(code || "").toUpperCase().replace(/[^A-Z0-9]/g, "");
+  if (code.length !== 5) { netMsg("Room codes have 5 letters and numbers. Check the code and try again."); return; }
+  netMsg("Connecting…");
+  try {
+    const lib = await loadSupabase();
+    if (!NET.sb) NET.sb = lib.createClient(cfg.u, cfg.k, { auth: { persistSession: false, autoRefreshToken: false } });
+    await leaveRoom(true);
+    NET.pid = NET.pid || ("u" + Math.random().toString(36).slice(2, 10));
+    const ch = NET.sb.channel("wordwilds-" + code, { config: { presence: { key: NET.pid }, broadcast: { self: false } } });
+    NET.ch = ch; NET.code = code; NET.status = "joining";
+    ch.on("presence", { event: "sync" }, onPeers);
+    ch.on("broadcast", { event: "m" }, msg => onNet(msg.payload || {}));
+    const timer = setTimeout(() => { if (NET.status === "joining") { NET.status = "error"; leaveRoom(true); netMsg("Couldn’t connect. Check the internet connection, then try again."); } }, 12000);
+    ch.subscribe(async st => {
+      if (st === "SUBSCRIBED" && NET.ch === ch) { clearTimeout(timer); NET.status = "on"; await ch.track(meInfo()); showRoom(); }
+      else if ((st === "CHANNEL_ERROR" || st === "TIMED_OUT") && NET.ch === ch) { clearTimeout(timer); NET.status = "error"; leaveRoom(true); netMsg("Couldn’t connect to the room. Ask your teacher to check the online settings."); }
+    });
+  } catch (e) { NET.status = "error"; netMsg("Online play couldn’t load. Check the internet connection, then try again."); }
+}
+async function leaveRoom(quiet) {
+  const ch = NET.ch; NET.ch = null; NET.code = null; NET.peers = []; NET.trade = null; NET.pvp = null;
+  if (NET.status !== "error") NET.status = "off";
+  if (ch) { try { await ch.untrack(); } catch (e) {} try { NET.sb && NET.sb.removeChannel(ch); } catch (e) {} }
+  if (!quiet) showOnline();
+}
+function netTrackMe() { if (NET.ch && NET.status === "on") { try { NET.ch.track(meInfo()); } catch (e) {} } }
+function netSend(to, type, data = {}) {
+  if (!NET.ch) return;
+  try { NET.ch.send({ type: "broadcast", event: "m", payload: Object.assign({ to, from: NET.pid, name: save.name || "Explorer", colour: save.colour || "blue", type }, data) }); } catch (e) {}
+}
+function onPeers() {
+  NET.peers = peersNow();
+  const here = pid => NET.peers.some(p => p.pid === pid);
+  if (NET.trade && !here(NET.trade.pid)) { const n = NET.trade.name; NET.trade = null; toast(`${n} left the room.`); if (app.dataset.screen === "trade") showRoom(); }
+  if (BT && BT.mode === "pvp" && !BT.over && !here(BT.opp)) { BT.q = BT.q.then(async () => { if (BT.over) return; battleMsg(`${esc(BT.leaderName)} left the room. You win!`); await sleepW(900); endBattle(true); }); }
+  if (app.dataset.screen === "room") showRoom();
+  const d = document.querySelector('[data-act="online"] .dot'); if (d) d.textContent = NET.peers.length;
+}
+const isBusy = () => !!(NET.trade || (NET.pvp && !(BT && BT.over)) || (BT && !BT.over && app.dataset.screen === "battle") || qState || DLG || !ov.hidden ||
+  ["encounter", "evolve", "hatch", "battle", "teampick", "tradeanim"].includes(app.dataset.screen));
+function onNet(p) {
+  if (!p || p.to !== NET.pid) return;
+  const kind = { treq: "trade", breq: "battle" }[p.type];
+  if (kind) {
+    if (isBusy()) { netSend(p.from, "busy", {}); return; }
+    NET.incoming = { kind, from: p.from, name: p.name, colour: p.colour }; SFX.encounter();
+    showModal(`<div class="qcard center" role="dialog" aria-modal="true">${trainerPreview(p.colour || "blue", 64)}
+      <h2>${esc(p.name)} wants to ${kind === "trade" ? "trade" : "battle"}!</h2>
+      <p>${kind === "trade" ? "You can each choose a creature to swap." : `Friend battles use Lv ${PVP_LV} for everyone, so it’s all about your answers.`}</p>
+      <div class="row" style="justify-content:center"><button class="btn" data-act="netYes">${kind === "trade" ? "🤝 Let’s trade" : "⚔️ Let’s battle"}</button><button class="btn ghost" data-act="netNo">No thanks</button></div></div>`);
+    return;
+  }
+  switch (p.type) {
+    case "no": NET.ask = null; toast(`${p.name} said no thanks this time.`); break;
+    case "busy": NET.ask = null; toast(`${p.name} is busy right now. Try again soon.`); break;
+    case "tyes": NET.ask = null; startTrade(p.from, p.name, p.colour); break;
+    case "byes": NET.ask = null; pvpSetup(p.from, p.name, p.colour, true); break;
+    case "toffer": if (NET.trade && NET.trade.pid === p.from) { NET.trade.theirs = sanitizeOffer(p.offer); NET.trade.myReady = false; NET.trade.theirReady = null; showTrade(); } break;
+    case "tready": if (NET.trade && NET.trade.pid === p.from) { NET.trade.theirReady = { mine: p.mine, theirs: p.theirs }; if (!tryCommit()) showTrade(); } break;
+    case "tcancel": if (NET.trade && NET.trade.pid === p.from) { NET.trade = null; toast(`${p.name} cancelled the trade.`); if (app.dataset.screen === "trade") showRoom(); } break;
+    case "bteam": if (NET.pvp && NET.pvp.pid === p.from) { NET.pvp.theirs = (p.team || []).filter(t => SPECIES[t.id] && SPECIES[t.id].type).slice(0, 3); pvpMaybeStart(); } break;
+    case "bmove": case "bberry": case "bswitch": case "bquit": pvpOnMsg(p); break;
+  }
+}
+function netYes() {
+  const inc = NET.incoming; closeModal(); if (!inc) return; NET.incoming = null;
+  if (inc.kind === "trade") { netSend(inc.from, "tyes", {}); startTrade(inc.from, inc.name, inc.colour); }
+  else { netSend(inc.from, "byes", {}); pvpSetup(inc.from, inc.name, inc.colour, false); }
+}
+function netNo() { const inc = NET.incoming; closeModal(); if (inc) netSend(inc.from, "no", {}); NET.incoming = null; }
+function netAsk(pid, kind) {
+  const peer = NET.peers.find(x => x.pid === pid); if (!peer) return;
+  if (kind === "trade" && dexCount() < 2) { toast("You need at least 2 creatures to trade."); return; }
+  NET.ask = { pid, kind }; netSend(pid, kind === "trade" ? "treq" : "breq", {});
+  toast(`Asked ${peer.name} to ${kind}. Waiting for an answer…`);
+}
+
+/* ---------- screens ---------- */
+function showOnline() {
+  clearInterval(zoneTimer);
+  if (NET.status === "on" && NET.ch) return showRoom();
+  app.dataset.screen = "online";
+  const cfg = netCfg();
+  app.innerHTML = topbar("explore") + `<h2 class="center">🌐 Play with friends</h2>` + (!cfg
+    ? `<div class="panel center"><h3>Online play isn’t switched on yet</h3><p>Ask your teacher to add the school’s online settings in Teacher settings.</p></div>`
+    : `<div class="panel"><h3>Make a room</h3><p class="hint">You’ll get a code to share. Friends who type it in can trade and battle with you.</p><button class="btn" data-act="netCreate">✨ Make a room</button></div>
+       <div class="panel"><h3>Join a friend’s room</h3><input id="joincode" class="tinput codein" maxlength="5" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="ABCDE" aria-label="Room code">
+       <div class="row" style="margin-top:10px"><button class="btn" data-act="netJoin">Join room</button></div></div>
+       <p class="tip" id="netmsg" aria-live="polite"></p>`) + navbar("map");
+}
+function showRoom() {
+  if (!NET.ch) return showOnline();
+  app.dataset.screen = "room";
+  const peers = NET.peers;
+  app.innerHTML = topbar("explore") + `<h2 class="center">🌐 Your room</h2>
+    <div class="roomcode"><div class="tiles" aria-label="Room code ${NET.code.split("").join(" ")}">${NET.code.split("").map(c => `<span class="tl">${c}</span>`).join("")}</div>
+    <p class="center hint">Share this code so friends can join.</p></div>
+    <h3 class="dexh">Friends here (${peers.length})</h3>
+    ${peers.length ? `<div class="peers">${peers.map(p => `<div class="peer">${trainerPreview(p.colour || "blue", 44)}<div class="pinfo"><b>${esc(p.name || "Explorer")}</b><small>📖 ${p.dex || 0}  🏅 ${p.badges || 0}</small></div>
+        <button class="btn small" data-act="netTrade" data-arg="${esc(p.pid)}">🤝 Trade</button><button class="btn small ghost" data-act="netBattle" data-arg="${esc(p.pid)}">⚔️ Battle</button></div>`).join("")}</div>`
+      : `<div class="panel center"><p><b>No one else is here yet.</b></p><p class="hint">Tell a friend the code above. They’ll appear here when they join.</p></div>`}
+    <div class="row" style="justify-content:center;margin-top:12px"><button class="btn ghost" data-act="netLeave">Leave room</button></div>${navbar("map")}`;
+}
+
+/* ---------- trading ---------- */
+function offerObj(id) { const e = save.team[id]; return { id, shiny: !!e.shiny, exp: e.exp || 0, xp: e.xp || 0 }; }
+function sanitizeOffer(o) { if (!o || !SPECIES[o.id]) return null; return { id: o.id, shiny: !!o.shiny, exp: Math.max(0, Math.min(expForLv(MAX_LV), +o.exp || 0)), xp: Math.max(0, Math.min(EVOLVE_XP, +o.xp || 0)) }; }
+function startTrade(pid, name, colour) { NET.trade = { pid, name, colour, mine: null, theirs: null, myReady: false, theirReady: null, done: false }; showTrade(); }
+function showTrade() {
+  const T = NET.trade; if (!T || T.done) return;
+  app.dataset.screen = "trade";
+  const list = Object.keys(save.team).filter(id => SPECIES[id]).sort((a, b) => lvOf(b) - lvOf(a));
+  const card = (o, mine) => o ? `<div class="toffer">${creatureSVG(SPECIES[o.id], { shiny: o.shiny })}<b>${SPECIES[o.id].name}${o.shiny ? " ✨" : ""}</b><span class="lvtag">Lv${lvFromExp(o.exp)}</span></div>`
+    : `<div class="toffer empty">${mine ? "Choose a creature below" : `Waiting for ${esc(T.name)} to choose…`}</div>`;
+  app.innerHTML = `<h2 class="center">🤝 Trade with ${esc(T.name)}</h2>
+    <div class="tradebox"><div class="tside"><h3>You give</h3>${card(T.mine ? offerObj(T.mine) : null, true)}${T.myReady ? `<span class="tready">✅ Ready</span>` : ""}</div>
+      <div class="tswap" aria-hidden="true">⇄</div>
+      <div class="tside"><h3>${esc(T.name)} gives</h3>${card(T.theirs, false)}${T.theirReady ? `<span class="tready">✅ Ready</span>` : ""}</div></div>
+    <div class="row" style="justify-content:center"><button class="btn" data-act="tradeReady" ${T.mine && T.theirs && !T.myReady ? "" : "disabled"}>${T.myReady ? `Waiting for ${esc(T.name)}…` : "✅ Trade!"}</button><button class="btn ghost" data-act="tradeCancel">Cancel</button></div>
+    <p class="hint center">Traded creatures keep their page in your Word Book. New arrivals get 50 XP towards evolving!</p>
+    <h3 class="dexh">Your creatures</h3><div class="dexgrid">${list.map(id => `<button class="dexcell got ${T.mine === id ? "picked" : ""}" data-act="tradePick" data-arg="${id}" aria-pressed="${T.mine === id}">${creatureSVG(SPECIES[id], { shiny: save.team[id].shiny })}<i class="lvchip">Lv${lvOf(id)}</i><span class="${SPECIES[id].name.length > 10 ? "long" : ""}">${SPECIES[id].name}</span></button>`).join("")}</div>`;
+}
+function tradePick(id) {
+  const T = NET.trade; if (!T || T.done || !save.team[id]) return;
+  T.mine = id; T.myReady = false; netSend(T.pid, "toffer", { offer: offerObj(id) }); SFX.blip(); showTrade();
+}
+function tradeReady() {
+  const T = NET.trade; if (!T || !T.mine || !T.theirs || T.done) return;
+  T.myReady = true; netSend(T.pid, "tready", { mine: T.mine, theirs: T.theirs.id });
+  if (!tryCommit()) showTrade();
+}
+function tradeCancel() { const T = NET.trade; if (T) netSend(T.pid, "tcancel", {}); NET.trade = null; showRoom(); }
+function tryCommit() {
+  const T = NET.trade;
+  if (!T || T.done || !T.myReady || !T.theirReady || !T.mine || !T.theirs) return false;
+  if (T.theirReady.mine !== T.theirs.id || T.theirReady.theirs !== T.mine) return false;
+  T.done = true;
+  const gave = T.mine, got = T.theirs, e = save.team[gave];
+  if (e.n > 1) e.n--; else delete save.team[gave];
+  const ex = save.team[got.id];
+  if (ex) { ex.n++; ex.exp = Math.max(ex.exp || 0, got.exp); ex.shiny = ex.shiny || got.shiny; ex.xp = Math.min(EVOLVE_XP, Math.max(ex.xp || 0, got.xp) + 50); }
+  else save.team[got.id] = { n: 1, xp: Math.min(EVOLVE_XP, got.xp + 50), exp: got.exp, shiny: got.shiny, ot: T.name };
+  save.dex[got.id] = true; save.seen[got.id] = true; save.trades = (save.trades || 0) + 1;
+  if (!save.team[save.buddy]) save.buddy = got.id;
+  save.party = (save.party || []).filter(id => save.team[id]); party();
+  persist(); netTrackMe();
+  NET.trade = null;
+  tradeAnim(SPECIES[gave], SPECIES[got.id], got.shiny, T.name);
+  return true;
+}
+function tradeAnim(gave, got, shiny, name) {
+  app.dataset.screen = "tradeanim"; setMusic(null); jingle("evolve");
+  app.innerHTML = `<section class="evo" aria-live="polite"><p class="evomsg" id="tmsg">Sending ${gave.name} to ${esc(name)}…</p>
+    <div class="tradestage"><div class="tgo">${creatureSVG(gave)}</div><div class="tcome">${creatureSVG(got, { shiny })}</div></div>
+    <div class="row" style="justify-content:center" id="tbtn"></div></section>`;
+  setTimeout(() => {
+    jingle("catch");
+    document.getElementById("tmsg").innerHTML = `${esc(name)} sent you ${shiny ? "✨ " : ""}<b>${got.name}</b>! Take good care of it.`;
+    document.getElementById("tbtn").innerHTML = `<button class="btn" data-act="tradeAfter" data-arg="${got.id}">Brilliant!</button>`;
+  }, reduced ? 100 : 2500);
+}
+function tradeAfter(id) {
+  const sp = SPECIES[id], e = save.team[id];
+  if (sp && sp.evo && e && (e.xp || 0) >= EVOLVE_XP) { evolve(id, () => showRoom()); return; }
+  showRoom();
+}
+
+/* ---------- friend battles ---------- */
+function pvpSetup(pid, name, colour, iStart) {
+  const mine = party().map(id => ({ id, shiny: !!save.team[id].shiny }));
+  NET.pvp = { pid, name, colour, iStart, mine, theirs: null, started: false };
+  netSend(pid, "bteam", { team: mine });
+  toast("Getting ready to battle…"); pvpMaybeStart();
+}
+function pvpMaybeStart() {
+  const v = NET.pvp; if (!v || !v.theirs || !v.theirs.length || v.started) return; v.started = true;
+  startBattle({
+    mode: "pvp", opp: v.pid, turn: v.iStart ? "me" : "them", leaderName: v.name,
+    portrait: `<img class="pvpport" src="${trainerCanvas("down", 0, v.colour || "blue", 4).toDataURL()}" alt="">`,
+    mine: v.mine.map(t => mkFighter(t.id, PVP_LV, t.shiny)), foes: v.theirs.map(t => mkFighter(t.id, PVP_LV, t.shiny)),
+    scene: ZONE.emus, topics: enabledCats(), hard: false,
+    intro: [`Friend battle with ${esc(v.name)}! Every creature is Lv ${PVP_LV}, so it’s all about your answers.`, v.iStart ? "You go first. Good luck!" : `${esc(v.name)} goes first. Good luck!`], introWho: "prof"
+  });
+}
+function pvpOnMsg(p) {
+  if (!BT || BT.mode !== "pvp" || BT.over || p.from !== BT.opp) return;
+  BT.q = BT.q.then(async () => {
+    if (BT.over) return;
+    if (p.type === "bmove") {
+      await doAttack("foe", p.kind === "power" ? "power" : "quick", !!p.ok, Math.max(0, Math.min(200, +p.dmg || 0)), !!p.strong);
+      const r = await afterTheirHit(); if (r === true) return;
+      BT.turn = "me"; yourTurn();
+    } else if (p.type === "bberry") { await healFx("foe", 20); BT.turn = "me"; yourTurn(); }
+    else if (p.type === "bswitch") {
+      const i = +p.i; if (BT.foes[i] && BT.foes[i].hp > 0) BT.fi = i;
+      renderBattle(); battleMsg(`${esc(BT.leaderName)} sends out ${BT.foes[BT.fi].sp.name}!`); await appear("bfoe"); await sleepW(450);
+      BT.turn = "me"; yourTurn();
+    } else if (p.type === "bquit") { battleMsg(`${esc(BT.leaderName)} gave up!`); await sleepW(900); endBattle(true); }
+  });
+}
+function pvpEnd(won) {
+  const coins = won ? 20 : 5; save.coins += coins;
+  (BT.mine || []).forEach(f => { if (save.team[f.id]) addExp(f.id, won ? 30 : 15); });
+  save.pvpWins = (save.pvpWins || 0) + (won ? 1 : 0); persist();
+  showModal(`<div class="qcard center" role="dialog" aria-modal="true"><h2>${won ? "🏆 You won!" : "Good battle!"}</h2>
+    <p>${won ? `You beat ${esc(BT.leaderName)}!` : `${esc(BT.leaderName)} won this time.`}</p><p class="hint">🪙 +${coins} Word Coins, and your team gained experience.</p>
+    <button class="btn" data-act="pvpDone">OK</button></div>`);
+}
+function pvpDone() { closeModal(); NET.pvp = null; afterBattle(() => NET.status === "on" && NET.ch ? showRoom() : showWorld()); }
+
+/* ---------- teacher settings ---------- */
+function onlinePanel() {
+  return `<div class="panel"><h3>Online play (Supabase)</h3>
+    <p class="hint">Lets pupils make a room with a code, then trade creatures and battle friends. Create a free Supabase project and paste its Project URL and anon public key (Project Settings, then API). No database tables are needed.</p>
+    <label class="field">Project URL<input id="sbUrl" class="tinput" autocomplete="off" spellcheck="false" placeholder="https://your-project.supabase.co" value="${esc(settings.sbUrl || "")}"></label>
+    <label class="field">Anon public key<input id="sbKey" class="tinput" autocomplete="off" spellcheck="false" placeholder="eyJ…" value="${esc(settings.sbKey || "")}"></label>
+    <p class="hint">${ONLINE_CONFIG.url ? "✅ This copy of the game already has online settings built in. Fill these in only to use a different project on this device." : "To switch it on for every device at once, paste the same two values into ONLINE_CONFIG at the top of the script in index.html."}</p></div>`;
+}
+
 /* ===================== PLAYERS & SAVING ===================== */
 const freshProg = () => ({ v: 1, cats: {}, recent: [], review: [], asked: 0 });
 const profiles = () => store.get("profiles", []);
@@ -4650,7 +5318,7 @@ const activeId = () => store.get("activeProfile", null);
 function setProfiles(list) { store.set("profiles", list); }
 function profileSummary(id) {
   let s = null; try { const raw = localStorage.getItem("wordwilds:save:" + id); s = raw ? JSON.parse(raw) : null; } catch (e) {}
-  return { creatures: s ? Object.keys(s.team || {}).length : 0, badges: s ? Object.values(s.badges || {}).filter(Boolean).length : 0, champion: !!(s && s.story && s.story.champion) };
+  return { creatures: s ? Object.keys(s.dex || s.team || {}).length : 0, badges: s ? Object.values(s.badges || {}).filter(Boolean).length : 0, champion: !!(s && s.story && s.story.champion) };
 }
 function savedPing() {
   const now = Date.now(); if (now - lastSavePing < 4000) return; lastSavePing = now;
@@ -4704,6 +5372,7 @@ function createProfile() {
   selectProfile(id, { name, colour: NEWP.colour });
 }
 function selectProfile(id, fresh) {
+  if (NET.ch) leaveRoom(true);
   store.set("activeProfile", id);
   const p = profiles().find(x => x.id === id) || fresh || {};
   save = store.get(PKEY("save"), null);
@@ -4824,6 +5493,14 @@ function delProfile(id, el) {
   if (activeId() === id) { store.set("activeProfile", null); save = null; prog = freshProg(); }
   showSettings(); app.querySelector("#saved").textContent = "Player deleted.";
 }
+Object.assign(ACT, {
+  team: () => { TEAMSEL = 0; showTeam(); }, teamSlot: i => { TEAMSEL = +i; showTeam(); }, teamPut, evoNext: () => { const f = EVO_NEXT; EVO_NEXT = null; f ? f() : showWorld(); },
+  trainerRematch: id => { closeModal(); const n = NPCS.find(x => x.id === id); if (n) trainerChallenge(n, true); }, bQuit,
+  online: () => showOnline(), netCreate: () => joinRoom(newCode()), netJoin: () => joinRoom((document.getElementById("joincode") || {}).value),
+  netLeave: () => leaveRoom(false), netTrade: pid => netAsk(pid, "trade"), netBattle: pid => netAsk(pid, "battle"), netYes, netNo,
+  tradePick, tradeReady, tradeCancel, tradeAfter: id => tradeAfter(id), pvpDone
+});
+document.addEventListener("keydown", e => { if (e.key === "Enter" && e.target && e.target.id === "joincode") joinRoom(e.target.value); });
 Object.assign(ACT, {
   play: () => showProfiles(), profiles: () => showProfiles(), pickProfile: id => selectProfile(id), newProfile: () => { NEWP = { colour: "blue" }; showNewProfile(); },
   pickColour: (c) => { const nm = document.getElementById("pname").value; NEWP.colour = c; showNewProfile(); document.getElementById("pname").value = nm; },
