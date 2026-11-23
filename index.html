@@ -4168,6 +4168,7 @@ const EVOLVE_XP = 100;
 
 let save = store.get(PKEY("save"), null);
 function newSave() { return { buddy: null, team: {}, seen: {}, caught: 0 }; }
+let lastSavePing = 0;
 function persist() { if (!save) return; store.set(PKEY("save"), save); if (typeof savedPing === "function") savedPing(); }
 function owned(id) { return !!(save && save.team[id]); }
 function zonesOpen() {
@@ -4651,7 +4652,6 @@ function profileSummary(id) {
   let s = null; try { const raw = localStorage.getItem("wordwilds:save:" + id); s = raw ? JSON.parse(raw) : null; } catch (e) {}
   return { creatures: s ? Object.keys(s.team || {}).length : 0, badges: s ? Object.values(s.badges || {}).filter(Boolean).length : 0, champion: !!(s && s.story && s.story.champion) };
 }
-let lastSavePing = 0;
 function savedPing() {
   const now = Date.now(); if (now - lastSavePing < 4000) return; lastSavePing = now;
   const c = document.getElementById("savedchip"); if (!c) return;
