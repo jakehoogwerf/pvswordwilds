@@ -1169,6 +1169,30 @@ label.field .tinput{margin-top:4px;font-size:1rem}
 .schap b{display:block;font-size:.98rem} .schap small{display:block;color:var(--muted);line-height:1.3}
 .schap.cur{border-color:var(--gold);box-shadow:0 0 14px rgba(255,212,71,.35)}
 .schap.locked{opacity:.6}
+.dsb.twin .bfoe{right:27%;top:10%;width:25%}
+.dsb .bfoe2{position:absolute;right:1%;top:19%;width:25%;z-index:2}
+.dsb .tw{background:none;border:0;padding:0;cursor:pointer}
+.dsb .tw.tgt svg{filter:drop-shadow(0 0 5px #FFD447) drop-shadow(0 0 2px #FFD447)}
+.dsb .tw.tgt::after{content:"🎯";position:absolute;left:50%;top:-8%;transform:translateX(-50%);font-size:1.05rem;animation:drift 1s ease-in-out infinite}
+.dsb.twin .foeplate{top:2%;width:46%;padding:1px 7px 3px}
+.dsb .foeplate2{left:3%;top:19%;width:46%;padding:1px 7px 3px}
+.dsb.twin .foeplate b,.dsb .foeplate2 b{font-size:.78rem}
+.dsb.twin .foeplate .lvtag,.dsb .foeplate2 .lvtag{font-size:.58rem;margin-left:4px;padding:0 4px}
+.dsb.twin .foeplate small,.dsb .foeplate2 small{display:none}
+.dsb.twin .foeplate .bhp,.dsb .foeplate2 .bhp{height:7px;margin-top:1px}
+.dsb.twin .plat-foe{right:0;top:50%;width:58%}
+.dsb.twin .leader{right:1%;top:2%;width:10%} .dsb .leader2{right:12%;top:2%;width:10%}
+.hpmini{width:90%;height:5px;border-radius:3px;background:#C8D3E6;overflow:hidden;margin-top:2px}
+.hpmini i{display:block;height:100%;background:linear-gradient(90deg,#7CF59A,#2EBF5A)}
+.dexcell.tired{opacity:.5;filter:grayscale(.6)}
+.healcard .healnurse{width:90px;margin:0 auto -6px}
+.healrow{display:flex;justify-content:center;gap:6px;margin:6px 0}
+.healmon{width:30%;max-width:110px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.5),rgba(255,143,163,.15) 60%,transparent 70%);animation:healglow 1.2s ease-in-out 2 both}
+@keyframes healglow{0%{filter:brightness(1)}40%{filter:brightness(1.8) drop-shadow(0 0 10px #FF8FA3)}100%{filter:brightness(1)}}
+.rpin{position:absolute;transform:translate(-50%,-50%);z-index:4;display:flex;flex-direction:column;align-items:center;pointer-events:none}
+.rpin i{font-style:normal;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:#fff;border:2.5px solid #1d1b3a;font-size:.95rem}
+.rpin b{margin-top:1px;background:#fff;border:2px solid #1d1b3a;border-radius:6px;padding:0 4px;font:800 .58rem/1.4 "Baloo 2",system-ui,sans-serif;color:#1d1b3a;white-space:nowrap}
+.rpin.locked i{background:#B5BAC6}
 </style>
 </head>
 <body>
@@ -1977,6 +2001,10 @@ const SPECIES_LIST = [
   { id: "opposum", name: "Opposum", type: "vocab", arch: "pup", stage: 1, evo: "contrapossum", rarity: 2, desc: "It hangs upside down, so it sees everything the opposite way." },
   { id: "contrapossum", name: "Contrapossum", type: "vocab", arch: "pup", stage: 2, rarity: 3, desc: "Hot and cold, up and down, happy and sad. A master of opposites, upside down!" },
   { id: "inktopus", name: "Inktopus", type: "legend", arch: "blob", stage: 2, rarity: 4, desc: "The second legendary creature. It writes with eight quills at once." },
+  { id: "symphonix", name: "Symphonix", type: "legend", arch: "bird", stage: 2, rarity: 4, desc: "A secret legendary from the Music Room. A phoenix made of music that sings every word in perfect rhythm." },
+  { id: "parolupo", name: "Parolupo", type: "legend", arch: "pup", stage: 2, rarity: 4, desc: "A secret legendary from the Italian Room. This golden wolf carries words like piano and pizza into English." },
+  { id: "gearagon", name: "Gearagon", type: "legend", arch: "dino", stage: 2, rarity: 4, desc: "A secret legendary from the STEAM Room. A dragon of gears, paintbrushes and test tubes that invents new words." },
+  { id: "catalogue", name: "Catalogue", type: "legend", arch: "blob", stage: 2, rarity: 4, desc: "The secret legendary of Fat Cat’s Cottage. A very fat, very fluffy cat with every book sorted A to Z in its tummy." },
   // ---- even more creatures ----
   { id: "syllapup", name: "Syllapup", type: "spelling", arch: "pup", stage: 1, evo: "syllaseal", rarity: 1, desc: "It claps out the syllables of every word it hears. Ba-na-na: three claps!" },
   { id: "syllaseal", name: "Syllaseal", type: "spelling", arch: "pup", stage: 2, rarity: 3, desc: "It balances a ball with three parts on its head: syl-la-ble." },
@@ -3299,6 +3327,75 @@ Object.assign(HAND, {
   </g>`
 });
 
+const note8 = (x, y, s = 1, col = "#FFD447") => `<g transform="translate(${x} ${y}) scale(${s})"><ellipse cx="0" cy="0" rx="6" ry="4.5" fill="${col}" stroke="${OL}" stroke-width="2.5" transform="rotate(-20)"/><path d="M5 -2 V-22 Q12 -18 14 -10" fill="none" stroke="${OL}" stroke-width="3" stroke-linecap="round"/></g>`;
+const gear = (x, y, r, col, teeth = 8) => `<g transform="translate(${x} ${y})"><path d="${Array.from({ length: teeth * 2 }, (_, i) => { const a = i / (teeth * 2) * Math.PI * 2, rr = i % 2 ? r : r * 1.28; return `${i ? "L" : "M"}${(Math.cos(a) * rr).toFixed(1)} ${(Math.sin(a) * rr).toFixed(1)}`; }).join(" ")}Z" fill="${col}" stroke="${OL}" stroke-width="3" stroke-linejoin="round"/><circle r="${r * .38}" fill="#E9ECFB" stroke="${OL}" stroke-width="3"/></g>`;
+Object.assign(HAND, {
+  symphonix: () => `${hs(60)}
+    <g class="shinesparks">${note8(26, 60, .9)}${note8(176, 48, .8, "#FF9AB5")}${note8(184, 150, .7, "#7FE0D4")}</g>
+    <g class="hover2">
+    <g class="flapBL" style="transform-origin:78px 104px"><path d="M80 100 Q40 40 6 54 Q28 70 14 84 Q42 82 30 104 Q56 98 52 120 Q70 108 78 124Z" fill="#9B5DE5" ${HO}/>
+      ${[0, 1, 2, 3, 4].map(i => `<path d="M${74 - i * 2} ${102 - i * 7} Q${44 - i * 4} ${76 - i * 7} ${18 + i * 2} ${72 - i * 6}" fill="none" stroke="#E3D4FF" stroke-width="1.6"/>`).join("")}${note8(40, 92, .6)}</g>
+    <g class="flapBR" style="transform-origin:122px 104px"><path d="M120 100 Q160 40 194 54 Q172 70 186 84 Q158 82 170 104 Q144 98 148 120 Q130 108 122 124Z" fill="#9B5DE5" ${HO}/>
+      ${[0, 1, 2, 3, 4].map(i => `<path d="M${126 + i * 2} ${102 - i * 7} Q${156 + i * 4} ${76 - i * 7} ${182 - i * 2} ${72 - i * 6}" fill="none" stroke="#E3D4FF" stroke-width="1.6"/>`).join("")}${note8(158, 92, .6, "#FF9AB5")}</g>
+    <path d="M88 150 Q70 186 92 192 Q90 176 100 168 Q110 176 108 192 Q130 186 112 150Z" fill="#FF7A3A" ${HO}/><path d="M96 160 Q92 176 100 182 Q108 176 104 160Z" fill="#FFE066"/>
+    <ellipse cx="100" cy="128" rx="26" ry="32" fill="#7E4BBD" ${HO}/><ellipse cx="100" cy="136" rx="14" ry="20" fill="#E3D4FF"/>
+    <circle cx="100" cy="80" r="24" fill="#9B5DE5" ${HO}/>
+    <path d="M100 56 C92 40 110 30 112 44 C114 56 96 58 98 46 C99 38 106 40 104 48 M100 56 V30" fill="none" stroke="#FFD447" stroke-width="4" stroke-linecap="round"/>
+    ${eyes2(91, 109, 78, 7, true)}<path d="M94 90 L106 90 L100 98Z" fill="#FFB020" ${HO}/>
+  </g>`,
+
+  parolupo: () => `${hs(62)}
+    <g class="shinesparks" font-family="${CF}" font-weight="800" font-size="12">${[["ciao", 30, 46, "#3E9B4E"], ["piano", 168, 40, "#E63946"], ["pizza", 30, 120, "#3E9B4E"]].map(([w, x, y, c]) => `<text x="${x}" y="${y}" text-anchor="middle" fill="${c}" stroke="#fff" stroke-width="3" paint-order="stroke">${w}</text>`).join("")}</g>
+    <g class="idle">
+    <g class="wag" style="transform-origin:140px 160px"><path d="M138 162 Q186 158 184 112 Q176 128 160 136 Q150 142 136 146Z" fill="#E9B43B" ${HO}/></g>
+    <path d="M60 184 Q54 126 100 116 Q146 126 140 184Z" fill="#E9B43B" ${HO}/>
+    <path d="M80 184 Q80 146 100 140 Q120 146 120 184Z" fill="#FFF3D6"/>
+    <ellipse cx="78" cy="184" rx="15" ry="7" fill="#C9962B" ${HO}/><ellipse cx="122" cy="184" rx="15" ry="7" fill="#C9962B" ${HO}/>
+    <path d="M64 112 Q100 132 136 112 L138 124 Q100 146 62 124Z" fill="#fff" ${HO}/><path d="M64 112 Q76 118 86 122 L84 134 Q72 130 62 124Z" fill="#3E9B4E"/><path d="M114 122 Q126 118 136 112 L138 124 Q128 130 116 134Z" fill="#E63946"/>
+    <path d="M64 70 L56 26 L88 52Z M136 70 L144 26 L112 52Z" fill="#E9B43B" ${HO}/>
+    <path d="M60 74 Q60 42 100 40 Q140 42 140 74 Q142 98 122 106 L100 116 L78 106 Q58 98 60 74Z" fill="#E9B43B" ${HO}/>
+    <path d="M76 90 Q88 84 100 98 Q112 84 124 90 L100 116Z" fill="#FFF3D6"/><ellipse cx="100" cy="106" rx="6" ry="4.5" fill="${OL}"/>
+    ${eyes2(84, 116, 72, 8, true)}
+    ${[-1, 1].map(d => Array.from({ length: 5 }, (_, i) => `<ellipse cx="${100 + d * (16 + i * 8)}" cy="${46 + i * 4}" rx="7" ry="4" fill="#4CAF50" stroke="${OL}" stroke-width="2" transform="rotate(${d * (20 + i * 12)} ${100 + d * (16 + i * 8)} ${46 + i * 4})"/>`).join("")).join("")}
+  </g>`,
+
+  gearagon: () => `${hs(66)}
+    <g class="tick" style="transform-origin:40px 60px">${gear(40, 60, 18, "#C9962B")}</g><g class="tick" style="transform-origin:162px 52px">${gear(162, 52, 14, "#7FB0FF", 7)}</g>
+    <g class="idle">
+    <path d="M128 162 Q176 172 190 140 Q184 162 160 176Z" fill="#2E9C93" ${HO}/>
+    <g transform="translate(186 134) rotate(-20)"><ellipse cx="0" cy="0" rx="14" ry="10" fill="#FFF3D6" ${HO}/><circle cx="-5" cy="-2" r="2.5" fill="#E63946"/><circle cx="2" cy="-4" r="2.5" fill="#3F6FD8"/><circle cx="6" cy="2" r="2.5" fill="#FFD447"/></g>
+    <ellipse cx="78" cy="184" rx="17" ry="8" fill="#1F6F68" ${HO}/><ellipse cx="122" cy="184" rx="17" ry="8" fill="#1F6F68" ${HO}/>
+    <path d="M58 182 Q50 116 100 106 Q150 116 142 182Z" fill="#2E9C93" ${HO}/>
+    <g transform="translate(100 148)">${gear(0, 0, 18, "#FFD447")}</g>
+    <g transform="translate(58 134) rotate(-20)"><rect x="-6" y="-24" width="12" height="34" rx="6" fill="#E3F6FF" ${HO}/><path d="M-6 -4 H6 V4 Q6 10 0 10 Q-6 10 -6 4Z" fill="#7FE0D4"/><rect x="-8" y="-28" width="16" height="6" rx="2" fill="#B5BAC6" stroke="${OL}" stroke-width="2.5"/></g>
+    <path d="M66 62 L54 22 L82 46Z" fill="#FFD447" ${HO}/><path d="M60 40 h6 M58 32 h6" stroke="${OL}" stroke-width="2"/>
+    <path d="M134 62 L146 22 L118 46Z" fill="#FFD447" ${HO}/><path d="M140 40 h-6 M142 32 h-6" stroke="${OL}" stroke-width="2"/>
+    <path d="M60 78 Q60 44 100 42 Q144 44 142 78 Q144 102 124 108 L76 108 Q58 102 60 78Z" fill="#2E9C93" ${HO}/>
+    <path d="M76 92 Q100 120 126 92 Q122 108 100 112 Q78 108 76 92Z" fill="#1F6F68" ${HO}/>
+    ${eyes2(84, 116, 72, 10, true)}<circle cx="84" cy="72" r="13" fill="none" stroke="#C9962B" stroke-width="3.5"/>
+  </g>`,
+
+  catalogue: () => `${hs(72)}
+    <g class="idle">
+    <g class="wag" style="transform-origin:160px 168px"><path d="M158 170 Q196 170 190 128 Q186 110 172 116 Q182 130 178 146 Q172 160 156 158Z" fill="#F28B30" ${HO}/></g>
+    <ellipse cx="62" cy="184" rx="18" ry="8" fill="#E07A3A" ${HO}/><ellipse cx="138" cy="184" rx="18" ry="8" fill="#E07A3A" ${HO}/>
+    <ellipse cx="100" cy="140" rx="66" ry="48" fill="#F28B30" ${HO}/>
+    <path d="M44 128 Q50 116 60 120 M150 120 Q156 114 160 124 M60 172 Q70 168 76 176" fill="none" stroke="#C9622B" stroke-width="4" stroke-linecap="round"/>
+    <rect x="66" y="116" width="68" height="56" rx="6" fill="#B5763A" ${HO}/>
+    ${[["A–F", 0, 0], ["G–M", 1, 0], ["N–S", 0, 1], ["T–Z", 1, 1]].map(([t, i, j]) => `<rect x="${70 + i * 32}" y="${120 + j * 26}" width="28" height="22" rx="3" fill="#D9A066" stroke="${OL}" stroke-width="2.5"/><text x="${84 + i * 32}" y="${131 + j * 26}" text-anchor="middle" font-family="${CF}" font-weight="800" font-size="8" fill="#5A3A1E">${t}</text><rect x="${80 + i * 32}" y="${135 + j * 26}" width="8" height="3" rx="1.5" fill="#FFD447"/>`).join("")}
+    <path d="M58 70 L50 26 L84 52Z M142 70 L150 26 L116 52Z" fill="#F28B30" ${HO}/><path d="M60 62 L56 36 L76 52Z M140 62 L144 36 L124 52Z" fill="#FFB3C7"/>
+    <ellipse cx="100" cy="80" rx="50" ry="40" fill="#F28B30" ${HO}/>
+    <path d="M80 48 L84 60 M100 44 V58 M120 48 L116 60" stroke="#C9622B" stroke-width="4" stroke-linecap="round"/>
+    <ellipse cx="100" cy="96" rx="22" ry="14" fill="#FFF3D6"/>
+    <circle cx="80" cy="80" r="12" fill="#fff" stroke="${OL}" stroke-width="3"/><circle cx="120" cy="80" r="12" fill="#fff" stroke="${OL}" stroke-width="3"/>
+    <g class="blink" style="transform-origin:100px 80px"><path d="M76 80 Q80 74 84 80" fill="none" stroke="${OL}" stroke-width="3.5" stroke-linecap="round"/><path d="M116 80 Q120 74 124 80" fill="none" stroke="${OL}" stroke-width="3.5" stroke-linecap="round"/></g>
+    <circle cx="80" cy="80" r="14" fill="none" stroke="#C9962B" stroke-width="3"/><circle cx="120" cy="80" r="14" fill="none" stroke="#C9962B" stroke-width="3"/><path d="M94 80 h12" stroke="#C9962B" stroke-width="3"/>
+    <path d="M94 92 L106 92 L100 98Z" fill="#FF8FA3" stroke="${OL}" stroke-width="2.5" stroke-linejoin="round"/>${smile(100, 102, 6)}
+    <path d="M70 96 L44 92 M70 102 L46 106 M130 96 L156 92 M130 102 L154 106" stroke="${OL}" stroke-width="2" stroke-linecap="round"/>
+    <path d="M84 118 L100 112 L116 118 L100 124Z" fill="#7E4BBD" ${HO}/><circle cx="100" cy="118" r="4" fill="#FFD447" stroke="${OL}" stroke-width="2"/>
+  </g>`
+});
+
 /* ---------- people, badges and eggs ---------- */
 function professorSVG() {
   return `<svg viewBox="0 0 200 200" class="sprite" aria-hidden="true"><ellipse cx="100" cy="188" rx="46" ry="8" fill="rgba(0,0,0,.22)"/>
@@ -3333,6 +3430,7 @@ function personSVG(p) {
     grey: `<path d="M64 88 Q58 56 76 60 Q74 44 100 46 Q126 44 124 60 Q142 56 136 88 Q126 70 100 72 Q74 70 64 88Z" fill="${p.hair}" ${O}/>`
   }[p.hairStyle || "short"];
   const hats = {
+    nurse: `<path d="M72 62 Q100 44 128 62 L126 74 Q100 66 74 74Z" fill="#fff" ${O}/><rect x="96" y="51" width="8" height="15" rx="1" fill="#E63946"/><rect x="92.5" y="55" width="15" height="7" rx="1" fill="#E63946"/>`,
     captain: `<path d="M64 66 Q100 52 136 66 L132 78 Q100 70 68 78Z" fill="#fff" ${O}/><path d="M66 66 Q100 34 134 66Z" fill="#fff" ${O}/><path d="M70 64 Q100 56 130 64" stroke="#14306E" stroke-width="5" fill="none"/><circle cx="100" cy="52" r="6" fill="#FFC93C" ${O}/>`,
     ranger: `<ellipse cx="100" cy="64" rx="52" ry="10" fill="#8B5A2B" ${O}/><path d="M74 64 Q76 36 100 36 Q124 36 126 64Z" fill="#A9743F" ${O}/><path d="M76 58 H124" stroke="#4CAF50" stroke-width="6"/>`,
     beanie: `<path d="M66 72 Q66 38 100 38 Q134 38 134 72Z" fill="${p.outfit2}" ${O}/><rect x="64" y="66" width="72" height="12" rx="6" fill="${p.outfit}" ${O}/><circle cx="100" cy="34" r="8" fill="#fff" ${O}/>`,
@@ -3759,7 +3857,7 @@ function mkFighter(id, lv, shiny, foe) {
   const sp = SPECIES[id], st = foe ? foeStats(sp, lv) : statsFor(sp, lv);
   return { id, sp, lv, shiny: !!shiny, hp: st.hpMax, hpMax: st.hpMax, atk: st.atk };
 }
-const myFighters = ids => ids.filter(id => save.team[id] && SPECIES[id]).slice(0, 3).map(id => mkFighter(id, lvOf(id), save.team[id].shiny));
+const myFighters = ids => ids.filter(id => save.team[id] && SPECIES[id] && hpOf(id) > 0).slice(0, 3).map(id => { const f = mkFighter(id, lvOf(id), save.team[id].shiny); f.hp = hpOf(id); return f; });
 
 function prepareGym(z) {
   const champion = z === "champion";
@@ -3768,18 +3866,19 @@ function prepareGym(z) {
   const mine = Object.keys(save.team).map(id => SPECIES[id]).filter(Boolean);
   const p = party();
   const score = s => (foeType && STRONG[s.type] === foeType ? 10 : 0) + lvOf(s.id) * 0.4 + (p.includes(s.id) ? 3 : 0);
-  const pre = mine.slice().sort((a, b) => score(b) - score(a)).slice(0, 3).map(s => s.id);
+  const pre = mine.filter(s => hpOf(s.id) > 0).sort((a, b) => score(b) - score(a)).slice(0, 3).map(s => s.id);
   G = { z, champion, pick: pre };
   const who = champion ? PRINCIPAL.name : `${LEADERS[z].name} (${AREA[z].cls})`;
   const strongTypes = foeType ? Object.keys(STRONG).filter(t => STRONG[t] === foeType) : [];
   app.dataset.screen = "teampick";
   app.innerHTML = topbar(champion ? "map" : "explore") + `<h2 class="center">Choose your team</h2>
     <p class="center">Pick up to 3 creatures to battle ${who}.${strongTypes.length ? ` <b class="tip-strong">💥 ${TYPE_INFO[strongTypes[0]].name} creatures are strong against ${TYPE_INFO[foeType].name}!</b>` : ""}</p>
-    <div class="dexgrid pickgrid">${mine.map(s => `<button class="dexcell got pickc ${pre.includes(s.id) ? "picked" : ""}" data-act="togglePick" data-arg="${s.id}" aria-pressed="${pre.includes(s.id)}">
+    <div class="dexgrid pickgrid">${mine.map(s => `<button class="dexcell got pickc ${pre.includes(s.id) ? "picked" : ""}${hpOf(s.id) <= 0 ? " tired" : ""}" data-act="togglePick" data-arg="${s.id}" aria-pressed="${pre.includes(s.id)}">
       ${creatureSVG(s, { shiny: save.team[s.id].shiny })}<i class="lvchip">Lv${lvOf(s.id)}</i><span class="${s.name.length > 10 ? "long" : ""}">${s.name}</span>${foeType && STRONG[s.type] === foeType ? `<i class="strongtag">💥 Strong</i>` : ""}</button>`).join("")}</div>
     <div class="row" style="justify-content:center;margin-top:12px"><button class="btn" data-act="startGym">⚔️ Battle!</button></div>`;
 }
 function togglePick(id) {
+  if (hpOf(id) <= 0) { toast("😴 This creature needs a rest. Visit Ms Shaw!"); return; }
   const i = G.pick.indexOf(id);
   if (i >= 0) { if (G.pick.length > 1) G.pick.splice(i, 1); }
   else { if (G.pick.length >= 3) G.pick.shift(); G.pick.push(id); }
@@ -3798,6 +3897,7 @@ function startGym() {
 /* ---------- battle flow ---------- */
 function startBattle(cfg) {
   document.querySelectorAll(".chapcard").forEach(x => x.remove());
+  if (cfg.mode !== "pvp" && (!cfg.mine || !cfg.mine.length)) { STORY_COOL = 6; dialogue(["Your team is too tired to battle right now!", "Ms Shaw can help. Visit the Front Office in the Specialist Wing, or one of her first-aid tents."], nurseWho(), () => showWorld()); return; }
   clearInterval(zoneTimer); setTimeout(() => netPos(true), 600);
   let ready; const rp = new Promise(r => ready = r);
   BT = Object.assign({ mi: 0, fi: 0, busy: true, over: false, turn: "me", q: rp, ready, topics: enabledCats(), hard: false }, cfg);
@@ -3810,7 +3910,8 @@ async function introSendOut() {
   const me = BT.mine[BT.mi], foe = BT.foes[BT.fi];
   setActions(false);
   document.getElementById("bme").style.opacity = 0;
-  battleMsg(`${esc(BT.leaderName)} sends out ${foe.sp.name}!`); await appear("bfoe"); await sleepW(450);
+  if (BT.twin) { const fa = BT.foes[BT.slots[0]], fb = BT.foes[BT.slots[1]]; battleMsg(`${esc(BT.leaderName)} sends out ${fa.sp.name}! ${esc(BT.leaderName2)} sends out ${fb.sp.name}!`); appear("bfoe2"); await appear("bfoe"); await sleepW(700); battleMsg("🎯 Tap a creature to choose which one to attack."); await sleepW(900); }
+  else { battleMsg(`${esc(BT.leaderName)} sends out ${foe.sp.name}!`); await appear("bfoe"); await sleepW(450); }
   document.getElementById("bme").style.opacity = "";
   battleMsg(`Go, ${me.sp.name}!`); await appear("bme"); await sleepW(350);
   BT.ready();
@@ -3826,13 +3927,12 @@ function plateHTML(f, mine) {
 function renderBattle() {
   app.dataset.screen = "battle"; setMusic(BT.mode === "champion" ? "champion" : BT.mode === "gym" ? "gym" : "battle");
   const me = BT.mine[BT.mi], foe = BT.foes[BT.fi];
-  app.innerHTML = `<section class="dsb dsl">
+  app.innerHTML = `<section class="dsb dsl${BT.twin ? " twin" : ""}">
     <div class="dsl-top"><div class="dsl-cam" aria-hidden="true"></div><div class="scr scr-top">
       <section class="stage arena" id="bstage"><div class="scene-bg">${zoneSceneSVG(BT.scene)}</div>
       <div class="plat plat-foe"></div><div class="plat plat-me"></div>
-      <div class="leader">${BT.portrait}</div>
-      <div class="bplate foeplate">${plateHTML(foe, false)}</div>
-      <div class="bfoe" id="bfoe">${creatureSVG(foe.sp, { shiny: foe.shiny })}</div>
+      <div class="leader">${BT.portrait}</div>${BT.portrait2 ? `<div class="leader leader2">${BT.portrait2}</div>` : ""}
+      ${foeMarkup()}
       <div class="bme" id="bme">${creatureSVG(me.sp, { shiny: me.shiny })}</div>
       <div class="bplate meplate">${plateHTML(me, true)}</div>
       <div class="fx" id="fx"></div>
@@ -3864,7 +3964,8 @@ function updatePlates() {
     const lt = pl.querySelector(".lvtag"); if (lt) lt.textContent = "Lv" + f.lv;
     const x = pl.querySelector(".bexp i"); if (x && mine && save.team[f.id]) x.style.width = expPct(f.id) + "%";
   };
-  set(".foeplate", BT.foes[BT.fi]); set(".meplate", BT.mine[BT.mi], true);
+  if (BT.twin) { set(".foeplate", BT.foes[BT.slots[0]]); set(".foeplate2", BT.foes[BT.slots[1]]); } else set(".foeplate", BT.foes[BT.fi]);
+  set(".meplate", BT.mine[BT.mi], true);
 }
 const calcDmg = (att, kind, strong) => Math.max(1, Math.round(att.atk * (kind === "power" ? 1.6 : 1) * (strong ? 1.5 : 1) * (0.9 + Math.random() * 0.2)));
 const canAct = () => BT && !BT.busy && !BT.over && !(BT.mode === "pvp" && BT.turn !== "me");
@@ -3885,9 +3986,9 @@ function bMove(kind) {
     });
   }, { cat: topic, harder: kind === "power" || BT.hard });
 }
-async function doAttack(side, kind, ok, dmg, strong) {
-  const mine = side === "me", att = mine ? BT.mine[BT.mi] : BT.foes[BT.fi], def = mine ? BT.foes[BT.fi] : BT.mine[BT.mi];
-  const aid = mine ? "bme" : "bfoe", did = mine ? "bfoe" : "bme", owner = mine ? "" : `${esc(BT.leaderName)}’s `;
+async function doAttack(side, kind, ok, dmg, strong, ov = {}) {
+  const mine = side === "me", att = ov.att || (mine ? BT.mine[BT.mi] : BT.foes[BT.fi]), def = mine ? BT.foes[BT.fi] : BT.mine[BT.mi];
+  const fid = foeId(BT.fi), aid = ov.aid || (mine ? "bme" : fid), did = mine ? fid : "bme", owner = mine ? "" : `${esc(ov.ownerName || BT.leaderName)}’s `;
   battleMsg(`${owner}${att.sp.name} used ${kind === "power" ? "Mega " : ""}${MOVES[att.sp.type]}!`);
   await sleepW(450);
   if (!ok) {
@@ -3902,6 +4003,7 @@ async function doAttack(side, kind, ok, dmg, strong) {
   if (strong) { battleMsg("💥 It’s super effective!"); popAt(did, "Super effective!", "super"); await sleepW(800); }
 }
 async function afterMyHit() {
+  if (BT.twin) return twinAfterMyHit();
   const foe = BT.foes[BT.fi]; if (foe.hp > 0) return false;
   await faint("bfoe"); battleMsg(`${esc(BT.leaderName)}’s ${foe.sp.name} fainted!`); await sleepW(800);
   if (BT.mode !== "pvp") await awardKO(foe);
@@ -3921,6 +4023,7 @@ async function afterTheirHit() {
 }
 async function foeTurn() {
   if (BT.over) return;
+  if (BT.twin) return twinFoeTurn();
   const foe = BT.foes[BT.fi], me = BT.mine[BT.mi], power = Math.random() < 0.25, ok = Math.random() > (power ? 0.3 : 0.12), strong = STRONG[foe.sp.type] === me.sp.type;
   await doAttack("foe", power ? "power" : "quick", ok, ok ? calcDmg(foe, power ? "power" : "quick", strong) : 0, strong);
   const r = await afterTheirHit(); if (r === true) return;
@@ -3975,6 +4078,11 @@ function endBattle(won) {
   if (BT.over) return; BT.over = true; setActions(false); setMusic(null);
   if (won) jingle("victory");
   const m = BT.mode;
+  if (m !== "pvp") {
+    BT.mine.forEach(f => { const e = save.team[f.id]; if (!e) return; if (f.hp >= f.hpMax) delete e.hp; else e.hp = Math.max(0, f.hp); }); persist();
+    if (won && BT.mine.some(f => f.hp <= 0)) setTimeout(() => toast("😴 Some of your creatures are tired. Visit Ms Shaw to heal them!"), 1500);
+  }
+  if (m === "mythic") return won ? winMythic() : loseMythic();
   if (m === "gym" || m === "champion") return won ? winGym() : loseGym();
   if (m === "trainer") return won ? winTrainer() : loseTrainer();
   if (m === "pvp") return pvpEnd(won);
@@ -4010,7 +4118,7 @@ function afterBadge(z) {
 }
 function loseGym() {
   const who = BT.mode === "champion" ? "mac" : BT.z;
-  dialogue([BT.mode === "champion" ? PRINCIPAL.lose : LEADERS[BT.z].lose], who, () => { toast("Your team had a rest and feels better. Try again!"); afterBattle(showWorld); });
+  dialogue([BT.mode === "champion" ? PRINCIPAL.lose : LEADERS[BT.z].lose], who, () => afterBattle(whiteout));
 }
 
 /* ---------- trainers around the school ---------- */
@@ -4064,6 +4172,7 @@ function checkTrainerSight() {
   return false;
 }
 function trainerSpot(n) {
+  n.cool = 6;
   W.held = null; W.lock = true; persist();
   W.dir = { up: "down", down: "up", left: "right", right: "left" }[n.dir];
   emote({ x: n.x, y: n.y }, "!"); SFX.encounter();
@@ -4088,7 +4197,7 @@ function winTrainer() {
 }
 function loseTrainer() {
   const n = BT.trainer; n.cool = 6;
-  dialogue([n.win, "Your team had a rest and feels better now. Train up and try again!"], trainerWho(n), () => afterBattle(showWorld));
+  dialogue([n.win], trainerWho(n), () => afterBattle(whiteout));
 }
 
 /* ---------- move animations ---------- */
@@ -4377,7 +4486,7 @@ function updateHud() {
 }
 
 /* ===================== OVERWORLD (top-down, tile-based): THE SCHOOL ===================== */
-const TS = 16, VW = 11, VH = 9, MW = 52, MH = 64;
+const TS = 16, VW = 11, VH = 9, MW = 52, MH = 76;
 const WALK = new Set([".", ",", "=", "p", "m", "g", "q", "s", "v", "k", "r", "F", "d", "D", "l0"]);
 let MAP = [], REGION = [], BUILDINGS = [], NPCS = [], SIGNS = {}, BARRIERS = {}, DOORS = {};
 const AREA_RECTS = {
@@ -4476,7 +4585,7 @@ function buildWorld() {
   kid(11, 6, "Noah", { skin: "#FFDBAC", hair: "#D9A400", hairStyle: "short", outfit: "#B0263A", outfit2: "#2B2B3A" }, ["The Year 5 and 6 gyms ask tricky questions from lots of topics.", "Bring your strongest team!"]);
   kid(38, 6, "Mia", { skin: "#F1C27D", hair: "#5A3A1A", hairStyle: "long", outfit: "#8B5A2B", outfit2: "#F2D59B" }, ["Principal Mr Mac has a legendary creature on his team!", "I wonder if anyone can beat him…"]);
   for (const b of BUILDINGS.filter(b => b.kind === "gym")) NPCS.push({ x: b.x + 1, y: b.y + b.h, name: LEADERS[b.id].name, look: LEADERS[b.id].look, lines: ["gym:" + b.id], dir: "down", kind: "leader" });
-  addTrainers();
+  addWing(); addTrainers(); addNurses();
   for (const n of NPCS) { const t = MAP[n.y][n.x]; if (!WALK.has(t) || t === ",") MAP[n.y][n.x] = AREA_GROUND[REGION[n.y][n.x]] || "."; }
 }
 const regionAt = (x, y) => (REGION[y] && REGION[y][x]) || null;
@@ -4610,6 +4719,12 @@ function paintTile(g, t, x, y, now) {
       cube(3, 14, "#E63946", "#FF8A8A", "A"); cube(17, 14, "#3F6FD8", "#8FB4FF", "B"); cube(10, 1 + f, "#E0A800", "#FFE066", "C");
     })); break;
     case "H": case "D": draw(groundTile(base === "k" ? "k" : "p", v)); break;
+    case "K": draw(groundTile(base, v)); draw(tileCanvas("tent", (px, gg) => {
+      gg.fillStyle = "rgba(0,0,0,.22)"; gg.beginPath(); gg.ellipse(16, 29, 13, 3, 0, 0, Math.PI * 2); gg.fill();
+      gg.fillStyle = "#fff"; gg.strokeStyle = "#1d1b3a"; gg.lineWidth = 1.3; gg.beginPath(); gg.moveTo(3, 28); gg.lineTo(16, 5); gg.lineTo(29, 28); gg.closePath(); gg.fill(); gg.stroke();
+      gg.fillStyle = "#DDE3F0"; gg.beginPath(); gg.moveTo(16, 5); gg.lineTo(29, 28); gg.lineTo(22, 28); gg.closePath(); gg.fill();
+      gg.fillStyle = "#E63946"; gg.fillRect(14, 13, 4, 11); gg.fillRect(10.5, 16.5, 11, 4); gg.fillStyle = "#FF8FA3"; gg.fillRect(14, 2, 4, 3);
+    })); break;
     default: draw(groundTile(GROUND[t] ? t : base, v));
   }
 }
@@ -4619,7 +4734,7 @@ let WINDOWS = [];
 function shade(hex, k) { const n = parseInt(hex.slice(1), 16); const c = [n >> 16, (n >> 8) & 255, n & 255].map(v => Math.max(0, Math.min(255, Math.round(k > 0 ? v + (255 - v) * k : v * (1 + k))))); return "#" + c.map(v => v.toString(16).padStart(2, "0")).join(""); }
 function paintBuilding(g, b) {
   const X = b.x * TS, Y = b.y * TS, Wd = b.w * TS, H = b.h * TS, office = b.kind === "fortress";
-  const roof = b.kind === "gym" ? AREA[b.id].color : b.kind === "lab" ? "#2E9C93" : office ? "#1F4A8C" : "#C0392B";
+  const roof = b.roof || (b.kind === "gym" ? AREA[b.id].color : b.kind === "lab" ? "#2E9C93" : office ? "#1F4A8C" : "#C0392B");
   const roofH = office ? 34 : b.kind === "house" ? 22 : 30, wallTop = Y + roofH, night = isNight();
   g.fillStyle = "rgba(0,0,0,.22)"; g.fillRect(X + 3, Y + 6, Wd, H);
   const wg = g.createLinearGradient(0, wallTop, 0, Y + H); wg.addColorStop(0, office ? "#F1E8D6" : "#FBF4E6"); wg.addColorStop(1, office ? "#D8CBB0" : "#E6D9C0");
@@ -4641,7 +4756,7 @@ function paintBuilding(g, b) {
     g.fillStyle = "#6B4423"; g.fillRect(X + 6, Y - 16, 1.5, 19); g.fillStyle = "#E63946"; g.fillRect(X + 7.5, Y - 16, 9, 6); g.fillStyle = "#fff"; g.fillRect(X + 7.5, Y - 14, 9, 1.5);
     g.fillStyle = "#CFC4AE"; g.fillRect(X + Wd / 2 - 14, Y + H - 1, 28, 3); g.fillStyle = "#BDB29A"; g.fillRect(X + Wd / 2 - 18, Y + H + 2, 36, 2);
   } else {
-    const dX = X + (b.kind === "house" ? 1 : 2) * TS, wy = wallTop + 8;
+    const dX = X + (b.doorOff != null ? b.doorOff : b.kind === "house" ? 1 : 2) * TS, wy = wallTop + 8;
     for (let i = X + 4; i < X + Wd - 9; i += 15) {
       if (i + 10 > dX && i < dX + 16) continue;
       g.fillStyle = "#fff"; g.fillRect(i - 1, wy - 1, 11, 10);
@@ -4656,7 +4771,7 @@ function paintBuilding(g, b) {
   }
   if (office && night) WINDOWS.push([X + Wd / 2, Y + 15]);
   // label
-  const txt = b.kind === "gym" ? AREA[b.id].cls.toUpperCase() : b.kind === "lab" ? "LIBRARY" : b.kind === "house" ? "CANTEEN" : "PRINCIPAL";
+  const txt = b.label ? ((b.kind === "room" || b.kind === "cottage") && !mythicOpen(b.id) ? "🔒 " + b.label : b.label) : b.kind === "gym" ? AREA[b.id].cls.toUpperCase() : b.kind === "lab" ? "LIBRARY" : b.kind === "house" ? "CANTEEN" : "PRINCIPAL";
   g.font = "bold 6px 'Baloo 2', 'Trebuchet MS', sans-serif"; const tw = g.measureText(txt).width;
   const lx = X + Wd / 2 - tw / 2 - 3, ly = office ? Y + 24 : Y + 6;
   g.fillStyle = "#1d1b3a"; g.beginPath(); g.roundRect ? g.roundRect(lx - .6, ly - .6, tw + 7.2, 9.2, 2) : g.rect(lx - .6, ly - .6, tw + 7.2, 9.2); g.fill();
@@ -4664,6 +4779,11 @@ function paintBuilding(g, b) {
   g.fillStyle = "#1d1b3a"; g.textBaseline = "middle"; g.fillText(txt, lx + 3, ly + 4.4); g.textBaseline = "alphabetic";
   if (b.kind === "gym") { g.fillStyle = "#fff"; g.beginPath(); g.arc(X + Wd - 7, Y + 9, 4.5, 0, Math.PI * 2); g.fill(); g.font = "6px sans-serif"; g.textAlign = "center"; g.fillText(AREA[b.id].icon, X + Wd - 7, Y + 11.2); g.textAlign = "start"; }
   // door
+  if (b.kind === "cottage") {
+    g.fillStyle = shade(roof, .2); g.strokeStyle = "#3A2E22"; g.lineWidth = .8;
+    for (const ex of [X + 10, X + Wd - 10]) { g.beginPath(); g.moveTo(ex - 8, Y + 4); g.lineTo(ex, Y - 12); g.lineTo(ex + 8, Y + 4); g.closePath(); g.fill(); g.stroke(); g.fillStyle = "#FFB3C7"; g.beginPath(); g.moveTo(ex - 4, Y + 2); g.lineTo(ex, Y - 6); g.lineTo(ex + 4, Y + 2); g.closePath(); g.fill(); g.fillStyle = shade(roof, .2); }
+  }
+  if (b.kind === "nurse") { const cx = X + Wd - 8, cy = Y + 18; g.fillStyle = "#fff"; g.beginPath(); g.arc(cx, cy, 5.5, 0, Math.PI * 2); g.fill(); g.strokeStyle = "#1d1b3a"; g.lineWidth = .7; g.stroke(); g.fillStyle = "#E63946"; g.fillRect(cx - 1.2, cy - 3.5, 2.4, 7); g.fillRect(cx - 3.5, cy - 1.2, 7, 2.4); }
   const d = Object.entries(DOORS).find(([k, v]) => v.id === b.id);
   if (d) {
     const [dx, dy] = d[0].split(",").map(Number), DX = dx * TS, DY = dy * TS;
@@ -4902,11 +5022,14 @@ function talkTo(n) {
   if (n.kind === "leader") return gymDoor(n.lines[0].slice(4));
   if (n.kind === "trainer") return trainerTalk(n);
   if (n.kind === "story") return runChapter(CH[n.chap]);
+  if (n.kind === "nurse") return nurseHeal();
   dialogue(n.lines, { name: n.name, svg: personSVG(n.look) });
 }
 function enterDoor(d) {
   if (!d) return;
   if (d.kind === "lab") { W.lock = true; stepBack(); SFX.door(); showLab(); return; }
+  if (d.kind === "room" || d.kind === "cottage") { stepBack(); mythicDoor(d.id); return; }
+  if (d.kind === "nurse") { stepBack(); nurseHeal(); return; }
   if (d.kind === "house") { stepBack(); dialogue(["The canteen is closed. It opens at lunchtime!"], { name: "Canteen", svg: SIGN_SVG }); return; }
   if (d.kind === "fortress") { stepBack(); if (allBadges() && !(save.chapters || {}).c7) { runChapter(CH.c7); return; } if (allBadges()) dialogue(["Come in, come in! I’ve been expecting you."], "mac", () => prepareGym("champion")); else barrierMsg("office"); return; }
   if (d.kind === "gym") { stepBack(); gymDoor(d.id); }
@@ -5020,7 +5143,7 @@ function showTeam() {
       if (!id) return `<button class="tslot empty ${TEAMSEL === i ? "sel" : ""}" data-act="teamSlot" data-arg="${i}"><span>＋</span><small>Empty</small></button>`;
       const sp = SPECIES[id], e = save.team[id], lv = lvOf(id), st = statsFor(sp, lv);
       return `<button class="tslot ${TEAMSEL === i ? "sel" : ""}" data-act="teamSlot" data-arg="${i}" aria-pressed="${TEAMSEL === i}">${i === 0 ? `<i class="buddytag">💛 Buddy</i>` : ""}
-        ${creatureSVG(sp, { shiny: e.shiny })}<b class="${sp.name.length > 10 ? "long" : ""}">${sp.name}</b><span class="lvtag">Lv${lv}</span><small>❤️ ${st.hpMax}  ⚔️ ${st.atk}</small>
+        ${creatureSVG(sp, { shiny: e.shiny })}<b class="${sp.name.length > 10 ? "long" : ""}">${sp.name}</b><span class="lvtag">Lv${lv}</span><small>${hpOf(id) <= 0 ? "😴 Needs a rest" : `❤️ ${hpOf(id)}/${st.hpMax}`}  ⚔️ ${st.atk}</small><div class="hpmini"><i style="width:${Math.round(hpOf(id) / st.hpMax * 100)}%"></i></div>
         <div class="bexp" title="Experience to the next level"><i style="width:${lv >= MAX_LV ? 100 : Math.round(((e.exp || 0) - expForLv(lv)) / EXP_PER_LV * 100)}%"></i></div>
         ${sp.evo ? `<small class="evohint">${Math.min(e.xp || 0, EVOLVE_XP)}/${EVOLVE_XP} to evolve</small>` : ""}</button>`; }).join("")}</div>
     <p class="center hint">Tap a slot, then tap a creature below to put it there.</p>
@@ -5144,10 +5267,10 @@ function islandSVG() {
   const k = 400 / MW, kk = 500 / MH, R = AREA_RECTS;
   const box = (id, col) => { const r = R[id]; return `<rect x="${r[0] * k}" y="${r[1] * kk}" width="${r[2] * k}" height="${r[3] * kk}" rx="10" fill="${col}" stroke="#1d1b3a" stroke-width="2.5" opacity=".95"/>`; };
   const c = id => { const r = R[id]; return [(r[0] + r[2] / 2) * k, (r[1] + r[3] / 2) * kk]; };
-  const links = [["gate", "possums"], ["gate", "emus"], ["possums", "bilbies"], ["gate", "kangaroos"], ["emus", "swans"], ["bilbies", "numbats"], ["swans", "bobtails"], ["numbats", "karaks"], ["bobtails", "wombats"], ["kangaroos", "office"]];
+  const links = [["gate", "wing"], ["gate", "possums"], ["gate", "emus"], ["possums", "bilbies"], ["gate", "kangaroos"], ["emus", "swans"], ["bilbies", "numbats"], ["swans", "bobtails"], ["numbats", "karaks"], ["bobtails", "wombats"], ["kangaroos", "office"]];
   return `<svg viewBox="0 0 400 500" aria-hidden="true"><rect width="400" height="500" fill="#4FB3E8"/><rect x="10" y="10" width="380" height="480" rx="30" fill="#3E9B4E"/>
     ${links.map(([a2, b2]) => { const [x1, y1] = c(a2), [x2, y2] = c(b2); return `<path d="M${x1} ${y1} L${x1} ${y2} L${x2} ${y2}" fill="none" stroke="#E8C98A" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>`; }).join("")}
-    ${box("gate", "#D9D2C3")}${box("office", "#C9C4E8")}${AREA_LIST.map(a => box(a.id, a.g1)).join("")}</svg>`;
+    ${box("gate", "#D9D2C3")}${box("office", "#C9C4E8")}${AREA_RECTS.wing ? box("wing", "#E3D4FF") : ""}${AREA_LIST.map(a => box(a.id, a.g1)).join("")}</svg>`;
 }
 function showMap() {
   app.dataset.screen = "map";
@@ -5162,6 +5285,7 @@ function showMap() {
         <span class="zicon" aria-hidden="true">${z.icon}${badge ? `<i class="pinbadge">${badgeSVG(a.id, true)}</i>` : gym ? `<i class="pingym">🏟️</i>` : ""}</span><b>${a.cls}</b><small>${f}/${t} found</small></button>`; }).join("")}
       <button class="zpin lab${W && regionAt(W.x, W.y) === "gate" ? " here" : ""}" style="left:${(AREA_RECTS.gate[0] + AREA_RECTS.gate[2] / 2) / MW * 100}%;top:${(AREA_RECTS.gate[1] + AREA_RECTS.gate[3] / 2) / MH * 100}%" data-act="mapInfo" data-arg="lab"><span class="zicon" aria-hidden="true">🏫</span><b>School Gate</b></button>
       <button class="zpin fortress${W && regionAt(W.x, W.y) === "office" ? " here" : ""}" style="left:50%;top:${(AREA_RECTS.office[1] + AREA_RECTS.office[3] / 2) / MH * 100}%" data-act="mapInfo" data-arg="fortress"><span class="zicon" aria-hidden="true">🏛️</span><b>Principal’s Office</b><small>${save.story.champion ? "Champion!" : allBadges() ? "Final battle" : "Locked"}</small></button>
+      ${wingPins()}
       ${friendPins()}
     </div>
     <div class="buddycard" data-act="buddyView" role="button" tabindex="0"><div class="bsp">${creatureSVG(b, { shiny: save.team[b.id].shiny })}</div>
@@ -5187,6 +5311,12 @@ function zoneSceneSVG(z) {
       near = `<ellipse cx="200" cy="246" rx="120" ry="30" fill="#5BC0EB" stroke="#2E8BB8" stroke-width="3"/><ellipse cx="160" cy="240" rx="16" ry="6" fill="#4CAF50"/><circle cx="160" cy="236" r="5" fill="#FF9AB5"/><ellipse cx="240" cy="254" rx="14" ry="5" fill="#4CAF50"/>`; break;
     case "harbour": far = `<rect y="140" width="400" height="60" fill="#5BC0EB"/><path d="M0 150 q10 -6 20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0" fill="none" stroke="#BDEBFF" stroke-width="3"/>
       <g class="bob"><path d="M280 160 h60 l-10 16 h-40z" fill="#B5652B" stroke="#5E3A1A" stroke-width="3"/><path d="M308 160 V122 l24 30z" fill="#fff" stroke="#5E3A1A" stroke-width="2"/></g>`; break;
+    case "music": far = `<g opacity=".85">${[0, 1, 2, 3, 4].map(i => `<path d="M0 ${70 + i * 10} Q200 ${60 + i * 10} 400 ${70 + i * 10}" fill="none" stroke="#fff" stroke-width="2"/>`).join("")}${[60, 140, 230, 320].map((x, i) => `<g transform="translate(${x} ${78 + (i % 2) * 12})"><ellipse rx="8" ry="6" fill="#3A1F5C" transform="rotate(-20)"/><path d="M7 -2 V-30" stroke="#3A1F5C" stroke-width="3"/></g>`).join("")}</g>`;
+      near = Array.from({ length: 20 }, (_, i) => `<rect x="${i * 20}" y="262" width="19" height="38" fill="#fff" stroke="#1d1b3a" stroke-width="2"/>${i % 7 !== 2 && i % 7 !== 6 ? `<rect x="${i * 20 + 13}" y="262" width="12" height="22" fill="#1d1b3a"/>` : ""}`).join(""); break;
+    case "italy": far = `<path d="M0 40 Q100 70 200 40 T400 40" fill="none" stroke="#7A4A22" stroke-width="2"/>${Array.from({ length: 12 }, (_, i) => { const x = 16 + i * 33, y = 48 + Math.sin(i) * 6; return `<path d="M${x - 9} ${y} L${x + 9} ${y} L${x} ${y + 16}Z" fill="${["#3E9B4E", "#fff", "#E63946"][i % 3]}" stroke="#1d1b3a" stroke-width="1.5"/>`; }).join("")}<g fill="#F2E3C6" stroke="#9C7B5A" stroke-width="3">${[0, 1, 2, 3, 4].map(i => `<path d="M${50 + i * 64} 200 V146 Q${80 + i * 64} 116 ${110 + i * 64} 146 V200"/>`).join("")}</g>`; break;
+    case "steam": far = `${gear(70, 120, 30, "#C9962B")}${gear(330, 110, 24, "#7FB0FF", 7)}${gear(200, 70, 16, "#FFD447", 6)}<path d="M120 200 A80 80 0 0 1 280 200" fill="none" stroke="#FF9AB5" stroke-width="8"/><path d="M130 200 A70 70 0 0 1 270 200" fill="none" stroke="#FFE066" stroke-width="8"/><path d="M140 200 A60 60 0 0 1 260 200" fill="none" stroke="#7FE0D4" stroke-width="8"/>`; break;
+    case "cottage": far = `<rect x="140" y="60" width="120" height="90" rx="8" fill="#FFF3D6" stroke="#7A4A22" stroke-width="4"/><path d="M200 60 V150 M140 105 H260" stroke="#7A4A22" stroke-width="4"/><circle cx="330" cy="70" r="16" fill="#FFF3B0" opacity=".9"/>`;
+      near = [[60, 250], [340, 246]].map(([x, y]) => `<circle cx="${x}" cy="${y}" r="16" fill="#FF7FAF" stroke="#1d1b3a" stroke-width="3"/><path d="M${x - 12} ${y - 6} Q${x} ${y + 4} ${x + 12} ${y - 8} M${x - 10} ${y + 6} Q${x} ${y - 4} ${x + 12} ${y + 6}" fill="none" stroke="#C94A7E" stroke-width="2"/>`).join(""); break;
     case "garden": far = `<path d="M-10 190 Q80 150 170 170 T400 160 V210 H-10Z" fill="#A8DC8E"/>${[70, 330].map(x => `<g transform="translate(${x} 150)"><rect x="-4" y="0" width="8" height="40" fill="#7A4A22"/><circle r="26" fill="#4CAF50" stroke="#2E7D32" stroke-width="3"/><circle cx="-8" cy="-4" r="5" fill="#E63946"/><circle cx="10" cy="6" r="5" fill="#E63946"/></g>`).join("")}`; break;
   }
   return `<svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
@@ -5264,13 +5394,13 @@ function rollSpecies(z) {
   return pool[0];
 }
 let E = null;
-function startEncounter() {
+function startEncounter(forceSp) {
   document.querySelectorAll(".chapcard").forEach(x => x.remove());
   clearInterval(zoneTimer); setTimeout(() => netPos(true), 600);
-  const sp = rollSpecies(curZone);
+  const forced = !!(forceSp && forceSp.id), sp = forced ? forceSp : rollSpecies(curZone);
   const [need, tries] = HEARTS[sp.rarity];
   const baseLv = curZone.id === "custom" ? 3 : areaLv(curZone.id);
-  E = { sp, shiny: Math.random() < 1 / 40, need, tries, hearts: 0, used: 0, zone: curZone, busy: false, isNew: !inDex(sp.id), lv: sp.rarity === 4 ? 25 : baseLv + (sp.stage === 2 ? 2 : 0) + rnd(2) };
+  E = { sp, shiny: Math.random() < 1 / 40, need, tries, hearts: 0, used: 0, zone: curZone, busy: false, isNew: !inDex(sp.id), lv: forced ? 30 : sp.rarity === 4 ? 25 : baseLv + (sp.stage === 2 ? 2 : 0) + rnd(2) };
   save.seen[sp.id] = true; persist();
   const wipe = document.createElement("div"); wipe.className = "wipe"; document.body.appendChild(wipe);
   setTimeout(renderEncounter, reduced ? 0 : 520);
@@ -5541,6 +5671,203 @@ answer = function (i) { const was = qState && qState.done; _answer(i); if (qStat
 if (save) migrateSave();
 showTitle();
 
+/* ===================== SPECIALIST WING, MYTHIC TEACHERS & MS SHAW ===================== */
+const SHAW_LOOK = { skin: "#F7D6BF", hair: "#B5541B", hairStyle: "bun", outfit: "#FFFFFF", outfit2: "#FF8FA3", hat: "nurse" };
+const nurseWho = () => ({ name: "Ms Shaw", svg: personSVG(SHAW_LOOK) });
+const LANYARD = `<path d="M90 118 L100 150 L110 118" fill="none" stroke="#FFD447" stroke-width="4"/><rect x="93" y="148" width="14" height="18" rx="2" fill="#fff" stroke="#1d1b3a" stroke-width="2.5"/>`;
+const MYTHIC = {
+  music: { id: "music", name: "Music Room", short: "Music", icon: "🎵", roof: "#9B5DE5", label: "MUSIC ROOM", need: 3, legend: "symphonix",
+    teacher: "Mrs Rosario", look: { skin: "#E0AC69", hair: "#2B2B2B", hairStyle: "curly", outfit: "#9B5DE5", outfit2: "#FFE066",
+      prop: `<g transform="translate(146 128)"><ellipse cx="0" cy="10" rx="9" ry="7" fill="#1d1b3a" transform="rotate(-20 0 10)"/><path d="M7 8 V-20 Q18 -14 20 -4" fill="none" stroke="#1d1b3a" stroke-width="5" stroke-linecap="round"/></g>` },
+    topics: ["homophones", "spelling"], team: [["echowl", 14], ["syllaseal", 14], ["kaboomerang", 15]],
+    hello: ["Welcome to the Music Room! Every word has a rhythm, you know.", "Clap it, sing it, spell it! Let’s see if your team can keep the beat!"],
+    win: ["Bravo! What a performance!", "You’ve earned the right to meet the legendary Symphonix. It only sings for true word lovers…"],
+    lose: ["Ooh, a little off the beat! Practise and come back soon."],
+    after: ["Keep the music in your words! Clap the syllables when you spell a long word."],
+    note: "Come back when you have 3 class badges. ♪", zone: { sky: ["#5C3487", "#B48CF2"], g1: "#C9A6FF", g2: "#B48CF2", deco: "music" } },
+  italian: { id: "italian", name: "Italian Room", short: "Italian", icon: "🇮🇹", roof: "#3E9B4E", label: "ITALIAN ROOM", need: 5, legend: "parolupo",
+    teacher: "Signora Susannah", look: { skin: "#F7D6BF", hair: "#5A3A1A", hairStyle: "long", outfit: "#3E9B4E", outfit2: "#FFFFFF",
+      prop: `<path d="M74 118 Q100 132 126 118 L128 128 Q100 142 72 128Z" fill="#E63946" stroke="#1d1b3a" stroke-width="3"/>` },
+    topics: ["vocab", "wordclass"], team: [["flourbloom", 19], ["capitalpaca", 19], ["questiosaur", 20]],
+    hello: ["Ciao! Benvenuti! Welcome to the Italian Room.", "Did you know English borrows lots of words from Italian? Piano, pizza, balloon and umbrella!", "Andiamo! Let’s battle!"],
+    win: ["Bravo! Bravissimo!", "The legendary Parolupo carries words between languages. It wants to meet you!"],
+    lose: ["Peccato! What a pity! Try again soon."],
+    after: ["Grazie for visiting! Remember, lots of English words come from other languages."],
+    note: "Come back when you have 5 class badges. A presto!", zone: { sky: ["#9FE3FF", "#FFF3D6"], g1: "#E8C98A", g2: "#D9A066", deco: "italy" } },
+  steam: { id: "steam", name: "STEAM Room", short: "STEAM", icon: "⚙️", roof: "#3F6FD8", label: "STEAM ROOM", need: 7, legend: "gearagon",
+    teacher: "Mr P", look: { skin: "#F1C27D", hair: "#3A2A1A", hairStyle: "short", outfit: "#F4F6FB", outfit2: "#3F6FD8", glasses: true,
+      prop: `<g transform="translate(148 142)"><circle r="12" fill="#C9962B" stroke="#1d1b3a" stroke-width="3"/><circle r="5" fill="#fff" stroke="#1d1b3a" stroke-width="2.5"/></g>` },
+    topics: ["affixes", "grammar"], team: [["rebuildozer", 25], ["tensaurus", 25], ["subblemarine", 26]],
+    hello: ["Welcome to the STEAM Room! Science, technology, engineering, art and maths.", "Every great invention needs great words to explain it. Let’s test your team!"],
+    win: ["Brilliant engineering! Your answers were spot on.", "Now, stand back… the legendary Gearagon has woken up!"],
+    lose: ["Back to the drawing board! Tweak your team and try again."],
+    after: ["Keep experimenting! Mistakes help us learn."],
+    note: "Come back when you have 7 class badges. Safety goggles on!", zone: { sky: ["#14306E", "#5B8FF0"], g1: "#B5BAC6", g2: "#8A8F9E", deco: "steam" } },
+  cottage: { id: "cottage", name: "Fat Cat’s Cottage", short: "Fat Cat’s", icon: "🐱", roof: "#F28B30", label: "FAT CAT’S COTTAGE", need: "all", legend: "catalogue", twin: true,
+    teacher: "Mrs Pesckza", look: { skin: "#F7C9A3", hair: "#B5541B", hairStyle: "bun", outfit: "#14306E", outfit2: "#FFD447", glasses: true, prop: LANYARD },
+    teacher2: "Ms Gill", look2: { skin: "#FFDBAC", hair: "#D9A400", hairStyle: "long", outfit: "#C2384C", outfit2: "#FFE0E0", prop: LANYARD },
+    topics: ALL_TOPICS, teamA: [["vowelion", 31], ["commacat", 32]], teamB: [["adjectiqueen", 31], ["wordwyrm", 32]],
+    hello: ["Welcome to Fat Cat’s Cottage! I’m Mrs Pesckza, one of the deputy principals."],
+    hello2: ["And I’m Ms Gill, the other deputy principal! We only battle explorers with every class badge.", "This is a twin battle: you’ll face two of our creatures at once! Tap one of them to choose which to attack."],
+    win: ["What a team you are!", "Incredible! Now… meow is the time to meet the legendary Catalogue. It keeps every book in the school in order!"],
+    lose: ["Two at once is tricky! Come back when you’re ready."],
+    after: ["Thanks for visiting the cottage! The kettle’s always on."],
+    note: "Only explorers with every class badge may enter. Purrr.", zone: { sky: ["#FFB45C", "#FFE3B0"], g1: "#C68642", g2: "#A06A34", deco: "cottage" } }
+};
+AREA_RECTS.wing = [3, 62, 46, 12]; AREA_GROUND.wing = "p"; REGION_NAME.wing = "Specialist Wing"; REGION_TRACK.wing = "town";
+Object.values(MYTHIC).forEach(m => { ZONE[m.id] = Object.assign({ id: m.id, name: m.name, icon: m.icon }, m.zone); });
+const mythicNeedOK = m => m.need === "all" ? allBadges() : route().filter(z => save.badges[z]).length >= m.need;
+const mythicOpen = id => !!MYTHIC[id] && !!save && mythicNeedOK(MYTHIC[id]);
+
+function addWing() {
+  const set = (x, y, t) => { if (MAP[y] && x >= 0 && x < MW) MAP[y][x] = t; };
+  const [x0, y0, w, h] = AREA_RECTS.wing;
+  for (let x = x0; x < x0 + w; x++) { set(x, y0, "T"); set(x, y0 + h - 1, "T"); }
+  for (let y = y0; y < y0 + h; y++) { set(x0, y, "T"); set(x0 + w - 1, y, "T"); }
+  for (let y = 70; y <= 72; y++) for (let x = x0 + 1; x < x0 + w - 1; x++) if ((x * 7 + y * 3) % 9 === 0) set(x, y, "F");
+  for (const [x, y] of [[10, 71], [31, 71], [38, 72], [17, 72]]) set(x, y, "T");
+  for (let y = 58; y <= 69; y++) set(26, y, "=");
+  for (let x = 5; x <= 46; x++) set(x, 69, "=");
+  const room = (x, y, bw, bh, kind, id, label, roof, dx) => {
+    BUILDINGS.push({ x, y, w: bw, h: bh, kind, id, label, roof, doorOff: dx });
+    for (let j = y; j < y + bh; j++) for (let i = x; i < x + bw; i++) set(i, j, "H");
+    set(x + dx, y + bh - 1, "D"); DOORS[(x + dx) + "," + (y + bh - 1)] = { kind, id };
+  };
+  const M = MYTHIC;
+  room(5, 64, 5, 5, "room", "music", M.music.label, M.music.roof, 2);
+  room(12, 64, 5, 5, "room", "italian", M.italian.label, M.italian.roof, 2);
+  room(19, 64, 5, 5, "nurse", "frontoffice", "FRONT OFFICE", "#E63946", 2);
+  room(33, 64, 5, 5, "room", "steam", M.steam.label, M.steam.roof, 2);
+  room(40, 63, 7, 6, "cottage", "cottage", M.cottage.label, M.cottage.roof, 3);
+  const sign = (x, y, t) => { set(x, y, "S"); SIGNS[x + "," + y] = t; };
+  sign(25, 61, "🏫 Specialist Wing. Music, Italian, STEAM, the Front Office and Fat Cat’s Cottage are this way!");
+  sign(9, 70, `🎵 Music Room, with Mrs Rosario. 🔒 Needs 3 class badges.`);
+  sign(16, 70, `🇮🇹 Italian Room, with Signora Susannah. 🔒 Needs 5 class badges.`);
+  sign(23, 70, `✚ Front Office. Ms Shaw will make your creatures feel better, free of charge!`);
+  sign(37, 70, `⚙️ STEAM Room, with Mr P. 🔒 Needs 7 class badges.`);
+  sign(45, 70, `🐱 Fat Cat’s Cottage, home of the deputy principals. 🔒 Needs every class badge.`);
+}
+function addNurses() {
+  let placed = 0;
+  for (const area of ["kangaroos", "numbats", "wombats", "karaks", "bobtails", "swans"]) {
+    if (placed >= 3) break;
+    const s = storySpot(area); if (!s) continue; placed++;
+    const [dx, dy] = DIRS[s.d], tx = s.x - dx, ty = s.y - dy;
+    if (MAP[ty] && MAP[ty][tx] === AREA_GROUND[area]) MAP[ty][tx] = "K";
+    NPCS.push({ kind: "nurse", x: s.x, y: s.y, dir: s.d, name: "Ms Shaw (" + area + ")", look: SHAW_LOOK, lines: [] });
+  }
+}
+
+/* ---------- healing ---------- */
+function hpOf(id) {
+  const e = save.team[id]; if (!e || !SPECIES[id]) return 0;
+  const max = statsFor(SPECIES[id], lvOf(id)).hpMax;
+  return e.hp == null ? max : Math.max(0, Math.min(max, e.hp));
+}
+function healTeam() { Object.values(save.team).forEach(e => { delete e.hp; }); persist(); }
+function nurseHeal() {
+  if (W) save.healAt = { x: W.x, y: W.y };
+  const hurt = Object.values(save.team).some(e => e.hp != null);
+  dialogue(["Hello! I’m Ms Shaw. Welcome to the healing station!", hurt ? "Oh, your creatures look tired. Let me look after them for you…" : "Your creatures look happy and healthy! I’ll give them a quick check-up anyway…"], nurseWho(), healAnim);
+}
+function healAnim() {
+  healTeam(); jingle("levelup"); setTimeout(() => jingle("item"), 700);
+  const p = party();
+  showModal(`<div class="qcard center healcard" role="dialog" aria-modal="true"><div class="healnurse">${personSVG(SHAW_LOOK)}</div><h2>All better!</h2>
+    <div class="healrow">${p.map((id, i) => `<div class="healmon" style="animation-delay:${i * .25}s">${creatureSVG(SPECIES[id], { shiny: save.team[id].shiny })}</div>`).join("")}</div>
+    <p>Your creatures are full of energy again.</p><p class="hint">We hope to see you again soon!</p>
+    <button class="btn" data-act="close">Thank you, Ms Shaw!</button></div>`);
+}
+function whiteout() {
+  healTeam();
+  const h = save.healAt || { x: 21, y: 69 };
+  save.pos = { x: h.x, y: h.y, dir: "down", map: "school" };
+  if (W) { W.x = h.x; W.y = h.y; W.fx = h.x; W.fy = h.y; W.buddy.x = h.x; W.buddy.y = h.y - 1; W.buddy.fx = h.x; W.buddy.fy = h.y - 1; W.dir = "down"; W.region = null; W.moving = false; }
+  persist();
+  dialogue(["Oh dear! Your team was all worn out, so you hurried back to me.", "There we go. Everyone is feeling better now. Don’t give up!"], nurseWho(), showWorld);
+}
+
+/* ---------- mythic teachers and secret legendaries ---------- */
+function mythicDoor(id) {
+  const m = MYTHIC[id]; save.mythic = save.mythic || {};
+  if (!mythicNeedOK(m)) return dialogue([`🔒 The ${m.name} is locked.`, `A note on the door says: “${m.note}”`], { name: m.name, svg: SIGN_SVG });
+  const who = { name: m.teacher, svg: personSVG(m.look) };
+  if (!save.mythic[id]) {
+    if (m.twin) return dialogue(m.hello, who, () => dialogue(m.hello2, { name: m.teacher2, svg: personSVG(m.look2) }, () => startMythic(id)));
+    return dialogue(m.hello, who, () => startMythic(id));
+  }
+  if (!owned(m.legend)) return dialogue([`${SPECIES[m.legend].name} is still here, waiting for you…`], who, () => legendEncounter(id));
+  dialogue(m.after, who, () => showModal(`<div class="qcard center" role="dialog" aria-modal="true"><h2>Practice battle?</h2><p>${esc(m.twin ? m.teacher + " and " + m.teacher2 : m.teacher)} would love a rematch. Your team still gains experience.</p>
+    <div class="row" style="justify-content:center"><button class="btn" data-act="mythicRematch" data-arg="${id}">⚔️ Battle</button><button class="btn ghost" data-act="close">Not now</button></div></div>`));
+}
+function startMythic(id, rematch) {
+  const m = MYTHIC[id], topics = m.topics.filter(t => settings.cats[t]);
+  const cfg = { mode: "mythic", mythic: id, rematch: !!rematch, z: id, mine: myFighters(party()), leaderName: m.teacher, portrait: personSVG(m.look), scene: ZONE[id], topics: topics.length ? topics : enabledCats(), hard: true };
+  if (m.twin) {
+    const A = m.teamA.map(([s, lv]) => Object.assign(mkFighter(s, lv, false, true), { owner: "A" })), B = m.teamB.map(([s, lv]) => Object.assign(mkFighter(s, lv, false, true), { owner: "B" }));
+    Object.assign(cfg, { twin: true, foes: A.concat(B), slots: [0, A.length], fi: 0, leaderName2: m.teacher2, portrait2: personSVG(m.look2) });
+  } else cfg.foes = m.team.map(([s, lv]) => mkFighter(s, lv, false, true));
+  startBattle(cfg);
+}
+function winMythic() {
+  const id = BT.mythic, m = MYTHIC[id]; save.mythic = save.mythic || {};
+  const first = !save.mythic[id];
+  partyBonus(20, 30); save.mythic[id] = true; if (first) save.coins += 80; persist();
+  const who = { name: m.teacher, svg: personSVG(m.look) }, lines = m.win.concat(first ? ["You got 🪙 80 Word Coins!"] : ["What a brilliant practice battle!"]);
+  const finish = () => afterBattle(() => !owned(m.legend) ? legendEncounter(id) : showWorld());
+  if (m.twin) dialogue([lines[0]], who, () => dialogue(lines.slice(1), { name: m.teacher2, svg: personSVG(m.look2) }, finish));
+  else dialogue(lines, who, finish);
+}
+function loseMythic() { const m = MYTHIC[BT.mythic]; dialogue(m.lose, { name: m.teacher, svg: personSVG(m.look) }, () => afterBattle(whiteout)); }
+function legendEncounter(id) {
+  const m = MYTHIC[id], sp = SPECIES[m.legend]; curZone = ZONE[id]; jingle("evolve");
+  dialogue([`✨ A legendary creature appears! It’s ${sp.name}!`, "Answer questions to win its trust. If it runs away, come back and try again."], { name: sp.name, svg: creatureSVG(sp) }, () => startEncounter(sp));
+}
+function wingPins() {
+  if (!BUILDINGS.length || !AREA_RECTS.wing) return "";
+  const pin = (x, y, icon, label, locked) => `<span class="rpin${locked ? " locked" : ""}" style="left:${(x + .5) / MW * 100}%;top:${(y + .5) / MH * 100}%"><i>${locked ? "🔒" : icon}</i><b>${label}</b></span>`;
+  return Object.values(MYTHIC).map(m => { const b = BUILDINGS.find(b => b.id === m.id); return b ? pin(b.x + b.w / 2 - .5, b.y + b.h / 2, m.icon, m.short, !mythicNeedOK(m)) : ""; }).join("") + pin(21, 66, "🏥", "Ms Shaw", false);
+}
+
+/* ---------- twin battles ---------- */
+const foeId = i => BT && BT.twin && BT.foes[i] && BT.foes[i].owner === "B" ? "bfoe2" : "bfoe";
+function foeMarkup() {
+  if (!BT.twin) { const foe = BT.foes[BT.fi]; return `<div class="bplate foeplate">${plateHTML(foe, false)}</div><div class="bfoe" id="bfoe">${creatureSVG(foe.sp, { shiny: foe.shiny })}</div>`; }
+  const [a, b] = BT.slots.map(i => i >= 0 ? BT.foes[i] : null);
+  return `${a ? `<div class="bplate foeplate">${plateHTML(a, false)}</div><button class="bfoe tw ${BT.fi === BT.slots[0] ? "tgt" : ""}" id="bfoe" data-act="bTarget" data-arg="0" aria-label="Aim at ${a.sp.name}">${creatureSVG(a.sp)}</button>` : ""}
+    ${b ? `<div class="bplate foeplate2">${plateHTML(b, false)}</div><button class="bfoe2 tw ${BT.fi === BT.slots[1] ? "tgt" : ""}" id="bfoe2" data-act="bTarget" data-arg="1" aria-label="Aim at ${b.sp.name}">${creatureSVG(b.sp)}</button>` : ""}`;
+}
+function bTarget(s) {
+  if (!BT || !BT.twin || BT.over) return;
+  const i = BT.slots[+s]; if (i < 0) return;
+  BT.fi = i; SFX.blip();
+  document.querySelectorAll(".dsb .tw").forEach(e => e.classList.toggle("tgt", e.dataset.arg === String(s)));
+  if (!BT.busy) battleMsg(`Aiming at ${BT.foes[i].sp.name}. What will ${BT.mine[BT.mi].sp.name} do?`);
+}
+async function twinAfterMyHit() {
+  const foe = BT.foes[BT.fi]; if (foe.hp > 0) return false;
+  const side = foe.owner === "B" ? 1 : 0, name = side ? BT.leaderName2 : BT.leaderName;
+  await faint(foeId(BT.fi)); battleMsg(`${esc(name)}’s ${foe.sp.name} fainted!`); await sleepW(800);
+  await awardKO(foe);
+  const next = BT.foes.findIndex(f => f.owner === foe.owner && f.hp > 0);
+  BT.slots[side] = next;
+  const other = BT.slots[1 - side];
+  if (next < 0 && other < 0) { endBattle(true); return true; }
+  BT.fi = next >= 0 ? next : other;
+  renderBattle();
+  if (next >= 0) { battleMsg(`${esc(name)} sends out ${BT.foes[next].sp.name}!`); await appear(foeId(next)); await sleepW(450); }
+  return "next";
+}
+async function twinFoeTurn() {
+  for (const s of [0, 1]) {
+    const i = BT.slots[s]; if (i < 0 || BT.over) continue;
+    const foe = BT.foes[i], me = BT.mine[BT.mi], power = Math.random() < 0.25, ok = Math.random() > (power ? 0.3 : 0.12), strong = STRONG[foe.sp.type] === me.sp.type;
+    await doAttack("foe", power ? "power" : "quick", ok, ok ? calcDmg(foe, power ? "power" : "quick", strong) : 0, strong, { att: foe, aid: foeId(i), ownerName: s ? BT.leaderName2 : BT.leaderName });
+    const r = await afterTheirHit(); if (r === true) return;
+  }
+  yourTurn();
+}
+
 /* ===================== STORY: THE GREAT JUMBLE ===================== */
 const RIVAL_LOOK = { skin: "#F1C27D", hair: "#E07A3A", hairStyle: "spiky", outfit: "#F28B30", outfit2: "#FFE3B0" };
 const JUMBLER_LOOK = { skin: "#E0AC69", hair: "#3A1F5C", hairStyle: "short", outfit: "#5C3487", outfit2: "#FFE066", hat: "beanie" };
@@ -5691,7 +6018,7 @@ function finishChapter(ch) {
 function winStory() { const ch = CH[BT.chapter]; partyBonus(15, 20); afterBattle(() => finishChapter(ch)); }
 function loseStory() {
   const ch = CH[BT.chapter], who = whoOf(ch); STORY_COOL = 6;
-  dialogue([ch.who === "rival" ? "Yes! I won! Practise your answers and come back for a rematch." : "Ha! Come back when your team is stronger!", "Your team had a rest and feels better now."], { name: who.name, svg: who.svg }, () => afterBattle(showWorld));
+  dialogue([ch.who === "rival" ? "Yes! I won! Practise your answers and come back for a rematch." : "Ha! Come back when your team is stronger!"], { name: who.name, svg: who.svg }, () => afterBattle(whiteout));
 }
 function storyAnnounce() {
   const ch = currentChapter(); if (!ch || save.chapSeen === ch.id) return;
@@ -6249,6 +6576,7 @@ Object.assign(ACT, {
   online: () => showOnline(), netCreate: () => joinRoom(newCode()), netJoin: () => joinRoom((document.getElementById("joincode") || {}).value),
   netLeave: () => leaveRoom(false), netTrade: pid => netAsk(pid, "trade"), netBattle: pid => netAsk(pid, "battle"), netYes, netNo,
   tradePick, tradeReady, tradeCancel, tradeAfter: id => tradeAfter(id), pvpDone,
+  bTarget, mythicRematch: id => { closeModal(); startMythic(id, true); },
   worldTrade: pid => { closeModal(); netAsk(pid, "trade"); }, worldBattle: pid => { closeModal(); netAsk(pid, "battle"); }, netEmote
 });
 document.addEventListener("keydown", e => { if (e.key === "Enter" && e.target && e.target.id === "joincode") joinRoom(e.target.value); });
