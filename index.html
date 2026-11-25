@@ -1185,7 +1185,7 @@ label.field .tinput{margin-top:4px;font-size:1rem}
 .hpmini{width:90%;height:5px;border-radius:3px;background:#C8D3E6;overflow:hidden;margin-top:2px}
 .hpmini i{display:block;height:100%;background:linear-gradient(90deg,#7CF59A,#2EBF5A)}
 .dexcell.tired{opacity:.5;filter:grayscale(.6)}
-.healcard .healnurse{width:90px;margin:0 auto -6px}
+.healnurse{width:90px;margin:0 auto -6px}
 .healrow{display:flex;justify-content:center;gap:6px;margin:6px 0}
 .healmon{width:30%;max-width:110px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.5),rgba(255,143,163,.15) 60%,transparent 70%);animation:healglow 1.2s ease-in-out 2 both}
 @keyframes healglow{0%{filter:brightness(1)}40%{filter:brightness(1.8) drop-shadow(0 0 10px #FF8FA3)}100%{filter:brightness(1)}}
@@ -1193,6 +1193,9 @@ label.field .tinput{margin-top:4px;font-size:1rem}
 .rpin i{font-style:normal;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:#fff;border:2.5px solid #1d1b3a;font-size:.95rem}
 .rpin b{margin-top:1px;background:#fff;border:2px solid #1d1b3a;border-radius:6px;padding:0 4px;font:800 .58rem/1.4 "Baloo 2",system-ui,sans-serif;color:#1d1b3a;white-space:nowrap}
 .rpin.locked i{background:#B5BAC6}
+.dexcell.mega{border-color:#FFD447;box-shadow:0 0 0 2px #FF7A3A,0 0 16px rgba(255,201,60,.6);animation:megaGlow 2.4s ease-in-out infinite}
+@keyframes megaGlow{50%{box-shadow:0 0 0 2px #E63946,0 0 24px rgba(255,122,58,.8)}}
+.rstars{white-space:nowrap}
 </style>
 </head>
 <body>
@@ -2005,6 +2008,19 @@ const SPECIES_LIST = [
   { id: "parolupo", name: "Parolupo", type: "legend", arch: "pup", stage: 2, rarity: 4, desc: "A secret legendary from the Italian Room. This golden wolf carries words like piano and pizza into English." },
   { id: "gearagon", name: "Gearagon", type: "legend", arch: "dino", stage: 2, rarity: 4, desc: "A secret legendary from the STEAM Room. A dragon of gears, paintbrushes and test tubes that invents new words." },
   { id: "catalogue", name: "Catalogue", type: "legend", arch: "blob", stage: 2, rarity: 4, desc: "The secret legendary of Fat Cat’s Cottage. A very fat, very fluffy cat with every book sorted A to Z in its tummy." },
+  { id: "drumlet", name: "Drumlet", type: "spelling", arch: "blob", stage: 1, evo: "bongorilla", rarity: 1, habitat: "music", desc: "Found in the Music Garden. It drums out the syllables of every word: ba-na-na!" },
+  { id: "bongorilla", name: "Bongorilla", type: "spelling", arch: "pup", stage: 2, rarity: 3, habitat: "music", desc: "Found in the Music Garden. BOM BOM! It can drum the syllables of the longest words." },
+  { id: "rhymchick", name: "Rhymchick", type: "homophones", arch: "bird", stage: 1, evo: "rhymingo", rarity: 2, habitat: "music", desc: "Found in the Music Garden. It only says words that rhyme: cat, hat, bat!" },
+  { id: "rhymingo", name: "Rhymingo", type: "homophones", arch: "bird", stage: 2, rarity: 3, habitat: "music", desc: "Found in the Music Garden. A rhyming flamingo with a microphone. Moon, spoon, tune!" },
+  { id: "beakit", name: "Beakit", type: "affixes", arch: "blob", stage: 1, evo: "erlenmyrex", rarity: 1, habitat: "steam", desc: "Found in the STEAM Garden. It bubbles with science prefixes like micro-, tele- and bio-." },
+  { id: "erlenmyrex", name: "Erlenmyrex", type: "affixes", arch: "dino", stage: 2, rarity: 3, habitat: "steam", desc: "Found in the STEAM Garden. A dinosaur with a science flask for a tummy. Safety goggles on!" },
+  { id: "orbitot", name: "Orbitot", type: "vocab", arch: "blob", stage: 1, evo: "saturnosaur", rarity: 2, habitat: "steam", desc: "Found in the STEAM Garden. A tiny planet with a moon that orbits it. It loves space words." },
+  { id: "saturnosaur", name: "Saturnosaur", type: "vocab", arch: "dino", stage: 2, rarity: 3, habitat: "steam", desc: "Found in the STEAM Garden. It wears Saturn’s rings like a hula hoop." },
+  { id: "pastini", name: "Pastini", type: "wordclass", arch: "blob", stage: 1, evo: "spaghettyeti", rarity: 2, habitat: "italian", desc: "Found in the Piazza Garden. A little bow of pasta. Pasta and pizza are nouns that came from Italian!" },
+  { id: "spaghettyeti", name: "Spaghettyeti", type: "wordclass", arch: "pup", stage: 2, rarity: 3, habitat: "italian", desc: "Found in the Piazza Garden. A yeti made of spaghetti, with a meatball nose." },
+  { id: "mewcab", name: "Mewcab", type: "vocab", arch: "pup", stage: 1, evo: "meowcabulary", rarity: 2, habitat: "cottage", desc: "Found in the Cat Garden. A kitten who collects big words in a tiny dictionary." },
+  { id: "meowcabulary", name: "Meowcabulary", type: "vocab", arch: "pup", stage: 2, rarity: 3, habitat: "cottage", desc: "Found in the Cat Garden. It never says “good” when it can say “MAGNIFICENT!”" },
+  { id: "goaliath", name: "Goaliath", type: "mega", arch: "pup", stage: 2, rarity: 5, desc: "The one and only MEGA LEGENDARY. A golden champion with a blazing mane that scores a goal with every perfect sentence. Only the School Champion can befriend it." },
   // ---- even more creatures ----
   { id: "syllapup", name: "Syllapup", type: "spelling", arch: "pup", stage: 1, evo: "syllaseal", rarity: 1, desc: "It claps out the syllables of every word it hears. Ba-na-na: three claps!" },
   { id: "syllaseal", name: "Syllaseal", type: "spelling", arch: "pup", stage: 2, rarity: 3, desc: "It balances a ball with three parts on its head: syl-la-ble." },
@@ -3396,6 +3412,239 @@ Object.assign(HAND, {
   </g>`
 });
 
+const beatMarks = (x, y, txt, rot = 0, col = "#E63946") => `<text x="${x}" y="${y}" text-anchor="middle" font-family="${CF}" font-weight="800" font-size="13" fill="${col}" stroke="#fff" stroke-width="3" paint-order="stroke" transform="rotate(${rot} ${x} ${y})">${txt}</text>`;
+Object.assign(HAND, {
+  drumlet: () => `${hs(42)}<g class="hop">
+    <ellipse cx="86" cy="182" rx="11" ry="6" fill="#7A4A22" ${HO}/><ellipse cx="114" cy="182" rx="11" ry="6" fill="#7A4A22" ${HO}/>
+    <path d="M62 96 V164 Q100 182 138 164 V96Z" fill="#E63946" ${HO}/>
+    <path d="M62 112 L82 164 M82 106 L104 172 M104 106 L124 170 M124 106 L138 150" stroke="#FFD447" stroke-width="4" stroke-linecap="round"/>
+    <path d="M62 112 L82 164 M82 106 L104 172 M104 106 L124 170 M124 106 L138 150" stroke="${OL}" stroke-width="1" opacity=".3"/>
+    <ellipse cx="100" cy="96" rx="38" ry="12" fill="#FFF8E8" ${HO}/>
+    <g class="wag" style="transform-origin:62px 120px"><path d="M62 124 L36 90" stroke="${OL}" stroke-width="9" stroke-linecap="round"/><path d="M62 124 L36 90" stroke="#D9A066" stroke-width="5" stroke-linecap="round"/><circle cx="34" cy="87" r="7" fill="#FFF3D6" ${HO}/></g>
+    <g class="wag" style="transform-origin:138px 120px;animation-delay:-.6s"><path d="M138 124 L164 90" stroke="${OL}" stroke-width="9" stroke-linecap="round"/><path d="M138 124 L164 90" stroke="#D9A066" stroke-width="5" stroke-linecap="round"/><circle cx="166" cy="87" r="7" fill="#FFF3D6" ${HO}/></g>
+    <rect x="76" y="118" width="48" height="34" rx="12" fill="#FFE0E0" ${HO}/>
+    ${eyes2(90, 110, 130, 7)}${smile(100, 142, 5)}
+    ${beatMarks(56, 60, "ba", -12)}${beatMarks(100, 52, "na", 0)}${beatMarks(144, 60, "na!", 12)}
+  </g>`,
+
+  bongorilla: () => `${hs(64)}<g class="idle">
+    <ellipse cx="72" cy="184" rx="20" ry="8" fill="#3A3D52" ${HO}/><ellipse cx="128" cy="184" rx="20" ry="8" fill="#3A3D52" ${HO}/>
+    <path d="M50 182 Q42 104 100 96 Q158 104 150 182Z" fill="#555A70" ${HO}/>
+    <path d="M74 182 Q74 132 100 126 Q126 132 126 182Z" fill="#8A8FA8"/>
+    <g transform="translate(64 156)"><path d="M-22 -16 L22 -16 L16 24 L-16 24Z" fill="#C9962B" ${HO}/><ellipse cx="0" cy="-16" rx="22" ry="7" fill="#FFF3D6" ${HO}/><path d="M-18 0 H18 M-16 12 H16" stroke="#7A4A22" stroke-width="3"/></g>
+    <g transform="translate(136 156)"><path d="M-20 -14 L20 -14 L15 24 L-15 24Z" fill="#E07A3A" ${HO}/><ellipse cx="0" cy="-14" rx="20" ry="6" fill="#FFF3D6" ${HO}/><path d="M-16 2 H16 M-14 14 H14" stroke="#7A4A22" stroke-width="3"/></g>
+    <path d="M58 116 Q36 124 54 138" fill="none" stroke="${OL}" stroke-width="20" stroke-linecap="round"/><path d="M58 116 Q36 124 54 138" fill="none" stroke="#555A70" stroke-width="13" stroke-linecap="round"/>
+    <path d="M142 116 Q164 124 146 138" fill="none" stroke="${OL}" stroke-width="20" stroke-linecap="round"/><path d="M142 116 Q164 124 146 138" fill="none" stroke="#555A70" stroke-width="13" stroke-linecap="round"/>
+    <circle cx="100" cy="72" r="38" fill="#555A70" ${HO}/>
+    <ellipse cx="100" cy="86" rx="26" ry="20" fill="#8A8FA8" ${HO}/>
+    <path d="M76 56 Q100 44 124 56" fill="none" stroke="#3A3D52" stroke-width="6" stroke-linecap="round"/>
+    ${eyes2(86, 114, 66, 8, true)}<ellipse cx="94" cy="82" rx="3" ry="2.5" fill="${OL}"/><ellipse cx="106" cy="82" rx="3" ry="2.5" fill="${OL}"/>${grin(100, 92, 9)}
+    ${beatMarks(38, 108, "BOM!", -14, "#C9962B")}${beatMarks(168, 108, "BOM!", 14, "#E07A3A")}
+  </g>`,
+
+  rhymchick: () => `${hs(40)}<g class="hop">
+    <path d="M88 174 l-4 10 M94 176 l0 10 M106 176 l0 10 M112 174 l4 10" stroke="#FFB020" stroke-width="4.5" stroke-linecap="round"/>
+    ${fluff(100, 138, 30, 10, "#FFB3C7")}<circle cx="100" cy="138" r="36" fill="#FFB3C7"/>
+    <ellipse cx="100" cy="150" rx="20" ry="16" fill="#FFE3EC"/>
+    <g class="flapAL" style="transform-origin:66px 138px"><ellipse cx="62" cy="142" rx="10" ry="16" fill="#FF8FA3" ${HO} transform="rotate(20 62 142)"/></g>
+    <g class="flapAR" style="transform-origin:134px 138px"><ellipse cx="138" cy="142" rx="10" ry="16" fill="#FF8FA3" ${HO} transform="rotate(-20 138 142)"/></g>
+    ${eyes2(88, 112, 128, 8)}<path d="M94 140 L106 140 L100 148Z" fill="#FFB020" stroke="${OL}" stroke-width="2.5" stroke-linejoin="round"/>
+    ${note8(104, 98, 1.1, "#7E4BBD")}
+    ${signBoard(100, 58, 78, "cat · hat", "#fff", 12)}
+  </g>`,
+
+  rhymingo: () => `${hs(44)}<g class="idle">
+    <path d="M104 180 V136 M104 150 L120 140 L116 128" fill="none" stroke="${OL}" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/><path d="M104 180 V136 M104 150 L120 140 L116 128" fill="none" stroke="#FF7FAF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M60 116 Q60 88 104 88 Q140 90 144 112 Q142 136 104 140 Q70 140 60 116Z" fill="#FF7FAF" ${HO}/>
+    <path d="M70 106 Q96 98 124 108 Q106 124 76 118Z" fill="#FF4F97" ${HO}/>
+    <path d="M126 96 Q140 70 122 52 Q108 40 98 54" fill="none" stroke="${OL}" stroke-width="16" stroke-linecap="round"/><path d="M126 96 Q140 70 122 52 Q108 40 98 54" fill="none" stroke="#FF7FAF" stroke-width="10" stroke-linecap="round"/>
+    <circle cx="96" cy="52" r="16" fill="#FF7FAF" ${HO}/>
+    <path d="M82 54 Q66 56 66 70 Q74 64 82 62Z" fill="#fff" ${HO}/><path d="M66 70 Q66 76 72 74 L76 66Z" fill="${OL}"/>
+    ${cEye(98, 48, 6)}
+    <g transform="translate(150 66) rotate(20)"><rect x="-4" y="0" width="8" height="26" rx="3" fill="#3A3D52" ${HO}/><circle cx="0" cy="-4" r="9" fill="#B5BAC6" ${HO}/></g>
+    ${beatMarks(40, 40, "moon", -10, "#7E4BBD")}${beatMarks(170, 34, "spoon", 10, "#7E4BBD")}
+    ${note8(36, 150, .8, "#FFD447")}
+  </g>`,
+
+  beakit: () => `${hs(40)}<g class="idle">
+    <path d="M64 70 H136 V78 H128 V160 Q128 182 100 182 Q72 182 72 160 V78 H64Z" fill="rgba(220,240,255,.9)" ${HO}/>
+    <path d="M73 118 Q100 110 127 118 V160 Q127 180 100 180 Q73 180 73 160Z" fill="#7FE0D4" stroke="${OL}" stroke-width="2"/>
+    <path d="M78 84 V150" stroke="#fff" stroke-width="5" stroke-linecap="round" opacity=".8"/>
+    ${[[110, 122, 5], [90, 112, 4], [116, 100, 3.5], [96, 92, 3], [106, 76, 4], [94, 58, 5], [110, 44, 3.5]].map(([x, y, r]) => `<circle cx="${x}" cy="${y}" r="${r}" fill="#B9F2EA" stroke="${OL}" stroke-width="2" class="drift"/>`).join("")}
+    ${eyes2(90, 110, 146, 7)}${smile(100, 160, 5)}
+    <path d="M128 96 H138 M128 112 H136 M128 128 H138" stroke="${OL}" stroke-width="2.5"/>
+    ${signBoard(100, 196 - 10, 48, "micro-", "#fff", 10)}
+  </g>`,
+
+  erlenmyrex: () => `${hs(62)}<g class="idle">
+    <path d="M134 164 Q176 172 186 140 Q178 160 148 174Z" fill="#2E9C93" ${HO}/>
+    <ellipse cx="78" cy="184" rx="16" ry="8" fill="#1F6F68" ${HO}/><ellipse cx="122" cy="184" rx="16" ry="8" fill="#1F6F68" ${HO}/>
+    <path d="M86 92 H114 V110 L148 172 Q150 182 138 182 H62 Q50 182 52 172 L86 110Z" fill="rgba(220,240,255,.92)" ${HO}/>
+    <path d="M70 146 H130 L146 172 Q148 180 138 180 H62 Q52 180 54 172Z" fill="#9B5DE5" stroke="${OL}" stroke-width="2"/>
+    ${[[84, 160, 4], [104, 154, 5], [120, 166, 3.5], [96, 132, 3]].map(([x, y, r]) => `<circle cx="${x}" cy="${y}" r="${r}" fill="#E3D4FF" stroke="${OL}" stroke-width="1.6"/>`).join("")}
+    <path d="M90 116 L74 150" stroke="#fff" stroke-width="5" stroke-linecap="round" opacity=".8"/>
+    <path d="M60 140 q-14 4 -14 16 M140 140 q14 4 14 16" stroke="${OL}" stroke-width="9" stroke-linecap="round"/><path d="M60 140 q-14 4 -14 16 M140 140 q14 4 14 16" stroke="#2E9C93" stroke-width="4" stroke-linecap="round"/>
+    <path d="M62 66 Q60 30 100 28 Q144 30 144 66 Q146 90 124 96 L76 96 Q58 90 62 66Z" fill="#2E9C93" ${HO}/>
+    <path d="M74 80 Q100 104 128 80 Q122 96 100 98 Q78 96 74 80Z" fill="#8a2433" ${HO}/><path d="M80 82 l4 6 4 -5 M114 82 l4 5 4 -6" fill="#fff" stroke="${OL}" stroke-width="1.6"/>
+    <rect x="66" y="48" width="70" height="18" rx="9" fill="#FFD447" ${HO}/>
+    <circle cx="86" cy="57" r="9" fill="#BDE8FF" stroke="${OL}" stroke-width="3"/><circle cx="116" cy="57" r="9" fill="#BDE8FF" stroke="${OL}" stroke-width="3"/>
+    <circle cx="87" cy="58" r="3.5" fill="${OL}"/><circle cx="117" cy="58" r="3.5" fill="${OL}"/>
+  </g>`
+});
+
+Object.assign(HAND, {
+  orbitot: () => `${hs(36)}<g class="hover2">
+    <g class="orbit o1"><circle cx="160" cy="70" r="10" fill="#E6E6EE" ${HO}/><circle cx="157" cy="67" r="2.5" fill="#B5BAC6"/></g>
+    <circle cx="100" cy="110" r="40" fill="#5B8FF0" ${HO}/>
+    <path d="M70 92 Q84 84 92 96 Q100 108 86 114 Q74 116 70 104Z M112 128 Q124 120 132 128 Q128 140 116 138Z" fill="#6CC66B" stroke="${OL}" stroke-width="2.5"/>
+    <ellipse cx="100" cy="114" rx="70" ry="16" fill="none" stroke="${OL}" stroke-width="9"/><ellipse cx="100" cy="114" rx="70" ry="16" fill="none" stroke="#FFD447" stroke-width="5"/>
+    <path d="M60 110 A40 40 0 0 1 140 110" fill="none" stroke="#5B8FF0" stroke-width="3" opacity="0"/>
+    <path d="M62 100 A40 40 0 0 1 138 100 L138 106 Q100 96 62 106Z" fill="#5B8FF0"/>
+    ${eyes2(88, 112, 94, 8)}${blush(78, 108, 4)}${blush(122, 108, 4)}
+    <path d="M94 104 Q100 110 106 104" fill="none" stroke="${OL}" stroke-width="3" stroke-linecap="round"/>
+    ${[[36, 44], [176, 150], [30, 160]].map(([x, y]) => `<path d="M${x} ${y - 6} l2 4 4 2 -4 2 -2 4 -2 -4 -4 -2 4 -2z" fill="#FFE066"/>`).join("")}
+  </g>`,
+
+  saturnosaur: () => `${hs(62)}
+    ${[[30, 40], [176, 34], [184, 120], [20, 120]].map(([x, y]) => `<path d="M${x} ${y - 7} l2.5 5 5 2 -5 2 -2.5 5 -2.5 -5 -5 -2 5 -2z" fill="#FFE066" class="shinesparks"/>`).join("")}
+    <g class="idle">
+    <path d="M132 158 Q176 166 186 132 Q178 156 148 172Z" fill="#7E4BBD" ${HO}/>
+    <ellipse cx="78" cy="184" rx="16" ry="8" fill="#5C3487" ${HO}/><ellipse cx="122" cy="184" rx="16" ry="8" fill="#5C3487" ${HO}/>
+    <path d="M58 182 Q50 112 100 104 Q150 112 142 182Z" fill="#7E4BBD" ${HO}/>
+    <path d="M78 182 Q78 140 100 134 Q122 140 122 182Z" fill="#E3D4FF"/>
+    <path d="M28 150 Q100 112 172 140" fill="none" stroke="${OL}" stroke-width="12" stroke-linecap="round"/><path d="M28 150 Q100 112 172 140" fill="none" stroke="#FFD447" stroke-width="7" stroke-linecap="round"/>
+    <path d="M28 150 Q100 170 172 140" fill="none" stroke="${OL}" stroke-width="12" stroke-linecap="round"/><path d="M28 150 Q100 170 172 140" fill="none" stroke="#FFD447" stroke-width="7" stroke-linecap="round"/>
+    ${[[84, 120], [116, 116], [100, 170]].map(([x, y]) => `<circle cx="${x}" cy="${y}" r="4" fill="#FFE066" stroke="${OL}" stroke-width="1.5"/>`).join("")}
+    ${[-24, -8, 8, 24].map(dx => `<path d="M${92 + dx} ${46 + Math.abs(dx) * .4} l8 -16 l8 16Z" fill="#9EC0FF" ${HO}/>`).join("")}
+    <path d="M60 74 Q58 42 100 40 Q144 42 142 74 Q144 98 122 104 L78 104 Q58 98 60 74Z" fill="#7E4BBD" ${HO}/>
+    <ellipse cx="100" cy="92" rx="26" ry="12" fill="#E3D4FF"/>
+    ${eyes2(84, 116, 70, 9, true)}${grin(100, 94, 7)}
+  </g>`,
+
+  pastini: () => `${hs(36)}<g class="hop">
+    <path d="M100 120 L52 86 Q42 120 52 154Z" fill="#FFD98A" ${HO}/><path d="M100 120 L148 86 Q158 120 148 154Z" fill="#FFD98A" ${HO}/>
+    ${[96, 110, 124, 138].map(y => `<path d="M54 ${y - 2} Q50 ${y + 2} 54 ${y + 6}" fill="none" stroke="#D9A04A" stroke-width="2.5"/><path d="M146 ${y - 2} Q150 ${y + 2} 146 ${y + 6}" fill="none" stroke="#D9A04A" stroke-width="2.5"/>`).join("")}
+    <ellipse cx="100" cy="120" rx="22" ry="26" fill="#FFE6A8" ${HO}/>
+    ${eyes2(92, 108, 114, 6)}${blush(86, 126, 3.5)}${blush(114, 126, 3.5)}${smile(100, 128, 4)}
+    <circle cx="128" cy="160" r="9" fill="#E63946" ${HO}/><path d="M124 156 q2 -2 4 0" stroke="#fff" stroke-width="2" fill="none"/>
+    <ellipse cx="86" cy="182" rx="9" ry="5" fill="#E0B55C" ${HO}/><ellipse cx="114" cy="182" rx="9" ry="5" fill="#E0B55C" ${HO}/>
+    <path d="M90 146 L88 178 M110 146 L112 178" stroke="${OL}" stroke-width="5" stroke-linecap="round"/><path d="M90 146 L88 178 M110 146 L112 178" stroke="#FFE6A8" stroke-width="2" stroke-linecap="round"/>
+  </g>`,
+
+  spaghettyeti: () => `${hs(62)}<g class="idle">
+    <ellipse cx="76" cy="184" rx="18" ry="8" fill="#E0C79E" ${HO}/><ellipse cx="124" cy="184" rx="18" ry="8" fill="#E0C79E" ${HO}/>
+    <path d="M44 180 Q36 70 100 60 Q164 70 156 180 Q100 192 44 180Z" fill="#FFE6A8" ${HO}/>
+    ${Array.from({ length: 11 }, (_, i) => { const x = 54 + i * 9; return `<path d="M${x} 84 Q${x - 8} 120 ${x + 4} 150 Q${x + 10} 166 ${x - 2} 178" fill="none" stroke="#E0B55C" stroke-width="3" stroke-linecap="round"/>`; }).join("")}
+    <path d="M60 92 Q100 70 140 92 Q140 134 100 138 Q60 134 60 92Z" fill="#FFF3D6" ${HO}/>
+    ${eyes2(86, 114, 98, 8)}
+    <circle cx="100" cy="116" r="10" fill="#9C4A2A" ${HO}/><circle cx="96" cy="112" r="2.5" fill="#C9734A"/>
+    <path d="M88 128 Q100 136 112 128" fill="none" stroke="${OL}" stroke-width="3" stroke-linecap="round"/>
+    <path d="M70 70 Q66 54 74 50 M130 70 Q134 54 126 50" fill="none" stroke="#E0B55C" stroke-width="4" stroke-linecap="round"/>
+    <g transform="translate(166 120) rotate(14)"><rect x="-3" y="-4" width="6" height="56" rx="3" fill="#B5BAC6" ${HO}/><path d="M-10 -4 V-26 M-3.5 -4 V-28 M3.5 -4 V-28 M10 -4 V-26 M-10 -4 H10" fill="none" stroke="${OL}" stroke-width="3" stroke-linecap="round"/></g>
+    <circle cx="156" cy="132" r="9" fill="#FFE6A8" ${HO}/>
+    <path d="M58 64 l-6 -6 l12 2 M142 64 l6 -6 l-12 2" fill="#3E9B4E" stroke="${OL}" stroke-width="2.5" stroke-linejoin="round"/>
+  </g>`,
+
+  mewcab: () => `${hs(40)}<g class="idle">
+    <g class="wag" style="transform-origin:124px 168px"><path d="M122 170 Q160 172 156 136" fill="none" stroke="${OL}" stroke-width="10" stroke-linecap="round"/><path d="M122 170 Q160 172 156 136" fill="none" stroke="#9AA0B5" stroke-width="5" stroke-linecap="round"/></g>
+    <ellipse cx="100" cy="152" rx="30" ry="28" fill="#9AA0B5" ${HO}/><ellipse cx="100" cy="158" rx="16" ry="16" fill="#E6E6EE"/>
+    <ellipse cx="86" cy="180" rx="10" ry="6" fill="#9AA0B5" ${HO}/><ellipse cx="114" cy="180" rx="10" ry="6" fill="#9AA0B5" ${HO}/>
+    <g transform="translate(100 160) rotate(-6)"><rect x="-16" y="-12" width="32" height="22" rx="2" fill="#7E4BBD" ${HO}/><path d="M0 -12 V10" stroke="${OL}" stroke-width="2.5"/><text x="0" y="4" text-anchor="middle" font-family="${CF}" font-weight="800" font-size="7" fill="#FFE066">A–Z</text></g>
+    <path d="M70 88 L66 56 L90 76Z M130 88 L134 56 L110 76Z" fill="#9AA0B5" ${HO}/><path d="M72 80 L70 64 L84 76Z M128 80 L130 64 L116 76Z" fill="#FFB3C7"/>
+    <circle cx="100" cy="104" r="32" fill="#9AA0B5" ${HO}/>
+    ${eyes2(88, 112, 100, 8)}<path d="M96 112 L104 112 L100 117Z" fill="#FF8FA3" stroke="${OL}" stroke-width="2" stroke-linejoin="round"/>${smile(100, 120, 5)}
+    <path d="M78 112 L60 108 M78 118 L60 120 M122 112 L140 108 M122 118 L140 120" stroke="${OL}" stroke-width="2" stroke-linecap="round"/>
+    ${bubble(150, 48, 46, "big!")}
+  </g>`,
+
+  meowcabulary: () => `${hs(64)}<g class="idle">
+    <g class="wag" style="transform-origin:150px 168px"><path d="M148 170 Q192 170 186 124" fill="none" stroke="${OL}" stroke-width="14" stroke-linecap="round"/><path d="M148 170 Q192 170 186 124" fill="none" stroke="#7E8499" stroke-width="8" stroke-linecap="round"/></g>
+    <ellipse cx="66" cy="184" rx="16" ry="7" fill="#7E8499" ${HO}/><ellipse cx="134" cy="184" rx="16" ry="7" fill="#7E8499" ${HO}/>
+    <ellipse cx="100" cy="146" rx="56" ry="40" fill="#7E8499" ${HO}/><ellipse cx="100" cy="154" rx="32" ry="26" fill="#E6E6EE"/>
+    <path d="M60 80 L50 40 L84 64Z M140 80 L150 40 L116 64Z" fill="#7E8499" ${HO}/><path d="M62 72 L56 50 L76 64Z M138 72 L144 50 L124 64Z" fill="#FFB3C7"/>
+    <ellipse cx="100" cy="96" rx="44" ry="36" fill="#7E8499" ${HO}/>
+    <circle cx="82" cy="94" r="10" fill="#fff" stroke="${OL}" stroke-width="3"/><circle cx="118" cy="94" r="10" fill="#fff" stroke="${OL}" stroke-width="3"/>
+    <g class="blink" style="transform-origin:100px 94px"><circle cx="83" cy="95" r="4.5" fill="${OL}"/><circle cx="119" cy="95" r="4.5" fill="${OL}"/></g>
+    <circle cx="82" cy="94" r="12.5" fill="none" stroke="#C9962B" stroke-width="3"/><circle cx="118" cy="94" r="12.5" fill="none" stroke="#C9962B" stroke-width="3"/><path d="M94 94 h12" stroke="#C9962B" stroke-width="3"/>
+    <path d="M96 108 L104 108 L100 113Z" fill="#FF8FA3" stroke="${OL}" stroke-width="2" stroke-linejoin="round"/>${smile(100, 116, 6)}
+    <path d="M66 108 L44 104 M66 114 L46 118 M134 108 L156 104 M134 114 L154 118" stroke="${OL}" stroke-width="2" stroke-linecap="round"/>
+    <path d="M84 130 L100 124 L116 130 L100 136Z" fill="#9B2335" ${HO}/>
+    ${signBoard(100, 26, 124, "MAGNIFICENT!", "#fff", 13)}
+  </g>`
+});
+
+Object.assign(HAND, {
+  goaliath: () => `<defs>
+      <radialGradient id="gAura" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#FFF6C2" stop-opacity=".95"/><stop offset=".55" stop-color="#FFC93C" stop-opacity=".45"/><stop offset="1" stop-color="#FF7A3A" stop-opacity="0"/></radialGradient>
+      <linearGradient id="gGold" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFE98A"/><stop offset=".5" stop-color="#F7B731"/><stop offset="1" stop-color="#C97A0F"/></linearGradient>
+      <linearGradient id="gFlame" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#E63946"/><stop offset=".55" stop-color="#FF7A3A"/><stop offset="1" stop-color="#FFE066"/></linearGradient>
+      <linearGradient id="gWing" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset=".5" stop-color="#FFE066"/><stop offset="1" stop-color="#F2A900"/></linearGradient>
+    </defs>
+    <circle cx="100" cy="96" r="96" fill="url(#gAura)"/>
+    <g class="tick" style="transform-origin:100px 96px" opacity=".55">${Array.from({ length: 16 }, (_, i) => `<path d="M100 96 L${100 + Math.cos(i * Math.PI / 8 - .06) * 110} ${96 + Math.sin(i * Math.PI / 8 - .06) * 110} L${100 + Math.cos(i * Math.PI / 8 + .06) * 110} ${96 + Math.sin(i * Math.PI / 8 + .06) * 110}Z" fill="${i % 2 ? "#FFFFFF" : "#FFD447"}"/>`).join("")}</g>
+    <ellipse cx="100" cy="192" rx="70" ry="7" fill="rgba(0,0,0,.25)"/>
+    <g class="hover2">
+    <g class="flapBL" style="transform-origin:74px 108px">${[[-86, 46, 0], [-94, 80, 1], [-86, 114, 2]].map(([dx, y, i]) => `<path d="M76 ${102 + i * 6} Q${60 + dx * .3} ${y - 14} ${100 + dx} ${y} Q${92 + dx * .9} ${y + 16} ${100 + dx * .6} ${y + 22} Q${84 + dx * .3} ${y + 18} 74 ${118 + i * 6}Z" fill="url(#gWing)" ${HO}/><path d="M${100 + dx * .9} ${y + 6} Q${86 + dx * .4} ${y + 4} 78 ${108 + i * 6}" fill="none" stroke="#E9A800" stroke-width="2"/>`).join("")}</g>
+    <g class="flapBR" style="transform-origin:126px 108px">${[[86, 46, 0], [94, 80, 1], [86, 114, 2]].map(([dx, y, i]) => `<path d="M124 ${102 + i * 6} Q${140 + dx * .3} ${y - 14} ${100 + dx} ${y} Q${108 + dx * .9} ${y + 16} ${100 + dx * .6} ${y + 22} Q${116 + dx * .3} ${y + 18} 126 ${118 + i * 6}Z" fill="url(#gWing)" ${HO}/><path d="M${100 + dx * .9} ${y + 6} Q${114 + dx * .4} ${y + 4} 122 ${108 + i * 6}" fill="none" stroke="#E9A800" stroke-width="2"/>`).join("")}</g>
+    <path d="M78 112 Q58 140 54 166 L146 166 Q142 140 122 112Z" fill="#C2384C" ${HO}/><path d="M60 160 L140 160" stroke="#FFD447" stroke-width="4"/><path d="M66 140 Q72 128 80 120 M134 140 Q128 128 120 120" fill="none" stroke="#E86A6A" stroke-width="3" stroke-linecap="round"/>
+    <path d="M52 192 V170 Q52 164 58 164 H142 Q148 164 148 170 V192Z" fill="url(#gGold)" ${HO}/><text x="100" y="186" text-anchor="middle" font-family="${CF}" font-weight="800" font-size="20" fill="#9C6200">1</text>
+    <g transform="translate(138 156)" opacity="0"><circle r="12" fill="#fff" ${HO}/><path d="M0 -5 L5 -1.5 L3 4.5 L-3 4.5 L-5 -1.5Z" fill="#1d1b3a"/><path d="M0 -5 V-12 M5 -1.5 L11 -4 M3 4.5 L7 10 M-3 4.5 L-7 10 M-5 -1.5 L-11 -4" stroke="#1d1b3a" stroke-width="1.8"/></g>
+    <path d="M74 166 Q66 132 78 112 L122 112 Q134 132 126 166Z" fill="url(#gGold)" ${HO}/>
+    <path d="M86 164 Q82 136 92 122 L108 122 Q118 136 114 164Z" fill="#FFF3C4"/>
+    <path d="M82 124 Q90 132 100 130 Q110 132 118 124 M84 140 Q92 146 100 144 Q108 146 116 140" fill="none" stroke="#C97A0F" stroke-width="2.5" stroke-linecap="round"/>
+    <g transform="translate(70 168)"><path d="M-14 -4 Q-14 -12 -4 -12 H8 Q14 -12 14 -4 V2 H-14Z" fill="#fff" ${HO}/><path d="M-10 -6 L6 -10" stroke="#E63946" stroke-width="3"/><path d="M-16 2 Q-22 -4 -20 -12 Q-14 -6 -12 -2Z M-18 0 Q-28 -2 -26 -14 Q-18 -8 -16 -2Z" fill="url(#gFlame)" stroke="${OL}" stroke-width="2"/></g>
+    <g transform="translate(130 168) scale(-1 1)"><path d="M-14 -4 Q-14 -12 -4 -12 H8 Q14 -12 14 -4 V2 H-14Z" fill="#fff" ${HO}/><path d="M-10 -6 L6 -10" stroke="#E63946" stroke-width="3"/><path d="M-16 2 Q-22 -4 -20 -12 Q-14 -6 -12 -2Z M-18 0 Q-28 -2 -26 -14 Q-18 -8 -16 -2Z" fill="url(#gFlame)" stroke="${OL}" stroke-width="2"/></g>
+    <path d="M78 122 Q60 104 66 76" fill="none" stroke="${OL}" stroke-width="18" stroke-linecap="round"/><path d="M78 122 Q60 104 66 76" fill="none" stroke="#F7B731" stroke-width="11" stroke-linecap="round"/>
+    <g transform="translate(64 50) rotate(-8)"><path d="M-14 -16 H14 Q14 4 0 8 Q-14 4 -14 -16Z" fill="url(#gGold)" ${HO}/><path d="M-14 -12 Q-24 -12 -22 -2 Q-20 4 -12 2 M14 -12 Q24 -12 22 -2 Q20 4 12 2" fill="none" stroke="${OL}" stroke-width="3"/><rect x="-3" y="8" width="6" height="10" fill="url(#gGold)" ${HO}/><rect x="-10" y="18" width="20" height="6" rx="2" fill="url(#gGold)" ${HO}/><path d="M-6 -10 L-2 -2" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".8"/></g>
+    <circle cx="66" cy="78" r="8" fill="#F7B731" ${HO}/>
+    <g transform="translate(142 152)"><circle r="12" fill="#fff" ${HO}/><path d="M0 -5 L5 -1.5 L3 4.5 L-3 4.5 L-5 -1.5Z" fill="#1d1b3a"/><path d="M0 -5 V-12 M5 -1.5 L11 -4 M3 4.5 L7 10 M-3 4.5 L-7 10 M-5 -1.5 L-11 -4" stroke="#1d1b3a" stroke-width="1.8"/></g>
+    <path d="M122 122 Q140 132 140 146" fill="none" stroke="${OL}" stroke-width="16" stroke-linecap="round"/><path d="M122 122 Q140 132 140 146" fill="none" stroke="#F7B731" stroke-width="9" stroke-linecap="round"/>
+    ${[[58, 16, "url(#gFlame)"], [44, 14, "#FFD447"]].map(([R, n, f], L) => Array.from({ length: n }, (_, i) => { const a = Math.PI * 2 * (i + L * .5) / n - Math.PI / 2, w = Math.PI / n * 1.1, b = 22; return `<path d="M${100 + Math.cos(a - w) * b} ${86 + Math.sin(a - w) * b} Q${100 + Math.cos(a - w * .3) * R * .85} ${86 + Math.sin(a - w * .3) * R * .85} ${100 + Math.cos(a + w * .25) * R} ${86 + Math.sin(a + w * .25) * R} Q${100 + Math.cos(a + w * .5) * R * .6} ${86 + Math.sin(a + w * .5) * R * .6} ${100 + Math.cos(a + w) * b} ${86 + Math.sin(a + w) * b}Z" fill="${f}" stroke="${OL}" stroke-width="2.5" stroke-linejoin="round"/>`; }).join("")).join("")}
+    <path d="M100 118 L92 104 L108 104Z" fill="#E63946"/>
+    <circle cx="100" cy="128" r="9" fill="url(#gGold)" ${HO}/><path d="M100 123 l1.6 3.4 3.6.4 -2.7 2.4 .8 3.6 -3.3 -1.9 -3.3 1.9 .8 -3.6 -2.7 -2.4 3.6 -.4z" fill="#fff"/>
+    <path d="M90 104 L96 120 M110 104 L104 120" stroke="#3F6FD8" stroke-width="4"/>
+    <circle cx="100" cy="86" r="30" fill="url(#gGold)" ${HO}/><path d="M80 72 Q86 64 96 62" fill="none" stroke="#FFF6C2" stroke-width="4" stroke-linecap="round" opacity=".8"/>
+    <path d="M74 70 Q100 60 126 70 L126 78 Q100 70 74 78Z" fill="#E63946" ${HO}/><path d="M97 66 l3 -5 3 5 -3 4z" fill="#fff"/>
+    <ellipse cx="100" cy="100" rx="15" ry="10" fill="#FFF3C4"/>
+    <path d="M76 82 L92 88 M124 82 L108 88" stroke="${OL}" stroke-width="5" stroke-linecap="round"/>
+    <ellipse cx="88" cy="91" rx="6" ry="6.5" fill="#fff" stroke="${OL}" stroke-width="2.5"/><ellipse cx="112" cy="91" rx="6" ry="6.5" fill="#fff" stroke="${OL}" stroke-width="2.5"/>
+    <circle cx="89" cy="92" r="3.6" fill="#1d1b3a"/><circle cx="111" cy="92" r="3.6" fill="#1d1b3a"/><circle cx="88" cy="90.5" r="1.3" fill="#fff"/><circle cx="110" cy="90.5" r="1.3" fill="#fff"/><circle cx="88" cy="91" r="8.5" fill="none" stroke="#FFE066" stroke-width="1.5" opacity=".7"/><circle cx="112" cy="91" r="8.5" fill="none" stroke="#FFE066" stroke-width="1.5" opacity=".7"/>
+    <path d="M96 96 L104 96 L100 100Z" fill="#7A3A10" stroke="${OL}" stroke-width="2" stroke-linejoin="round"/>
+    <path d="M90 104 Q100 112 110 104" fill="#8a2433" stroke="${OL}" stroke-width="2.5" stroke-linejoin="round"/><path d="M93 105 l2 4 2 -3.5 M103 105 l2 3.5 2 -4" fill="#fff" stroke="${OL}" stroke-width="1"/>
+    </g>
+    <g class="shinesparks" fill="#FFFFFF">${[[24, 30], [176, 26], [186, 120], [16, 128], [150, 182], [44, 180]].map(([x, y]) => `<path d="M${x} ${y - 8} l2.6 5.4 5.4 2.6 -5.4 2.6 -2.6 5.4 -2.6 -5.4 -5.4 -2.6 5.4 -2.6z"/>`).join("")}</g>`
+});
+function mrPSVG() {
+  const O = `stroke="${OL}" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"`;
+  return `<svg viewBox="0 0 200 200" class="sprite" aria-hidden="true"><ellipse cx="100" cy="188" rx="46" ry="8" fill="rgba(0,0,0,.25)"/>
+  <g class="idle">
+    <path d="M54 188 Q56 122 100 110 Q144 122 146 188Z" fill="#1d1b3a" ${O}/>
+    <path d="M64 188 Q64 140 72 126 M136 188 Q136 140 128 126" fill="none" stroke="#E63946" stroke-width="5"/><path d="M70 188 Q70 142 77 128 M130 188 Q130 142 123 128" fill="none" stroke="#fff" stroke-width="3"/>
+    <path d="M100 112 V188" stroke="#B5BAC6" stroke-width="3"/><rect x="96" y="132" width="8" height="12" rx="2" fill="#B5BAC6" stroke="${OL}" stroke-width="2"/>
+    <path d="M80 106 L100 124 L120 106 L116 118 L100 132 L84 118Z" fill="#2B2F55" ${O}/>
+    <g transform="translate(78 140)"><circle r="7" fill="#E63946" stroke="#fff" stroke-width="2"/><text y="4" text-anchor="middle" font-family="${CF}" font-weight="800" font-size="10" fill="#fff">P</text></g>
+    <path d="M86 116 Q100 150 114 116" fill="none" stroke="#FFD447" stroke-width="3.5"/><path d="M96 148 h8 v10 q-4 4 -8 0z" fill="#B5BAC6" ${O}/>
+    <path d="M136 132 Q156 112 150 74" fill="none" stroke="${OL}" stroke-width="20" stroke-linecap="round"/><path d="M136 132 Q156 112 150 74" fill="none" stroke="#1d1b3a" stroke-width="13" stroke-linecap="round"/><path d="M146 112 Q152 96 150 80" fill="none" stroke="#E63946" stroke-width="3"/>
+    <circle cx="150" cy="70" r="8" fill="#C68642" ${O}/><path d="M150 62 V48" stroke="#C68642" stroke-width="5" stroke-linecap="round"/><path d="M150 62 V48" stroke="${OL}" stroke-width="1.5" stroke-linecap="round" opacity=".4"/>
+    <g class="tick" style="transform-origin:150px 30px"><circle cx="150" cy="30" r="18" fill="#F28B30" ${O}/><path d="M132 30 H168 M150 12 V48 M137 17 Q150 30 137 43 M163 17 Q150 30 163 43" fill="none" stroke="${OL}" stroke-width="2.5"/></g>
+    <path d="M150 6 l2 -4 M162 10 l4 -3 M138 10 l-4 -3" stroke="#FFD447" stroke-width="3" stroke-linecap="round"/>
+    <path d="M64 132 Q50 150 70 162" fill="none" stroke="${OL}" stroke-width="20" stroke-linecap="round"/><path d="M64 132 Q50 150 70 162" fill="none" stroke="#1d1b3a" stroke-width="13" stroke-linecap="round"/>
+    <rect x="64" y="154" width="20" height="16" rx="5" fill="#2B2F55" ${O}/>
+    <path d="M86 102 L88 116 Q100 122 112 116 L114 102Z" fill="#C68642" ${O}/>
+    <ellipse cx="70" cy="84" rx="6" ry="8" fill="#C68642" ${O}/><ellipse cx="130" cy="84" rx="6" ry="8" fill="#C68642" ${O}/><circle cx="131" cy="91" r="2.4" fill="#FFD447" stroke="${OL}" stroke-width="1.5"/>
+    <ellipse cx="100" cy="80" rx="30" ry="32" fill="#C68642" ${O}/>
+    <path d="M71 70 Q71 86 74 92 M129 70 Q129 86 126 92" fill="none" stroke="#2B1A10" stroke-width="5" stroke-linecap="round"/>
+    <path d="M72 84 Q70 104 86 110 Q100 116 114 110 Q130 104 128 84 Q120 100 100 102 Q80 100 72 84Z" fill="#3A2A1A" opacity=".18"/>
+    <path d="M70 66 Q70 40 100 40 Q130 40 130 66 Q116 56 100 58 Q84 56 70 66Z" fill="#E63946" ${O}/>
+    <path d="M70 64 Q60 66 58 74 Q66 74 72 70Z" fill="#B0263A" ${O}/>
+    <path d="M84 44 Q100 38 116 44" fill="none" stroke="#fff" stroke-width="3" opacity=".5"/>
+    <path d="M72 76 Q72 70 80 70 H96 Q100 72 104 70 H120 Q128 70 128 76 Q128 88 118 88 H108 Q102 88 100 80 Q98 88 92 88 H82 Q72 88 72 76Z" fill="#1d1b3a" ${O}/>
+    <path d="M78 74 L88 74 M110 74 L120 74" stroke="#7FB0FF" stroke-width="3" stroke-linecap="round"/><path d="M80 80 L86 76 M112 80 L118 76" stroke="#fff" stroke-width="2" stroke-linecap="round" opacity=".8"/>
+    <path d="M90 100 Q100 104 112 96" fill="none" stroke="${OL}" stroke-width="3.5" stroke-linecap="round"/>
+    <path d="M70 84 L70 92 M130 84 L130 92" stroke="${OL}" stroke-width="3"/>
+  </g></svg>`;
+}
+
 /* ---------- people, badges and eggs ---------- */
 function professorSVG() {
   return `<svg viewBox="0 0 200 200" class="sprite" aria-hidden="true"><ellipse cx="100" cy="188" rx="46" ry="8" fill="rgba(0,0,0,.22)"/>
@@ -3517,9 +3766,9 @@ const areaTopics = id => { const a = AREA[id]; if (!a) return []; const t = a.to
 function areaSpecies(id) {
   if (id === "custom") return SPECIES_LIST.filter(s => s.type !== "legend" && s.stage === 1);
   const a = AREA[id]; if (!a) return [];
-  return SPECIES_LIST.filter(s => s.type !== "legend" && a.topics.includes(s.type));
+  return SPECIES_LIST.filter(s => s.type !== "legend" && !s.habitat && a.topics.includes(s.type));
 }
-const TYPE_ICON = { spelling: "🔤", homophones: "🎵", punctuation: "❗", wordclass: "🏷️", grammar: "⏳", affixes: "🧩", vocab: "📚", muddle: "🌀", legend: "🌟" };
+const TYPE_ICON = { spelling: "🔤", homophones: "🎵", punctuation: "❗", wordclass: "🏷️", grammar: "⏳", affixes: "🧩", vocab: "📚", muddle: "🌀", legend: "🌟", mega: "🏆" };
 
 /* ===================== CHIPTUNE AUDIO (Web Audio, no files) ===================== */
 const AUDIO = { ctx: null, master: null, music: null, sfx: null, on: store.get("sound", true), cur: null, timer: null, step: 0, next: 0, track: null };
@@ -3629,7 +3878,7 @@ function soundToggle() {
 const ROUTE_ALL = AREA_LIST.map(a => a.id);
 const route = () => ROUTE_ALL.filter(id => areaTopics(id).length > 0);
 const STRONG = { spelling: "homophones", homophones: "punctuation", punctuation: "grammar", grammar: "wordclass", wordclass: "affixes", affixes: "vocab", vocab: "spelling" };
-const MOVES = { spelling: "Letter Launch", homophones: "Echo Blast", punctuation: "Comma Clobber", wordclass: "Noun Pound", grammar: "Tense Twister", affixes: "Prefix Punch", vocab: "Synonym Storm", muddle: "Jumble Jab", legend: "Dictionary Drop" };
+const MOVES = { spelling: "Letter Launch", homophones: "Echo Blast", punctuation: "Comma Clobber", wordclass: "Noun Pound", grammar: "Tense Twister", affixes: "Prefix Punch", vocab: "Synonym Storm", muddle: "Jumble Jab", mega: "Golden Goal", legend: "Dictionary Drop" };
 const SHOP = [
   { id: "berry", name: "Word Berry", icon: "🫐", price: 15, desc: "Wild creature: get 1 extra question. Battle: heal 20 HP." },
   { id: "book", name: "Golden Book", icon: "📒", price: 40, desc: "Wild creature: start with 1 heart already filled." },
@@ -3720,7 +3969,7 @@ function nextGoalText() {
   const sc = typeof currentChapter === "function" && currentChapter();
   if (sc) return `📖 ${fillStory(sc.quest, sc)}`;
   const r = route(), open = unlockedZones();
-  if (allBadges()) return save.story.champion ? "You’re the School Champion! Keep filling your Word Book." : "You have every badge! Principal Mr Mac is waiting in his office.";
+  if (allBadges()) return save.story.champion ? (save.mythic && save.mythic.sports ? "You’re the School Champion! Keep filling your Word Book." : "🏅 You’re the School Champion! Mr P is waiting for you in the Sports Shed in the Specialist Wing.") : "You have every badge! Principal Mr Mac is waiting in his office.";
   const z = open.find(t => !save.badges[t]) || r.find(t => !save.badges[t]);
   if (!z) return "Explore and fill your Word Book!";
   return gymReady(z) ? `Challenge ${LEADERS[z].name} at the ${AREA[z].cls} gym in ${ZONE[z].name}!` : `Explore ${ZONE[z].name}: make friends with creatures and answer questions there.`;
@@ -4082,6 +4331,7 @@ function endBattle(won) {
     BT.mine.forEach(f => { const e = save.team[f.id]; if (!e) return; if (f.hp >= f.hpMax) delete e.hp; else e.hp = Math.max(0, f.hp); }); persist();
     if (won && BT.mine.some(f => f.hp <= 0)) setTimeout(() => toast("😴 Some of your creatures are tired. Visit Ms Shaw to heal them!"), 1500);
   }
+  if (m === "spar") return sparEnd(won);
   if (m === "mythic") return won ? winMythic() : loseMythic();
   if (m === "gym" || m === "champion") return won ? winGym() : loseGym();
   if (m === "trainer") return won ? winTrainer() : loseTrainer();
@@ -4486,7 +4736,7 @@ function updateHud() {
 }
 
 /* ===================== OVERWORLD (top-down, tile-based): THE SCHOOL ===================== */
-const TS = 16, VW = 11, VH = 9, MW = 52, MH = 76;
+const TS = 16, VW = 11, VH = 9, MW = 68, MH = 76;
 const WALK = new Set([".", ",", "=", "p", "m", "g", "q", "s", "v", "k", "r", "F", "d", "D", "l0"]);
 let MAP = [], REGION = [], BUILDINGS = [], NPCS = [], SIGNS = {}, BARRIERS = {}, DOORS = {};
 const AREA_RECTS = {
@@ -4585,7 +4835,7 @@ function buildWorld() {
   kid(11, 6, "Noah", { skin: "#FFDBAC", hair: "#D9A400", hairStyle: "short", outfit: "#B0263A", outfit2: "#2B2B3A" }, ["The Year 5 and 6 gyms ask tricky questions from lots of topics.", "Bring your strongest team!"]);
   kid(38, 6, "Mia", { skin: "#F1C27D", hair: "#5A3A1A", hairStyle: "long", outfit: "#8B5A2B", outfit2: "#F2D59B" }, ["Principal Mr Mac has a legendary creature on his team!", "I wonder if anyone can beat him…"]);
   for (const b of BUILDINGS.filter(b => b.kind === "gym")) NPCS.push({ x: b.x + 1, y: b.y + b.h, name: LEADERS[b.id].name, look: LEADERS[b.id].look, lines: ["gym:" + b.id], dir: "down", kind: "leader" });
-  addWing(); addTrainers(); addNurses();
+  addWing(); addPlaygrounds(); addTrainers(); addNurses();
   for (const n of NPCS) { const t = MAP[n.y][n.x]; if (!WALK.has(t) || t === ",") MAP[n.y][n.x] = AREA_GROUND[REGION[n.y][n.x]] || "."; }
 }
 const regionAt = (x, y) => (REGION[y] && REGION[y][x]) || null;
@@ -4719,6 +4969,16 @@ function paintTile(g, t, x, y, now) {
       cube(3, 14, "#E63946", "#FF8A8A", "A"); cube(17, 14, "#3F6FD8", "#8FB4FF", "B"); cube(10, 1 + f, "#E0A800", "#FFE066", "C");
     })); break;
     case "H": case "D": draw(groundTile(base === "k" ? "k" : "p", v)); break;
+    case "1": case "2": case "3": case "4": case "5": draw(groundTile("s", v)); draw(tileCanvas("eq" + t, (px, gg) => {
+      const O = "#1d1b3a"; gg.lineJoin = "round"; gg.lineCap = "round";
+      gg.fillStyle = "rgba(0,0,0,.2)"; gg.beginPath(); gg.ellipse(16, 29, 14, 3, 0, 0, Math.PI * 2); gg.fill();
+      const line = (pts, col, w) => { gg.strokeStyle = O; gg.lineWidth = w + 2; gg.beginPath(); pts.forEach(([x, y], i) => i ? gg.lineTo(x, y) : gg.moveTo(x, y)); gg.stroke(); gg.strokeStyle = col; gg.lineWidth = w; gg.stroke(); };
+      if (t === "1") { line([[4, 29], [9, 5], [23, 5], [28, 29]], "#E63946", 2.4); gg.strokeStyle = "#8A8F9E"; gg.lineWidth = 1; [[11, 6, 11, 20], [15, 6, 15, 20], [18, 6, 18, 22], [22, 6, 22, 22]].forEach(([a, b2, c, d]) => { gg.beginPath(); gg.moveTo(a, b2); gg.lineTo(c, d); gg.stroke(); }); gg.fillStyle = "#3F6FD8"; gg.fillRect(10, 20, 6, 2.5); gg.fillStyle = "#FFD447"; gg.fillRect(17, 22, 6, 2.5); }
+      if (t === "2") { line([[6, 29], [6, 7]], "#8A8F9E", 2); line([[11, 29], [11, 7]], "#8A8F9E", 2); [12, 17, 22].forEach(y => line([[6, y], [11, y]], "#8A8F9E", 1.4)); gg.fillStyle = "#FF7A3A"; gg.strokeStyle = O; gg.lineWidth = 1.2; gg.beginPath(); gg.moveTo(11, 7); gg.quadraticCurveTo(22, 10, 24, 22); gg.lineTo(30, 28); gg.lineTo(26, 30); gg.lineTo(20, 25); gg.quadraticCurveTo(18, 14, 11, 12); gg.closePath(); gg.fill(); gg.stroke(); }
+      if (t === "3") { line([[5, 29], [5, 8]], "#3F6FD8", 2.4); line([[27, 29], [27, 8]], "#3F6FD8", 2.4); line([[5, 8], [27, 8]], "#FFD447", 2.4); [10, 15, 20, 24].forEach(x => line([[x, 8], [x, 12]], "#8A8F9E", 1.2)); }
+      if (t === "4") { line([[6, 22], [6, 29]], "#3A3D52", 2); line([[26, 22], [26, 29]], "#3A3D52", 2); gg.fillStyle = "#3F6FD8"; gg.strokeStyle = O; gg.lineWidth = 1.2; gg.beginPath(); gg.ellipse(16, 20, 14, 6, 0, 0, Math.PI * 2); gg.fill(); gg.stroke(); gg.fillStyle = "#1d1b3a"; gg.beginPath(); gg.ellipse(16, 20, 10, 3.6, 0, 0, Math.PI * 2); gg.fill(); }
+      if (t === "5") { gg.fillStyle = "#F2D59B"; gg.strokeStyle = O; gg.lineWidth = 1.2; gg.fillRect(5, 4, 22, 25); gg.strokeRect(5, 4, 22, 25); [["#E63946", 9, 8], ["#3F6FD8", 20, 10], ["#3FA34F", 13, 15], ["#FFD447", 22, 18], ["#9B5DE5", 9, 22], ["#FF7A3A", 18, 25]].forEach(([c, x, y]) => { gg.fillStyle = c; gg.beginPath(); gg.arc(x, y, 1.8, 0, Math.PI * 2); gg.fill(); }); }
+    })); break;
     case "K": draw(groundTile(base, v)); draw(tileCanvas("tent", (px, gg) => {
       gg.fillStyle = "rgba(0,0,0,.22)"; gg.beginPath(); gg.ellipse(16, 29, 13, 3, 0, 0, Math.PI * 2); gg.fill();
       gg.fillStyle = "#fff"; gg.strokeStyle = "#1d1b3a"; gg.lineWidth = 1.3; gg.beginPath(); gg.moveTo(3, 28); gg.lineTo(16, 5); gg.lineTo(29, 28); gg.closePath(); gg.fill(); gg.stroke();
@@ -4771,7 +5031,7 @@ function paintBuilding(g, b) {
   }
   if (office && night) WINDOWS.push([X + Wd / 2, Y + 15]);
   // label
-  const txt = b.label ? ((b.kind === "room" || b.kind === "cottage") && !mythicOpen(b.id) ? "🔒 " + b.label : b.label) : b.kind === "gym" ? AREA[b.id].cls.toUpperCase() : b.kind === "lab" ? "LIBRARY" : b.kind === "house" ? "CANTEEN" : "PRINCIPAL";
+  const txt = b.label ? ((b.kind === "room" || b.kind === "cottage" || b.kind === "shed") && !mythicOpen(b.id) ? "🔒 " + b.label : b.label) : b.kind === "gym" ? AREA[b.id].cls.toUpperCase() : b.kind === "lab" ? "LIBRARY" : b.kind === "house" ? "CANTEEN" : "PRINCIPAL";
   g.font = "bold 6px 'Baloo 2', 'Trebuchet MS', sans-serif"; const tw = g.measureText(txt).width;
   const lx = X + Wd / 2 - tw / 2 - 3, ly = office ? Y + 24 : Y + 6;
   g.fillStyle = "#1d1b3a"; g.beginPath(); g.roundRect ? g.roundRect(lx - .6, ly - .6, tw + 7.2, 9.2, 2) : g.rect(lx - .6, ly - .6, tw + 7.2, 9.2); g.fill();
@@ -4782,6 +5042,12 @@ function paintBuilding(g, b) {
   if (b.kind === "cottage") {
     g.fillStyle = shade(roof, .2); g.strokeStyle = "#3A2E22"; g.lineWidth = .8;
     for (const ex of [X + 10, X + Wd - 10]) { g.beginPath(); g.moveTo(ex - 8, Y + 4); g.lineTo(ex, Y - 12); g.lineTo(ex + 8, Y + 4); g.closePath(); g.fill(); g.stroke(); g.fillStyle = "#FFB3C7"; g.beginPath(); g.moveTo(ex - 4, Y + 2); g.lineTo(ex, Y - 6); g.lineTo(ex + 4, Y + 2); g.closePath(); g.fill(); g.fillStyle = shade(roof, .2); }
+  }
+  if (b.kind === "shed") {
+    g.strokeStyle = "rgba(0,0,0,.25)"; g.lineWidth = .8; for (let i = X + 4; i < X + Wd - 2; i += 4) { g.beginPath(); g.moveTo(i, Y + 4); g.lineTo(i - 1, wallTop + 2); g.stroke(); }
+    const hx = X + Wd - 8, hy = Y + 15; g.fillStyle = "#fff"; g.fillRect(hx - 5, hy - 4, 10, 7); g.strokeStyle = "#1d1b3a"; g.lineWidth = .7; g.strokeRect(hx - 5, hy - 4, 10, 7);
+    g.strokeStyle = "#E63946"; g.lineWidth = 1.3; g.beginPath(); g.ellipse(hx, hy + 4, 4, 1.4, 0, 0, Math.PI * 2); g.stroke();
+    g.strokeStyle = "#fff"; g.lineWidth = .5; for (let k = -3; k <= 3; k += 2) { g.beginPath(); g.moveTo(hx + k, hy + 4.5); g.lineTo(hx + k * .6, hy + 9); g.stroke(); }
   }
   if (b.kind === "nurse") { const cx = X + Wd - 8, cy = Y + 18; g.fillStyle = "#fff"; g.beginPath(); g.arc(cx, cy, 5.5, 0, Math.PI * 2); g.fill(); g.strokeStyle = "#1d1b3a"; g.lineWidth = .7; g.stroke(); g.fillStyle = "#E63946"; g.fillRect(cx - 1.2, cy - 3.5, 2.4, 7); g.fillRect(cx - 3.5, cy - 1.2, 7, 2.4); }
   const d = Object.entries(DOORS).find(([k, v]) => v.id === b.id);
@@ -4880,7 +5146,7 @@ function isOpen(z) {
 }
 function showWorld() {
   if (!MAP.length) { buildWorld(); placeTreasures(); }
-  migrateSave(); syncStory();
+  migrateSave(); syncStory(); natureFill();
   if (!W) W = worldState();
   W.lock = false; W.held = null;
   app.dataset.screen = "world";
@@ -5004,6 +5270,8 @@ function interact() {
   if (n) return talkTo(n);
   if (W.buddy.x === x && W.buddy.y === y && buddySpecies()) return talkToBuddy();
   const tr = treasureAt(x, y); if (tr) return pickUpTreasure(tr);
+  const nm = natureAt(x, y) || natureAt(W.x, W.y); if (nm) return natureMenu(nm);
+  if (t && EQUIP[t]) return equipWorkout(t);
   if (t === "S") return dialogue(signLines(x, y), { name: "Sign", svg: SIGN_SVG });
   if (t === "D") return enterDoor(DOORS[x + "," + y]);
   if (t === "B") return barrierMsg(BARRIERS[x + "," + y]);
@@ -5023,12 +5291,14 @@ function talkTo(n) {
   if (n.kind === "trainer") return trainerTalk(n);
   if (n.kind === "story") return runChapter(CH[n.chap]);
   if (n.kind === "nurse") return nurseHeal();
+  if (n.kind === "coach") return coachTalk();
+  if (n.kind === "ranger") return rangerTalk();
   dialogue(n.lines, { name: n.name, svg: personSVG(n.look) });
 }
 function enterDoor(d) {
   if (!d) return;
   if (d.kind === "lab") { W.lock = true; stepBack(); SFX.door(); showLab(); return; }
-  if (d.kind === "room" || d.kind === "cottage") { stepBack(); mythicDoor(d.id); return; }
+  if (d.kind === "room" || d.kind === "cottage" || d.kind === "shed") { stepBack(); mythicDoor(d.id); return; }
   if (d.kind === "nurse") { stepBack(); nurseHeal(); return; }
   if (d.kind === "house") { stepBack(); dialogue(["The canteen is closed. It opens at lunchtime!"], { name: "Canteen", svg: SIGN_SVG }); return; }
   if (d.kind === "fortress") { stepBack(); if (allBadges() && !(save.chapters || {}).c7) { runChapter(CH.c7); return; } if (allBadges()) dialogue(["Come in, come in! I’ve been expecting you."], "mac", () => prepareGym("champion")); else barrierMsg("office"); return; }
@@ -5069,7 +5339,7 @@ function render(now) {
   if (bs) ents.push({ y: W.buddy.fy, draw: () => { const s = svgSprite(bs.id, creatureSVG(bs), 22, save.team[bs.id] && save.team[bs.id].shiny); const bob = Math.round(Math.sin(now / 160) * 1); dropShadow(g, W.buddy.fx * TS, W.buddy.fy * TS, 12); if (s) g.drawImage(s, W.buddy.fx * TS - 3, W.buddy.fy * TS - 7 + bob, 22, 22); } });
   const fr = W.moving ? (W.frame % 2 ? 1 : 2) : 0;
   ents.push({ y: W.fy + 0.01, draw: () => { dropShadow(g, W.fx * TS, W.fy * TS); g.drawImage(pFrame(W.dir, fr), W.fx * TS, W.fy * TS - 5, 16, 20); } });
-  updateOthers(W.dt || 16); drawOthersEnts(g, ents, now);
+  updateOthers(W.dt || 16); drawOthersEnts(g, ents, now); updateNature(W.dt || 16); drawNatureEnts(g, ents, now, camX, camY);
   ents.sort((a, b) => a.y - b.y).forEach(e => e.draw());
   // tall grass in front of feet
   const front = (x, y) => { if (MAP[y] && MAP[y][x] === ",") { const c = TILECACHE.tall; if (c) g.drawImage(c, 0, 18, 32, 14, x * TS, y * TS + 9, 16, 7); } };
@@ -5105,13 +5375,13 @@ const TYPE_INFO = {
   spelling: { name: "Spelling", color: "#F28B30" }, homophones: { name: "Homophones", color: "#1E8C82" },
   punctuation: { name: "Punctuation", color: "#C2384C" }, wordclass: { name: "Word classes", color: "#3E9B3C" },
   grammar: { name: "Grammar", color: "#7E4BBD" }, affixes: { name: "Prefixes", color: "#3F6FD8" },
-  vocab: { name: "Vocabulary", color: "#D6457A" }, muddle: { name: "Muddle", color: "#5C3487" }, legend: { name: "Legendary", color: "#B8860B" }
+  vocab: { name: "Vocabulary", color: "#D6457A" }, muddle: { name: "Muddle", color: "#5C3487" }, legend: { name: "Legendary", color: "#B8860B" }, mega: { name: "Mega Legendary", color: "#D9441A" }
 };
 const ZONES = AREA_LIST.map(a => ({ id: a.id, name: a.name, icon: a.icon, sky: a.sky, g1: a.g1, g2: a.g2, deco: a.deco }))
   .concat([{ id: "custom", name: "Teacher’s Garden", icon: "🍎", sky: ["#FFD1E3", "#FFF2F7"], g1: "#7CC86B", g2: "#5FB04F", deco: "garden" }]);
 const ZONE = Object.fromEntries(ZONES.map(z => [z.id, z]));
-const RARITY = { 1: "Common", 2: "Uncommon", 3: "Rare", 4: "Legendary" };
-const HEARTS = { 1: [2, 3], 2: [2, 3], 3: [3, 4], 4: [3, 4] }; // [needed, tries]
+const RARITY = { 1: "Common", 2: "Uncommon", 3: "Rare", 4: "Legendary", 5: "Mega Legendary" };
+const HEARTS = { 1: [2, 3], 2: [2, 3], 3: [3, 4], 4: [3, 4], 5: [4, 6] }; // [needed, tries]
 const EVOLVE_XP = 100;
 /* ---------- levels, Word Book pages and team ---------- */
 const EXP_PER_LV = 40, MAX_LV = 50;
@@ -5119,7 +5389,7 @@ const expForLv = lv => (lv - 1) * EXP_PER_LV;
 const lvFromExp = x => Math.min(MAX_LV, 1 + Math.floor((x || 0) / EXP_PER_LV));
 function lvOf(id) { const e = save && save.team[id]; return e ? lvFromExp(e.exp) : 1; }
 function addExp(id, n) { const e = save.team[id]; if (!e) return 0; const before = lvFromExp(e.exp); e.exp = Math.min(expForLv(MAX_LV), (e.exp || 0) + n); return lvFromExp(e.exp) - before; }
-function statsFor(sp, lv) { const b = sp.type === "legend" ? [60, 18] : sp.stage === 2 ? [44, 14] : [30, 10]; return { hpMax: b[0] + lv * 3, atk: b[1] + lv }; }
+function statsFor(sp, lv) { const b = sp.type === "mega" ? [80, 24] : sp.type === "legend" ? [60, 18] : sp.stage === 2 ? [44, 14] : [30, 10]; return { hpMax: b[0] + lv * 3, atk: b[1] + lv }; }
 function foeStats(sp, lv) { const s = statsFor(sp, lv); return { hpMax: s.hpMax, atk: Math.round(s.atk * 0.55 + lv * 0.35) }; }
 function dexCount() { return save ? Object.keys(save.dex || save.team || {}).length : 0; }
 function inDex(id) { return !!(save && (save.dex ? save.dex[id] : save.team[id])); }
@@ -5182,7 +5452,7 @@ function topbar(back) {
     <span>📖 ${n}/${SPECIES_LIST.length}</span><span id="coinCount">🪙 ${save.coins || 0}</span></header>`;
 }
 function typeChip(t) { return `<span class="tchip" style="--tc:${TYPE_INFO[t].color}">${TYPE_INFO[t].name}</span>`; }
-function rarityStars(r) { return `<span class="rstars" aria-label="${RARITY[r]}">${"★".repeat(r)}${"☆".repeat(4 - r)}</span>`; }
+function rarityStars(r) { return `<span class="rstars" aria-label="${RARITY[r]}">${"★".repeat(r)}${"☆".repeat(Math.max(0, 4 - r))}</span>`; }
 function buddySpecies() { return save.buddy ? SPECIES[save.buddy] : null; }
 function xpOf(id) { return (save.team[id] && save.team[id].xp) || 0; }
 function toast(msg) {
@@ -5267,10 +5537,10 @@ function islandSVG() {
   const k = 400 / MW, kk = 500 / MH, R = AREA_RECTS;
   const box = (id, col) => { const r = R[id]; return `<rect x="${r[0] * k}" y="${r[1] * kk}" width="${r[2] * k}" height="${r[3] * kk}" rx="10" fill="${col}" stroke="#1d1b3a" stroke-width="2.5" opacity=".95"/>`; };
   const c = id => { const r = R[id]; return [(r[0] + r[2] / 2) * k, (r[1] + r[3] / 2) * kk]; };
-  const links = [["gate", "wing"], ["gate", "possums"], ["gate", "emus"], ["possums", "bilbies"], ["gate", "kangaroos"], ["emus", "swans"], ["bilbies", "numbats"], ["swans", "bobtails"], ["numbats", "karaks"], ["bobtails", "wombats"], ["kangaroos", "office"]];
+  const links = [["emus", "adventure"], ["adventure", "nature"], ["gate", "wing"], ["gate", "possums"], ["gate", "emus"], ["possums", "bilbies"], ["gate", "kangaroos"], ["emus", "swans"], ["bilbies", "numbats"], ["swans", "bobtails"], ["numbats", "karaks"], ["bobtails", "wombats"], ["kangaroos", "office"]];
   return `<svg viewBox="0 0 400 500" aria-hidden="true"><rect width="400" height="500" fill="#4FB3E8"/><rect x="10" y="10" width="380" height="480" rx="30" fill="#3E9B4E"/>
     ${links.map(([a2, b2]) => { const [x1, y1] = c(a2), [x2, y2] = c(b2); return `<path d="M${x1} ${y1} L${x1} ${y2} L${x2} ${y2}" fill="none" stroke="#E8C98A" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>`; }).join("")}
-    ${box("gate", "#D9D2C3")}${box("office", "#C9C4E8")}${AREA_RECTS.wing ? box("wing", "#E3D4FF") : ""}${AREA_LIST.map(a => box(a.id, a.g1)).join("")}</svg>`;
+    ${box("gate", "#D9D2C3")}${box("office", "#C9C4E8")}${AREA_RECTS.wing ? box("wing", "#E3D4FF") : ""}${AREA_RECTS.adventure ? box("adventure", "#F2D59B") + box("nature", "#86C77A") : ""}${AREA_LIST.map(a => box(a.id, a.g1)).join("")}</svg>`;
 }
 function showMap() {
   app.dataset.screen = "map";
@@ -5285,7 +5555,7 @@ function showMap() {
         <span class="zicon" aria-hidden="true">${z.icon}${badge ? `<i class="pinbadge">${badgeSVG(a.id, true)}</i>` : gym ? `<i class="pingym">🏟️</i>` : ""}</span><b>${a.cls}</b><small>${f}/${t} found</small></button>`; }).join("")}
       <button class="zpin lab${W && regionAt(W.x, W.y) === "gate" ? " here" : ""}" style="left:${(AREA_RECTS.gate[0] + AREA_RECTS.gate[2] / 2) / MW * 100}%;top:${(AREA_RECTS.gate[1] + AREA_RECTS.gate[3] / 2) / MH * 100}%" data-act="mapInfo" data-arg="lab"><span class="zicon" aria-hidden="true">🏫</span><b>School Gate</b></button>
       <button class="zpin fortress${W && regionAt(W.x, W.y) === "office" ? " here" : ""}" style="left:50%;top:${(AREA_RECTS.office[1] + AREA_RECTS.office[3] / 2) / MH * 100}%" data-act="mapInfo" data-arg="fortress"><span class="zicon" aria-hidden="true">🏛️</span><b>Principal’s Office</b><small>${save.story.champion ? "Champion!" : allBadges() ? "Final battle" : "Locked"}</small></button>
-      ${wingPins()}
+      ${wingPins()}${playPins()}
       ${friendPins()}
     </div>
     <div class="buddycard" data-act="buddyView" role="button" tabindex="0"><div class="bsp">${creatureSVG(b, { shiny: save.team[b.id].shiny })}</div>
@@ -5311,6 +5581,8 @@ function zoneSceneSVG(z) {
       near = `<ellipse cx="200" cy="246" rx="120" ry="30" fill="#5BC0EB" stroke="#2E8BB8" stroke-width="3"/><ellipse cx="160" cy="240" rx="16" ry="6" fill="#4CAF50"/><circle cx="160" cy="236" r="5" fill="#FF9AB5"/><ellipse cx="240" cy="254" rx="14" ry="5" fill="#4CAF50"/>`; break;
     case "harbour": far = `<rect y="140" width="400" height="60" fill="#5BC0EB"/><path d="M0 150 q10 -6 20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0" fill="none" stroke="#BDEBFF" stroke-width="3"/>
       <g class="bob"><path d="M280 160 h60 l-10 16 h-40z" fill="#B5652B" stroke="#5E3A1A" stroke-width="3"/><path d="M308 160 V122 l24 30z" fill="#fff" stroke="#5E3A1A" stroke-width="2"/></g>`; break;
+    case "sports": far = `${[50, 350].map(x => `<g><rect x="${x - 3}" y="40" width="6" height="160" fill="#8A8F9E" stroke="#1d1b3a" stroke-width="2"/><rect x="${x - 24}" y="24" width="48" height="20" rx="4" fill="#3A3D52" stroke="#1d1b3a" stroke-width="2"/>${[0, 1, 2, 3].map(i => `<circle cx="${x - 15 + i * 10}" cy="34" r="4" fill="#FFF6C2"/>`).join("")}<path d="M${x - 24} 44 L${x - 60} 200 L${x + 60} 200 L${x + 24} 44Z" fill="#FFF6C2" opacity=".12"/></g>`).join("")}<path d="M150 200 V140 H250 V200" fill="none" stroke="#fff" stroke-width="5"/><path d="M154 144 H246 V198 H154Z" fill="none" stroke="#fff" stroke-width="1" stroke-dasharray="4 4" opacity=".6"/>`;
+      near = `<path d="M0 238 Q200 222 400 238 V300 H0Z" fill="#C2384C"/>${[252, 270, 288].map(y => `<path d="M0 ${y} Q200 ${y - 16} 400 ${y}" fill="none" stroke="#fff" stroke-width="2"/>`).join("")}`; break;
     case "music": far = `<g opacity=".85">${[0, 1, 2, 3, 4].map(i => `<path d="M0 ${70 + i * 10} Q200 ${60 + i * 10} 400 ${70 + i * 10}" fill="none" stroke="#fff" stroke-width="2"/>`).join("")}${[60, 140, 230, 320].map((x, i) => `<g transform="translate(${x} ${78 + (i % 2) * 12})"><ellipse rx="8" ry="6" fill="#3A1F5C" transform="rotate(-20)"/><path d="M7 -2 V-30" stroke="#3A1F5C" stroke-width="3"/></g>`).join("")}</g>`;
       near = Array.from({ length: 20 }, (_, i) => `<rect x="${i * 20}" y="262" width="19" height="38" fill="#fff" stroke="#1d1b3a" stroke-width="2"/>${i % 7 !== 2 && i % 7 !== 6 ? `<rect x="${i * 20 + 13}" y="262" width="12" height="22" fill="#1d1b3a"/>` : ""}`).join(""); break;
     case "italy": far = `<path d="M0 40 Q100 70 200 40 T400 40" fill="none" stroke="#7A4A22" stroke-width="2"/>${Array.from({ length: 12 }, (_, i) => { const x = 16 + i * 33, y = 48 + Math.sin(i) * 6; return `<path d="M${x - 9} ${y} L${x + 9} ${y} L${x} ${y + 16}Z" fill="${["#3E9B4E", "#fff", "#E63946"][i % 3]}" stroke="#1d1b3a" stroke-width="1.5"/>`; }).join("")}<g fill="#F2E3C6" stroke="#9C7B5A" stroke-width="3">${[0, 1, 2, 3, 4].map(i => `<path d="M${50 + i * 64} 200 V146 Q${80 + i * 64} 116 ${110 + i * 64} 146 V200"/>`).join("")}</g>`; break;
@@ -5381,6 +5653,7 @@ function tapGrass(i, el) {
 
 /* ---------- encounters ---------- */
 function rollSpecies(z) {
+  if (HABITATS[z.id]) { const hp = SPECIES_LIST.filter(s => s.habitat === HABITATS[z.id]); const s1 = hp.filter(s => s.stage === 1), s2 = hp.filter(s => s.stage === 2); return Math.random() < 0.85 || !s2.length ? pick(s1) : pick(s2); }
   const caughtKinds = dexCount();
   if (save.chapters && save.chapters.c8 && Math.random() < 0.08) { const mu = SPECIES_LIST.filter(s => s.type === "muddle" && (s.stage === 1 || Math.random() < 0.3)); return pick(mu); }
   if (caughtKinds >= 10 && Math.random() < 0.025) return caughtKinds >= 25 && Math.random() < 0.5 ? SPECIES.inktopus : SPECIES.thesaurex;
@@ -5399,8 +5672,8 @@ function startEncounter(forceSp) {
   clearInterval(zoneTimer); setTimeout(() => netPos(true), 600);
   const forced = !!(forceSp && forceSp.id), sp = forced ? forceSp : rollSpecies(curZone);
   const [need, tries] = HEARTS[sp.rarity];
-  const baseLv = curZone.id === "custom" ? 3 : areaLv(curZone.id);
-  E = { sp, shiny: Math.random() < 1 / 40, need, tries, hearts: 0, used: 0, zone: curZone, busy: false, isNew: !inDex(sp.id), lv: forced ? 30 : sp.rarity === 4 ? 25 : baseLv + (sp.stage === 2 ? 2 : 0) + rnd(2) };
+  const baseLv = curZone.id === "custom" ? 3 : HAB_LV[curZone.id] || areaLv(curZone.id);
+  E = { sp, shiny: Math.random() < 1 / 40, need, tries, hearts: 0, used: 0, zone: curZone, busy: false, isNew: !inDex(sp.id), lv: forced ? (sp.rarity === 5 ? 45 : 30) : sp.rarity === 4 ? 25 : baseLv + (sp.stage === 2 ? 2 : 0) + rnd(2) };
   save.seen[sp.id] = true; persist();
   const wipe = document.createElement("div"); wipe.className = "wipe"; document.body.appendChild(wipe);
   setTimeout(renderEncounter, reduced ? 0 : 520);
@@ -5421,7 +5694,7 @@ function renderEncounter() {
       </section></div><div class="dsl-spk" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
     <div class="dsl-hinge" aria-hidden="true"><i></i></div>
     <div class="dsl-bot"><div class="scr scr-bot touch bt-touch">
-      <p class="dstext" id="etip">${sp.rarity === 4 ? "A legendary creature! Answer questions to win its trust." : shiny ? `Wow, a shiny ${sp.name}! These are super rare.` : `A wild ${sp.name} appeared!`}</p>
+      <p class="dstext" id="etip">${sp.rarity === 5 ? "🏆 A MEGA LEGENDARY! Get 4 answers right to win its trust." : sp.rarity === 4 ? "A legendary creature! Answer questions to win its trust." : shiny ? `Wow, a shiny ${sp.name}! These are super rare.` : `A wild ${sp.name} appeared!`}</p>
       <div class="bigbtns" id="ebtns"></div></div></div></section>`;
   drawHearts(); drawEncButtons();
   if (shiny) setTimeout(shinySparkle, reduced ? 50 : 800);
@@ -5444,7 +5717,7 @@ function drawEncButtons(done) {
 function befriend() {
   if (E.busy || E.done) return; E.busy = true;
   const at = E.zone.id === "custom" ? [] : areaTopics(E.zone.id), hard = !!(AREA[E.zone.id] && AREA[E.zone.id].hard);
-  const opts = E.zone.id === "custom" ? { custom: true } : { cat: at.includes(E.sp.type) ? E.sp.type : (at.length ? pick(at) : null), harder: hard };
+  const opts = E.zone.id === "custom" ? { custom: true } : { cat: at.includes(E.sp.type) ? E.sp.type : (at.length ? pick(at) : settings.cats[E.sp.type] ? E.sp.type : null), harder: hard };
   askQuestion(`Make friends with ${E.sp.name}`, "Get it right to fill a heart!", (ok) => {
     E.used++;
     setTimeout(() => { const cc = document.getElementById("coinCount"); if (cc) cc.textContent = `🪙 ${save.coins}`; }, 0);
@@ -5546,7 +5819,7 @@ function showDex() {
     <div class="dexprog"><div class="xpbar big"><i style="width:${Math.round(n / SPECIES_LIST.length * 100)}%"></i></div><small>${n} of ${SPECIES_LIST.length} creatures found</small></div>
     ${groups.map(([t, list]) => `<h3 class="dexh">${TYPE_ICON[t]} ${TYPE_INFO[t].name}</h3><div class="dexgrid">
       ${list.map(s => { const o = inDex(s.id), seen = save.seen[s.id], have = owned(s.id);
-        return `<button class="dexcell ${o ? "got" : ""}" data-act="${o ? "dexInfo" : "dexUnknown"}" data-arg="${s.id}" aria-label="${o ? s.name : seen ? s.name + ", not caught yet" : "Unknown creature"}">
+        return `<button class="dexcell ${o ? "got" : ""}${s.rarity === 5 ? " mega" : ""}" data-act="${o ? "dexInfo" : "dexUnknown"}" data-arg="${s.id}" aria-label="${o ? s.name : seen ? s.name + ", not caught yet" : "Unknown creature"}">
           <i class="dexno">${String(SPECIES_LIST.indexOf(s) + 1).padStart(3, "0")}</i>${creatureSVG(s, { sil: !o, shiny: have && save.team[s.id].shiny })}<span class="${s.name.length > 10 ? "long" : ""}">${o || seen ? s.name : "???"}</span>${have && save.team[s.id].shiny ? `<i class="shinytag">✨</i>` : ""}</button>`; }).join("")}</div>`).join("")}
     ${navbar("dex")}`;
 }
@@ -5695,7 +5968,7 @@ const MYTHIC = {
     after: ["Grazie for visiting! Remember, lots of English words come from other languages."],
     note: "Come back when you have 5 class badges. A presto!", zone: { sky: ["#9FE3FF", "#FFF3D6"], g1: "#E8C98A", g2: "#D9A066", deco: "italy" } },
   steam: { id: "steam", name: "STEAM Room", short: "STEAM", icon: "⚙️", roof: "#3F6FD8", label: "STEAM ROOM", need: 7, legend: "gearagon",
-    teacher: "Mr P", look: { skin: "#F1C27D", hair: "#3A2A1A", hairStyle: "short", outfit: "#F4F6FB", outfit2: "#3F6FD8", glasses: true,
+    teacher: "Miss P", look: { skin: "#F7D6BF", hair: "#5A2E1A", hairStyle: "bun", outfit: "#F4F6FB", outfit2: "#9B5DE5", glasses: true,
       prop: `<g transform="translate(148 142)"><circle r="12" fill="#C9962B" stroke="#1d1b3a" stroke-width="3"/><circle r="5" fill="#fff" stroke="#1d1b3a" stroke-width="2.5"/></g>` },
     topics: ["affixes", "grammar"], team: [["rebuildozer", 25], ["tensaurus", 25], ["subblemarine", 26]],
     hello: ["Welcome to the STEAM Room! Science, technology, engineering, art and maths.", "Every great invention needs great words to explain it. Let’s test your team!"],
@@ -5714,9 +5987,18 @@ const MYTHIC = {
     after: ["Thanks for visiting the cottage! The kettle’s always on."],
     note: "Only explorers with every class badge may enter. Purrr.", zone: { sky: ["#FFB45C", "#FFE3B0"], g1: "#C68642", g2: "#A06A34", deco: "cottage" } }
 };
+MYTHIC.sports = { id: "sports", name: "Sports Shed", short: "Sports", icon: "🏅", roof: "#2E7D32", label: "SPORTS SHED", need: "champ", legend: "goaliath",
+  teacher: "Mr P", svg: () => mrPSVG(), look: { skin: "#C68642", hair: "#2B1A10", hairStyle: "short", outfit: "#1d1b3a", outfit2: "#E63946", hat: "beanie" },
+  topics: ALL_TOPICS, team: [["swiftshell", 40], ["suffixaroo", 40], ["commandingo", 41], ["verbolt", 42]],
+  hello: ["Well, well. The School Champion. I’ve been expecting you.", "I’m Mr P. Welcome to the Sports Shed, where legends train.", "Warm-ups are over. Let’s see what you’ve really got!"],
+  win: ["Now THAT was a championship performance. Respect.", "You’ve earned it. The MEGA LEGENDARY Goaliath only plays with true champions… and it’s been waiting for you."],
+  lose: ["Good hustle, but not today. Train at the Adventure Playground and come back stronger."],
+  after: ["Champions never stop training. See you on the field!"],
+  note: "Only the School Champion may enter. Mr P", zone: { sky: ["#14306E", "#4FA8E8"], g1: "#3E9B4E", g2: "#2E7D32", deco: "sports" } };
+const mythicFace = m => m.svg ? m.svg() : personSVG(m.look);
 AREA_RECTS.wing = [3, 62, 46, 12]; AREA_GROUND.wing = "p"; REGION_NAME.wing = "Specialist Wing"; REGION_TRACK.wing = "town";
 Object.values(MYTHIC).forEach(m => { ZONE[m.id] = Object.assign({ id: m.id, name: m.name, icon: m.icon }, m.zone); });
-const mythicNeedOK = m => m.need === "all" ? allBadges() : route().filter(z => save.badges[z]).length >= m.need;
+const mythicNeedOK = m => m.need === "champ" ? !!save.story.champion : m.need === "all" ? allBadges() : route().filter(z => save.badges[z]).length >= m.need;
 const mythicOpen = id => !!MYTHIC[id] && !!save && mythicNeedOK(MYTHIC[id]);
 
 function addWing() {
@@ -5738,13 +6020,15 @@ function addWing() {
   room(12, 64, 5, 5, "room", "italian", M.italian.label, M.italian.roof, 2);
   room(19, 64, 5, 5, "nurse", "frontoffice", "FRONT OFFICE", "#E63946", 2);
   room(33, 64, 5, 5, "room", "steam", M.steam.label, M.steam.roof, 2);
+  room(27, 64, 5, 5, "shed", "sports", M.sports.label, M.sports.roof, 2);
   room(40, 63, 7, 6, "cottage", "cottage", M.cottage.label, M.cottage.roof, 3);
   const sign = (x, y, t) => { set(x, y, "S"); SIGNS[x + "," + y] = t; };
   sign(25, 61, "🏫 Specialist Wing. Music, Italian, STEAM, the Front Office and Fat Cat’s Cottage are this way!");
   sign(9, 70, `🎵 Music Room, with Mrs Rosario. 🔒 Needs 3 class badges.`);
   sign(16, 70, `🇮🇹 Italian Room, with Signora Susannah. 🔒 Needs 5 class badges.`);
   sign(23, 70, `✚ Front Office. Ms Shaw will make your creatures feel better, free of charge!`);
-  sign(37, 70, `⚙️ STEAM Room, with Mr P. 🔒 Needs 7 class badges.`);
+  sign(37, 70, `⚙️ STEAM Room, with Miss P. 🔒 Needs 7 class badges.`);
+  sign(31, 70, `🏅 Sports Shed, with Mr P. 🔒 Only the School Champion may enter.`);
   sign(45, 70, `🐱 Fat Cat’s Cottage, home of the deputy principals. 🔒 Needs every class badge.`);
 }
 function addNurses() {
@@ -5791,7 +6075,7 @@ function whiteout() {
 function mythicDoor(id) {
   const m = MYTHIC[id]; save.mythic = save.mythic || {};
   if (!mythicNeedOK(m)) return dialogue([`🔒 The ${m.name} is locked.`, `A note on the door says: “${m.note}”`], { name: m.name, svg: SIGN_SVG });
-  const who = { name: m.teacher, svg: personSVG(m.look) };
+  const who = { name: m.teacher, svg: mythicFace(m) };
   if (!save.mythic[id]) {
     if (m.twin) return dialogue(m.hello, who, () => dialogue(m.hello2, { name: m.teacher2, svg: personSVG(m.look2) }, () => startMythic(id)));
     return dialogue(m.hello, who, () => startMythic(id));
@@ -5802,7 +6086,7 @@ function mythicDoor(id) {
 }
 function startMythic(id, rematch) {
   const m = MYTHIC[id], topics = m.topics.filter(t => settings.cats[t]);
-  const cfg = { mode: "mythic", mythic: id, rematch: !!rematch, z: id, mine: myFighters(party()), leaderName: m.teacher, portrait: personSVG(m.look), scene: ZONE[id], topics: topics.length ? topics : enabledCats(), hard: true };
+  const cfg = { mode: "mythic", mythic: id, rematch: !!rematch, z: id, mine: myFighters(party()), leaderName: m.teacher, portrait: mythicFace(m), scene: ZONE[id], topics: topics.length ? topics : enabledCats(), hard: true };
   if (m.twin) {
     const A = m.teamA.map(([s, lv]) => Object.assign(mkFighter(s, lv, false, true), { owner: "A" })), B = m.teamB.map(([s, lv]) => Object.assign(mkFighter(s, lv, false, true), { owner: "B" }));
     Object.assign(cfg, { twin: true, foes: A.concat(B), slots: [0, A.length], fi: 0, leaderName2: m.teacher2, portrait2: personSVG(m.look2) });
@@ -5813,15 +6097,15 @@ function winMythic() {
   const id = BT.mythic, m = MYTHIC[id]; save.mythic = save.mythic || {};
   const first = !save.mythic[id];
   partyBonus(20, 30); save.mythic[id] = true; if (first) save.coins += 80; persist();
-  const who = { name: m.teacher, svg: personSVG(m.look) }, lines = m.win.concat(first ? ["You got 🪙 80 Word Coins!"] : ["What a brilliant practice battle!"]);
+  const who = { name: m.teacher, svg: mythicFace(m) }, lines = m.win.concat(first ? ["You got 🪙 80 Word Coins!"] : ["What a brilliant practice battle!"]);
   const finish = () => afterBattle(() => !owned(m.legend) ? legendEncounter(id) : showWorld());
   if (m.twin) dialogue([lines[0]], who, () => dialogue(lines.slice(1), { name: m.teacher2, svg: personSVG(m.look2) }, finish));
   else dialogue(lines, who, finish);
 }
-function loseMythic() { const m = MYTHIC[BT.mythic]; dialogue(m.lose, { name: m.teacher, svg: personSVG(m.look) }, () => afterBattle(whiteout)); }
+function loseMythic() { const m = MYTHIC[BT.mythic]; dialogue(m.lose, { name: m.teacher, svg: mythicFace(m) }, () => afterBattle(whiteout)); }
 function legendEncounter(id) {
   const m = MYTHIC[id], sp = SPECIES[m.legend]; curZone = ZONE[id]; jingle("evolve");
-  dialogue([`✨ A legendary creature appears! It’s ${sp.name}!`, "Answer questions to win its trust. If it runs away, come back and try again."], { name: sp.name, svg: creatureSVG(sp) }, () => startEncounter(sp));
+  dialogue([sp.rarity === 5 ? `🏆 The ground shakes… the MEGA LEGENDARY ${sp.name} appears!` : `✨ A legendary creature appears! It’s ${sp.name}!`, "Answer questions to win its trust. If it runs away, come back and try again."], { name: sp.name, svg: creatureSVG(sp) }, () => startEncounter(sp));
 }
 function wingPins() {
   if (!BUILDINGS.length || !AREA_RECTS.wing) return "";
@@ -5829,6 +6113,13 @@ function wingPins() {
   return Object.values(MYTHIC).map(m => { const b = BUILDINGS.find(b => b.id === m.id); return b ? pin(b.x + b.w / 2 - .5, b.y + b.h / 2, m.icon, m.short, !mythicNeedOK(m)) : ""; }).join("") + pin(21, 66, "🏥", "Ms Shaw", false);
 }
 
+MOVE_FX.mega = async (a, b, m) => {
+  megaFlash();
+  const dx = b.x - a.x, dy = b.y - a.y, n = m ? 3 : 1, ps = [];
+  for (let i = 0; i < n; i++) ps.push(fly(mfx("⚽", "emo big", a), [{ transform: mT(0, 0, .5, 0), opacity: 0 }, { transform: mT(dx * .5, dy * .5 - 80 - i * 20, 1.5, 540), opacity: 1, offset: .5 }, { transform: mT(dx, dy, 1.1, 1080), opacity: 1 }], 640, i * 140, "ease-in"));
+  await Promise.all(ps);
+  rings(b, 4, "#FFD447", 1.6); burst(b, "🏆⭐✨", m ? 16 : 10, "spark", 100); quake();
+};
 /* ---------- twin battles ---------- */
 const foeId = i => BT && BT.twin && BT.foes[i] && BT.foes[i].owner === "B" ? "bfoe2" : "bfoe";
 function foeMarkup() {
@@ -5866,6 +6157,174 @@ async function twinFoeTurn() {
     const r = await afterTheirHit(); if (r === true) return;
   }
   yourTurn();
+}
+
+/* ===================== THEMED GARDENS & PLAYGROUNDS ===================== */
+const HABITATS = { hab_music: "music", hab_italian: "italian", hab_steam: "steam", hab_cottage: "cottage" };
+const HAB_LV = { hab_music: 8, hab_italian: 12, hab_steam: 16, hab_cottage: 20 };
+const HAB_ZONES = { hab_music: ["Music Garden", "🎵", "music"], hab_italian: ["Piazza Garden", "🇮🇹", "italian"], hab_steam: ["STEAM Garden", "⚙️", "steam"], hab_cottage: ["Cat Garden", "🐱", "cottage"] };
+Object.entries(HAB_ZONES).forEach(([id, [name, icon, room]]) => { ZONE[id] = Object.assign({}, MYTHIC[room].zone, { id, name, icon }); REGION_TRACK[id] = "meadow"; });
+AREA_RECTS.adventure = [51, 45, 14, 14]; AREA_RECTS.nature = [51, 29, 14, 13];
+AREA_GROUND.adventure = "s"; AREA_GROUND.nature = "."; REGION_TRACK.adventure = "harbour"; REGION_TRACK.nature = "pond";
+ZONE.adventure = { id: "adventure", name: "Adventure Playground", icon: "🛝", sky: ["#8FD3FF", "#E0F5FF"], g1: "#F2D59B", g2: "#E2BE78", deco: "meadow" };
+ZONE.nature = { id: "nature", name: "Nature Playground", icon: "🌳", sky: ["#A6E0C8", "#EAFBF2"], g1: "#74C65C", g2: "#62B34D", deco: "woods" };
+const COACH_LOOK = { skin: "#C68642", hair: "#2B2B2B", hairStyle: "short", outfit: "#E63946", outfit2: "#fff", hat: "beanie",
+  prop: `<path d="M86 120 L100 146 L114 120" fill="none" stroke="#B5BAC6" stroke-width="3"/><circle cx="100" cy="150" r="6" fill="#B5BAC6" stroke="#1d1b3a" stroke-width="2.5"/>` };
+const RANGER_LOOK = { skin: "#F1C27D", hair: "#8B4513", hairStyle: "long", outfit: "#6B8E4E", outfit2: "#D9F2C9", hat: "ranger" };
+const coachWho = () => ({ name: "Coach Jordan", svg: personSVG(COACH_LOOK) });
+const rangerWho = () => ({ name: "Ranger Mel", svg: personSVG(RANGER_LOOK) });
+
+function addPlaygrounds() {
+  const set = (x, y, t) => { if (MAP[y] && x >= 0 && x < MW) MAP[y][x] = t; };
+  const r = seeded(7);
+  // themed gardens beside the specialist rooms
+  const patch = (x, y, w, h, id) => { for (let j = y; j < y + h; j++) for (let i = x; i < x + w; i++) { if (MAP[j][i] === "S" || MAP[j][i] === "T") continue; set(i, j, ","); REGION[j][i] = id; } };
+  patch(5, 71, 4, 2, "hab_music"); patch(11, 71, 4, 2, "hab_italian"); patch(32, 71, 5, 2, "hab_steam"); patch(40, 71, 5, 2, "hab_cottage");
+  // Adventure Playground
+  const [ax, ay, aw, ah] = AREA_RECTS.adventure;
+  for (let x = ax; x < ax + aw; x++) { set(x, ay + ah - 1, "T"); }
+  for (let y = ay; y < ay + ah; y++) set(ax + aw - 1, y, "T");
+  for (let y = ay + 1; y < ay + ah - 1; y++) for (let x = ax + 1; x < ax + aw - 1; x++) { const k = r(); if (k < 0.035) set(x, y, "R"); else if (k < 0.11) set(x, y, "F"); }
+  for (let x = 45; x <= 62; x++) set(x, 50, "=");
+  for (let y = 42; y <= 56; y++) set(58, y, "=");
+  for (const [x, y, t] of [[53, 47, "1"], [54, 47, "1"], [60, 47, "2"], [61, 47, "2"], [53, 54, "3"], [54, 54, "3"], [61, 54, "4"], [62, 54, "4"], [55, 56, "5"], [56, 56, "5"]]) set(x, y, t);
+  // Nature Playground
+  const [nx, ny, nw, nh] = AREA_RECTS.nature;
+  for (let x = nx; x < nx + nw; x++) set(x, ny, "T");
+  for (let y = ny; y < ny + nh; y++) { set(nx, y, "T"); set(nx + nw - 1, y, "T"); }
+  for (let y = ny + 1; y < ny + nh; y++) for (let x = nx + 1; x < nx + nw - 1; x++) { const k = r(); if (k < 0.06) set(x, y, "T"); else if (k < 0.14) set(x, y, "F"); }
+  for (let y = 30; y <= 32; y++) for (let x = 53; x <= 56; x++) set(x, y, (x + y) % 4 === 0 ? "l" : "W");
+  set(61, 31, "R"); set(54, 38, "R");
+  for (let y = 35; y <= 44; y++) set(58, y, "=");
+  for (let x = 53; x <= 62; x++) set(x, 35, "=");
+  const sign = (x, y, t) => { set(x, y, "S"); SIGNS[x + "," + y] = t; };
+  sign(52, 51, "🛝 Adventure Playground! Try the swings, slide, monkey bars, trampoline and climbing wall. Coach Jordan runs training sessions.");
+  sign(57, 41, "🌳 Nature Playground. Creatures that aren’t in your team rest here, safe and happy. Please be gentle!");
+  set(56, 52, "s"); set(59, 38, ".");
+  NPCS.push({ kind: "coach", x: 56, y: 52, dir: "up", name: "Coach Jordan", look: COACH_LOOK, lines: [] });
+  NPCS.push({ kind: "ranger", x: 59, y: 38, dir: "left", name: "Ranger Mel", look: RANGER_LOOK, lines: [] });
+}
+
+/* ---------- Adventure Playground: equipment, coach, training, sparring ---------- */
+const EQUIP = { "1": ["Swings", "Your team swings higher and higher!"], "2": ["Slide", "Wheee! Your team zooms down the slide!"], "3": ["Monkey Bars", "Your team swings across the monkey bars. So strong!"], "4": ["Trampoline", "Boing! Boing! Your team bounces on the trampoline!"], "5": ["Climbing Wall", "Your team climbs all the way to the top!"] };
+function equipWorkout(t) {
+  const day = today();
+  if (!save.workouts || save.workouts.day !== day) save.workouts = { day, done: [] };
+  const [name, line] = EQUIP[t], who = { name, svg: SIGN_SVG };
+  if (save.workouts.done.includes(t)) return dialogue([`Your team is puffed out from the ${name}. Try it again tomorrow!`], who);
+  save.workouts.done.push(t);
+  let ups = 0; party().forEach(id => { ups += addExp(id, 15); }); persist();
+  emote("player", "heart"); emote("buddy", "note"); jingle("levelup");
+  dialogue([line, `Every creature in your team gains 15 EXP!${ups ? " ⭐ Someone levelled up!" : ""}`, `Workouts today: ${save.workouts.done.length} of 5. They reset every day.`], who);
+}
+function coachTalk() {
+  dialogue(["Hi! I’m Coach Jordan. Welcome to the Adventure Playground!", "Every piece of equipment gives your team a workout once a day. Or train with me!"], coachWho(), () => showModal(`<div class="qcard center" role="dialog" aria-modal="true"><div class="healnurse">${personSVG(COACH_LOOK)}</div><h2>Training time!</h2>
+    <p class="hint">Training sessions: pick any creature and answer 5 questions. Each right answer gives it 25 EXP.<br>Sparring: a practice battle matched to your team. I’ll heal everyone afterwards.</p>
+    <div class="row" style="justify-content:center"><button class="btn" data-act="trainPick">🏋️ Training session</button><button class="btn" data-act="coachSpar">⚔️ Sparring match</button></div>
+    <button class="btn ghost" data-act="close" style="margin-top:10px">Not now</button></div>`));
+}
+let TRAIN = null;
+function trainPick() {
+  const list = Object.keys(save.team).filter(id => SPECIES[id]).sort((a, b) => lvOf(b) - lvOf(a));
+  showModal(`<div class="qcard" role="dialog" aria-modal="true"><h2>Who’s training?</h2><div class="dexgrid">${list.map(id => `<button class="dexcell got" data-act="trainStart" data-arg="${id}">${creatureSVG(SPECIES[id], { shiny: save.team[id].shiny })}<i class="lvchip">Lv${lvOf(id)}</i><span class="${SPECIES[id].name.length > 10 ? "long" : ""}">${SPECIES[id].name}</span></button>`).join("")}</div><button class="btn ghost" data-act="close">Cancel</button></div>`);
+}
+function trainStart(id) { closeModal(); TRAIN = { id, n: 0, right: 0, ups: 0, startLv: lvOf(id) }; trainNext(); }
+function trainNext() {
+  const T = TRAIN, sp = SPECIES[T.id];
+  if (T.n >= 5) return trainDone();
+  T.n++;
+  askQuestion(`Training ${T.n} of 5`, `${sp.name} is training hard! Each right answer gives it 25 EXP.`, ok => {
+    if (ok) { T.right++; onRightAnswer(null); T.ups += addExp(T.id, 25); const e = save.team[T.id]; e.xp = Math.min(EVOLVE_XP * 2, (e.xp || 0) + 10); persist(); }
+    setTimeout(trainNext, reduced ? 50 : 300);
+  });
+}
+function trainDone() {
+  const T = TRAIN, sp = SPECIES[T.id], lv = lvOf(T.id); TRAIN = null; persist(); jingle(T.ups ? "levelup" : "item");
+  dialogue([`Great session! ${sp.name} got ${T.right} of 5 right and gained ${T.right * 25} EXP.`, T.ups ? `⭐ ${sp.name} grew from Lv ${T.startLv} to Lv ${lv}!` : "Keep it up and it will level up soon!"], coachWho(), () => {
+    const e = save.team[T.id];
+    if (sp.evo && e && (e.xp || 0) >= EVOLVE_XP) evolve(T.id, showWorld); else showWorld();
+  });
+}
+function coachSpar() {
+  closeModal();
+  const lv = Math.max(3, ...party().map(lvOf));
+  const pool = SPECIES_LIST.filter(s => s.type !== "legend" && s.type !== "muddle" && !s.habitat && s.stage === (lv >= 15 ? 2 : 1));
+  startBattle({ mode: "spar", z: "adventure", mine: myFighters(party()), foes: shuffle(pool).slice(0, 2).map(s => mkFighter(s.id, lv, false, true)),
+    leaderName: "Coach Jordan", portrait: personSVG(COACH_LOOK), scene: ZONE.adventure, topics: enabledCats(),
+    intro: ["Let’s spar! My creatures are the same level as your strongest one.", "Don’t worry, I’ll heal everyone afterwards."], introWho: coachWho() });
+}
+function sparEnd(won) {
+  if (won) partyBonus(5, 10);
+  healTeam();
+  dialogue([won ? "Great sparring! Your team is getting stronger every day." : "Good effort! Every battle makes you stronger.", "I’ve patched your team up. Everyone’s fully healed!"], coachWho(), () => afterBattle(showWorld));
+}
+
+/* ---------- Nature Playground: your creatures roam safely ---------- */
+const NATURE = { mons: [], key: "" };
+function natureFill(force) {
+  if (!AREA_RECTS.nature || !MAP.length) return;
+  const p = party(), ids = Object.keys(save.team).filter(id => SPECIES[id] && !p.includes(id));
+  const key = ids.slice().sort().join();
+  if (!force && key === NATURE.key) return;
+  NATURE.key = key;
+  const [x0, y0, w, h] = AREA_RECTS.nature, spots = [];
+  for (let y = y0 + 1; y < y0 + h; y++) for (let x = x0 + 1; x < x0 + w - 1; x++) if (walkable(x, y) && MAP[y][x] !== "=") spots.push([x, y]);
+  NATURE.mons = shuffle(ids).slice(0, 12).filter(() => spots.length).map(id => { const [x, y] = spots.splice(rnd(spots.length), 1)[0]; return { id, x, y, fx: x, fy: y, t: Math.random() * 2500, shiny: !!save.team[id].shiny }; });
+}
+function updateNature(dt) {
+  if (!NATURE.mons.length || !W) return;
+  const [x0, y0, w, h] = AREA_RECTS.nature;
+  if (W.x < x0 - 8 || W.y > y0 + h + 8) return;
+  for (const m of NATURE.mons) {
+    m.t -= dt;
+    if (m.t <= 0) {
+      m.t = 1400 + Math.random() * 2600;
+      const [dx, dy] = DIRS[pick(["up", "down", "left", "right"])], tx = m.x + dx, ty = m.y + dy;
+      if (tx > x0 && tx < x0 + w - 1 && ty > y0 && ty < y0 + h && walkable(tx, ty) && MAP[ty][tx] !== "=" && !(tx === W.x && ty === W.y) && !NATURE.mons.some(o => o !== m && o.x === tx && o.y === ty)) { m.x = tx; m.y = ty; }
+    }
+    const sp = dt / 420, mv = (a, b) => Math.abs(b - a) <= sp ? b : a + Math.sign(b - a) * sp;
+    m.fx = mv(m.fx, m.x); m.fy = mv(m.fy, m.y);
+  }
+}
+function drawNatureEnts(g, ents, now, camX, camY) {
+  for (const m of NATURE.mons) {
+    if (m.fx * TS < camX - 24 || m.fx * TS > camX + VW * TS + 8 || m.fy * TS < camY - 24 || m.fy * TS > camY + VH * TS + 8) continue;
+    const sp = SPECIES[m.id]; if (!sp) continue;
+    ents.push({ y: m.fy, draw: () => { const s = svgSprite(m.id, creatureSVG(sp), 22, m.shiny); dropShadow(g, m.fx * TS, m.fy * TS, 12); if (s) g.drawImage(s, m.fx * TS - 3, m.fy * TS - 7 + Math.round(Math.sin(now / 200 + m.x) * 1.2), 22, 22); } });
+  }
+}
+const natureAt = (x, y) => NATURE.mons.find(m => Math.round(m.fx) === x && Math.round(m.fy) === y);
+function natureMenu(m) {
+  const sp = SPECIES[m.id]; if (!sp || !save.team[m.id]) return;
+  const p = party();
+  showModal(`<div class="qcard center" role="dialog" aria-modal="true"><div class="bigsp">${creatureSVG(sp, { shiny: m.shiny })}</div><h2>${sp.name} <span class="lvtag">Lv${lvOf(m.id)}</span></h2>
+    <p class="hint">${sp.name} is relaxing in the Nature Playground. It looks very happy!</p>
+    <div class="row" style="justify-content:center"><button class="btn" data-act="naturePat" data-arg="${m.id}">💛 Give it a pat</button></div>
+    <p class="hint" style="margin-top:12px">Or swap it into your team:</p>
+    <div class="row" style="justify-content:center">${p.map((id, i) => `<button class="btn ghost small" data-act="natureSwap" data-arg="${m.id}|${i}">Swap with ${SPECIES[id].name}</button>`).join("")}${p.length < 3 ? `<button class="btn ghost small" data-act="natureSwap" data-arg="${m.id}|${p.length}">Add to team</button>` : ""}</div>
+    <button class="btn ghost" data-act="close" style="margin-top:12px">Close</button></div>`);
+}
+function naturePat(id) {
+  closeModal(); const m = NATURE.mons.find(x => x.id === id); if (m) emote(m, "heart"); SFX.heart();
+  const e = save.team[id]; if (e) { e.xp = Math.min(EVOLVE_XP * 2, (e.xp || 0) + 2); persist(); }
+  toast(`💛 ${SPECIES[id].name} loves that!`);
+}
+function natureSwap(arg) {
+  closeModal();
+  const [id, slot] = arg.split("|"), i = +slot, p = party().slice(), old = p[i];
+  p[i] = id; save.party = p.filter(Boolean); save.buddy = save.party[0]; persist();
+  const m = NATURE.mons.find(x => x.id === id);
+  if (m) { if (old && !save.party.includes(old)) { m.id = old; m.shiny = !!save.team[old].shiny; } else NATURE.mons = NATURE.mons.filter(x => x !== m); }
+  NATURE.key = Object.keys(save.team).filter(k => SPECIES[k] && !save.party.includes(k)).sort().join();
+  SFX.coin(); toast(`${SPECIES[id].name} joined your team!${old ? ` ${SPECIES[old].name} is relaxing in the Nature Playground.` : ""}`);
+}
+function rangerTalk() {
+  dialogue(["Hello! I’m Ranger Mel. Welcome to the Nature Playground!", "Every creature that isn’t in your team rests here, safe and sound. Walk up to one and press A to give it a pat or swap it into your team.", "I’ve also given your team some fresh water and a nice rest. They’re all healed!"], rangerWho(), () => { healTeam(); if (W) save.healAt = { x: W.x, y: W.y }; persist(); jingle("item"); });
+}
+function playPins() {
+  if (!AREA_RECTS.adventure) return "";
+  const pin = (id, icon, label) => { const [x, y, w, h] = AREA_RECTS[id]; return `<span class="rpin" style="left:${(x + w / 2) / MW * 100}%;top:${(y + h / 2) / MH * 100}%"><i>${icon}</i><b>${label}</b></span>`; };
+  return pin("adventure", "🛝", "Adventure") + pin("nature", "🌳", "Nature");
 }
 
 /* ===================== STORY: THE GREAT JUMBLE ===================== */
@@ -6576,6 +7035,7 @@ Object.assign(ACT, {
   online: () => showOnline(), netCreate: () => joinRoom(newCode()), netJoin: () => joinRoom((document.getElementById("joincode") || {}).value),
   netLeave: () => leaveRoom(false), netTrade: pid => netAsk(pid, "trade"), netBattle: pid => netAsk(pid, "battle"), netYes, netNo,
   tradePick, tradeReady, tradeCancel, tradeAfter: id => tradeAfter(id), pvpDone,
+  trainPick, trainStart: id => trainStart(id), coachSpar, naturePat: id => naturePat(id), natureSwap: a => natureSwap(a),
   bTarget, mythicRematch: id => { closeModal(); startMythic(id, true); },
   worldTrade: pid => { closeModal(); netAsk(pid, "trade"); }, worldBattle: pid => { closeModal(); netAsk(pid, "battle"); }, netEmote
 });
