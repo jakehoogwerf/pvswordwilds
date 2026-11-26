@@ -1237,6 +1237,18 @@ label.field .tinput{margin-top:4px;font-size:1rem}
 .charmtag{color:#FFE066;font-weight:800;margin:4px 0 8px}
 .charmbig{font-size:4.5rem;animation:hatToss 1.6s ease-in-out infinite}
 @media (prefers-reduced-motion: reduce){.charmbig{animation:none}}
+.dash{max-width:900px;margin:0 auto;padding:10px}
+.dcards{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px;margin:8px 0}
+.dcards div{background:#fff;border:3px solid #1d1b3a;border-radius:14px;padding:8px;text-align:center;color:#1d1b3a}
+.dcards b{display:block;font:800 1.7rem "Baloo 2",system-ui,sans-serif}.dcards small{font-weight:700;color:#4A5068}
+.dtable{overflow-x:auto;background:#fff;border:3px solid #1d1b3a;border-radius:14px;margin:8px 0}
+.dtable table{border-collapse:collapse;width:100%;min-width:640px;color:#1d1b3a;font-size:.9rem}
+.dtable th,.dtable td{padding:7px 8px;border-bottom:1px solid #DDE3F0;text-align:left;white-space:nowrap}
+.dtable th{background:#EEF2FB;position:sticky;top:0}
+.dtable tbody tr{cursor:pointer}.dtable tbody tr:hover,.dtable tbody tr:focus{background:#FFF8E1}
+.wchip{display:inline-block;padding:1px 7px;border-radius:99px;font-weight:800;font-size:.75rem;border:2px solid #1d1b3a;margin:1px}
+.wchip.low{background:#FFB3B3}.wchip.mid{background:#FFE8A3}.wchip.ok{background:#B9F2C9}
+.dtbars{display:grid;gap:6px;margin:8px 0}.dtbar{display:grid;grid-template-columns:110px 1fr;gap:2px 8px;align-items:center}.dtbar small{grid-column:2;color:#C9D3F5}
 </style>
 </head>
 <body>
@@ -1247,7 +1259,7 @@ label.field .tinput{margin-top:4px;font-size:1rem}
    To let pupils trade and battle with friends on every device, paste your Supabase
    Project URL and anon public key below (Supabase: Project Settings, then API).
    Leave them empty to keep online play switched off. */
-const ONLINE_CONFIG = { url: "https://awxmgiindzlwtgoxtxdt.supabase.co", anonKey: "sb_publishable_9YTsc1bf-_IZKj-KdmQVfg_uOhr997p" };
+const ONLINE_CONFIG = { url: "", anonKey: "" };
 
 /* ---------- helpers ---------- */
 const app = document.getElementById("app");
@@ -6144,7 +6156,7 @@ function teamPut(id) {
 let save = store.get(PKEY("save"), null);
 function newSave() { return { buddy: null, team: {}, seen: {}, caught: 0 }; }
 let lastSavePing = 0;
-function persist() { if (!save) return; store.set(PKEY("save"), save); if (typeof savedPing === "function") savedPing(); }
+function persist() { if (!save) return; store.set(PKEY("save"), save); if (typeof savedPing === "function") savedPing(); if (typeof reportSoon === "function") reportSoon(); }
 function owned(id) { return !!(save && save.team[id]); }
 function zonesOpen() {
   const custom = parseCustom(settings.custom).length;
@@ -6600,6 +6612,7 @@ function showSettings() {
       <textarea id="custom" placeholder="Which word is a noun? | table | quickly | jump">${esc(settings.custom)}</textarea>
       <label class="opt"><input type="checkbox" id="onlyCustom" ${settings.onlyCustom ? "checked" : ""}> Only show the Teacher’s Garden</label></div>
     ${onlinePanel()}
+    ${dashboardPanel()}
     ${progressPanel()}
     ${profilesPanel()}
     <div class="row"><button class="btn" data-act="saveSettings">Save settings</button><button class="btn ghost" data-act="title">Back</button></div>
@@ -8013,6 +8026,194 @@ function onlinePanel() {
     <p class="hint">${ONLINE_CONFIG.url ? "✅ This copy of the game already has online settings built in. Fill these in only to use a different project on this device." : "To switch it on for every device at once, paste the same two values into ONLINE_CONFIG at the top of the script in index.html."}</p></div>`;
 }
 
+/* ===================== CLASS DASHBOARD (Supabase) ===================== */
+/* Pupils' games send a small progress summary. Data lives in tables nobody can read directly:
+   games can only write their own row through ww_report, and only a teacher with the class PIN can read the class through ww_dashboard. */
+const DASH_SQL = `-- Word Wilds class dashboard: run once in Supabase (SQL Editor, then Run)
+create extension if not exists pgcrypto with schema extensions;
+create table if not exists public.ww_classes (code text primary key, pin_hash text not null, created_at timestamptz default now());
+create table if not exists public.ww_progress (code text references public.ww_classes(code) on delete cascade, pupil text, name text, data jsonb, updated_at timestamptz default now(), primary key (code, pupil));
+alter table public.ww_classes enable row level security;
+alter table public.ww_progress enable row level security;
+-- No policies on purpose: the tables can only be reached through the functions below.
+create or replace function public.ww_create_class(p_code text, p_pin text) returns boolean
+language plpgsql security definer set search_path = public, extensions as $$
+begin
+  if length(p_code) < 4 or length(p_code) > 12 or length(p_pin) < 4 then return false; end if;
+  insert into ww_classes(code, pin_hash) values (upper(p_code), crypt(p_pin, gen_salt('bf'))) on conflict (code) do nothing;
+  return exists(select 1 from ww_classes where code = upper(p_code) and pin_hash = crypt(p_pin, pin_hash));
+end $$;
+create or replace function public.ww_report(p_code text, p_pupil text, p_name text, p_data jsonb) returns boolean
+language plpgsql security definer set search_path = public as $$
+begin
+  if not exists(select 1 from ww_classes where code = upper(p_code)) then return false; end if;
+  if length(p_pupil) > 40 or length(p_name) > 30 or pg_column_size(p_data) > 20000 then return false; end if;
+  insert into ww_progress(code, pupil, name, data, updated_at) values (upper(p_code), p_pupil, p_name, p_data, now())
+  on conflict (code, pupil) do update set name = excluded.name, data = excluded.data, updated_at = now();
+  return true;
+end $$;
+create or replace function public.ww_dashboard(p_code text, p_pin text) returns setof public.ww_progress
+language plpgsql security definer set search_path = public, extensions as $$
+begin
+  if not exists(select 1 from ww_classes where code = upper(p_code) and pin_hash = crypt(p_pin, pin_hash)) then raise exception 'wrong code or pin'; end if;
+  return query select * from ww_progress where code = upper(p_code) order by name;
+end $$;
+create or replace function public.ww_remove_pupil(p_code text, p_pin text, p_pupil text) returns boolean
+language plpgsql security definer set search_path = public, extensions as $$
+begin
+  if not exists(select 1 from ww_classes where code = upper(p_code) and pin_hash = crypt(p_pin, pin_hash)) then return false; end if;
+  delete from ww_progress where code = upper(p_code) and pupil = p_pupil;
+  return true;
+end $$;
+revoke all on function public.ww_create_class(text, text), public.ww_report(text, text, text, jsonb), public.ww_dashboard(text, text), public.ww_remove_pupil(text, text, text) from public;
+grant execute on function public.ww_create_class(text, text), public.ww_report(text, text, text, jsonb), public.ww_dashboard(text, text), public.ww_remove_pupil(text, text, text) to anon, authenticated;`;
+
+async function sbClient() {
+  const cfg = netCfg(); if (!cfg) return null;
+  const lib = await loadSupabase();
+  if (!NET.sb) NET.sb = lib.createClient(cfg.u, cfg.k, { auth: { persistSession: false, autoRefreshToken: false }, realtime: { params: { eventsPerSecond: 20 } } });
+  return NET.sb;
+}
+const cleanCode = c => String(c || "").toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 12);
+const classCode = () => cleanCode((save && save.classCode) || settings.classCode);
+function progressSummary() {
+  const topics = {};
+  for (const cat of Object.keys(CATS)) {
+    const t = prog.cats[cat]; if (!t || !t.n) continue;
+    const h = t.hist || [];
+    topics[cat] = { lvl: Math.round(t.lvl * 10) / 10, n: t.n, r: t.r, recent: h.length ? Math.round(h.reduce((a, b) => a + b, 0) / h.length * 100) : null };
+  }
+  const lvls = Object.keys(save.team || {}).filter(id => SPECIES[id]).map(lvOf);
+  return { v: 1, dex: dexCount(), total: SPECIES_LIST.length, badges: Object.values(save.badges || {}).filter(Boolean).length, hsBadges: hsBadgeCount(),
+    champ: !!(save.story && save.story.champion), vale: !!(save.chapters && save.chapters.h6), charm: !!save.charm,
+    topLv: lvls.length ? Math.max(...lvls) : 1, asked: prog.asked || 0, chapters: Object.keys(save.chapters || {}).length, topics };
+}
+let REPORT_T = 0, REPORT_TIMER = null;
+function reportSoon() {
+  if (!save || !save.buddy || !classCode() || !netCfg()) return;
+  clearTimeout(REPORT_TIMER);
+  REPORT_TIMER = setTimeout(reportNow, Math.max(5000, 60000 - (Date.now() - REPORT_T)));
+}
+async function reportNow() {
+  const code = classCode(); if (!code || !save) return null;
+  try {
+    const sb = await sbClient(); if (!sb) return null;
+    save.pupilId = save.pupilId || ("p" + Math.random().toString(36).slice(2, 12));
+    REPORT_T = Date.now();
+    const { data, error } = await sb.rpc("ww_report", { p_code: code, p_pupil: save.pupilId, p_name: String(save.name || "Explorer").slice(0, 30), p_data: progressSummary() });
+    save.classOk = !error && data === true; store.set(PKEY("save"), save);
+    return save.classOk;
+  } catch (e) { return null; }
+}
+
+/* ---------- pupils: join a class (Save screen) ---------- */
+function classPanel() {
+  const code = classCode(), on = !!netCfg();
+  const status = !on ? "Online settings aren’t set up on this device yet. Ask your teacher." : !code ? "Not in a class yet." : save.classOk ? `✅ Sharing your progress with class ${code}.` : `⏳ Class ${code}: your progress will be shared next time you’re online.`;
+  return `<div class="panel"><h3>🏫 My class</h3><p class="hint">Type the class code your teacher gives you, so they can see how you’re going. Only your first name and your game progress are shared.</p>
+    <div class="row"><input id="ccode" class="tinput" maxlength="12" autocomplete="off" spellcheck="false" aria-label="Class code" placeholder="Class code" value="${esc(code)}"${on ? "" : " disabled"}><button class="btn" data-act="setClass"${on ? "" : " disabled"}>Join class</button></div>
+    <p class="tip" id="ccmsg" aria-live="polite">${status}</p></div>`;
+}
+async function setClass() {
+  const el = document.getElementById("ccode"), msg = document.getElementById("ccmsg"), code = cleanCode(el && el.value);
+  if (code.length < 4) { if (msg) msg.textContent = "Class codes have at least 4 letters or numbers."; return; }
+  save.classCode = code; persist(); if (msg) msg.textContent = "Checking…";
+  const ok = await reportNow();
+  if (msg) msg.textContent = ok ? `✅ You joined class ${code}! Your teacher can now see your progress.` : ok === false ? "Hmm, that class code wasn’t found. Check it with your teacher." : "Couldn’t connect. Your progress will be shared next time you’re online.";
+}
+
+/* ---------- teachers: open the dashboard (Teacher settings) ---------- */
+function dashboardPanel() {
+  return `<div class="panel"><h3>📊 Class dashboard</h3>
+    <p class="hint">See every pupil’s progress, badges and weakest topics in one place. It uses the Supabase project from “Online play” above. One-off setup: in Supabase, open the SQL Editor, paste the setup script and press Run.</p>
+    <div class="row"><button class="btn ghost small" data-act="dashSQL">📋 Show the setup script</button></div>
+    <label class="field">Class code (4 to 12 letters or numbers)<input id="dashCode" class="tinput" maxlength="12" autocomplete="off" spellcheck="false" placeholder="e.g. 3HEND" value="${esc(settings.classCode || "")}"></label>
+    <label class="field">Teacher PIN (at least 4 characters, keep it secret)<input id="dashPin" class="tinput" type="password" autocomplete="off"></label>
+    <label class="opt"><input type="checkbox" id="dashDevice" ${settings.classCode ? "checked" : ""}> Every player on this device joins this class automatically</label>
+    <div class="row"><button class="btn" data-act="dashOpen">📊 Open dashboard</button></div>
+    <p class="hint">The first time you open a class code, your PIN is set for it. Pupils join by typing the class code on their Save screen. Only first names and game progress are stored.</p>
+    <p class="tip" id="dashmsg" aria-live="polite"></p></div>`;
+}
+function dashSQL() {
+  showModal(`<div class="qcard" role="dialog" aria-modal="true"><h2>Setup script</h2><p class="hint">In your Supabase project: SQL Editor → New query → paste this → Run. You only need to do it once.</p>
+    <textarea id="dashsql" class="codebox" readonly style="height:240px;font-size:.7rem">${esc(DASH_SQL)}</textarea>
+    <div class="row"><button class="btn" data-act="dashCopySQL">📋 Copy</button><button class="btn ghost" data-act="close">Close</button></div><p class="tip" id="sqlmsg" aria-live="polite"></p></div>`);
+}
+async function dashCopySQL() {
+  const t = document.getElementById("dashsql"), m = document.getElementById("sqlmsg");
+  try { await navigator.clipboard.writeText(DASH_SQL); if (m) m.textContent = "✅ Copied!"; } catch (e) { if (t) { t.select(); document.execCommand && document.execCommand("copy"); } if (m) m.textContent = "Selected. Press Ctrl+C (or Cmd+C) to copy."; }
+}
+let DASH = null;
+async function dashOpen() {
+  const code = cleanCode(document.getElementById("dashCode").value), pin = document.getElementById("dashPin").value, msg = document.getElementById("dashmsg");
+  const say = t => { if (msg) msg.textContent = t; };
+  if (!netCfg()) return say("First add your Supabase Project URL and anon key under “Online play”, then press Save settings.");
+  if (code.length < 4) return say("Class codes need at least 4 letters or numbers.");
+  if (pin.length < 4) return say("Your PIN needs at least 4 characters.");
+  settings.classCode = document.getElementById("dashDevice").checked ? code : ""; store.set("settings", settings);
+  say("Connecting…");
+  try {
+    const sb = await sbClient();
+    const made = await sb.rpc("ww_create_class", { p_code: code, p_pin: pin });
+    if (made.error) return say(/function|schema|does not exist|not find/i.test(made.error.message || "") ? "The dashboard isn’t set up yet. Run the setup script in Supabase first." : "Couldn’t connect. Check the online settings and try again.");
+    if (made.data !== true) return say("That PIN doesn’t match this class code.");
+    DASH = { code, pin, rows: [] };
+    await dashLoad();
+  } catch (e) { say("Couldn’t connect. Check the internet connection and try again."); }
+}
+async function dashLoad() {
+  const sb = await sbClient(); const r = await sb.rpc("ww_dashboard", { p_code: DASH.code, p_pin: DASH.pin });
+  if (r.error) { toast("Couldn’t load the class. Try again."); return; }
+  DASH.rows = (r.data || []).map(x => Object.assign({}, x, { data: x.data || {} }));
+  showDashboard();
+}
+const pupilAcc = d => { let n = 0, r = 0; Object.values(d.topics || {}).forEach(t => { n += t.n || 0; r += t.r || 0; }); return n ? Math.round(r / n * 100) : null; };
+const topicScore = t => t.recent != null ? t.recent : t.n ? Math.round(t.r / t.n * 100) : null;
+const pupilWeak = (d, k = 2) => Object.entries(d.topics || {}).filter(([, t]) => (t.n || 0) >= 3).map(([c, t]) => [c, topicScore(t)]).filter(x => x[1] != null && x[1] < 80).sort((a, b) => a[1] - b[1]).slice(0, k);
+function ago(iso) {
+  const d = (Date.now() - new Date(iso).getTime()) / 86400000;
+  return !isFinite(d) ? "?" : d < 1 ? "Today" : d < 2 ? "Yesterday" : d < 7 ? `${Math.floor(d)} days ago` : d < 60 ? `${Math.floor(d / 7)} wk ago` : "Ages ago";
+}
+function showDashboard() {
+  app.dataset.screen = "dashboard";
+  const rows = DASH.rows, n = rows.length, recent = rows.filter(x => (Date.now() - new Date(x.updated_at).getTime()) < 7 * 86400000).length;
+  const accs = rows.map(x => pupilAcc(x.data)).filter(v => v != null), avgAcc = accs.length ? Math.round(accs.reduce((a, b) => a + b, 0) / accs.length) : null;
+  const avgDex = n ? Math.round(rows.reduce((a, x) => a + (x.data.dex || 0), 0) / n) : 0;
+  const per = {}; rows.forEach(x => Object.entries(x.data.topics || {}).forEach(([c, t]) => { if ((t.n || 0) < 3) return; const s = topicScore(t); if (s == null) return; (per[c] = per[c] || []).push(s); }));
+  const classWeak = Object.entries(per).map(([c, l]) => [c, Math.round(l.reduce((a, b) => a + b, 0) / l.length), l.length]).sort((a, b) => a[1] - b[1]);
+  const chip = (c, s) => `<span class="wchip ${s < 60 ? "low" : s < 80 ? "mid" : "ok"}">${esc(TOPIC_SHORT[c] || c)} ${s}%</span>`;
+  app.innerHTML = `<section class="dash"><div class="row" style="justify-content:space-between;align-items:center"><h2>📊 Class ${esc(DASH.code)}</h2><button class="btn ghost small" data-act="dashBack">‹ Back</button></div>
+    <div class="dcards"><div><b>${n}</b><small>pupils</small></div><div><b>${recent}</b><small>played this week</small></div><div><b>${avgAcc == null ? "–" : avgAcc + "%"}</b><small>average accuracy</small></div><div><b>${avgDex}</b><small>average Word Book</small></div></div>
+    <div class="panel"><h3>🎯 Class weakest topics</h3>${classWeak.length ? `<p>${classWeak.slice(0, 3).map(([c, s]) => chip(c, s)).join(" ")}</p><p class="hint">Recent accuracy across the class. Try unticking other topics in Teacher settings for a week to focus on these.</p>` : `<p class="hint">Not enough answers yet. Check back once pupils have played for a while.</p>`}</div>
+    ${n ? `<div class="dtable" role="region" aria-label="Pupils" tabindex="0"><table><thead><tr><th>Pupil</th><th>📖</th><th>🏅</th><th>🎓</th><th>Lv</th><th>Accuracy</th><th>Needs practice</th><th>Last played</th></tr></thead><tbody>
+      ${rows.map(x => { const d = x.data, acc = pupilAcc(d), weak = pupilWeak(d); return `<tr data-act="dashPupil" data-arg="${esc(x.pupil)}" tabindex="0"><td><b>${esc(x.name)}</b>${d.vale ? " 🎓" : d.champ ? " 🏆" : ""}${d.charm ? " ✨" : ""}</td><td>${d.dex || 0}</td><td>${d.badges || 0}/9</td><td>${d.hsBadges || 0}/6</td><td>${d.topLv || 1}</td><td>${acc == null ? "–" : acc + "%"}</td><td>${weak.length ? weak.map(([c, s]) => chip(c, s)).join(" ") : Object.keys(d.topics || {}).length ? "✅ On track" : "–"}</td><td>${ago(x.updated_at)}</td></tr>`; }).join("")}
+    </tbody></table></div>` : `<div class="panel"><p>No pupils yet. Ask pupils to open <b>💾 Save</b> in the game and type the class code <b>${esc(DASH.code)}</b>.</p></div>`}
+    <div class="row" style="justify-content:center"><button class="btn" data-act="dashLoad">🔄 Refresh</button><button class="btn ghost" data-act="dashCSV"${n ? "" : " disabled"}>⬇️ Download CSV</button></div>
+    <p class="hint center">Tap a pupil to see every topic. 🏆 School Champion · 🎓 Valedictorian · ✨ Shiny Charm</p></section>`;
+}
+function dashPupil(id) {
+  const x = DASH.rows.find(r => r.pupil === id); if (!x) return; const d = x.data;
+  const bars = Object.keys(CATS).map(c => { const t = (d.topics || {})[c]; const s = t ? topicScore(t) : null;
+    return `<div class="dtbar"><span>${esc(TOPIC_SHORT[c] || c)}</span><div class="xpbar"><i style="width:${s == null ? 0 : s}%;background:${s == null ? "#ccc" : s < 60 ? "#E63946" : s < 80 ? "#F7B731" : "#2EBF5A"}"></i></div><small>${t ? `${s}% · ${starText(starsFor(t.lvl))} · ${t.n} answered` : "not tried yet"}</small></div>`; }).join("");
+  showModal(`<div class="qcard" role="dialog" aria-modal="true"><h2>${esc(x.name)}</h2>
+    <p>📖 ${d.dex || 0}/${d.total || SPECIES_LIST.length} creatures · 🏅 ${d.badges || 0}/9 class badges · 🎓 ${d.hsBadges || 0}/6 department badges · Top level ${d.topLv || 1}${d.champ ? " · 🏆 Champion" : ""}${d.vale ? " · 🎓 Valedictorian" : ""}</p>
+    <p class="hint">${d.asked || 0} questions answered · last played ${ago(x.updated_at).toLowerCase()}</p><div class="dtbars">${bars}</div>
+    <div class="row"><button class="btn ghost" data-act="close">Close</button><button class="btn ghost small" data-act="dashRemove" data-arg="${esc(x.pupil)}">🗑️ Remove from class</button></div></div>`);
+}
+async function dashRemove(id) {
+  const x = DASH.rows.find(r => r.pupil === id); if (!x || !confirm(`Remove ${x.name} from class ${DASH.code}? Their game keeps working, and they can rejoin later.`)) return;
+  const sb = await sbClient(); const r = await sb.rpc("ww_remove_pupil", { p_code: DASH.code, p_pin: DASH.pin, p_pupil: id });
+  closeModal(); if (r.error || r.data !== true) return toast("Couldn’t remove that pupil.");
+  DASH.rows = DASH.rows.filter(y => y.pupil !== id); showDashboard();
+}
+function dashCSV() {
+  const q = v => `"${String(v == null ? "" : v).replace(/"/g, '""')}"`, cats = Object.keys(CATS);
+  const head = ["Pupil", "Word Book", "Class badges", "Department badges", "Top level", "Accuracy %", "Questions", "Champion", "Valedictorian", "Last played", ...cats.map(c => (TOPIC_SHORT[c] || c) + " %")];
+  const lines = DASH.rows.map(x => { const d = x.data; return [x.name, d.dex, d.badges, d.hsBadges, d.topLv, pupilAcc(d), d.asked, d.champ ? "yes" : "", d.vale ? "yes" : "", new Date(x.updated_at).toLocaleDateString("en-AU"), ...cats.map(c => { const t = (d.topics || {})[c]; return t ? topicScore(t) : ""; })]; });
+  const csv = [head, ...lines].map(r => r.map(q).join(",")).join("\n");
+  const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([csv], { type: "text/csv" })); a.download = `word-wilds-${DASH.code}.csv`; document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 500);
+}
+
 /* ===================== PLAYERS & SAVING ===================== */
 const freshProg = () => ({ v: 1, cats: {}, recent: [], review: [], asked: 0 });
 const profiles = () => store.get("profiles", []);
@@ -8120,6 +8321,7 @@ async function showSaveMenu() {
       <textarea id="scode" class="codebox" readonly aria-label="Your save code">Making your code…</textarea>
       <div class="row"><button class="btn" data-act="copyCode">📋 Copy code</button><button class="btn ghost" data-act="dlSave" id="dlbtn" hidden>⬇️ Download save file</button></div>
       <p class="tip" id="cmsg" aria-live="polite"></p></div>
+    ${classPanel()}
     <div class="row" style="justify-content:center"><button class="btn ghost" data-act="profiles">👥 Switch player</button><button class="btn ghost" data-act="loadCode">Load a save code</button></div>
     ${navbar("map")}`;
   try { document.getElementById("scode").value = await encodeSave(); } catch (e) { document.getElementById("scode").value = "Sorry, a code couldn’t be made on this device."; }
@@ -8205,6 +8407,7 @@ Object.assign(ACT, {
   gymHi: z => { closeModal(); prepareGym(z); G.hi = true; }, gymPractice: z => { closeModal(); prepareGym(z); }, hsAfterBadge, hsGradDone,
   hsLocked: id => toast(`🔒 You need ${HS_REQ[id]} department badges to go there.`),
   trainPick, trainStart: id => trainStart(id), coachSpar, naturePat: id => naturePat(id), natureSwap: a => natureSwap(a),
+  dashSQL, dashCopySQL, dashOpen, dashLoad, dashCSV, dashPupil: id => dashPupil(id), dashRemove: id => dashRemove(id), dashBack: () => showSettings(), setClass,
   bTarget, mythicRematch: id => { closeModal(); startMythic(id, true); },
   worldTrade: pid => { closeModal(); netAsk(pid, "trade"); }, worldBattle: pid => { closeModal(); netAsk(pid, "battle"); }, netEmote
 });
