@@ -1249,17 +1249,43 @@ label.field .tinput{margin-top:4px;font-size:1rem}
 .wchip{display:inline-block;padding:1px 7px;border-radius:99px;font-weight:800;font-size:.75rem;border:2px solid #1d1b3a;margin:1px}
 .wchip.low{background:#FFB3B3}.wchip.mid{background:#FFE8A3}.wchip.ok{background:#B9F2C9}
 .dtbars{display:grid;gap:6px;margin:8px 0}.dtbar{display:grid;grid-template-columns:110px 1fr;gap:2px 8px;align-items:center}.dtbar small{grid-column:2;color:#C9D3F5}
+/* big-screen layout: game screen about 70% of the height, controls either side of the touch screen */
+@media (min-width:700px) and (min-aspect-ratio:1/1){
+  #app[data-screen=world],#app[data-screen=battle]{max-width:none;padding:8px 10px}
+  #app[data-screen=world] .dsl,#app[data-screen=battle] .dsl{--ch:min(calc(70dvh - 40px),calc(100dvh - 335px));width:min(calc(100vw - 24px),calc(var(--ch) * 1.2222 + 44px));max-width:none}
+  #app[data-screen=battle] .stage{max-width:none;aspect-ratio:176/144}
+  #app[data-screen=battle] .bigbtns{grid-template-columns:repeat(4,1fr)}
+  #app[data-screen=world] .dsl-top{padding:10px 14px 6px}
+  #app[data-screen=world] .dsl-spk{margin-top:5px}
+  #app[data-screen=world] .dsl-bot{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:16px;padding:10px 16px 12px}
+  #app[data-screen=world] .dsl-ctrl{display:contents}
+  #app[data-screen=world] .dsl-ctrl .dpad{grid-column:1;grid-row:1}
+  #app[data-screen=world] .dsl-ctrl .abxy{grid-column:3;grid-row:1}
+  #app[data-screen=world] .dsl-mid{display:none}
+  #app[data-screen=world] .scr-bot{grid-column:2;grid-row:1;min-width:0}
+  #app[data-screen=world] .scr-bot{container-type:inline-size}
+  #app[data-screen=world] .tmenu{grid-template-columns:repeat(4,1fr);gap:5px;margin-bottom:6px}
+  #app[data-screen=world] .tt{min-height:44px;font-size:.74rem;padding:3px 2px}
+  #app[data-screen=world] .tt b{font-size:1.1rem}
+}
+@container (min-width:560px){
+  #app[data-screen=world] .tmenu{grid-template-columns:repeat(8,1fr);gap:6px}
+  #app[data-screen=world] .tt{min-height:50px}
+  #app[data-screen=world] .tt b{font-size:1.3rem}
+  #app[data-screen=world] .tbar{margin-bottom:6px}
+}
 </style>
 </head>
 <body>
 <main id="app"></main>
 <div id="ov" class="ov" hidden></div>
+<script src="online-config.js"></script>
 <script>
 /* ===================== ONLINE SETTINGS (Supabase) =====================
    To let pupils trade and battle with friends on every device, paste your Supabase
    Project URL and anon public key below (Supabase: Project Settings, then API).
    Leave them empty to keep online play switched off. */
-const ONLINE_CONFIG = { url: "", anonKey: "" };
+const ONLINE_CONFIG = (() => { const f = (typeof window !== "undefined" && window.WORD_WILDS_ONLINE) || {}; return { url: String(f.url || "").trim(), anonKey: String(f.key || f.publishableKey || f.anonKey || "").trim() }; })();
 
 /* ---------- helpers ---------- */
 const app = document.getElementById("app");
@@ -8023,7 +8049,7 @@ function onlinePanel() {
     <p class="hint">Lets pupils make a room with a code, then trade creatures and battle friends. Create a free Supabase project and paste its Project URL and anon public key (Project Settings, then API). No database tables are needed.</p>
     <label class="field">Project URL<input id="sbUrl" class="tinput" autocomplete="off" spellcheck="false" placeholder="https://your-project.supabase.co" value="${esc(settings.sbUrl || "")}"></label>
     <label class="field">Anon public key<input id="sbKey" class="tinput" autocomplete="off" spellcheck="false" placeholder="eyJ…" value="${esc(settings.sbKey || "")}"></label>
-    <p class="hint">${ONLINE_CONFIG.url ? "✅ This copy of the game already has online settings built in. Fill these in only to use a different project on this device." : "To switch it on for every device at once, paste the same two values into ONLINE_CONFIG at the top of the script in index.html."}</p></div>`;
+    <p class="hint">${ONLINE_CONFIG.url ? "✅ Online settings are loaded from the online-config.js file. You only need these boxes to use a different project on this one device." : "Tip: put your URL and key in the online-config.js file next to index.html (on GitHub), and every device gets them automatically. Game updates won’t wipe that file."}</p></div>`;
 }
 
 /* ===================== CLASS DASHBOARD (Supabase) ===================== */
