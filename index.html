@@ -1234,6 +1234,9 @@ label.field .tinput{margin-top:4px;font-size:1rem}
 @keyframes hatToss{50%{transform:translateY(-30px) rotate(-20deg)}}
 .pinbadge.hsmini{font-style:normal;font-size:.75rem;display:grid;place-items:center;background:#FFD447;border-radius:50%}
 @media (prefers-reduced-motion: reduce){.hstitle,.grad .gradhat{animation:none}}
+.charmtag{color:#FFE066;font-weight:800;margin:4px 0 8px}
+.charmbig{font-size:4.5rem;animation:hatToss 1.6s ease-in-out infinite}
+@media (prefers-reduced-motion: reduce){.charmbig{animation:none}}
 </style>
 </head>
 <body>
@@ -1244,7 +1247,7 @@ label.field .tinput{margin-top:4px;font-size:1rem}
    To let pupils trade and battle with friends on every device, paste your Supabase
    Project URL and anon public key below (Supabase: Project Settings, then API).
    Leave them empty to keep online play switched off. */
-const ONLINE_CONFIG = { url: "https://awxmgiindzlwtgoxtxdt.supabase.co", anonKey: "sb_publishable_9YTsc1bf-_IZKj-KdmQVfg_uOhr997p" };
+const ONLINE_CONFIG = { url: "", anonKey: "" };
 
 /* ---------- helpers ---------- */
 const app = document.getElementById("app");
@@ -4727,7 +4730,7 @@ function hatchEgg(id) {
   let pool = SPECIES_LIST.filter(s => s.stage === 1 && types.includes(s.type));
   if (!pool.length) pool = SPECIES_LIST.filter(s => s.stage === 1);
   const fresh = pool.filter(s => !owned(s.id));
-  const sp = pick(fresh.length ? fresh : pool), shiny = Math.random() < 1 / 20;
+  const sp = pick(fresh.length ? fresh : pool), shiny = Math.random() < (save.charm ? 2.5 : 1) / 20;
   save.eggs = save.eggs.filter(e => e !== egg);
   const ent = save.team[sp.id] || (save.team[sp.id] = { n: 0, xp: 0, shiny: false });
   ent.n++; if (shiny) ent.shiny = true; if (ent.exp == null) ent.exp = expForLv(3); save.seen[sp.id] = true; save.dex[sp.id] = true; save.hatched++; persist();
@@ -4798,7 +4801,7 @@ const myFighters = ids => ids.filter(id => save.team[id] && SPECIES[id] && hpOf(
 
 function prepareGym(z) {
   const champion = z === "champion";
-  if (!champion && !gymReady(z)) { toast("Finish this place’s first two quests to open the gym!"); return; }
+  if (!champion && !gymReady(z) && !save.badges[z]) { toast("Finish this place’s first two quests to open the gym!"); return; }
   const foeType = champion || AREA[z].topics.length > 1 ? null : AREA[z].topics[0];
   const mine = Object.keys(save.team).map(id => SPECIES[id]).filter(Boolean);
   const p = party();
@@ -4824,7 +4827,7 @@ function togglePick(id) {
 function startGym() {
   const { z, champion } = G;
   startBattle({
-    mode: champion ? "champion" : "gym", z, mine: myFighters(G.pick), foes: gymTeam(z, champion).map(([id, lv]) => mkFighter(id, lv, false, true)),
+    mode: champion ? "champion" : "gym", z, hi: !!G.hi, mine: myFighters(G.pick), foes: (G.hi ? rematchTeam(z) : gymTeam(z, champion)).map(([id, lv]) => mkFighter(id, lv, false, true)),
     leaderName: champion ? PRINCIPAL.name : LEADERS[z].name, portrait: personSVG(champion ? PRINCIPAL.look : LEADERS[z].look),
     intro: champion ? PRINCIPAL.hello : [LEADERS[z].hello], introWho: champion ? "mac" : z,
     scene: champion ? officeScene() : ZONE[z], topics: champion ? enabledCats() : areaTopics(z), hard: champion || !!AREA[z].hard
@@ -5034,6 +5037,7 @@ function afterBattle(next) {
   next();
 }
 function winGym() {
+  if (BT.hi) return winRematch();
   const { z } = BT, champion = BT.mode === "champion";
   partyBonus(15, 20);
   if (champion) { save.story.champion = true; save.coins += 100; persist(); dialogue(PRINCIPAL.win, "mac", () => afterBattle(showChampion)); return; }
@@ -5877,7 +5881,7 @@ function showWorld() {
   bindPad();
   W.region = null; W.greeted = W.greeted || {}; updateLoc(); setMusic(REGION_TRACK[W.region] || "town"); netPos(true);
   cancelAnimationFrame(W.raf); W.last = performance.now(); W.raf = requestAnimationFrame(tick);
-  setTimeout(storyAnnounce, 450);
+  setTimeout(storyAnnounce, 450); setTimeout(() => checkCharm(), 700);
 }
 const navDot = () => { const n = allQuests().filter(q => q.prog >= q.goal && !save.claimed[q.id]).length; return n ? `<i class="dot">${n}</i>` : ""; };
 const eggDot = () => save.eggs.some(e => e.have >= e.need) ? `<i class="dot">🥚</i>` : "";
@@ -6017,7 +6021,7 @@ function stepBack() { if (MAP[W.y][W.x] === "D") { W.y += 1; W.x = W.x; W.fx = W
 function gymDoor(z) {
   if (!areaTopics(z).length) return dialogue([`The ${AREA[z].cls} classroom is closed today.`], { name: "Sign", svg: SIGN_SVG });
   const L = LEADERS[z], q = zoneQuests(z);
-  if (save.badges[z]) return dialogue([`You already have my ${L.badge}! Fancy a rematch?`], z, () => prepareGym(z));
+  if (save.badges[z]) return save.story.champion ? dialogue([`The School Champion! Want to face my ⚡ Champion team? Every creature is Lv 70 or higher!`], z, () => rematchChoice(z)) : dialogue([`You already have my ${L.badge}! Fancy a rematch?`], z, () => prepareGym(z));
   if (!gymReady(z)) {
     const needF = Math.max(0, 2 - q[0].prog), needR = Math.max(0, 8 - q[1].prog), parts = [];
     if (needF) parts.push(`make friends with ${needF} more creature${needF === 1 ? "" : "s"} here`);
@@ -6389,7 +6393,7 @@ function startEncounter(forceSp) {
   const forced = !!(forceSp && forceSp.id), sp = forced ? forceSp : rollSpecies(curZone);
   const [need, tries] = HEARTS[sp.rarity];
   const baseLv = curZone.id === "custom" ? 3 : HS_LV[curZone.id] || HAB_LV[curZone.id] || areaLv(curZone.id);
-  E = { sp, shiny: Math.random() < 1 / 40, need, tries, hearts: 0, used: 0, zone: curZone, busy: false, isNew: !inDex(sp.id), lv: forced ? (sp.fLv || (sp.rarity === 5 ? 45 : 30)) : sp.rarity === 4 ? 25 : baseLv + (sp.stage === 2 ? 2 : 0) + rnd(2) };
+  E = { sp, shiny: Math.random() < (save.charm ? 4 : 1) / 40, need, tries, hearts: 0, used: 0, zone: curZone, busy: false, isNew: !inDex(sp.id), lv: forced ? (sp.fLv || (sp.rarity === 5 ? 45 : 30)) : sp.rarity === 4 ? 25 : baseLv + (sp.stage === 2 ? 2 : 0) + rnd(2) };
   save.seen[sp.id] = true; persist();
   const wipe = document.createElement("div"); wipe.className = "wipe"; document.body.appendChild(wipe);
   setTimeout(renderEncounter, reduced ? 0 : 520);
@@ -6528,11 +6532,13 @@ function evolve(id, to) {
 
 /* ---------- word book ---------- */
 function showDex() {
+  checkCharm(true);
   app.dataset.screen = "dex";
   const n = dexCount();
   const groups = Object.keys(TYPE_INFO).map(t => [t, SPECIES_LIST.filter(s => s.type === t)]);
   app.innerHTML = topbar() + `<h2 class="center">📖 Word Book</h2>
     <div class="dexprog"><div class="xpbar big"><i style="width:${Math.round(n / SPECIES_LIST.length * 100)}%"></i></div><small>${n} of ${SPECIES_LIST.length} creatures found</small></div>
+    ${save.charm ? `<p class="center charmtag">✨ You have the Shiny Charm! Shiny creatures are 4× more common.</p>` : `<p class="hint center">✨ Befriend all ${SPECIES_LIST.length} creatures to earn the Shiny Charm.</p>`}
     ${groups.map(([t, list]) => `<h3 class="dexh">${TYPE_ICON[t]} ${TYPE_INFO[t].name}</h3><div class="dexgrid">
       ${list.map(s => { const o = inDex(s.id), seen = save.seen[s.id], have = owned(s.id);
         return `<button class="dexcell ${o ? "got" : ""}${s.rarity === 5 ? " mega" : ""}" data-act="${o ? "dexInfo" : "dexUnknown"}" data-arg="${s.id}" aria-label="${o ? s.name : seen ? s.name + ", not caught yet" : "Unknown creature"}">
@@ -6851,6 +6857,39 @@ MOVE_FX.mega = async (a, b, m) => {
   await Promise.all(ps);
   rings(b, 4, "#FFD447", 1.6); burst(b, "🏆⭐✨", m ? 16 : 10, "spark", 100); quake();
 };
+/* ---------- post-game rematches and the Shiny Charm ---------- */
+function rematchTeam(z) {
+  let pool = areaSpecies(z).filter(s => s.stage === 2 && s.type !== "legend");
+  if (pool.length < 4) pool = pool.concat(SPECIES_LIST.filter(s => s.stage === 2 && !s.habitat && s.type !== "legend" && s.type !== "mega" && s.type !== "muddle"));
+  const r = seeded(z.length * 31 + z.charCodeAt(0)), picks = [];
+  while (picks.length < 4 && pool.length) { const s = pool.splice(Math.floor(r() * pool.length), 1)[0]; if (!picks.includes(s.id)) picks.push(s.id); }
+  return picks.map((id, i) => [id, [70, 71, 72, 74][i]]);
+}
+function hsHiTeam(id) {
+  const ids = HS_HEADS[id].team.map(([s]) => SPECIES[s].evo || s);
+  const extra = (HS_POOL[id] || []).map(s => SPECIES[s]).find(s => s && s.stage === 2 && !ids.includes(s.id));
+  if (extra) ids.push(extra.id);
+  return ids.slice(0, 4).map((s, i) => [s, 75 + i * 2]);
+}
+function rematchChoice(z) {
+  showModal(`<div class="qcard center" role="dialog" aria-modal="true"><h2>Rematch!</h2><p>${esc(LEADERS[z].name)}’s ⚡ Champion team has 4 fully evolved creatures at Lv 70 or higher.</p>
+    <div class="row" style="justify-content:center"><button class="btn" data-act="gymHi" data-arg="${z}">⚡ Champion rematch</button><button class="btn ghost" data-act="gymPractice" data-arg="${z}">Practice rematch</button></div>
+    <button class="btn ghost" data-act="close" style="margin-top:10px">Not now</button></div>`);
+}
+function winRematch() {
+  const key = BT.hs || BT.z; save.rematchWins = save.rematchWins || {}; save.rematchWins[key] = (save.rematchWins[key] || 0) + 1;
+  partyBonus(30, 40); save.coins += 80; persist();
+  const who = BT.hs ? headWho(BT.hs) : BT.z;
+  dialogue([`Incredible! You beat my ${BT.hs ? "🎓 Graduate" : "⚡ Champion"} team!`, `🪙 +80 Word Coins and lots of experience. Rematch wins here: ${save.rematchWins[key]}.`], who, () => afterBattle(showWorld));
+}
+function checkCharm(quiet) {
+  if (!save || save.charm || !SPECIES_LIST.every(s => inDex(s.id))) return;
+  save.charm = true; persist(); if (quiet === true && app.dataset.screen === "dex") return;
+  jingle("victory");
+  showModal(`<div class="qcard center" role="dialog" aria-modal="true"><div class="charmbig" aria-hidden="true">✨</div><h2>The Shiny Charm!</h2>
+    <p>You’ve befriended all ${SPECIES_LIST.length} creatures. Amazing!</p><p>From now on, shiny creatures are <b>4× more common</b> in the tall grass and <b>2.5× more common</b> from eggs. Happy shiny hunting!</p>
+    <button class="btn" data-act="close">Brilliant!</button></div>`);
+}
 /* ---------- twin battles ---------- */
 const foeId = i => BT && BT.twin && BT.foes[i] && BT.foes[i].owner === "B" ? "bfoe2" : "bfoe";
 function foeMarkup() {
@@ -7512,15 +7551,16 @@ function hsDoor(id) {
   save.hsBadges = save.hsBadges || {};
   const h = HS_HEADS[id], who = headWho(id);
   if (save.hsBadges[id]) return dialogue(h.after, who, () => showModal(`<div class="qcard center" role="dialog" aria-modal="true"><h2>Practice battle?</h2><p>${esc(h.name)} is happy to battle again. Your team still gains experience.</p>
-    <div class="row" style="justify-content:center"><button class="btn" data-act="hsRematch" data-arg="${id}">⚔️ Battle</button><button class="btn ghost" data-act="close">Not now</button></div></div>`));
+    <div class="row" style="justify-content:center">${save.chapters && save.chapters.h6 ? `<button class="btn" data-act="hsRematch" data-arg="${id}|hi">🎓 Graduate rematch (Lv 75+)</button>` : ""}<button class="btn${save.chapters && save.chapters.h6 ? " ghost" : ""}" data-act="hsRematch" data-arg="${id}">⚔️ Practice battle</button><button class="btn ghost" data-act="close">Not now</button></div></div>`));
   dialogue(h.hello, who, () => startHS(id));
 }
-function startHS(id, rematch) {
+function startHS(id, rematch, hi) {
   const h = HS_HEADS[id], t = (HS_TOPICS[id] || []).filter(c => settings.cats[c]);
-  startBattle({ mode: "hsgym", hs: id, rematch: !!rematch, z: id, mine: myFighters(party()), foes: h.team.map(([s, lv]) => mkFighter(s, lv, false, true)),
+  startBattle({ mode: "hsgym", hs: id, hi: !!hi, rematch: !!rematch, z: id, mine: myFighters(party()), foes: (hi ? hsHiTeam(id) : h.team).map(([s, lv]) => mkFighter(s, lv, false, true)),
     leaderName: h.name, portrait: headWho(id).svg, scene: ZONE[id], topics: t.length ? t : enabledCats(), hard: true });
 }
 function winHS() {
+  if (BT.hi) return winRematch();
   const id = BT.hs, h = HS_HEADS[id]; save.hsBadges = save.hsBadges || {};
   const first = !save.hsBadges[id];
   partyBonus(20, 30); if (first) { save.hsBadges[id] = true; save.coins += 100; } persist();
@@ -8161,7 +8201,8 @@ Object.assign(ACT, {
   online: () => showOnline(), netCreate: () => joinRoom(newCode()), netJoin: () => joinRoom((document.getElementById("joincode") || {}).value),
   netLeave: () => leaveRoom(false), netTrade: pid => netAsk(pid, "trade"), netBattle: pid => netAsk(pid, "battle"), netYes, netNo,
   tradePick, tradeReady, tradeCancel, tradeAfter: id => tradeAfter(id), pvpDone,
-  busGo: to => busGo(to), hsTitleClose: () => document.querySelectorAll(".hstitle").forEach(x => x.remove()), hsRematch: id => { closeModal(); startHS(id, true); }, hsAfterBadge, hsGradDone,
+  busGo: to => busGo(to), hsTitleClose: () => document.querySelectorAll(".hstitle").forEach(x => x.remove()), hsRematch: a => { closeModal(); const [id, hi] = a.split("|"); startHS(id, true, hi === "hi"); },
+  gymHi: z => { closeModal(); prepareGym(z); G.hi = true; }, gymPractice: z => { closeModal(); prepareGym(z); }, hsAfterBadge, hsGradDone,
   hsLocked: id => toast(`🔒 You need ${HS_REQ[id]} department badges to go there.`),
   trainPick, trainStart: id => trainStart(id), coachSpar, naturePat: id => naturePat(id), natureSwap: a => natureSwap(a),
   bTarget, mythicRematch: id => { closeModal(); startMythic(id, true); },
