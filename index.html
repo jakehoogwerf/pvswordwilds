@@ -7241,6 +7241,19 @@ function storySpot(area) {
     if (HIDDEN.some(hd => Math.abs(hd.x - x) + Math.abs(hd.y - y) < 2)) continue;
     for (const d of ["up", "down", "left", "right"]) { const [dx, dy] = DIRS[d]; if (MAP[y + dy] && MAP[y + dy][x + dx] === "=") { cands.push({ x, y, d, dist: Math.abs(x - cx) + Math.abs(y - cy) }); break; } }
   }
+  if (!cands.length) {
+    // small areas: fall back to any open ground that isn't on a path, a door or right beside another character
+    for (let y = y0 + 1; y < y0 + h; y++) for (let x = x0 + 1; x < x0 + w - 1; x++) {
+      const t = MAP[y][x]; if ((t !== ground && t !== "F") || REGION[y][x] !== area) continue;
+      if (NPCS.some(n => n.kind !== "story" && Math.abs(n.x - x) + Math.abs(n.y - y) < 2)) continue;
+      if (HIDDEN.some(hd => hd.x === x && hd.y === y)) continue;
+      const near = ["up", "down", "left", "right"].find(d => { const [dx, dy] = DIRS[d]; const u = MAP[y + dy] && MAP[y + dy][x + dx]; return u === "D" || u === "H"; });
+      if (near === "up") continue;
+      let d = "down", best = 99;
+      for (const dd of ["up", "down", "left", "right"]) { const [dx, dy] = DIRS[dd]; for (let k = 1; k < 5; k++) { const u = MAP[y + dy * k] && MAP[y + dy * k][x + dx * k]; if (u === "=" && k < best) { best = k; d = dd; } } }
+      cands.push({ x, y, d, dist: Math.abs(x - cx) + Math.abs(y - cy) + (best === 99 ? 6 : best) });
+    }
+  }
   cands.sort((a, b) => a.dist - b.dist);
   return cands[0] || null;
 }
