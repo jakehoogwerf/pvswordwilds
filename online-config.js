@@ -9,6 +9,6 @@
 //   key: your publishable key (starts with "sb_publishable_") or your legacy anon key (starts with "eyJ")
 // Both are safe to share publicly; they are designed to be used in web pages.
 window.WORD_WILDS_ONLINE = {
-  url: "",
-  key: ""
+  url: "https://awxmgiindzlwtgoxtxdt.supabase.co",
+  key: "sb_publishable_9YTsc1bf-_IZKj-KdmQVfg_uOhr997p"
 };
