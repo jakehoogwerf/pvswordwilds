@@ -1176,7 +1176,7 @@ label.field .tinput{margin-top:4px;font-size:1rem}
 .dsb .tw.tgt::after{content:"🎯";position:absolute;left:50%;top:-8%;transform:translateX(-50%);font-size:1.05rem;animation:drift 1s ease-in-out infinite}
 .dsb.twin .foeplate{top:2%;width:46%;padding:1px 7px 3px}
 .dsb .foeplate2{left:3%;top:19%;width:46%;padding:1px 7px 3px}
-.dsb.twin .foeplate b,.dsb .foeplate2 b{font-size:.78rem}
+.dsb.twin .foeplate b,.dsb .foeplate2 b{font-size:.78rem;display:inline-block;max-width:62%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;vertical-align:middle}
 .dsb.twin .foeplate .lvtag,.dsb .foeplate2 .lvtag{font-size:.58rem;margin-left:4px;padding:0 4px}
 .dsb.twin .foeplate small,.dsb .foeplate2 small{display:none}
 .dsb.twin .foeplate .bhp,.dsb .foeplate2 .bhp{height:7px;margin-top:1px}
@@ -1189,13 +1189,51 @@ label.field .tinput{margin-top:4px;font-size:1rem}
 .healrow{display:flex;justify-content:center;gap:6px;margin:6px 0}
 .healmon{width:30%;max-width:110px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.5),rgba(255,143,163,.15) 60%,transparent 70%);animation:healglow 1.2s ease-in-out 2 both}
 @keyframes healglow{0%{filter:brightness(1)}40%{filter:brightness(1.8) drop-shadow(0 0 10px #FF8FA3)}100%{filter:brightness(1)}}
-.rpin{position:absolute;transform:translate(-50%,-50%);z-index:4;display:flex;flex-direction:column;align-items:center;pointer-events:none}
+.rpin{position:absolute;transform:translate(-50%,-50%);z-index:4;display:flex;flex-direction:column;align-items:center;background:none;border:0;padding:0;cursor:pointer}
 .rpin i{font-style:normal;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:#fff;border:2.5px solid #1d1b3a;font-size:.95rem}
 .rpin b{margin-top:1px;background:#fff;border:2px solid #1d1b3a;border-radius:6px;padding:0 4px;font:800 .58rem/1.4 "Baloo 2",system-ui,sans-serif;color:#1d1b3a;white-space:nowrap}
 .rpin.locked i{background:#B5BAC6}
+.rpin.up{flex-direction:column-reverse}.rpin.up b{margin:0 0 1px}
 .dexcell.mega{border-color:#FFD447;box-shadow:0 0 0 2px #FF7A3A,0 0 16px rgba(255,201,60,.6);animation:megaGlow 2.4s ease-in-out infinite}
 @keyframes megaGlow{50%{box-shadow:0 0 0 2px #E63946,0 0 24px rgba(255,122,58,.8)}}
 .rstars{white-space:nowrap}
+.sp-kind{display:inline-block;margin:0 0 4px;padding:2px 10px;border-radius:99px;background:#1d1b3a;color:#FFD447;font:800 .8rem/1.6 "Baloo 2",system-ui,sans-serif}
+.sp-slots{display:flex;flex-wrap:wrap;justify-content:center;gap:5px;margin:10px 0}
+.sp-slot{width:2.1rem;height:2.5rem;border-radius:8px;border:2.5px dashed #9C7B5A;background:#FFF8E8;font:800 1.35rem/1 "Baloo 2",system-ui,sans-serif;color:#1d1b3a;cursor:pointer;padding:0}
+.sp-slot.full{border-style:solid;border-color:#1d1b3a;background:#FFE8A3}
+.sp-slot.right{background:#7CF59A;border-color:#1E8E3E}.sp-slot.wrong{background:#FFB3B3;border-color:#C2384C}
+.sp-tiles{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin:6px 0 10px}
+.sp-tile{width:2.5rem;height:2.6rem;border-radius:10px;border:3px solid #1d1b3a;background:linear-gradient(#FFE98A,#F7B731);box-shadow:0 3px 0 #9C6200;font:800 1.4rem/1 "Baloo 2",system-ui,sans-serif;color:#1d1b3a;cursor:pointer;padding:0}
+.sp-tile:disabled{opacity:.25;box-shadow:none;transform:translateY(3px)}
+.sp-row{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-bottom:6px}
+.sp-sentence,.sp-bank{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin:10px 0}
+.sp-word,.sp-chip{border-radius:10px;border:2.5px solid #1d1b3a;background:#fff;padding:6px 10px;font:700 1.1rem/1.2 "Atkinson Hyperlegible",system-ui,sans-serif;color:#1d1b3a;cursor:pointer;box-shadow:0 3px 0 #B5BAC6}
+.sp-word:hover,.sp-chip:hover{background:#FFF3C4}
+.sp-word.right{background:#7CF59A;border-color:#1E8E3E}.sp-word.wrong{background:#FFB3B3;border-color:#C2384C}.sp-word.faded{opacity:.55}
+.sp-chip:disabled{opacity:.25;box-shadow:none}
+.sp-chip.on{background:#FFE8A3}
+.sp-build{min-height:3.2rem;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:6px;padding:8px;border-radius:12px;border:2.5px dashed #9C7B5A;background:#FFF8E8;margin:10px 0 4px}
+.sp-build.right{background:#C9F7D4;border-color:#1E8E3E;border-style:solid}.sp-build.wrong{background:#FFD6D6;border-color:#C2384C;border-style:solid}
+.sp-ph{color:#9C7B5A;font-style:italic}
+.maphint{margin:-6px 0 6px;color:#C9D3F5}
+.scootfx{position:fixed;inset:0;z-index:60;display:grid;place-items:center;align-content:center;gap:10px;background:radial-gradient(circle,#3E5BA8,#14112B);animation:scootIn 1.6s ease both;pointer-events:none}
+.scootfx b{color:#fff;font:800 1.3rem "Baloo 2",system-ui,sans-serif;text-shadow:0 2px 0 #1d1b3a}
+.scoot{font-size:4.5rem;animation:scootZoom 1.2s ease-in-out both}
+@keyframes scootIn{0%{opacity:0}15%{opacity:1}80%{opacity:1}100%{opacity:0}}
+@keyframes scootZoom{0%{transform:translateX(-60vw)}45%{transform:translateX(0) rotate(-6deg)}60%{transform:translateX(0) rotate(4deg)}100%{transform:translateX(60vw)}}
+@media (prefers-reduced-motion: reduce){.scootfx,.scoot{animation:none}}
+.hstitle{position:fixed;inset:0;z-index:70;display:grid;place-items:center;background:radial-gradient(circle,#3E5BA8,#14112B 72%);animation:hsIn .6s ease both}
+.hstin{text-align:center;color:#fff;display:grid;gap:8px;padding:24px;max-width:360px}
+.hstin small{letter-spacing:.35em;color:#FFD447;font-weight:800}
+.hstin b{font:800 2.3rem/1 "Baloo 2",system-ui,sans-serif;text-shadow:0 4px 0 #1d1b3a,0 0 24px #7FB0FF}
+.hstin i{font-style:normal;font:800 1.6rem "Baloo 2",system-ui,sans-serif;color:#FFE066}
+.hstin span{color:#C9D3F5;margin-bottom:8px}
+@keyframes hsIn{from{opacity:0;transform:scale(1.08)}to{opacity:1;transform:none}}
+.hsbadge{font-size:4.6rem;width:140px;height:140px;margin:12px auto;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle,#FFF6C2,#FFC93C);border:5px solid #1d1b3a;box-shadow:0 0 30px #FFD447}
+.grad .gradhat{font-size:6rem;text-align:center;animation:hatToss 1.6s ease-in-out infinite}
+@keyframes hatToss{50%{transform:translateY(-30px) rotate(-20deg)}}
+.pinbadge.hsmini{font-style:normal;font-size:.75rem;display:grid;place-items:center;background:#FFD447;border-radius:50%}
+@media (prefers-reduced-motion: reduce){.hstitle,.grad .gradhat{animation:none}}
 </style>
 </head>
 <body>
@@ -1390,7 +1428,7 @@ add("vocab","Which word is the opposite of “float”?","sink",["swim","drift"]
 add("vocab","Which word is the opposite of “victory”?","defeat",["win","triumph"],"A victory is a win. A defeat is a loss.");
 
 /* ---------- settings ---------- */
-const defaults = { cats: Object.fromEntries(Object.keys(CATS).map(k => [k, true])), mode: "gentle", autoRead: false, custom: "", onlyCustom: false, adaptive: true };
+const defaults = { cats: Object.fromEntries(Object.keys(CATS).map(k => [k, true])), mode: "gentle", autoRead: false, mixTypes: true, custom: "", onlyCustom: false, adaptive: true };
 let settings = store.get("settings", {});
 settings = Object.assign({}, defaults, settings, { cats: Object.assign({}, defaults.cats, settings.cats || {}) });
 const TOPIC_SHORT = { spelling: "Spelling", homophones: "Homophones", punctuation: "Punctuation", wordclass: "Word classes", grammar: "Grammar", affixes: "Prefixes", vocab: "Vocabulary", custom: "Teacher’s" };
@@ -1414,6 +1452,29 @@ function difficultyOf(q) {
   if (HARD_ANS.has(q.a)) return 3;
   return 2;
 }
+[["wordclass", "apple · chair · run · tiger", "run", ["apple", "chair", "tiger"], "Run is a verb. The others are nouns."],
+ ["wordclass", "jump · swim · happy · read", "happy", ["jump", "swim", "read"], "Happy is an adjective. The others are verbs."],
+ ["wordclass", "quickly · softly · loudly · green", "green", ["quickly", "softly", "loudly"], "Green is an adjective. The others are adverbs."],
+ ["wordclass", "she · they · he · ran", "ran", ["she", "they", "he"], "Ran is a verb. The others are pronouns."],
+ ["vocab", "huge · giant · enormous · tiny", "tiny", ["huge", "giant", "enormous"], "Tiny means small. The others mean big."],
+ ["vocab", "glad · cheerful · joyful · gloomy", "gloomy", ["glad", "cheerful", "joyful"], "Gloomy means sad. The others mean happy."],
+ ["vocab", "whisper · mutter · murmur · yell", "yell", ["whisper", "mutter", "murmur"], "Yell is loud. The others are quiet ways to speak."],
+ ["affixes", "unhappy · untidy · unlock · under", "under", ["unhappy", "untidy", "unlock"], "Under doesn’t have the prefix un-. It’s a word on its own."],
+ ["affixes", "careful · helpful · playful · awful", "awful", ["careful", "helpful", "playful"], "Awful is a word on its own. The others are a base word plus -ful."],
+ ["homophones", "sea · see · bee · si", "si", ["sea", "see", "bee"], "Si isn’t an English word. Sea, see and bee are all real words."]
+].forEach(([c, list, a, w, why]) => add(c, "Which is the odd one out?\n" + list, a, w, why));
+[["grammar", "“Mice” is the plural of “mouse”.", "True", "One mouse, two mice."],
+ ["grammar", "The past tense of “sing” is “singed”.", "False", "The past tense of sing is sang."],
+ ["grammar", "We write “an” before “umbrella”.", "True", "Umbrella starts with a vowel sound, so: an umbrella."],
+ ["punctuation", "Every sentence starts with a capital letter.", "True", "Sentences always begin with a capital letter."],
+ ["punctuation", "A question ends with a full stop.", "False", "A question ends with a question mark."],
+ ["wordclass", "“Quickly” is an adverb.", "True", "Quickly tells us how something is done."],
+ ["wordclass", "“Beautiful” is a verb.", "False", "Beautiful is an adjective. It describes something."],
+ ["homophones", "“Their” and “there” sound the same.", "True", "They’re homophones: they sound the same but mean different things."],
+ ["affixes", "“Re-” at the start of a word means “again”.", "True", "Redo means do again."],
+ ["vocab", "“Ancient” means very new.", "False", "Ancient means very old."],
+ ["spelling", "“Necessary” has one c and two s’s.", "True", "One collar, two sleeves: necessary."]
+].forEach(([c, t, a, why]) => add(c, "True or false?\n" + t, a, [a === "True" ? "False" : "True"], why));
 BANK.forEach(q => { q.d = difficultyOf(q); q.id = q.cat + "|" + q.q + "|" + q.a; });
 const BYID = Object.fromEntries(BANK.map(q => [q.id, q]));
 
@@ -1706,9 +1767,9 @@ function closeModal() { ov.hidden = true; ov.innerHTML = ""; }
 function fmtQ(t) { return esc(t).replace(/\n/g, "<br>").replace(/_{3}/g, '<span class="blank"></span>'); }
 
 function askQuestion(heading, sub, cb, o = {}) {
-  const q = nextQ(o);
-  const opts = shuffle([q.a, ...q.w]);
-  qState = { q, opts, cb, done: false, ok: false };
+  const q0 = nextQ(o), sq = makeSpecial(q0), q = sq || q0;
+  const opts = sq ? [] : shuffle([q.a, ...q.w]);
+  qState = { q, opts, cb, done: false, ok: false, fill: sq && sq.kind === "tiles" ? sq.a.split("").map(() => null) : null, seq: sq && sq.kind === "order" ? [] : null };
   const lv = q.cat !== "custom" ? starsFor(topicState(q.cat).lvl) : 0;
   const card = o.card ? CARDS[o.card] : null;
   const extra = (card ? `<div class="spellcard"><span class="sci" aria-hidden="true">${card.icon}</span><span><b>${card.name}</b><small>Right answer: ${card.boost}<br>Wrong answer: ${card.text}</small></span></div>` : "")
@@ -1720,8 +1781,8 @@ function askQuestion(heading, sub, cb, o = {}) {
       <div class="qtop"><span class="ribbon">${esc(TOPIC_SHORT[q.cat] || "Teacher’s question")}${lv ? `<span class="lvl" aria-label="${LEVEL_NAME[lv]} level"> ${starText(lv)}</span>` : ""}</span>
       <button class="icon" data-act="read" aria-label="Read the question aloud">🔊</button></div>
       <h2 id="qh" class="qhead">${esc(heading)}</h2>${sub ? `<p class="qsub">${esc(sub)}</p>` : ""}${extra}
-      <p class="qtext">${fmtQ(q.q)}</p>
-      <div class="answers">${opts.map((o, i) => `<button class="ans" data-act="answer" data-arg="${i}"><span class="seal" aria-hidden="true">${"ABCD"[i]}</span><span class="atext">${esc(o)}</span></button>`).join("")}</div>
+      ${sq ? `<p class="sp-kind">${SP_LABEL[sq.sub || sq.kind]}</p>` : ""}<p class="qtext">${fmtQ(q.q)}</p>
+      ${sq ? specialHTML(q) : ""}<div class="answers"${sq ? " hidden" : ""}>${opts.map((o, i) => `<button class="ans" data-act="answer" data-arg="${i}"><span class="seal" aria-hidden="true">${"ABCD"[i]}</span><span class="atext">${esc(o)}</span></button>`).join("")}</div>
       <div class="fb" aria-live="polite"></div>
       <div class="stamp" aria-hidden="true" hidden></div>
     </div>
@@ -1730,11 +1791,11 @@ function askQuestion(heading, sub, cb, o = {}) {
   const sc = ov.querySelector(".scroll"), paper = sc.querySelector(".paper");
   sc.style.setProperty("--h", paper.offsetHeight + "px");
   sc.classList.add("opening");
-  const f = ov.querySelector(".ans"); if (f) f.focus({ preventScroll: true });
+  const f = ov.querySelector(sq ? ".sp-tile,.sp-word,.sp-chip" : ".ans"); if (f) f.focus({ preventScroll: true });
   if (settings.autoRead) speakQ();
 }
 function answer(i) {
-  if (!qState || qState.done) return;
+  if (!qState || qState.done || qState.q.kind) return;
   qState.done = true;
   const { q, opts } = qState;
   const chose = opts[i], ok = chose === q.a;
@@ -1784,12 +1845,231 @@ function qContinue() {
 
 function speakQ() {
   if (!qState || !("speechSynthesis" in window)) return;
+  if (qState.q.kind) { sayText(specialSpeech(qState.q)); return; }
   try {
     speechSynthesis.cancel();
     const t = qState.q.q.replace(/_{3}/g, " blank ").replace(/\n/g, ". ") + ". Is it: " + qState.opts.join(", or ") + "?";
     const u = new SpeechSynthesisUtterance(t); u.lang = "en-GB"; u.rate = 0.9; speechSynthesis.speak(u);
   } catch (e) {}
 }
+/* ===================== MORE QUESTION TYPES ===================== */
+// Spell it: [word, clue sentence with ___, difficulty]
+const SP_SPELL = [
+  ["friend", "My best ___ sits next to me.", 1], ["because", "I wore a coat ___ it was cold.", 1], ["school", "We walk to ___ every morning.", 1],
+  ["people", "Lots of ___ came to the fair.", 1], ["water", "Plants need ___ to grow.", 1], ["night", "Owls hunt at ___.", 1],
+  ["could", "I ___ hear the birds singing.", 1], ["light", "Turn on the ___, please.", 1], ["after", "We play outside ___ lunch.", 1], ["every", "I brush my teeth ___ day.", 1],
+  ["believe", "I ___ you can do it!", 2], ["different", "Every snowflake is ___.", 2], ["favourite", "Pizza is my ___ food.", 2], ["library", "We borrowed books from the ___.", 2],
+  ["surprise", "The party was a big ___.", 2], ["remember", "Did you ___ your hat?", 2], ["sentence", "A ___ starts with a capital letter.", 2], ["thought", "I ___ it might rain.", 2],
+  ["island", "An ___ has water all around it.", 2], ["answer", "Put up your hand to ___.", 2], ["caught", "Sam ___ the ball with one hand.", 2], ["enough", "Is there ___ cake for everyone?", 2],
+  ["height", "Measure the ___ of the plant.", 2], ["question", "Can I ask a ___?", 2], ["early", "I woke up ___ this morning.", 2],
+  ["separate", "Keep the red and blue pencils ___.", 3], ["February", "___ is the shortest month.", 3], ["knowledge", "Reading books grows your ___.", 3], ["business", "Mum runs her own ___.", 3],
+  ["calendar", "Write the date on the ___.", 3], ["disappear", "The magician made the coin ___.", 3], ["exercise", "Running is good ___.", 3], ["imagine", "Close your eyes and ___ a dragon.", 3],
+  ["necessary", "Is it ___ to bring a hat?", 3], ["experiment", "We did a science ___ with magnets.", 3], ["occasion", "A birthday is a special ___.", 3]
+];
+// Unscramble: [word, meaning, difficulty]
+const SP_UNSCR = [
+  ["tiny", "very small", 1], ["glad", "happy", 1], ["quick", "fast", 1], ["shout", "call out loudly", 1], ["brave", "not scared", 1], ["chilly", "a bit cold", 1],
+  ["enormous", "very big", 2], ["furious", "very angry", 2], ["ancient", "very old", 2], ["whisper", "speak very quietly", 2], ["freezing", "very cold", 2], ["gigantic", "huge", 2], ["giggle", "a little laugh", 2],
+  ["delighted", "very happy", 3], ["exhausted", "very tired", 3], ["terrified", "very scared", 3], ["starving", "very hungry", 3], ["fascinating", "very interesting", 3], ["miniature", "a very small version", 3]
+];
+// Tap the word: [topic, prompt, sentence with *target*, correction (or ""), difficulty, why]
+const SP_TAP = [
+  ["spelling", "Tap the word that is spelled wrong.", "My *freind* is coming to play.", "friend", 1, "Friend has “ie” in the middle: fr-ie-nd."],
+  ["spelling", "Tap the word that is spelled wrong.", "We went to the *libary* after lunch.", "library", 2, "Library has two r’s: lib-ra-ry."],
+  ["spelling", "Tap the word that is spelled wrong.", "It was a *suprise* party!", "surprise", 2, "Surprise starts with “sur”."],
+  ["spelling", "Tap the word that is spelled wrong.", "We saw a *beautifull* rainbow.", "beautiful", 2, "The suffix -ful only has one l."],
+  ["spelling", "Tap the word that is spelled wrong.", "I *recieved* a letter from Grandma.", "received", 3, "i before e, except after c: received."],
+  ["spelling", "Tap the word that is spelled wrong.", "The dog *dissapeared* behind the shed.", "disappeared", 3, "Dis + appear: one s, two p’s."],
+  ["grammar", "Tap the word that is wrong.", "Yesterday I *goed* to the park.", "went", 1, "Go is irregular. In the past it becomes went."],
+  ["grammar", "Tap the word that is wrong.", "She *runned* all the way home.", "ran", 1, "Run is irregular. In the past it becomes ran."],
+  ["grammar", "Tap the word that is wrong.", "We saw *a* elephant at the zoo.", "an", 1, "Use “an” before a vowel sound: an elephant."],
+  ["grammar", "Tap the word that is wrong.", "The children *was* playing outside.", "were", 2, "Children is plural, so we use were."],
+  ["grammar", "Tap the word that is wrong.", "There are three *sheeps* in the field.", "sheep", 2, "One sheep, two sheep. It doesn’t change!"],
+  ["grammar", "Tap the word that is wrong.", "I *seen* a kangaroo yesterday.", "saw", 2, "Yesterday is the past, so: I saw."],
+  ["grammar", "Tap the word that is wrong.", "He has *ate* all the biscuits.", "eaten", 3, "After “has”, we say eaten."],
+  ["homophones", "Tap the word that is wrong.", "Can you *here* the music?", "hear", 1, "You hear with your ear. Here means this place."],
+  ["homophones", "Tap the word that is wrong.", "I would like *to* apples, please.", "two", 1, "Two is the number 2."],
+  ["homophones", "Tap the word that is wrong.", "The *son* is shining brightly.", "sun", 1, "The sun is in the sky. A son is a boy."],
+  ["homophones", "Tap the word that is wrong.", "The wind *blue* my hat away.", "blew", 2, "Blew is the past of blow. Blue is a colour."],
+  ["homophones", "Tap the word that is wrong.", "I *new* the answer straight away.", "knew", 2, "Knew is the past of know."],
+  ["homophones", "Tap the word that is wrong.", "We ate the *hole* pizza.", "whole", 2, "Whole means all of it. A hole is a gap."],
+  ["homophones", "Tap the word that is wrong.", "*Their* going to the beach today.", "They’re", 3, "They’re is short for they are."],
+  ["punctuation", "Tap the word that needs fixing.", "We visited *perth* in the holidays.", "Perth", 1, "Names of places need a capital letter."],
+  ["punctuation", "Tap the word that needs fixing.", "My birthday is in *june.*", "June.", 1, "Months need a capital letter."],
+  ["punctuation", "Tap the word that needs fixing.", "*i* like reading books.", "I", 1, "When “I” means me, it is always a capital."],
+  ["punctuation", "Tap the word that needs fixing.", "Can you help *me.*", "me?", 2, "It’s a question, so it needs a question mark."],
+  ["punctuation", "Tap the word that needs fixing.", "The *cats* tail is very fluffy.", "cat’s", 3, "The tail belongs to the cat, so we need an apostrophe: cat’s."],
+  ["wordclass", "Tap the verb (the doing word).", "The frog *jumped* into the pond.", "", 1, "Jumped is what the frog did."],
+  ["wordclass", "Tap the adjective (the describing word).", "We found a *shiny* shell.", "", 1, "Shiny describes the shell."],
+  ["wordclass", "Tap the noun (the naming word).", "The happy *kangaroo* hopped away.", "", 1, "Kangaroo names a thing."],
+  ["wordclass", "Tap the adverb.", "The turtle walked *slowly* home.", "", 2, "Slowly tells us how the turtle walked."],
+  ["wordclass", "Tap the pronoun.", "Grandpa said *he* was tired.", "", 2, "He stands in for Grandpa."],
+  ["wordclass", "Tap the conjunction (the joining word).", "I was tired *but* I kept going.", "", 3, "But joins the two parts of the sentence."],
+  ["wordclass", "Tap the preposition.", "The cat hid *under* the bed.", "", 3, "Under tells us where the cat hid."],
+  ["affixes", "Tap the word with a prefix.", "My room was *untidy* again.", "", 1, "Un + tidy. The prefix un- means not."],
+  ["affixes", "Tap the word with the prefix re-.", "Please *rewrite* this page.", "", 1, "Re + write means write again."],
+  ["affixes", "Tap the word with the suffix -ful.", "That was a *helpful* tip.", "", 2, "Help + ful means full of help."],
+  ["affixes", "Tap the word with the prefix dis-.", "The rabbit seemed to *disappear*.", "", 2, "Dis + appear means the opposite of appear."],
+  ["affixes", "Tap the word with the suffix -less.", "The night sky was *cloudless*.", "", 3, "Cloud + less means without clouds."],
+  ["vocab", "Tap the word that means “very big”.", "A *gigantic* whale swam past.", "", 1, "Gigantic means very big."],
+  ["vocab", "Tap the word that means “scared”.", "The *frightened* mouse ran away.", "", 2, "Frightened means scared."],
+  ["vocab", "Tap a synonym for “fast”.", "The *rapid* river rushed by.", "", 2, "Rapid means fast."],
+  ["vocab", "Tap the antonym (opposite) of “noisy”.", "The library was very *quiet*.", "", 3, "Quiet is the opposite of noisy."]
+];
+// Build a sentence: [topic, sentence, difficulty, other correct orders]
+const SP_ORDER = [
+  ["grammar", "The dog ran to the park.", 1], ["grammar", "I like to eat apples.", 1], ["grammar", "We went to the beach.", 1],
+  ["punctuation", "Can you help me?", 1], ["grammar", "My cat is very fluffy.", 1],
+  ["grammar", "The kangaroo hopped across the road.", 2], ["punctuation", "After lunch, we played cricket.", 2], ["punctuation", "Where did you put my hat?", 2],
+  ["grammar", "The children laughed at the funny clown.", 2], ["punctuation", "Mum bought eggs, milk and bread.", 2],
+  ["punctuation", "Although it was raining, we went outside.", 3], ["grammar", "The old owl hooted softly in the dark forest.", 3, ["The old owl softly hooted in the dark forest."]],
+  ["punctuation", "Quickly, the children ran inside.", 3], ["punctuation", "When the bell rang, everyone lined up.", 3], ["grammar", "My sister reads a chapter every night.", 3]
+];
+const SP_MAKERS = { spelling: ["spell", "tap"], homophones: ["tap"], punctuation: ["tap", "order"], wordclass: ["tap"], grammar: ["tap", "order"], affixes: ["tap"], vocab: ["unscr", "tap"] };
+const SP_LABEL = { spell: "🔤 Spell it", unscr: "🔀 Unscramble", tap: "👆 Tap the word", order: "🧱 Build a sentence" };
+function nearestItem(list, d, key) {
+  const fresh = list.filter(it => !prog.recent.includes(key(it))), use = fresh.length ? fresh : list;
+  const best = Math.min(...use.map(it => Math.abs(it.d - d)));
+  return pick(use.filter(it => Math.abs(it.d - d) === best));
+}
+function scrambled(word, extra) {
+  let letters = word.toLowerCase().split("").concat(extra || []), t = 0;
+  do { letters = shuffle(letters); t++; } while (t < 10 && letters.join("") === word.toLowerCase());
+  return letters;
+}
+function makeSpecial(q) {
+  if (!q || q.cat === "custom" || q.review || settings.mixTypes === false) return null;
+  if (navigator.webdriver && !window.__special) return null;
+  const kinds = SP_MAKERS[q.cat]; if (!kinds || Math.random() > 0.4) return null;
+  const kind = window.__specialKind || pick(kinds), d = q.d || 2;
+  if (kind === "spell") {
+    const it = nearestItem(SP_SPELL.map(([w, s, dd]) => ({ w, s, d: dd })), d, it => "sp|" + it.w);
+    const decoys = it.d >= 3 ? shuffle("aeioulnrst".split("").filter(c => !it.w.includes(c))).slice(0, 2) : [];
+    return { kind: "tiles", sub: "spell", cat: q.cat, id: "sp|" + it.w, d: it.d, q: it.s, a: it.w, say: it.w, letters: scrambled(it.w, decoys), why: `It’s spelled ${it.w.toUpperCase().split("").join("-")}.` };
+  }
+  if (kind === "unscr") {
+    const it = nearestItem(SP_UNSCR.map(([w, m, dd]) => ({ w, m, d: dd })), d, it => "un|" + it.w);
+    return { kind: "tiles", sub: "unscr", cat: q.cat, id: "un|" + it.w, d: it.d, q: `Unscramble the word that means “${it.m}”.`, a: it.w, letters: scrambled(it.w), why: `${it.w[0].toUpperCase() + it.w.slice(1)} means ${it.m}.` };
+  }
+  if (kind === "tap") {
+    const pool = SP_TAP.filter(t => t[0] === q.cat).map(([cat, prompt, s, fix, dd, why]) => ({ cat, prompt, s, fix, d: dd, why }));
+    if (!pool.length) return null;
+    const it = nearestItem(pool, d, it => "tp|" + it.s);
+    const words = it.s.split(" "), target = words.findIndex(w => w.startsWith("*"));
+    const clean = words.map(w => w.replace(/\*/g, ""));
+    return { kind: "tap", cat: q.cat, id: "tp|" + it.s, d: it.d, q: it.prompt, words: clean, target, fix: it.fix, a: clean[target], why: it.why };
+  }
+  if (kind === "order") {
+    const pool = SP_ORDER.filter(t => t[0] === q.cat).map(([cat, s, dd, alts]) => ({ s, d: dd, alts: alts || [] }));
+    if (!pool.length) return null;
+    const it = nearestItem(pool, d, it => "or|" + it.s);
+    let words = it.s.split(" "), t = 0, sh;
+    do { sh = shuffle(words.map((w, i) => i)); t++; } while (t < 10 && sh.every((v, i) => v === i));
+    return { kind: "order", cat: q.cat, id: "or|" + it.s, d: it.d, q: "Tap the words in order to build the sentence.", a: it.s, alts: it.alts, words, order: sh, why: "Start with a capital letter and end with the right punctuation." };
+  }
+  return null;
+}
+function specialHTML(q) {
+  if (q.kind === "tiles") return `<div class="sp-slots" role="group" aria-label="Your answer">${q.a.split("").map((_, i) => `<button class="sp-slot" data-act="spSlot" data-arg="${i}" aria-label="Empty box ${i + 1}"></button>`).join("")}</div>
+    <div class="sp-tiles" role="group" aria-label="Letters">${q.letters.map((l, i) => `<button class="sp-tile" data-act="spTile" data-arg="${i}" aria-label="Letter ${l}">${l}</button>`).join("")}</div>
+    <div class="sp-row">${q.say ? `<button class="btn ghost small" data-act="sayWord">🔊 Hear the word</button>` : ""}<button class="btn ghost small" data-act="spClear">↺ Clear</button><button class="btn small" data-act="spCheck" disabled>✔ Check</button></div>`;
+  if (q.kind === "tap") return `<div class="sp-sentence" role="group" aria-label="Sentence">${q.words.map((w, i) => `<button class="sp-word" data-act="spWord" data-arg="${i}">${esc(w)}</button>`).join("")}</div>`;
+  if (q.kind === "order") return `<div class="sp-build" role="group" aria-label="Your sentence"><span class="sp-ph">Tap the words below…</span></div>
+    <div class="sp-bank" role="group" aria-label="Words">${q.order.map(i => `<button class="sp-chip" data-act="spChip" data-arg="${i}">${esc(q.words[i])}</button>`).join("")}</div>
+    <div class="sp-row"><button class="btn ghost small" data-act="spClear">↺ Clear</button><button class="btn small" data-act="spCheck" disabled>✔ Check</button></div>`;
+  return "";
+}
+function spRefresh() {
+  const S = qState, q = S.q;
+  if (q.kind === "tiles") {
+    ov.querySelectorAll(".sp-slot").forEach((el, i) => { const t = S.fill[i]; el.textContent = t == null ? "" : q.letters[t]; el.classList.toggle("full", t != null); el.setAttribute("aria-label", t == null ? `Empty box ${i + 1}` : `Box ${i + 1}: ${q.letters[t]}. Tap to remove.`); });
+    ov.querySelectorAll(".sp-tile").forEach((el, i) => { el.disabled = S.fill.includes(i); });
+    ov.querySelector("[data-act=spCheck]").disabled = S.fill.some(t => t == null);
+  }
+  if (q.kind === "order") {
+    const b = ov.querySelector(".sp-build");
+    b.innerHTML = S.seq.length ? S.seq.map((i, k) => `<button class="sp-chip on" data-act="spUnchip" data-arg="${k}">${esc(q.words[i])}</button>`).join("") : `<span class="sp-ph">Tap the words below…</span>`;
+    ov.querySelectorAll(".sp-bank .sp-chip").forEach(el => { el.disabled = S.seq.includes(+el.dataset.arg); });
+    ov.querySelector("[data-act=spCheck]").disabled = S.seq.length !== q.words.length;
+  }
+}
+function spTile(i) { const S = qState; if (!S || S.done || S.fill.includes(+i)) return; const k = S.fill.indexOf(null); if (k < 0) return; S.fill[k] = +i; SFX.blip(); spRefresh(); }
+function spSlot(i) { const S = qState; if (!S || S.done || S.fill[+i] == null) return; S.fill[+i] = null; spRefresh(); }
+function spChip(i) { const S = qState; if (!S || S.done || S.seq.includes(+i)) return; S.seq.push(+i); SFX.blip(); spRefresh(); }
+function spUnchip(k) { const S = qState; if (!S || S.done) return; S.seq.splice(+k, 1); spRefresh(); }
+function spClear() { const S = qState; if (!S || S.done) return; if (S.fill) S.fill = S.fill.map(() => null); if (S.seq) S.seq = []; spRefresh(); }
+function spCheck() {
+  const S = qState; if (!S || S.done) return; const q = S.q;
+  if (q.kind === "tiles") specialResult(S.fill.map(t => q.letters[t]).join("").toLowerCase() === q.a.toLowerCase());
+  if (q.kind === "order") { const built = S.seq.map(i => q.words[i]).join(" "); specialResult(built === q.a || q.alts.includes(built)); }
+}
+function spWord(i) { const S = qState; if (!S || S.done) return; S.picked = +i; specialResult(+i === S.q.target); }
+function specialResult(ok) {
+  const S = qState; S.done = true; S.ok = ok; const q = S.q;
+  const lu = recordAnswer(q, ok);
+  ov.querySelectorAll(".sp-tile,.sp-slot,.sp-chip,.sp-word,[data-act=spClear],[data-act=spCheck]").forEach(b => { b.disabled = true; });
+  if (q.kind === "tiles") ov.querySelectorAll(".sp-slot").forEach((el, i) => el.classList.add(ok ? "right" : (q.letters[S.fill[i]] || "") === q.a[i].toLowerCase() ? "right" : "wrong"));
+  if (q.kind === "tap") ov.querySelectorAll(".sp-word").forEach((el, i) => { if (i === q.target) el.classList.add("right"); else if (i === S.picked) el.classList.add("wrong"); else el.classList.add("faded"); });
+  if (q.kind === "order") ov.querySelector(".sp-build").classList.add(ok ? "right" : "wrong");
+  const sc = ov.querySelector(".scroll"), stamp = ov.querySelector(".stamp");
+  stamp.className = "stamp " + (ok ? "s-good" : "s-try"); stamp.textContent = ok ? "Correct!" : "Nearly!"; stamp.hidden = false;
+  sc.classList.add(ok ? "glow-good" : "glow-try");
+  if (ok) SFX.heart && SFX.heart();
+  const answerText = q.kind === "tap" ? (q.fix ? `“${q.words[q.target]}” should be “${q.fix}”.` : `It was “${q.words[q.target]}”.`) : `It’s “${q.a}”.`;
+  ov.querySelector(".fb").innerHTML = (ok ? `<p class="good">⭐ Correct! Brilliant work.${q.kind === "tap" && q.fix ? ` ${esc(answerText)}` : ""}</p>` : `<p class="bad">Not quite. ${esc(answerText)}</p>`)
+    + (q.why ? `<p>${esc(q.why)}</p>` : "")
+    + (lu ? `<p class="lvlup">🎉 ${TOPIC_SHORT[lu.cat]} level up! You’re now an ${LEVEL_NAME[lu.stars]} ${starText(lu.stars)}</p>` : "")
+    + `<button class="btn" data-act="qcontinue">Continue</button>`;
+  ov.querySelector('[data-act="qcontinue"]').focus({ preventScroll: true });
+}
+function sayText(t) { try { speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(t); u.lang = "en-GB"; u.rate = 0.85; speechSynthesis.speak(u); } catch (e) {} }
+function specialSpeech(q) {
+  if (q.kind === "tiles") return q.sub === "spell" ? `Spell the word: ${q.a}. ${q.q.replace(/_{3}/g, q.a)}` : q.q;
+  if (q.kind === "tap") return `${q.q} ${q.words.join(" ")}`;
+  return `${q.q}`;
+}
+
+/* ===================== QUICK TRAVEL ===================== */
+const TRAVEL_NAMES = () => Object.assign(Object.fromEntries(Object.keys(HS_RECTS).map(id => [id, hsPlace(id)])), { gate: "School Gate", office: "Principal’s Office", wing: "Specialist Wing", adventure: "Adventure Playground", nature: "Nature Playground" }, Object.fromEntries(AREA_LIST.map(a => [a.id, ZONE[a.id].name])));
+const travelKey = r => r && r.startsWith("hab_") ? "wing" : r;
+function markVisited(r) { const k = travelKey(r); if (!k || !save) return; save.visited = save.visited || {}; if (!save.visited[k]) { save.visited[k] = true; persist(); } }
+function travelSpot(id) {
+  let p = null;
+  if (HS_RECTS[id]) { const b = BUILDINGS.find(b => b.id === id); p = id === "hs_quad" ? [34, 62] : b ? [b.x + (b.doorOff != null ? b.doorOff : 2), b.y + b.h] : null; }
+  if (!p && AREA[id]) { const b = BUILDINGS.find(b => b.kind === "gym" && b.id === id); if (b) p = [b.x + 2, b.y + b.h]; }
+  if (id === "office") { const d = Object.entries(DOORS).find(([k, v]) => v.kind === "fortress"); if (d) { const [x, y] = d[0].split(",").map(Number); p = [x, y + 1]; } }
+  if (!p) p = { gate: [26, 57], wing: [21, 69], adventure: [57, 50], nature: [58, 37] }[id];
+  if (!p) { const r = HS_RECTS[id] || AREA_RECTS[id]; if (!r) return null; p = [r[0] + (r[2] >> 1), r[1] + (r[3] >> 1)]; }
+  for (let rad = 0; rad < 6; rad++) for (let dy = -rad; dy <= rad; dy++) for (let dx = -rad; dx <= rad; dx++) {
+    const x = p[0] + dx, y = p[1] + dy;
+    if (Math.max(Math.abs(dx), Math.abs(dy)) === rad && walkable(x, y) && MAP[y][x] !== "D") return [x, y];
+  }
+  return null;
+}
+function travelInfo(id) {
+  const names = TRAVEL_NAMES(), name = names[id] || id;
+  const info = id === "gate" ? "📚 Professor Quill’s Library and the Teacher’s Garden." : id === "office" ? "🏛️ Principal Mr Mac’s office, at the top of the school." : id === "wing" ? "🎵 🇮🇹 ⚙️ 🏅 🐱 The specialist rooms, their gardens and Ms Shaw’s Front Office." : id === "adventure" ? "🛝 Coach Jordan, playground workouts and training sessions." : id === "nature" ? "🌳 Ranger Mel and all your resting creatures." : AREA[id] ? `${ZONE[id].icon} ${LEADERS[id].name}’s ${AREA[id].cls} (${AREA[id].year}).` : HS_HEADS[id] ? `${ZONE[id].icon} ${HS_HEADS[id].title}: ${HS_HEADS[id].name}.` : HS_RECTS[id] ? `${ZONE[id].icon} ${hsPlace(id)}.` : "";
+  const here = W && travelKey(regionAt(W.x, W.y)) === id, been = save.visited && save.visited[id];
+  showModal(`<div class="qcard center" role="dialog" aria-modal="true"><h2>${esc(name)}</h2><p>${info}</p>
+    ${here ? `<p class="hint">📍 You’re here right now.</p>` : been ? `<button class="btn" data-act="travelGo" data-arg="${id}">🛴 Scoot there</button>` : `<p class="hint">🛴 Walk there once and you can scoot back any time.</p>`}
+    <button class="btn ghost" data-act="close" style="margin-top:10px">Close</button></div>`);
+}
+function travelGo(id) {
+  closeModal(); document.querySelectorAll(".chapcard").forEach(x => x.remove());
+  if (!MAP.length) buildWorld();
+  const p = travelSpot(id); if (!p) return toast("Hmm, I can’t find a way there.");
+  const name = TRAVEL_NAMES()[id] || id;
+  const fx = document.createElement("div"); fx.className = "scootfx"; fx.innerHTML = `<div class="scoot" aria-hidden="true">🛴</div><b>Scooting to ${esc(name)}…</b>`;
+  document.body.appendChild(fx); jingle("item");
+  setTimeout(() => {
+    const [x, y] = p;
+    save.pos = { x, y, dir: "down", map: CUR_MAP };
+    if (W) { W.x = x; W.y = y; W.fx = x; W.fy = y; W.dir = "down"; W.moving = false; W.held = null; W.region = null; const by = walkable(x, y - 1) ? y - 1 : y; W.buddy.x = x; W.buddy.y = by; W.buddy.fx = x; W.buddy.fy = by; }
+    STORY_COOL = 3; persist(); showWorld();
+  }, reduced ? 200 : 900);
+  setTimeout(() => fx.remove(), reduced ? 500 : 1600);
+}
+
 /* ---------- creature art generator (viewBox 0 0 200 200) ---------- */
 const OL = "#1d1b3a";
 const CF = "'Baloo 2','Trebuchet MS',system-ui,sans-serif";
@@ -2021,6 +2301,24 @@ const SPECIES_LIST = [
   { id: "mewcab", name: "Mewcab", type: "vocab", arch: "pup", stage: 1, evo: "meowcabulary", rarity: 2, habitat: "cottage", desc: "Found in the Cat Garden. A kitten who collects big words in a tiny dictionary." },
   { id: "meowcabulary", name: "Meowcabulary", type: "vocab", arch: "pup", stage: 2, rarity: 3, habitat: "cottage", desc: "Found in the Cat Garden. It never says “good” when it can say “MAGNIFICENT!”" },
   { id: "goaliath", name: "Goaliath", type: "mega", arch: "pup", stage: 2, rarity: 5, desc: "The one and only MEGA LEGENDARY. A golden champion with a blazing mane that scores a goal with every perfect sentence. Only the School Champion can befriend it." },
+  { id: "highlightbug", name: "Highlightbug", type: "spelling", arch: "bird", stage: 1, evo: "highlightning", rarity: 2, hs: true, habitat: "hs", desc: "Found at Wordsworth High. It highlights the key words in every sentence." },
+  { id: "highlightning", name: "Highlightning", type: "spelling", arch: "bird", stage: 2, rarity: 3, hs: true, habitat: "hs", desc: "Found at Wordsworth High. It zaps spelling mistakes with bright yellow lightning." },
+  { id: "paragrub", name: "Paragrub", type: "vocab", arch: "blob", stage: 1, evo: "paragriffin", rarity: 2, hs: true, habitat: "hs", desc: "Found at Wordsworth High. A grub made of paragraphs. It eats long words for breakfast." },
+  { id: "paragriffin", name: "Paragriffin", type: "vocab", arch: "bird", stage: 2, rarity: 3, hs: true, habitat: "hs", desc: "Found at Wordsworth High. Its wings are pages, and it never uses the same word twice." },
+  { id: "atomite", name: "Atomite", type: "affixes", arch: "blob", stage: 1, evo: "atomammoth", rarity: 2, hs: true, habitat: "hs", desc: "Found at Wordsworth High. A tiny atom that loves science prefixes like bio- and micro-." },
+  { id: "atomammoth", name: "Atomammoth", type: "affixes", arch: "pup", stage: 2, rarity: 3, hs: true, habitat: "hs", desc: "Found at Wordsworth High. A woolly mammoth with an atom for a heart." },
+  { id: "spotlit", name: "Spotlit", type: "punctuation", arch: "pup", stage: 1, evo: "spotlion", rarity: 2, hs: true, habitat: "hs", desc: "Found at Wordsworth High. A lion cub who always stands in the spotlight." },
+  { id: "spotlion", name: "Spotlion", type: "punctuation", arch: "pup", stage: 2, rarity: 3, hs: true, habitat: "hs", desc: "Found at Wordsworth High. A star of the stage who never forgets its speech marks." },
+  { id: "scrollet", name: "Scrollet", type: "grammar", arch: "blob", stage: 1, evo: "scrollamander", rarity: 2, hs: true, habitat: "hs", desc: "Found at Wordsworth High. It writes everything down in the past tense." },
+  { id: "scrollamander", name: "Scrollamander", type: "grammar", arch: "dino", stage: 2, rarity: 3, hs: true, habitat: "hs", desc: "Found at Wordsworth High. It carries the whole history of English on its back." },
+  { id: "hellotl", name: "Hellotl", type: "homophones", arch: "blob", stage: 1, evo: "polyglotl", rarity: 2, hs: true, habitat: "hs", desc: "Found at Wordsworth High. An axolotl that says hello in five languages." },
+  { id: "polyglotl", name: "Polyglotl", type: "homophones", arch: "blob", stage: 2, rarity: 3, hs: true, habitat: "hs", desc: "Found at Wordsworth High. It knows that “their”, “there” and “they’re” sound the same in English, but nowhere else!" },
+  { id: "sneakeet", name: "Sneakeet", type: "wordclass", arch: "bird", stage: 1, evo: "marathawk", rarity: 2, hs: true, habitat: "hs", desc: "Found at Wordsworth High. A parakeet in running shoes. Run, jump, zoom!" },
+  { id: "marathawk", name: "Marathawk", type: "wordclass", arch: "bird", stage: 2, rarity: 3, hs: true, habitat: "hs", desc: "Found at Wordsworth High. It has run 42 marathons, and it knows every action verb." },
+  { id: "glitchling", name: "Glitchling", type: "muddle", arch: "blob", stage: 1, evo: "glitchaos", rarity: 2, hs: true, habitat: "hs", desc: "Found at Wordsworth High. A little glitch that changes “the” to “teh”." },
+  { id: "glitchaos", name: "Glitchaos", type: "muddle", arch: "blob", stage: 2, rarity: 3, hs: true, habitat: "hs", desc: "Found at Wordsworth High. A big glitch that “corrects” right words into wrong ones." },
+  { id: "autocorrex", name: "Autocorrex", type: "legend", arch: "blob", stage: 2, rarity: 4, hs: true, habitat: "hs", fLv: 60, desc: "The rebooted Autowrong. Now it only fixes words that are actually wrong. A legendary of Wordsworth High." },
+  { id: "alphabetaurus", name: "Alphabetaurus", type: "mega", arch: "dino", stage: 2, rarity: 5, hs: true, habitat: "hs", fLv: 70, desc: "The second MEGA LEGENDARY. A colossal dragon made of every letter from A to Z. Only true graduates can befriend it." },
   // ---- even more creatures ----
   { id: "syllapup", name: "Syllapup", type: "spelling", arch: "pup", stage: 1, evo: "syllaseal", rarity: 1, desc: "It claps out the syllables of every word it hears. Ba-na-na: three claps!" },
   { id: "syllaseal", name: "Syllaseal", type: "spelling", arch: "pup", stage: 2, rarity: 3, desc: "It balances a ball with three parts on its head: syl-la-ble." },
@@ -3645,6 +3943,254 @@ function mrPSVG() {
   </g></svg>`;
 }
 
+function mrHUltraSVG() {
+  const O = `stroke="${OL}" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"`;
+  return `<svg viewBox="0 0 200 200" class="sprite" aria-hidden="true"><defs><radialGradient id="hAura" cx=".5" cy=".55" r=".5"><stop offset="0" stop-color="#FFF6C2" stop-opacity=".9"/><stop offset=".6" stop-color="#7CF59A" stop-opacity=".45"/><stop offset="1" stop-color="#2EBF5A" stop-opacity="0"/></radialGradient></defs>
+  <ellipse cx="100" cy="110" rx="96" ry="92" fill="url(#hAura)"/>
+  <g class="tick" style="transform-origin:100px 104px" opacity=".85">${[["UN-", 0], ["-ABLE", 90], ["RE-", 180], ["-FUL", 270]].map(([t, a]) => { const r = a * Math.PI / 180, x = 100 + Math.cos(r) * 82, y = 104 + Math.sin(r) * 72; return `<g transform="translate(${x} ${y})"><rect x="-19" y="-10" width="38" height="20" rx="5" fill="#FFD447" stroke="${OL}" stroke-width="2.5"/><text y="5" text-anchor="middle" font-family="${CF}" font-weight="800" font-size="11" fill="${OL}">${t}</text></g>`; }).join("")}</g>
+  <path d="M34 60 L48 76 L40 78 L54 96" fill="none" stroke="#FFE066" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" class="shinesparks"/><path d="M166 58 L152 74 L160 76 L146 94" fill="none" stroke="#FFE066" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" class="shinesparks"/>
+  <g class="idle">
+    <path d="M44 188 Q50 136 100 120 Q150 136 156 188Z" fill="#2E6B3A" ${O}/>
+    <path d="M60 188 Q62 150 72 132 L100 150 L128 132 Q138 150 140 188Z" fill="#6B8E4E" ${O}/>
+    <path d="M100 150 V188" stroke="#FFD447" stroke-width="4"/><path d="M84 160 L100 170 L116 160" fill="none" stroke="#FFD447" stroke-width="4"/>
+    <path d="M58 140 Q36 128 34 104" fill="none" stroke="${OL}" stroke-width="22" stroke-linecap="round"/><path d="M58 140 Q36 128 34 104" fill="none" stroke="#6B8E4E" stroke-width="15" stroke-linecap="round"/><circle cx="34" cy="98" r="10" fill="#F1C27D" ${O}/>
+    <path d="M142 140 Q164 128 166 104" fill="none" stroke="${OL}" stroke-width="22" stroke-linecap="round"/><path d="M142 140 Q164 128 166 104" fill="none" stroke="#6B8E4E" stroke-width="15" stroke-linecap="round"/><circle cx="166" cy="98" r="10" fill="#F1C27D" ${O}/>
+    <circle cx="34" cy="92" r="14" fill="#7CF59A" opacity=".5"/><circle cx="166" cy="92" r="14" fill="#7CF59A" opacity=".5"/>
+    <circle cx="100" cy="88" r="32" fill="#F1C27D" ${O}/>
+    <path d="M70 70 L62 40 L80 54 L84 30 L96 50 L104 24 L112 50 L122 30 L124 54 L140 40 L130 70 Q116 58 100 60 Q84 58 70 70Z" fill="#FFE066" ${O}/>
+    <path d="M84 36 L92 50 M112 34 L108 50" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".8"/>
+    <ellipse cx="100" cy="68" rx="54" ry="9" fill="#8B5A2B" ${O}/><path d="M76 66 Q78 46 100 46 Q122 46 124 66Z" fill="#A9743F" ${O}/><path d="M78 60 H122" stroke="#FFD447" stroke-width="5"/>
+    <path d="M80 84 L94 88 M120 84 L106 88" stroke="${OL}" stroke-width="5" stroke-linecap="round"/>
+    <ellipse cx="88" cy="94" rx="6" ry="5" fill="#7CF59A" stroke="${OL}" stroke-width="2.5"/><ellipse cx="112" cy="94" rx="6" ry="5" fill="#7CF59A" stroke="${OL}" stroke-width="2.5"/>
+    <circle cx="88" cy="94" r="2" fill="#fff"/><circle cx="112" cy="94" r="2" fill="#fff"/>
+    <path d="M88 108 Q100 116 114 106" fill="#fff" stroke="${OL}" stroke-width="3" stroke-linejoin="round"/>
+  </g></svg>`;
+}
+function autowrongSVG() {
+  const O = `stroke="${OL}" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"`;
+  return `<svg viewBox="0 0 200 200" class="sprite" aria-hidden="true"><ellipse cx="100" cy="188" rx="50" ry="8" fill="rgba(0,0,0,.25)"/>
+  <g class="hover2">
+    <path d="M60 186 L66 132 H134 L140 186Z" fill="#3A3D52" ${O}/>
+    ${[0, 1, 2].map(r => [0, 1, 2, 3, 4].map(c => `<rect x="${72 + c * 12}" y="${142 + r * 12}" width="9" height="8" rx="2" fill="#B5BAC6" stroke="${OL}" stroke-width="1.5"/>`).join("")).join("")}
+    <path d="M66 140 Q40 128 36 100" fill="none" stroke="${OL}" stroke-width="14" stroke-linecap="round"/><path d="M66 140 Q40 128 36 100" fill="none" stroke="#8A8F9E" stroke-width="8" stroke-linecap="round"/>
+    <path d="M30 80 L30 108 L38 100 L44 112 L50 110 L44 98 L54 98Z" fill="#fff" ${O}/>
+    <path d="M134 140 Q160 128 164 104" fill="none" stroke="${OL}" stroke-width="14" stroke-linecap="round"/><path d="M134 140 Q160 128 164 104" fill="none" stroke="#8A8F9E" stroke-width="8" stroke-linecap="round"/>
+    <g transform="translate(166 92) rotate(20)"><rect x="-8" y="-20" width="16" height="30" rx="3" fill="#E63946" ${O}/><rect x="-8" y="8" width="16" height="8" fill="#FF8FA3" ${O}/></g>
+    <rect x="50" y="40" width="100" height="84" rx="12" fill="#3A3D52" ${O}/>
+    <rect x="60" y="50" width="80" height="60" rx="6" fill="#0E1F2E" stroke="${OL}" stroke-width="3"/>
+    <path d="M70 70 L84 78 L70 86 M130 70 L116 78 L130 86" fill="none" stroke="#FF4F4F" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M72 98 q5 -6 10 0 t10 0 t10 0 t10 0 t10 0 t10 0" fill="none" stroke="#FF4F4F" stroke-width="3.5" stroke-linecap="round"/>
+    <rect x="88" y="124" width="24" height="10" fill="#8A8F9E" ${O}/>
+    <path d="M100 40 V22" stroke="${OL}" stroke-width="4"/><circle cx="100" cy="18" r="7" fill="#FF4F4F" ${O} class="blink"/>
+    <text x="100" y="118" text-anchor="middle" font-family="${CF}" font-weight="800" font-size="8" fill="#7FE0D4" opacity=".8">AUTOWRONG 2.0</text>
+  </g></svg>`;
+}
+Object.assign(HAND, {
+  highlightbug: () => `${hs(36)}<g class="hop">
+    <path d="M84 168 l-8 12 M100 170 v12 M116 168 l8 12" stroke="${OL}" stroke-width="4" stroke-linecap="round"/>
+    <ellipse cx="100" cy="140" rx="34" ry="30" fill="#FFE600" ${HO}/><path d="M100 112 V168" stroke="${OL}" stroke-width="3"/>
+    <ellipse cx="84" cy="136" rx="6" ry="4" fill="#FFF7A8"/><ellipse cx="116" cy="146" rx="6" ry="4" fill="#FFF7A8"/>
+    <rect x="80" y="84" width="40" height="30" rx="8" fill="#3A3D52" ${HO}/><path d="M80 98 H120" stroke="#FFE600" stroke-width="4"/>
+    <path d="M86 84 L94 64 L106 64 L114 84Z" fill="#FFE600" ${HO}/>
+    ${eyes2(90, 110, 100, 6)}
+    <path d="M30 60 H70" stroke="#FFE600" stroke-width="12" stroke-linecap="round" opacity=".7"/><path d="M130 52 H170" stroke="#FFE600" stroke-width="12" stroke-linecap="round" opacity=".7"/>
+    <text x="50" y="64" text-anchor="middle" font-family="${CF}" font-weight="800" font-size="12" fill="${OL}">key</text><text x="150" y="56" text-anchor="middle" font-family="${CF}" font-weight="800" font-size="12" fill="${OL}">word</text>
+  </g>`,
+  highlightning: () => `${hs(58)}<g class="idle">
+    <g class="flapAL" style="transform-origin:78px 112px"><path d="M78 112 Q30 70 20 110 Q30 140 78 128Z" fill="#B9F2FF" opacity=".85" ${HO}/></g>
+    <g class="flapAR" style="transform-origin:122px 112px"><path d="M122 112 Q170 70 180 110 Q170 140 122 128Z" fill="#B9F2FF" opacity=".85" ${HO}/></g>
+    <path d="M78 176 l-10 10 M100 180 v10 M122 176 l10 10" stroke="${OL}" stroke-width="5" stroke-linecap="round"/>
+    <ellipse cx="100" cy="140" rx="42" ry="40" fill="#FFE600" ${HO}/>
+    <path d="M106 108 L90 140 H106 L94 172 L124 130 H108 L118 108Z" fill="#FF7A3A" ${HO}/>
+    <rect x="72" y="68" width="56" height="38" rx="10" fill="#3A3D52" ${HO}/><path d="M72 86 H128" stroke="#FFE600" stroke-width="5"/>
+    <path d="M78 68 L90 40 L110 40 L122 68Z" fill="#FFE600" ${HO}/><path d="M90 40 L100 20 L110 40" fill="#FF7A3A" ${HO}/>
+    ${eyes2(88, 112, 84, 8, true)}
+    <path d="M24 46 L36 58 L30 60 L40 72" fill="none" stroke="#FFE600" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path d="M176 40 L164 52 L170 54 L160 66" fill="none" stroke="#FFE600" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>`,
+  paragrub: () => `${hs(42)}<g class="idle">
+    ${[0, 1, 2, 3].map(i => `<ellipse cx="${62 + i * 22}" cy="${160 - Math.sin(i) * 4}" rx="16" ry="18" fill="${i % 2 ? "#FFF3D6" : "#FFE3A8"}" ${HO}/><path d="M${54 + i * 22} ${154} h16 M${54 + i * 22} ${160} h14 M${54 + i * 22} ${166} h16" stroke="#9C7B5A" stroke-width="2"/>`).join("")}
+    <circle cx="148" cy="140" r="26" fill="#FFF3D6" ${HO}/>
+    ${eyes2(140, 158, 136, 6)}${smile(149, 150, 5)}
+    <text x="148" y="108" text-anchor="middle" font-family="${CF}" font-weight="800" font-size="22" fill="#7E4BBD">¶</text>
+    <path d="M140 116 q-4 -10 4 -14 M156 116 q4 -10 -4 -14" fill="none" stroke="${OL}" stroke-width="3" stroke-linecap="round"/>
+  </g>`,
+  paragriffin: () => `${hs(62)}<g class="idle">
+    <g class="flapBL" style="transform-origin:74px 104px">${[0, 1, 2, 3].map(i => `<rect x="${18 + i * 6}" y="${56 + i * 16}" width="58" height="14" rx="3" fill="#FFF3D6" ${HO} transform="rotate(${-20 + i * 8} 74 104)"/><path d="M${24 + i * 6} ${63 + i * 16} h40" stroke="#9C7B5A" stroke-width="2" transform="rotate(${-20 + i * 8} 74 104)"/>`).join("")}</g>
+    <g class="flapBR" style="transform-origin:126px 104px">${[0, 1, 2, 3].map(i => `<rect x="${124 - i * 6}" y="${56 + i * 16}" width="58" height="14" rx="3" fill="#FFF3D6" ${HO} transform="rotate(${20 - i * 8} 126 104)"/><path d="M${136 - i * 6} ${63 + i * 16} h40" stroke="#9C7B5A" stroke-width="2" transform="rotate(${20 - i * 8} 126 104)"/>`).join("")}</g>
+    <ellipse cx="78" cy="184" rx="14" ry="7" fill="#C9962B" ${HO}/><ellipse cx="122" cy="184" rx="14" ry="7" fill="#C9962B" ${HO}/>
+    <path d="M60 180 Q54 120 100 110 Q146 120 140 180Z" fill="#E9B43B" ${HO}/><path d="M80 180 Q80 140 100 134 Q120 140 120 180Z" fill="#FFF3D6"/>
+    <circle cx="100" cy="76" r="30" fill="#7E4BBD" ${HO}/>
+    <path d="M80 50 L72 26 L92 44Z M120 50 L128 26 L108 44Z" fill="#7E4BBD" ${HO}/>
+    <path d="M100 84 L84 96 L100 104 L116 96Z" fill="#FFB020" ${HO}/>
+    ${eyes2(86, 114, 72, 8, true)}
+    <text x="100" y="160" text-anchor="middle" font-family="${CF}" font-weight="800" font-size="26" fill="#7E4BBD">¶</text>
+  </g>`,
+  atomite: () => `${hs(36)}<g class="hover2">
+    ${[0, 60, 120].map(a => `<ellipse cx="100" cy="120" rx="62" ry="20" fill="none" stroke="#7FE0D4" stroke-width="4" transform="rotate(${a} 100 120)"/>`).join("")}
+    <g class="orbit o1">${[[162, 120], [69, 66], [69, 174]].map(([x, y]) => `<circle cx="${x}" cy="${y}" r="7" fill="#FF7A3A" stroke="${OL}" stroke-width="2.5"/>`).join("")}</g>
+    <circle cx="100" cy="120" r="28" fill="#5B8FF0" ${HO}/>
+    ${eyes2(90, 110, 116, 6)}${smile(100, 128, 5)}
+    ${signBoard(100, 40, 48, "bio-", "#fff", 12)}
+  </g>`,
+  atomammoth: () => `${hs(66)}<g class="idle">
+    <path d="M54 186 V150 M74 188 V152 M126 188 V152 M146 186 V150" stroke="${OL}" stroke-width="18" stroke-linecap="round"/><path d="M54 186 V150 M74 188 V152 M126 188 V152 M146 186 V150" stroke="#6E7FB8" stroke-width="12" stroke-linecap="round"/>
+    <ellipse cx="100" cy="130" rx="62" ry="40" fill="#6E7FB8" ${HO}/>
+    ${[0, 60, 120].map(a => `<ellipse cx="100" cy="130" rx="40" ry="12" fill="none" stroke="#7FE0D4" stroke-width="3" transform="rotate(${a} 100 130)"/>`).join("")}<circle cx="100" cy="130" r="10" fill="#FF7A3A" stroke="${OL}" stroke-width="2.5"/>
+    <circle cx="58" cy="94" r="30" fill="#6E7FB8" ${HO}/>
+    <ellipse cx="80" cy="84" rx="16" ry="24" fill="#8FA0D8" ${HO}/>
+    <path d="M40 106 Q24 130 34 160 Q40 168 44 158 Q38 132 52 112Z" fill="#6E7FB8" ${HO}/>
+    <path d="M46 112 Q30 128 22 112 Q16 100 24 96" fill="none" stroke="${OL}" stroke-width="9" stroke-linecap="round"/><path d="M46 112 Q30 128 22 112 Q16 100 24 96" fill="none" stroke="#FFF8E8" stroke-width="5" stroke-linecap="round"/>
+    ${cEye(54, 88, 7, true)}
+    <path d="M150 112 q20 4 22 24" fill="none" stroke="${OL}" stroke-width="5" stroke-linecap="round"/>
+    <rect x="84" y="64" width="64" height="14" rx="7" fill="#FFD447" ${HO}/><circle cx="104" cy="71" r="7" fill="#BDE8FF" stroke="${OL}" stroke-width="2"/><circle cx="128" cy="71" r="7" fill="#BDE8FF" stroke="${OL}" stroke-width="2"/>
+  </g>`,
+  spotlit: () => `${hs(38)}<g class="hop">
+    <path d="M70 20 L130 20 L150 150 L50 150Z" fill="#FFF6C2" opacity=".45"/>
+    <ellipse cx="86" cy="180" rx="10" ry="6" fill="#E0A86A" ${HO}/><ellipse cx="114" cy="180" rx="10" ry="6" fill="#E0A86A" ${HO}/>
+    <ellipse cx="100" cy="150" rx="28" ry="26" fill="#F2C27A" ${HO}/>
+    ${fluff(100, 116, 34, 12, "#E07A3A")}
+    <circle cx="100" cy="116" r="26" fill="#F2C27A" ${HO}/>
+    ${eyes2(90, 110, 112, 7)}<ellipse cx="100" cy="124" rx="5" ry="3.5" fill="${OL}"/>${smile(100, 130, 5)}
+    <g transform="translate(140 132)">${bubble(0, 0, 40, "“Hi!”")}</g>
+  </g>`,
+  spotlion: () => `${hs(64)}<g class="idle">
+    <path d="M60 0 L140 0 L180 190 L20 190Z" fill="#FFF6C2" opacity=".35"/>
+    <path d="M146 162 Q186 156 180 120" fill="none" stroke="${OL}" stroke-width="10" stroke-linecap="round"/><path d="M146 162 Q186 156 180 120" fill="none" stroke="#F2C27A" stroke-width="5" stroke-linecap="round"/><circle cx="180" cy="116" r="8" fill="#E07A3A" ${HO}/>
+    <ellipse cx="76" cy="184" rx="15" ry="7" fill="#E0A86A" ${HO}/><ellipse cx="124" cy="184" rx="15" ry="7" fill="#E0A86A" ${HO}/>
+    <path d="M58 182 Q52 120 100 112 Q148 120 142 182Z" fill="#F2C27A" ${HO}/>
+    ${fluff(100, 82, 50, 16, "#E07A3A")}
+    <circle cx="100" cy="82" r="34" fill="#F2C27A" ${HO}/>
+    ${eyes2(86, 114, 78, 8, true)}<ellipse cx="100" cy="94" rx="7" ry="5" fill="${OL}"/>${grin(100, 102, 8)}
+    <g transform="translate(58 140) rotate(-20)"><text x="0" y="0" text-anchor="middle" font-family="${CF}" font-weight="800" font-size="40" fill="#fff" stroke="${OL}" stroke-width="3" paint-order="stroke">“</text></g>
+    <g transform="translate(142 140) rotate(20)"><text x="0" y="0" text-anchor="middle" font-family="${CF}" font-weight="800" font-size="40" fill="#fff" stroke="${OL}" stroke-width="3" paint-order="stroke">”</text></g>
+    <path d="M76 52 L84 60 L94 46 L100 58 L106 46 L116 60 L124 52 L122 66 H78Z" fill="#FFD447" ${HO}/>
+  </g>`
+});
+
+Object.assign(HAND, {
+  scrollet: () => `${hs(40)}<g class="idle">
+    <path d="M60 150 Q50 176 70 182 Q90 186 96 170" fill="none" stroke="${OL}" stroke-width="10" stroke-linecap="round"/><path d="M60 150 Q50 176 70 182 Q90 186 96 170" fill="none" stroke="#E07A3A" stroke-width="5" stroke-linecap="round"/>
+    <rect x="70" y="100" width="60" height="70" rx="6" fill="#FFF3D6" ${HO}/>
+    <path d="M80 140 h40 M80 150 h34 M80 160 h38" stroke="#9C7B5A" stroke-width="2.5"/>
+    <rect x="62" y="92" width="76" height="14" rx="7" fill="#C9962B" ${HO}/><rect x="62" y="164" width="76" height="14" rx="7" fill="#C9962B" ${HO}/>
+    ${eyes2(88, 112, 120, 7)}${smile(100, 132, 4)}
+    <ellipse cx="100" cy="88" rx="18" ry="10" fill="#E07A3A" ${HO}/>${cEye(92, 84, 3)}${cEye(108, 84, 3)}
+  </g>`,
+  scrollamander: () => `${hs(62)}<g class="idle">
+    <path d="M146 160 Q188 160 186 124 Q178 142 160 146" fill="#E07A3A" ${HO}/>
+    <path d="M150 140 L176 112 L184 132Z" fill="#FFE066" ${HO}/><path d="M162 132 Q172 118 170 104 Q180 114 176 130Z" fill="#FF7A3A"/>
+    <ellipse cx="68" cy="182" rx="14" ry="7" fill="#C2552A" ${HO}/><ellipse cx="132" cy="182" rx="14" ry="7" fill="#C2552A" ${HO}/>
+    <ellipse cx="100" cy="146" rx="56" ry="34" fill="#E07A3A" ${HO}/>
+    <rect x="66" y="126" width="68" height="36" rx="4" fill="#FFF3D6" ${HO}/><path d="M74 136 h52 M74 144 h44 M74 152 h48" stroke="#9C7B5A" stroke-width="2.5"/>
+    <rect x="60" y="120" width="80" height="10" rx="5" fill="#C9962B" ${HO}/>
+    <ellipse cx="100" cy="88" rx="38" ry="28" fill="#E07A3A" ${HO}/>
+    <path d="M70 70 L62 50 L80 62Z M130 70 L138 50 L120 62Z" fill="#FFE066" ${HO}/>
+    ${eyes2(86, 114, 84, 8, true)}${smile(100, 100, 7)}
+    ${signBoard(100, 30, 70, "was → is", "#fff", 11)}
+  </g>`,
+  hellotl: () => `${hs(40)}<g class="hop">
+    <path d="M128 160 Q160 166 164 140" fill="none" stroke="${OL}" stroke-width="12" stroke-linecap="round"/><path d="M128 160 Q160 166 164 140" fill="none" stroke="#FFB3D9" stroke-width="7" stroke-linecap="round"/>
+    <ellipse cx="100" cy="152" rx="32" ry="24" fill="#FFB3D9" ${HO}/>
+    ${[-1, 1].map(d => [0, 1, 2].map(i => `<path d="M${100 + d * 30} ${108 + i * 10} q${d * 18} ${-6 + i * 2} ${d * 24} ${-12 + i * 6}" fill="none" stroke="#FF4F97" stroke-width="5" stroke-linecap="round"/>`).join("")).join("")}
+    <ellipse cx="100" cy="116" rx="32" ry="26" fill="#FFB3D9" ${HO}/>
+    ${eyes2(88, 112, 112, 6)}<path d="M88 126 Q100 134 112 126" fill="none" stroke="${OL}" stroke-width="3" stroke-linecap="round"/>
+    ${bubble(48, 64, 44, "hola!")}${bubble(152, 58, 44, "ciao!")}
+  </g>`,
+  polyglotl: () => `${hs(62)}<g class="idle">
+    <path d="M140 160 Q186 166 186 128" fill="none" stroke="${OL}" stroke-width="16" stroke-linecap="round"/><path d="M140 160 Q186 166 186 128" fill="none" stroke="#C07AFF" stroke-width="10" stroke-linecap="round"/>
+    <ellipse cx="72" cy="184" rx="16" ry="7" fill="#9B5DE5" ${HO}/><ellipse cx="128" cy="184" rx="16" ry="7" fill="#9B5DE5" ${HO}/>
+    <ellipse cx="100" cy="150" rx="50" ry="34" fill="#C07AFF" ${HO}/>
+    ${[-1, 1].map(d => [0, 1, 2].map(i => `<path d="M${100 + d * 40} ${76 + i * 14} q${d * 26} ${-8 + i * 3} ${d * 36} ${-18 + i * 8}" fill="none" stroke="${["#E63946", "#FFD447", "#3E9B4E"][i]}" stroke-width="7" stroke-linecap="round"/>`).join("")).join("")}
+    <ellipse cx="100" cy="92" rx="44" ry="34" fill="#C07AFF" ${HO}/>
+    ${eyes2(84, 116, 88, 8)}<path d="M84 106 Q100 116 116 106" fill="none" stroke="${OL}" stroke-width="3.5" stroke-linecap="round"/>
+    <g transform="translate(100 150)"><circle r="16" fill="#5B8FF0" ${HO}/><path d="M-16 0 H16 M0 -16 Q10 0 0 16 Q-10 0 0 -16" fill="none" stroke="#fff" stroke-width="2"/></g>
+    ${["bonjour", "hallo", "konnichiwa"].map((w, i) => `<text x="${[34, 166, 100][i]}" y="${[40, 36, 22][i]}" text-anchor="middle" font-family="${CF}" font-weight="800" font-size="11" fill="#7E4BBD" stroke="#fff" stroke-width="3" paint-order="stroke">${w}</text>`).join("")}
+  </g>`,
+  sneakeet: () => `${hs(38)}<g class="hop">
+    <path d="M60 172 Q56 156 74 154 H118 Q130 156 128 172Z" fill="#fff" ${HO}/><path d="M66 164 H120" stroke="#E63946" stroke-width="4"/><path d="M84 154 l4 8 M96 154 l4 8" stroke="${OL}" stroke-width="2"/>
+    <path d="M58 172 H130" stroke="${OL}" stroke-width="5" stroke-linecap="round"/>
+    <circle cx="100" cy="124" r="28" fill="#4CC9F0" ${HO}/><path d="M76 126 Q72 108 86 104" fill="#3AA6C9"/>
+    <path d="M90 92 L96 76 L104 92Z" fill="#FFD447" ${HO}/>
+    ${eyes2(90, 110, 120, 6)}<path d="M96 132 L104 132 L100 140Z" fill="#FFB020" stroke="${OL}" stroke-width="2.5" stroke-linejoin="round"/>
+    <path d="M40 120 h16 M36 130 h18 M42 140 h12" stroke="#B5BAC6" stroke-width="3" stroke-linecap="round"/>
+  </g>`,
+  marathawk: () => `${hs(60)}<g class="idle">
+    <g class="flapBL" style="transform-origin:76px 108px"><path d="M78 104 Q30 70 10 96 Q34 98 22 116 Q46 112 42 132 Q62 120 80 126Z" fill="#2B7FB8" ${HO}/></g>
+    <g class="flapBR" style="transform-origin:124px 108px"><path d="M122 104 Q170 70 190 96 Q166 98 178 116 Q154 112 158 132 Q138 120 120 126Z" fill="#2B7FB8" ${HO}/></g>
+    <g transform="translate(78 172)"><path d="M-18 4 Q-20 -10 -4 -10 H14 Q22 -8 20 4Z" fill="#fff" ${HO}/><path d="M-14 -2 H16" stroke="#E63946" stroke-width="3"/></g>
+    <g transform="translate(122 172)"><path d="M-18 4 Q-20 -10 -4 -10 H14 Q22 -8 20 4Z" fill="#fff" ${HO}/><path d="M-14 -2 H16" stroke="#E63946" stroke-width="3"/></g>
+    <ellipse cx="100" cy="128" rx="34" ry="40" fill="#4CC9F0" ${HO}/><ellipse cx="100" cy="138" rx="20" ry="26" fill="#E3F6FF"/>
+    <rect x="84" y="128" width="32" height="20" rx="3" fill="#fff" ${HO}/><text x="100" y="143" text-anchor="middle" font-family="${CF}" font-weight="800" font-size="13" fill="#E63946">42</text>
+    <circle cx="100" cy="76" r="28" fill="#4CC9F0" ${HO}/>
+    <rect x="72" y="62" width="56" height="10" rx="5" fill="#E63946" ${HO}/>
+    <path d="M100 82 L120 90 L100 96Z" fill="#FFB020" ${HO}/>
+    ${eyes2(88, 106, 76, 7, true)}
+  </g>`,
+  glitchling: () => `${hs(38)}<g class="idle">
+    <g opacity=".5"><rect x="64" y="96" width="70" height="70" rx="10" fill="#FF4F97" transform="translate(-4 2)"/><rect x="64" y="96" width="70" height="70" rx="10" fill="#2EE6D6" transform="translate(4 -2)"/></g>
+    <rect x="64" y="96" width="70" height="70" rx="10" fill="#3A1F5C" ${HO}/>
+    ${[[70, 106, 18], [96, 120, 30], [74, 148, 22], [110, 154, 18]].map(([x, y, w]) => `<rect x="${x}" y="${y}" width="${w}" height="5" fill="#2EE6D6" opacity=".8"/>`).join("")}
+    <rect x="80" y="118" width="12" height="12" fill="#FF4F4F"/><rect x="106" y="118" width="12" height="12" fill="#FF4F4F"/>
+    <path d="M84 146 h8 v-4 h8 v4 h8 v-4 h8" fill="none" stroke="#fff" stroke-width="3"/>
+    <rect x="86" y="166" width="10" height="14" fill="#3A1F5C" ${HO}/><rect x="104" y="166" width="10" height="14" fill="#3A1F5C" ${HO}/>
+    <text x="100" y="80" text-anchor="middle" font-family="${CF}" font-weight="800" font-size="13" fill="#FF4F4F">teh!</text>
+  </g>`,
+  glitchaos: () => `${hs(64)}<g class="idle">
+    <g opacity=".45"><path d="M46 186 L56 70 L100 40 L144 70 L154 186Z" fill="#FF4F97" transform="translate(-6 0)"/><path d="M46 186 L56 70 L100 40 L144 70 L154 186Z" fill="#2EE6D6" transform="translate(6 0)"/></g>
+    <path d="M46 186 L56 70 L100 40 L144 70 L154 186Z" fill="#2A1640" ${HO}/>
+    ${Array.from({ length: 9 }, (_, i) => `<rect x="${52 + (i * 37) % 90}" y="${62 + i * 13}" width="${16 + (i * 11) % 30}" height="5" fill="${i % 2 ? "#2EE6D6" : "#FF4F97"}" opacity=".85"/>`).join("")}
+    <path d="M70 92 L88 102 L70 110 M130 92 L112 102 L130 110" fill="none" stroke="#FF4F4F" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M72 132 q7 -8 14 0 t14 0 t14 0 t14 0" fill="none" stroke="#FF4F4F" stroke-width="4" stroke-linecap="round"/>
+    <path d="M56 70 L38 40 L66 58 M144 70 L162 40 L134 58" fill="#2A1640" stroke="${OL}" stroke-width="4" stroke-linejoin="round"/>
+    ${[["recieve", 30, 30], ["definately", 168, 26], ["seperate", 176, 150]].map(([w, x, y]) => `<text x="${x}" y="${y}" text-anchor="middle" font-family="${CF}" font-weight="800" font-size="11" fill="#FF4F4F" stroke="#fff" stroke-width="3" paint-order="stroke">${w}</text>`).join("")}
+  </g>`,
+  autocorrex: () => `${hs(66)}<g class="hover2">
+    <circle cx="100" cy="104" r="88" fill="#7FE0D4" opacity=".18"/>
+    <path d="M136 150 Q180 160 186 126" fill="none" stroke="${OL}" stroke-width="14" stroke-linecap="round"/><path d="M136 150 Q180 160 186 126" fill="none" stroke="#B5BAC6" stroke-width="8" stroke-linecap="round"/>
+    <path d="M178 116 L186 126 L196 106" fill="none" stroke="#3FD16A" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="62" y="166" width="26" height="20" rx="4" fill="#8A8F9E" ${HO}/><rect x="112" y="166" width="26" height="20" rx="4" fill="#8A8F9E" ${HO}/>
+    <path d="M56 172 Q50 112 100 104 Q150 112 144 172Z" fill="#E9ECF5" ${HO}/>
+    <rect x="76" y="124" width="48" height="34" rx="6" fill="#0E1F2E" stroke="${OL}" stroke-width="3"/><path d="M86 140 L96 150 L116 130" fill="none" stroke="#3FD16A" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M58 128 Q34 120 30 96" fill="none" stroke="${OL}" stroke-width="12" stroke-linecap="round"/><path d="M58 128 Q34 120 30 96" fill="none" stroke="#B5BAC6" stroke-width="6" stroke-linecap="round"/>
+    <path d="M22 70 L22 98 L30 90 L36 102 L42 100 L36 88 L46 88Z" fill="#fff" stroke="${OL}" stroke-width="3" stroke-linejoin="round"/>
+    <rect x="56" y="30" width="88" height="70" rx="16" fill="#E9ECF5" ${HO}/>
+    <rect x="66" y="40" width="68" height="48" rx="8" fill="#0E1F2E" stroke="${OL}" stroke-width="3"/>
+    <circle cx="86" cy="62" r="9" fill="#7FE0D4"/><circle cx="114" cy="62" r="9" fill="#7FE0D4"/><circle cx="88" cy="60" r="3" fill="#fff"/><circle cx="116" cy="60" r="3" fill="#fff"/>
+    <path d="M88 78 Q100 86 112 78" fill="none" stroke="#7FE0D4" stroke-width="3.5" stroke-linecap="round"/>
+    <path d="M100 30 V16" stroke="${OL}" stroke-width="4"/><circle cx="100" cy="12" r="7" fill="#3FD16A" ${HO}/>
+    <path d="M56 50 L40 40 L46 60Z M144 50 L160 40 L154 60Z" fill="#7FE0D4" ${HO}/>
+  </g>`,
+  alphabetaurus: () => `<defs>
+      <radialGradient id="aAura" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#E3D4FF" stop-opacity=".95"/><stop offset=".55" stop-color="#7FB0FF" stop-opacity=".45"/><stop offset="1" stop-color="#3E5BA8" stop-opacity="0"/></radialGradient>
+      <linearGradient id="aScale" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6FA0FF"/><stop offset="1" stop-color="#3E3BB8"/></linearGradient>
+      <linearGradient id="aWing" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset=".5" stop-color="#C9B6FF"/><stop offset="1" stop-color="#7E4BBD"/></linearGradient>
+    </defs>
+    <circle cx="100" cy="98" r="96" fill="url(#aAura)"/>
+    <g class="tick" style="transform-origin:100px 98px" opacity=".85" font-family="${CF}" font-weight="800" font-size="13">${"ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").map((c, i) => { const a = i / 26 * Math.PI * 2; return `<text x="${(100 + Math.cos(a) * 90).toFixed(1)}" y="${(102 + Math.sin(a) * 90).toFixed(1)}" text-anchor="middle" fill="#fff" stroke="#3E3BB8" stroke-width="2.5" paint-order="stroke">${c}</text>`; }).join("")}</g>
+    <ellipse cx="100" cy="190" rx="66" ry="7" fill="rgba(0,0,0,.25)"/>
+    <g class="hover2">
+    <g class="flapBL" style="transform-origin:72px 100px">${[[-82, 40], [-92, 74], [-84, 108]].map(([dx, y], i) => `<path d="M76 ${96 + i * 8} Q${60 + dx * .3} ${y - 16} ${100 + dx} ${y} Q${92 + dx * .9} ${y + 18} ${100 + dx * .6} ${y + 24} Q${84 + dx * .3} ${y + 18} 72 ${112 + i * 8}Z" fill="url(#aWing)" ${HO}/>`).join("")}</g>
+    <g class="flapBR" style="transform-origin:128px 100px">${[[82, 40], [92, 74], [84, 108]].map(([dx, y], i) => `<path d="M124 ${96 + i * 8} Q${140 + dx * .3} ${y - 16} ${100 + dx} ${y} Q${108 + dx * .9} ${y + 18} ${100 + dx * .6} ${y + 24} Q${116 + dx * .3} ${y + 18} 128 ${112 + i * 8}Z" fill="url(#aWing)" ${HO}/>`).join("")}</g>
+    <path d="M132 160 Q182 170 188 132 Q192 118 182 112 Q182 140 150 150Z" fill="url(#aScale)" ${HO}/>
+    <ellipse cx="74" cy="184" rx="18" ry="8" fill="#3E3BB8" ${HO}/><ellipse cx="126" cy="184" rx="18" ry="8" fill="#3E3BB8" ${HO}/>
+    <path d="M56 182 Q48 112 100 104 Q152 112 144 182Z" fill="url(#aScale)" ${HO}/>
+    <path d="M78 182 Q78 136 100 130 Q122 136 122 182Z" fill="#FFF3C4" ${HO}/>
+    ${["A", "B", "C", "D", "E"].map((c, i) => `<text x="100" y="${148 + i * 8}" text-anchor="middle" font-family="${CF}" font-weight="800" font-size="8" fill="#C9962B">${c}</text>`).join("")}
+    ${[[66, 130, "Q"], [134, 128, "Z"], [62, 158, "M"], [138, 156, "W"]].map(([x, y, c]) => `<text x="${x}" y="${y}" text-anchor="middle" font-family="${CF}" font-weight="800" font-size="14" fill="#E3D4FF" opacity=".9">${c}</text>`).join("")}
+    <path d="M72 108 L66 92 M128 108 L134 92" stroke="${OL}" stroke-width="3"/>
+    <path d="M60 82 Q58 46 100 44 Q142 46 140 82 Q142 108 120 112 L80 112 Q58 108 60 82Z" fill="url(#aScale)" ${HO}/>
+    <path d="M70 52 L58 26 L82 44Z M130 52 L142 26 L118 44Z" fill="#FFD447" ${HO}/>
+    <ellipse cx="100" cy="98" rx="24" ry="12" fill="#6FA0FF" ${HO}/><circle cx="92" cy="96" r="2.5" fill="${OL}"/><circle cx="108" cy="96" r="2.5" fill="${OL}"/>
+    <path d="M78 74 L92 80 M122 74 L108 80" stroke="${OL}" stroke-width="5" stroke-linecap="round"/>
+    <ellipse cx="86" cy="84" rx="7" ry="7.5" fill="#FFE066" stroke="${OL}" stroke-width="2.5"/><ellipse cx="114" cy="84" rx="7" ry="7.5" fill="#FFE066" stroke="${OL}" stroke-width="2.5"/>
+    <ellipse cx="87" cy="85" rx="2.4" ry="5" fill="${OL}"/><ellipse cx="115" cy="85" rx="2.4" ry="5" fill="${OL}"/>
+    <path d="M90 106 Q100 112 110 106" fill="none" stroke="${OL}" stroke-width="3" stroke-linecap="round"/>
+    <path d="M62 42 L100 26 L138 42 L100 56Z" fill="#1d1b3a" ${HO}/><path d="M78 46 V56 Q100 64 122 56 V46" fill="#1d1b3a" ${HO}/>
+    <path d="M100 41 L134 48 V64" fill="none" stroke="#FFD447" stroke-width="3"/><circle cx="134" cy="68" r="5" fill="#FFD447" ${HO}/>
+    </g>
+    <g class="shinesparks" fill="#FFFFFF">${[[20, 30], [180, 26], [186, 150], [14, 140]].map(([x, y]) => `<path d="M${x} ${y - 8} l2.6 5.4 5.4 2.6 -5.4 2.6 -2.6 5.4 -2.6 -5.4 -5.4 -2.6 5.4 -2.6z"/>`).join("")}</g>`
+});
+
 /* ---------- people, badges and eggs ---------- */
 function professorSVG() {
   return `<svg viewBox="0 0 200 200" class="sprite" aria-hidden="true"><ellipse cx="100" cy="188" rx="46" ry="8" fill="rgba(0,0,0,.22)"/>
@@ -3966,10 +4512,11 @@ function introStory(done) {
     "First, every explorer needs a buddy. Choose one!"], "prof", () => { save.story.intro = true; persist(); done(); });
 }
 function nextGoalText() {
+  if (CUR_MAP === "high") return hsGoalText();
   const sc = typeof currentChapter === "function" && currentChapter();
   if (sc) return `📖 ${fillStory(sc.quest, sc)}`;
   const r = route(), open = unlockedZones();
-  if (allBadges()) return save.story.champion ? (save.mythic && save.mythic.sports ? "You’re the School Champion! Keep filling your Word Book." : "🏅 You’re the School Champion! Mr P is waiting for you in the Sports Shed in the Specialist Wing.") : "You have every badge! Principal Mr Mac is waiting in his office.";
+  if (allBadges()) return save.story.champion ? (save.mythic && save.mythic.sports ? (hsReady() ? (save.hs ? "🚌 Catch the bus at the School Gate to visit Wordsworth High." : "🚌 You’re ready for high school! Catch the bus at the School Gate.") : "🌟 Befriend every legendary creature, then catch the bus at the School Gate to Wordsworth High!") : "🏅 You’re the School Champion! Mr P is waiting for you in the Sports Shed in the Specialist Wing.") : "You have every badge! Principal Mr Mac is waiting in his office.";
   const z = open.find(t => !save.badges[t]) || r.find(t => !save.badges[t]);
   if (!z) return "Explore and fill your Word Book!";
   return gymReady(z) ? `Challenge ${LEADERS[z].name} at the ${AREA[z].cls} gym in ${ZONE[z].name}!` : `Explore ${ZONE[z].name}: make friends with creatures and answer questions there.`;
@@ -4332,6 +4879,7 @@ function endBattle(won) {
     if (won && BT.mine.some(f => f.hp <= 0)) setTimeout(() => toast("😴 Some of your creatures are tired. Visit Ms Shaw to heal them!"), 1500);
   }
   if (m === "spar") return sparEnd(won);
+  if (m === "hsgym") return won ? winHS() : loseHS();
   if (m === "mythic") return won ? winMythic() : loseMythic();
   if (m === "gym" || m === "champion") return won ? winGym() : loseGym();
   if (m === "trainer") return won ? winTrainer() : loseTrainer();
@@ -4431,7 +4979,7 @@ function trainerSpot(n) {
 function trainerChallenge(n, rematch) {
   dialogue(rematch ? ["A practice battle? You’re on!"] : [n.intro], trainerWho(n), () => startBattle({
     mode: "trainer", z: n.area, trainer: n, rematch: !!rematch, mine: myFighters(party()), foes: n.team.map(([id, lv]) => mkFighter(id, lv, false, true)),
-    leaderName: n.name, portrait: personSVG(n.look), scene: ZONE[n.area], topics: areaTopics(n.area), hard: !!AREA[n.area].hard
+    leaderName: n.name, portrait: personSVG(n.look), scene: ZONE[n.area], topics: n.topics && n.topics.length ? n.topics : n.hs ? enabledCats() : areaTopics(n.area), hard: n.hs ? true : !!AREA[n.area].hard
   }));
 }
 function trainerTalk(n) {
@@ -4732,7 +5280,7 @@ function updateHud() {
   const nb = Object.values(save.badges).filter(Boolean).length;
   h.querySelector(".h-dex").textContent = `📖 ${dexCount()}/${SPECIES_LIST.length}`;
   h.querySelector(".h-coins").textContent = `🪙 ${save.coins}`;
-  h.querySelector(".h-badges").textContent = `🏅 ${nb}/${route().length}`;
+  h.querySelector(".h-badges").textContent = CUR_MAP === "high" ? `🎓 ${hsBadgeCount()}/6` : `🏅 ${nb}/${route().length}`;
 }
 
 /* ===================== OVERWORLD (top-down, tile-based): THE SCHOOL ===================== */
@@ -4835,7 +5383,7 @@ function buildWorld() {
   kid(11, 6, "Noah", { skin: "#FFDBAC", hair: "#D9A400", hairStyle: "short", outfit: "#B0263A", outfit2: "#2B2B3A" }, ["The Year 5 and 6 gyms ask tricky questions from lots of topics.", "Bring your strongest team!"]);
   kid(38, 6, "Mia", { skin: "#F1C27D", hair: "#5A3A1A", hairStyle: "long", outfit: "#8B5A2B", outfit2: "#F2D59B" }, ["Principal Mr Mac has a legendary creature on his team!", "I wonder if anyone can beat him…"]);
   for (const b of BUILDINGS.filter(b => b.kind === "gym")) NPCS.push({ x: b.x + 1, y: b.y + b.h, name: LEADERS[b.id].name, look: LEADERS[b.id].look, lines: ["gym:" + b.id], dir: "down", kind: "leader" });
-  addWing(); addPlaygrounds(); addTrainers(); addNurses();
+  addWing(); addPlaygrounds(); addSchoolBus(); addTrainers(); addNurses();
   for (const n of NPCS) { const t = MAP[n.y][n.x]; if (!WALK.has(t) || t === ",") MAP[n.y][n.x] = AREA_GROUND[REGION[n.y][n.x]] || "."; }
 }
 const regionAt = (x, y) => (REGION[y] && REGION[y][x]) || null;
@@ -4979,6 +5527,10 @@ function paintTile(g, t, x, y, now) {
       if (t === "4") { line([[6, 22], [6, 29]], "#3A3D52", 2); line([[26, 22], [26, 29]], "#3A3D52", 2); gg.fillStyle = "#3F6FD8"; gg.strokeStyle = O; gg.lineWidth = 1.2; gg.beginPath(); gg.ellipse(16, 20, 14, 6, 0, 0, Math.PI * 2); gg.fill(); gg.stroke(); gg.fillStyle = "#1d1b3a"; gg.beginPath(); gg.ellipse(16, 20, 10, 3.6, 0, 0, Math.PI * 2); gg.fill(); }
       if (t === "5") { gg.fillStyle = "#F2D59B"; gg.strokeStyle = O; gg.lineWidth = 1.2; gg.fillRect(5, 4, 22, 25); gg.strokeRect(5, 4, 22, 25); [["#E63946", 9, 8], ["#3F6FD8", 20, 10], ["#3FA34F", 13, 15], ["#FFD447", 22, 18], ["#9B5DE5", 9, 22], ["#FF7A3A", 18, 25]].forEach(([c, x, y]) => { gg.fillStyle = c; gg.beginPath(); gg.arc(x, y, 1.8, 0, Math.PI * 2); gg.fill(); }); }
     })); break;
+    case "L": draw(groundTile(base, v)); draw(tileCanvas("lockers", (px, gg) => {
+      gg.fillStyle = "rgba(0,0,0,.2)"; gg.fillRect(1, 28, 30, 3);
+      for (let i = 0; i < 3; i++) { const x = 1 + i * 10; gg.fillStyle = ["#5B8FF0", "#3F6FD8", "#5B8FF0"][i]; gg.fillRect(x, 2, 10, 27); gg.strokeStyle = "#1d1b3a"; gg.lineWidth = 1; gg.strokeRect(x + .5, 2.5, 9, 26); gg.fillStyle = "#14306E"; for (let k = 0; k < 3; k++) gg.fillRect(x + 2, 5 + k * 2, 6, 1); gg.fillStyle = "#FFD447"; gg.fillRect(x + 7, 15, 2, 3); }
+    })); break;
     case "K": draw(groundTile(base, v)); draw(tileCanvas("tent", (px, gg) => {
       gg.fillStyle = "rgba(0,0,0,.22)"; gg.beginPath(); gg.ellipse(16, 29, 13, 3, 0, 0, Math.PI * 2); gg.fill();
       gg.fillStyle = "#fff"; gg.strokeStyle = "#1d1b3a"; gg.lineWidth = 1.3; gg.beginPath(); gg.moveTo(3, 28); gg.lineTo(16, 5); gg.lineTo(29, 28); gg.closePath(); gg.fill(); gg.stroke();
@@ -4993,6 +5545,7 @@ function paintTile(g, t, x, y, now) {
 let WINDOWS = [];
 function shade(hex, k) { const n = parseInt(hex.slice(1), 16); const c = [n >> 16, (n >> 8) & 255, n & 255].map(v => Math.max(0, Math.min(255, Math.round(k > 0 ? v + (255 - v) * k : v * (1 + k))))); return "#" + c.map(v => v.toString(16).padStart(2, "0")).join(""); }
 function paintBuilding(g, b) {
+  if (b.kind === "bus") return drawBus(g, b);
   const X = b.x * TS, Y = b.y * TS, Wd = b.w * TS, H = b.h * TS, office = b.kind === "fortress";
   const roof = b.roof || (b.kind === "gym" ? AREA[b.id].color : b.kind === "lab" ? "#2E9C93" : office ? "#1F4A8C" : "#C0392B");
   const roofH = office ? 34 : b.kind === "house" ? 22 : 30, wallTop = Y + roofH, night = isNight();
@@ -5128,7 +5681,7 @@ function svgSprite(key, svg, size = 24, shiny) {
 /* ---------- state, loop & input ---------- */
 let W = null;
 function worldState() {
-  if (!save.pos || save.pos.map !== "school") save.pos = { x: 26, y: 57, dir: "down", map: "school" };
+  if (!save.pos || (save.pos.map !== "school" && save.pos.map !== "high")) save.pos = { x: 26, y: 57, dir: "down", map: "school" };
   return { x: save.pos.x, y: save.pos.y, dir: save.pos.dir, moving: false, t: 0, fx: save.pos.x, fy: save.pos.y, held: null, buddy: { x: save.pos.x, y: save.pos.y - 1, fx: save.pos.x, fy: save.pos.y - 1 }, steps: 0, raf: 0, last: 0, frame: 0, lock: false, region: null };
 }
 function walkable(x, y) {
@@ -5139,14 +5692,16 @@ function walkable(x, y) {
   return WALK.has(t) || t === "l0";
 }
 function isOpen(z) {
+  if (typeof z === "string" && z.startsWith("hs:")) return settings.story === false || hsBadgeCount() >= +z.slice(3);
   if (z === "office") return allBadges();
   if (settings.story === false) return true;
   if (!settings.cats[z]) return true;
   return unlockedZones().includes(z);
 }
 function showWorld() {
-  if (!MAP.length) { buildWorld(); placeTreasures(); }
+  { const want = save.pos && save.pos.map === "high" ? "high" : "school"; if (!MAP.length || CUR_MAP !== want) loadMap(want); }
   migrateSave(); syncStory(); natureFill();
+  if (!save.visited) { save.visited = { gate: true }; Object.keys(save.badges || {}).forEach(z => { if (save.badges[z]) save.visited[z] = true; }); }
   if (!W) W = worldState();
   W.lock = false; W.held = null;
   app.dataset.screen = "world";
@@ -5159,7 +5714,7 @@ function showWorld() {
     <div class="dsl-hinge" aria-hidden="true"><i></i></div>
     <div class="dsl-bot">
       <div class="scr scr-bot touch">
-        <div class="tbar"><span class="h-name">${esc(save.name || "Explorer")}</span><span class="h-dex">📖 ${dexCount()}/${SPECIES_LIST.length}</span><span class="h-coins">🪙 ${save.coins}</span><span class="h-badges">🏅 ${nb}/${route().length}</span>
+        <div class="tbar"><span class="h-name">${esc(save.name || "Explorer")}</span><span class="h-dex">📖 ${dexCount()}/${SPECIES_LIST.length}</span><span class="h-coins">🪙 ${save.coins}</span><span class="h-badges">${CUR_MAP === "high" ? `🎓 ${hsBadgeCount()}/6` : `🏅 ${nb}/${route().length}`}</span>
           <span class="h-time" title="Time of day">${settings.daynight === false ? "☀️" : PHASE_ICON[phase()]}</span><button class="sndbtn" data-act="sound" aria-label="${AUDIO.on ? "Sound on. Tap to mute." : "Sound off. Tap to turn on."}">${AUDIO.on ? "🔊" : "🔇"}</button></div>
         <div class="tmenu">
           <button class="tt t-red" data-act="dex"><b>📖</b>Word Book</button>
@@ -5188,7 +5743,7 @@ const eggDot = () => save.eggs.some(e => e.have >= e.need) ? `<i class="dot">�
 function updateLoc() {
   const r = regionAt(W.x, W.y) || W.region;
   if (r && r !== W.region) {
-    W.region = r; setMusic(REGION_TRACK[r] || "town"); const el = document.getElementById("loc");
+    W.region = r; markVisited(r); setMusic(REGION_TRACK[r] || "town"); const el = document.getElementById("loc");
     if (el) { el.textContent = regionName(r); el.classList.remove("show"); void el.offsetWidth; el.classList.add("show"); }
   }
 }
@@ -5212,6 +5767,13 @@ document.addEventListener("keydown", e => {
   if (KEYMAP[e.key] && ov.hidden) { e.preventDefault(); W.held = KEYMAP[e.key]; if (!W.moving) W.dir = W.held; }
   if ((e.key === "Enter" || e.key === " " || e.key === "z" || e.key === "Z") && ov.hidden && e.target === document.body) { e.preventDefault(); interact(); }
   if (e.key === "Shift" || e.key === "x" || e.key === "X") W.run = true;
+});
+document.addEventListener("keydown", e => {
+  if (!qState || qState.done || !qState.q.kind || qState.q.kind !== "tiles") return;
+  const q = qState.q;
+  if (/^[a-z]$/i.test(e.key)) { const i = q.letters.findIndex((l, k) => l === e.key.toLowerCase() && !qState.fill.includes(k)); if (i >= 0) { e.preventDefault(); spTile(i); } }
+  else if (e.key === "Backspace") { e.preventDefault(); const k = qState.fill.map(v => v != null).lastIndexOf(true); if (k >= 0) spSlot(k); }
+  else if (e.key === "Enter" && !qState.fill.includes(null) && !(e.target && e.target.closest && e.target.closest("button"))) { e.preventDefault(); spCheck(); }
 });
 document.addEventListener("keyup", e => { if (W && KEYMAP[e.key] && W.held === KEYMAP[e.key]) W.held = null; if (W && (e.key === "Shift" || e.key === "x" || e.key === "X")) W.run = false; });
 function tick(now) {
@@ -5244,7 +5806,7 @@ function step(dt) {
   } else W.bumped = false;
 }
 function arrive() {
-  save.pos = { x: W.x, y: W.y, dir: W.dir, map: "school" }; W.steps++;
+  save.pos = { x: W.x, y: W.y, dir: W.dir, map: CUR_MAP }; W.steps++;
   updateLoc();
   const t = MAP[W.y][W.x];
   if (t === "D") { W.held = null; SFX.door(); enterDoor(DOORS[W.x + "," + W.y]); return; }
@@ -5279,6 +5841,7 @@ function interact() {
 }
 const SIGN_SVG = `<svg viewBox="0 0 200 200" aria-hidden="true"><rect x="92" y="110" width="16" height="70" fill="#7A4A22" stroke="#1d1b3a" stroke-width="4"/><rect x="30" y="40" width="140" height="80" rx="8" fill="#E8B87A" stroke="#1d1b3a" stroke-width="5"/><path d="M50 66 H150 M50 86 H130" stroke="#7A4A22" stroke-width="6" stroke-linecap="round"/></svg>`;
 function barrierMsg(z) {
+  if (typeof z === "string" && z.startsWith("hs:")) return dialogue([`🔒 A row of lockers blocks this corridor. A sign says: “Students with ${z.slice(3)} department badges only.”`, `You have ${hsBadgeCount()}.`], { name: "Corridor", svg: SIGN_SVG });
   if (z === "office") return dialogue(["A wall of jumbled letter blocks blocks the way to the Principal’s Office.", "Only an explorer with a badge from every class can clear it!"], { name: "Letter blocks", svg: MUDDLE_BLOCK_SVG });
   const r = route(), prev = r[r.indexOf(z) - 1];
   dialogue([`Jumbled letter blocks block the way to ${ZONE[z].name}!`, prev ? `Win the ${LEADERS[prev].badge} from ${LEADERS[prev].name}’s ${AREA[prev].cls} to clear them.` : "They will clear soon."], { name: "Letter blocks", svg: MUDDLE_BLOCK_SVG });
@@ -5292,6 +5855,7 @@ function talkTo(n) {
   if (n.kind === "story") return runChapter(CH[n.chap]);
   if (n.kind === "nurse") return nurseHeal();
   if (n.kind === "coach") return coachTalk();
+  if (n.kind === "bus") return busTalk();
   if (n.kind === "ranger") return rangerTalk();
   dialogue(n.lines, { name: n.name, svg: personSVG(n.look) });
 }
@@ -5300,11 +5864,15 @@ function enterDoor(d) {
   if (d.kind === "lab") { W.lock = true; stepBack(); SFX.door(); showLab(); return; }
   if (d.kind === "room" || d.kind === "cottage" || d.kind === "shed") { stepBack(); mythicDoor(d.id); return; }
   if (d.kind === "nurse") { stepBack(); nurseHeal(); return; }
+  if (d.kind === "hsgym") { stepBack(); hsDoor(d.id); return; }
+  if (d.kind === "hsshop") { W.lock = true; stepBack(); SFX.door(); showCanteen(); return; }
+  if (d.kind === "hsoffice") { stepBack(); principalDoor(); return; }
+  if (d.kind === "hsserver") { stepBack(); serverDoor(); return; }
   if (d.kind === "house") { stepBack(); dialogue(["The canteen is closed. It opens at lunchtime!"], { name: "Canteen", svg: SIGN_SVG }); return; }
   if (d.kind === "fortress") { stepBack(); if (allBadges() && !(save.chapters || {}).c7) { runChapter(CH.c7); return; } if (allBadges()) dialogue(["Come in, come in! I’ve been expecting you."], "mac", () => prepareGym("champion")); else barrierMsg("office"); return; }
   if (d.kind === "gym") { stepBack(); gymDoor(d.id); }
 }
-function stepBack() { if (MAP[W.y][W.x] === "D") { W.y += 1; W.x = W.x; W.fx = W.x; W.fy = W.y; W.dir = "down"; save.pos = { x: W.x, y: W.y, dir: "down", map: "school" }; persist(); } }
+function stepBack() { if (MAP[W.y][W.x] === "D") { W.y += 1; W.x = W.x; W.fx = W.x; W.fy = W.y; W.dir = "down"; save.pos = { x: W.x, y: W.y, dir: "down", map: CUR_MAP }; persist(); } }
 function gymDoor(z) {
   if (!areaTopics(z).length) return dialogue([`The ${AREA[z].cls} classroom is closed today.`], { name: "Sign", svg: SIGN_SVG });
   const L = LEADERS[z], q = zoneQuests(z);
@@ -5384,7 +5952,7 @@ const RARITY = { 1: "Common", 2: "Uncommon", 3: "Rare", 4: "Legendary", 5: "Mega
 const HEARTS = { 1: [2, 3], 2: [2, 3], 3: [3, 4], 4: [3, 4], 5: [4, 6] }; // [needed, tries]
 const EVOLVE_XP = 100;
 /* ---------- levels, Word Book pages and team ---------- */
-const EXP_PER_LV = 40, MAX_LV = 50;
+const EXP_PER_LV = 40, MAX_LV = 100;
 const expForLv = lv => (lv - 1) * EXP_PER_LV;
 const lvFromExp = x => Math.min(MAX_LV, 1 + Math.floor((x || 0) / EXP_PER_LV));
 function lvOf(id) { const e = save && save.team[id]; return e ? lvFromExp(e.exp) : 1; }
@@ -5543,9 +6111,11 @@ function islandSVG() {
     ${box("gate", "#D9D2C3")}${box("office", "#C9C4E8")}${AREA_RECTS.wing ? box("wing", "#E3D4FF") : ""}${AREA_RECTS.adventure ? box("adventure", "#F2D59B") + box("nature", "#86C77A") : ""}${AREA_LIST.map(a => box(a.id, a.g1)).join("")}</svg>`;
 }
 function showMap() {
+  if (CUR_MAP === "high") return showHSMap();
+  document.querySelectorAll(".chapcard").forEach(x => x.remove());
   app.dataset.screen = "map";
   const b = buddySpecies(), xp = xpOf(b.id), canEvo = !!b.evo;
-  app.innerHTML = topbar("explore") + `<h2 class="center">🗺️ School Map</h2><div class="island">${islandSVG()}
+  app.innerHTML = topbar("explore") + `<h2 class="center">🗺️ School Map</h2><p class="hint center maphint">🛴 Tap a place you’ve visited to scoot there.</p><div class="island">${islandSVG()}
       ${AREA_LIST.filter(a => route().includes(a.id)).map(a => {
         const z = ZONE[a.id], r = AREA_RECTS[a.id], left = (r[0] + r[2] / 2) / MW * 100, top = (r[1] + r[3] / 2) / MH * 100;
         const open = zonesOpen().includes(z), [f, t] = zoneFound(z), here = W && regionAt(W.x, W.y) === a.id;
@@ -5581,6 +6151,10 @@ function zoneSceneSVG(z) {
       near = `<ellipse cx="200" cy="246" rx="120" ry="30" fill="#5BC0EB" stroke="#2E8BB8" stroke-width="3"/><ellipse cx="160" cy="240" rx="16" ry="6" fill="#4CAF50"/><circle cx="160" cy="236" r="5" fill="#FF9AB5"/><ellipse cx="240" cy="254" rx="14" ry="5" fill="#4CAF50"/>`; break;
     case "harbour": far = `<rect y="140" width="400" height="60" fill="#5BC0EB"/><path d="M0 150 q10 -6 20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0" fill="none" stroke="#BDEBFF" stroke-width="3"/>
       <g class="bob"><path d="M280 160 h60 l-10 16 h-40z" fill="#B5652B" stroke="#5E3A1A" stroke-width="3"/><path d="M308 160 V122 l24 30z" fill="#fff" stroke="#5E3A1A" stroke-width="2"/></g>`; break;
+    case "theatre": far = `<path d="M0 0 H400 V36 Q200 54 0 36Z" fill="#B0263A" stroke="#1d1b3a" stroke-width="3"/>${[0, 1].map(s => `<path d="M${s ? 400 : 0} 30 Q${s ? 320 : 80} 120 ${s ? 360 : 40} 220 L${s ? 400 : 0} 220Z" fill="#C2384C" stroke="#1d1b3a" stroke-width="3"/>`).join("")}${[130, 270].map(x => `<path d="M${x} 0 L${x - 50} 220 L${x + 50} 220Z" fill="#FFF6C2" opacity=".18"/>`).join("")}`;
+      near = `<rect x="0" y="236" width="400" height="64" fill="#8B5A2B"/>${[0, 1, 2, 3, 4, 5, 6, 7].map(i => `<path d="M${i * 50} 236 V300" stroke="#6E4520" stroke-width="2"/>`).join("")}`; break;
+    case "server": far = `${[30, 110, 290, 370].map(x => `<rect x="${x - 30}" y="40" width="60" height="170" rx="4" fill="#1d1b3a" stroke="#000" stroke-width="2"/>${[0, 1, 2, 3, 4, 5, 6].map(k => `<rect x="${x - 24}" y="${50 + k * 22}" width="48" height="14" rx="2" fill="#2A2D40"/><circle cx="${x + 16}" cy="${57 + k * 22}" r="2.5" fill="${k % 3 ? "#2EE6D6" : "#FF4F4F"}"/>`).join("")}`).join("")}${[60, 120, 180].map(y => `<rect x="140" y="${y}" width="${60 + y % 50}" height="4" fill="#FF4F97" opacity=".6"/>`).join("")}`; break;
+    case "lockers": far = Array.from({ length: 10 }, (_, i) => `<rect x="${i * 40}" y="70" width="38" height="140" fill="${i % 2 ? "#3F6FD8" : "#5B8FF0"}" stroke="#14306E" stroke-width="3"/><path d="M${i * 40 + 8} 84 h22 M${i * 40 + 8} 92 h22" stroke="#14306E" stroke-width="3"/><rect x="${i * 40 + 28}" y="140" width="4" height="12" fill="#FFD447"/>`).join(""); break;
     case "sports": far = `${[50, 350].map(x => `<g><rect x="${x - 3}" y="40" width="6" height="160" fill="#8A8F9E" stroke="#1d1b3a" stroke-width="2"/><rect x="${x - 24}" y="24" width="48" height="20" rx="4" fill="#3A3D52" stroke="#1d1b3a" stroke-width="2"/>${[0, 1, 2, 3].map(i => `<circle cx="${x - 15 + i * 10}" cy="34" r="4" fill="#FFF6C2"/>`).join("")}<path d="M${x - 24} 44 L${x - 60} 200 L${x + 60} 200 L${x + 24} 44Z" fill="#FFF6C2" opacity=".12"/></g>`).join("")}<path d="M150 200 V140 H250 V200" fill="none" stroke="#fff" stroke-width="5"/><path d="M154 144 H246 V198 H154Z" fill="none" stroke="#fff" stroke-width="1" stroke-dasharray="4 4" opacity=".6"/>`;
       near = `<path d="M0 238 Q200 222 400 238 V300 H0Z" fill="#C2384C"/>${[252, 270, 288].map(y => `<path d="M0 ${y} Q200 ${y - 16} 400 ${y}" fill="none" stroke="#fff" stroke-width="2"/>`).join("")}`; break;
     case "music": far = `<g opacity=".85">${[0, 1, 2, 3, 4].map(i => `<path d="M0 ${70 + i * 10} Q200 ${60 + i * 10} 400 ${70 + i * 10}" fill="none" stroke="#fff" stroke-width="2"/>`).join("")}${[60, 140, 230, 320].map((x, i) => `<g transform="translate(${x} ${78 + (i % 2) * 12})"><ellipse rx="8" ry="6" fill="#3A1F5C" transform="rotate(-20)"/><path d="M7 -2 V-30" stroke="#3A1F5C" stroke-width="3"/></g>`).join("")}</g>`;
@@ -5653,6 +6227,7 @@ function tapGrass(i, el) {
 
 /* ---------- encounters ---------- */
 function rollSpecies(z) {
+  if (HS_POOL[z.id]) { if (Math.random() < 0.15) { const extra = SPECIES_LIST.filter(s => s.stage === 2 && s.type !== "legend" && s.type !== "mega" && !s.habitat); return pick(extra); } return SPECIES[pick(HS_POOL[z.id])]; }
   if (HABITATS[z.id]) { const hp = SPECIES_LIST.filter(s => s.habitat === HABITATS[z.id]); const s1 = hp.filter(s => s.stage === 1), s2 = hp.filter(s => s.stage === 2); return Math.random() < 0.85 || !s2.length ? pick(s1) : pick(s2); }
   const caughtKinds = dexCount();
   if (save.chapters && save.chapters.c8 && Math.random() < 0.08) { const mu = SPECIES_LIST.filter(s => s.type === "muddle" && (s.stage === 1 || Math.random() < 0.3)); return pick(mu); }
@@ -5672,8 +6247,8 @@ function startEncounter(forceSp) {
   clearInterval(zoneTimer); setTimeout(() => netPos(true), 600);
   const forced = !!(forceSp && forceSp.id), sp = forced ? forceSp : rollSpecies(curZone);
   const [need, tries] = HEARTS[sp.rarity];
-  const baseLv = curZone.id === "custom" ? 3 : HAB_LV[curZone.id] || areaLv(curZone.id);
-  E = { sp, shiny: Math.random() < 1 / 40, need, tries, hearts: 0, used: 0, zone: curZone, busy: false, isNew: !inDex(sp.id), lv: forced ? (sp.rarity === 5 ? 45 : 30) : sp.rarity === 4 ? 25 : baseLv + (sp.stage === 2 ? 2 : 0) + rnd(2) };
+  const baseLv = curZone.id === "custom" ? 3 : HS_LV[curZone.id] || HAB_LV[curZone.id] || areaLv(curZone.id);
+  E = { sp, shiny: Math.random() < 1 / 40, need, tries, hearts: 0, used: 0, zone: curZone, busy: false, isNew: !inDex(sp.id), lv: forced ? (sp.fLv || (sp.rarity === 5 ? 45 : 30)) : sp.rarity === 4 ? 25 : baseLv + (sp.stage === 2 ? 2 : 0) + rnd(2) };
   save.seen[sp.id] = true; persist();
   const wipe = document.createElement("div"); wipe.className = "wipe"; document.body.appendChild(wipe);
   setTimeout(renderEncounter, reduced ? 0 : 520);
@@ -5871,6 +6446,7 @@ function showSettings() {
       <label class="opt"><input type="checkbox" id="adaptive" ${settings.adaptive ? "checked" : ""}> Make questions harder or easier to match each topic’s level on this device</label></div>
     <div class="panel"><h3>Reading support</h3>
       <label class="opt"><input type="checkbox" id="autoRead" ${settings.autoRead ? "checked" : ""}> Read every question aloud automatically</label>
+      <label class="opt"><input type="checkbox" id="mixTypes" ${settings.mixTypes !== false ? "checked" : ""}> Mix in fun question types (spell it, unscramble, tap the word, build a sentence)</label>
       <p class="hint">Pupils can always tap 🔊 to hear a question.</p></div>
     <div class="panel"><h3>Your own questions</h3>
       <p class="hint">One per line: question | right answer | wrong answer | wrong answer. They appear in the 🍎 Teacher’s Garden.</p>
@@ -5887,6 +6463,7 @@ function saveSettings() {
   app.querySelectorAll('input[name="cat"]').forEach(i => cats[i.value] = i.checked);
   settings.cats = cats;
   settings.autoRead = app.querySelector("#autoRead").checked;
+  { const mt = app.querySelector("#mixTypes"); if (mt) settings.mixTypes = mt.checked; }
   settings.adaptive = app.querySelector("#adaptive").checked;
   settings.custom = app.querySelector("#custom").value;
   settings.onlyCustom = app.querySelector("#onlyCustom").checked;
@@ -5913,7 +6490,9 @@ const ACT = {
   close: closeModal, read: speakQ, answer: a => answer(+a), qcontinue: qContinue,
   pickStarter, closeToMap: () => { closeModal(); const f = ZONE[route()[0]];
     dialogue([`${SPECIES[save.buddy].name}! What a great choice.`, `Let’s start at ${f.name}, home of ${LEADERS[f.id].name}’s ${AREA[f.id].cls}. Make friends with two creatures there and answer eight questions right.`, `Then you can challenge ${LEADERS[f.id].name} at the ${AREA[f.id].cls} gym! Check your 📜 Quests if you forget what to do.`, "Use the arrow pad to walk and the A button to talk. Walk into tall grass to find creatures!"], "prof", showWorld); },
-  explore: () => showWorld(), sound: soundToggle, townmap: () => showMap(), mapInfo: z => toast(z === "lab" ? "📚 The Library is at the School Gate." : z === "fortress" ? "🏫 The Principal’s Office is at the top of the school." : z === "custom" ? "🍎 The Teacher’s Garden is at the School Gate." : `${ZONE[z].icon} ${ZONE[z].name}: ${LEADERS[z].name}’s ${AREA[z].cls} (${AREA[z].year}).`),
+  explore: () => showWorld(), sound: soundToggle, townmap: () => showMap(), mapInfo: z => travelInfo(z === "lab" || z === "custom" ? "gate" : z === "fortress" ? "office" : z),
+  travelInfo: z => travelInfo(z), travelGo: z => travelGo(z),
+  spTile, spSlot, spChip, spUnchip, spClear, spCheck, spWord, sayWord: () => qState && qState.q.say && sayText(qState.q.say),
   dlgNext, claim: claimQuest, quests: () => { clearInterval(zoneTimer); showQuests(); }, bag: () => { clearInterval(zoneTimer); showBag(); }, lab: showLab, buy,
   hatch: id => hatchEgg(id), gym: z => prepareGym(z), fortress: () => prepareGym("champion"), togglePick, startGym, bMove, bBerry, bSwitch, doSwitch, afterBadge,
   lockedZone: z => toast(`🔒 ${ZONE[z].name} opens when you win the badge before it.`),
@@ -5995,10 +6574,20 @@ MYTHIC.sports = { id: "sports", name: "Sports Shed", short: "Sports", icon: "�
   lose: ["Good hustle, but not today. Train at the Adventure Playground and come back stronger."],
   after: ["Champions never stop training. See you on the field!"],
   note: "Only the School Champion may enter. Mr P", zone: { sky: ["#14306E", "#4FA8E8"], g1: "#3E9B4E", g2: "#2E7D32", deco: "sports" } };
+MYTHIC.staffroom = { id: "staffroom", name: "Staffroom", short: "Staff", icon: "☕", roof: "#5C3487", label: "STAFFROOM", need: "valedictorian", legend: "alphabetaurus", twin: true,
+  teacher: "Mr H", svg: () => mrHUltraSVG(), look: { skin: "#F1C27D", hair: "#3A2A1A", hairStyle: "short", outfit: "#6B8E4E", outfit2: "#D9F2C9", hat: "ranger" },
+  teacher2: "Mr P", svg2: () => mrPSVG(), look2: { skin: "#C68642", hair: "#2B1A10", hairStyle: "short", outfit: "#1d1b3a", outfit2: "#E63946" },
+  topics: ALL_TOPICS, teamA: [["unbelievahippo", 68], ["suffixaroo", 69]], teamB: [["marathawk", 68], ["verbolt", 70]],
+  hello: ["Well, well. The Valedictorian. Welcome to the Staffroom!", "Mind the biscuits. They’re mine. UN-touchable."],
+  hello2: ["And this is where the real final exam happens.", "Mr H ULTRA and me. Twin battle. Both our creatures at once. Tap one to aim at it.", "Beat us, and the MEGA LEGENDARY Alphabetaurus will show itself. Ready?"],
+  win: ["UN-BELIEVABLE. RE-MARKABLE. UN-STOPPABLE!", "Respect. Total respect. Now look… the letters are glowing. Here comes Alphabetaurus!"],
+  lose: ["Two teachers at once is a lot! Come back when you’re ready."],
+  after: ["Back for more? The kettle’s on and the biscuits are… still mine."],
+  note: "Staff only. Valedictorians welcome.", zone: { sky: ["#3A1F5C", "#7E4BBD"], g1: "#8A6A4A", g2: "#6E5238", deco: "cottage" } };
 const mythicFace = m => m.svg ? m.svg() : personSVG(m.look);
 AREA_RECTS.wing = [3, 62, 46, 12]; AREA_GROUND.wing = "p"; REGION_NAME.wing = "Specialist Wing"; REGION_TRACK.wing = "town";
 Object.values(MYTHIC).forEach(m => { ZONE[m.id] = Object.assign({ id: m.id, name: m.name, icon: m.icon }, m.zone); });
-const mythicNeedOK = m => m.need === "champ" ? !!save.story.champion : m.need === "all" ? allBadges() : route().filter(z => save.badges[z]).length >= m.need;
+const mythicNeedOK = m => m.need === "valedictorian" ? !!(save.chapters && save.chapters.h6) : m.need === "champ" ? !!save.story.champion : m.need === "all" ? allBadges() : route().filter(z => save.badges[z]).length >= m.need;
 const mythicOpen = id => !!MYTHIC[id] && !!save && mythicNeedOK(MYTHIC[id]);
 
 function addWing() {
@@ -6050,9 +6639,9 @@ function hpOf(id) {
 }
 function healTeam() { Object.values(save.team).forEach(e => { delete e.hp; }); persist(); }
 function nurseHeal() {
-  if (W) save.healAt = { x: W.x, y: W.y };
+  if (W) { if (CUR_MAP === "high") save.healAtHS = { x: W.x, y: W.y }; else save.healAt = { x: W.x, y: W.y }; }
   const hurt = Object.values(save.team).some(e => e.hp != null);
-  dialogue(["Hello! I’m Ms Shaw. Welcome to the healing station!", hurt ? "Oh, your creatures look tired. Let me look after them for you…" : "Your creatures look happy and healthy! I’ll give them a quick check-up anyway…"], nurseWho(), healAnim);
+  dialogue([CUR_MAP === "high" ? "Ms Shaw?! Yes, it’s me again. I work at the high school too. I get around!" : "Hello! I’m Ms Shaw. Welcome to the healing station!", hurt ? "Oh, your creatures look tired. Let me look after them for you…" : "Your creatures look happy and healthy! I’ll give them a quick check-up anyway…"], nurseWho(), healAnim);
 }
 function healAnim() {
   healTeam(); jingle("levelup"); setTimeout(() => jingle("item"), 700);
@@ -6064,8 +6653,8 @@ function healAnim() {
 }
 function whiteout() {
   healTeam();
-  const h = save.healAt || { x: 21, y: 69 };
-  save.pos = { x: h.x, y: h.y, dir: "down", map: "school" };
+  const h = CUR_MAP === "high" ? (save.healAtHS || { x: 39, y: 58 }) : (save.healAt || { x: 21, y: 69 });
+  save.pos = { x: h.x, y: h.y, dir: "down", map: CUR_MAP };
   if (W) { W.x = h.x; W.y = h.y; W.fx = h.x; W.fy = h.y; W.buddy.x = h.x; W.buddy.y = h.y - 1; W.buddy.fx = h.x; W.buddy.fy = h.y - 1; W.dir = "down"; W.region = null; W.moving = false; }
   persist();
   dialogue(["Oh dear! Your team was all worn out, so you hurried back to me.", "There we go. Everyone is feeling better now. Don’t give up!"], nurseWho(), showWorld);
@@ -6077,7 +6666,7 @@ function mythicDoor(id) {
   if (!mythicNeedOK(m)) return dialogue([`🔒 The ${m.name} is locked.`, `A note on the door says: “${m.note}”`], { name: m.name, svg: SIGN_SVG });
   const who = { name: m.teacher, svg: mythicFace(m) };
   if (!save.mythic[id]) {
-    if (m.twin) return dialogue(m.hello, who, () => dialogue(m.hello2, { name: m.teacher2, svg: personSVG(m.look2) }, () => startMythic(id)));
+    if (m.twin) return dialogue(m.hello, who, () => dialogue(m.hello2, { name: m.teacher2, svg: (m.svg2 ? m.svg2() : personSVG(m.look2)) }, () => startMythic(id)));
     return dialogue(m.hello, who, () => startMythic(id));
   }
   if (!owned(m.legend)) return dialogue([`${SPECIES[m.legend].name} is still here, waiting for you…`], who, () => legendEncounter(id));
@@ -6089,7 +6678,7 @@ function startMythic(id, rematch) {
   const cfg = { mode: "mythic", mythic: id, rematch: !!rematch, z: id, mine: myFighters(party()), leaderName: m.teacher, portrait: mythicFace(m), scene: ZONE[id], topics: topics.length ? topics : enabledCats(), hard: true };
   if (m.twin) {
     const A = m.teamA.map(([s, lv]) => Object.assign(mkFighter(s, lv, false, true), { owner: "A" })), B = m.teamB.map(([s, lv]) => Object.assign(mkFighter(s, lv, false, true), { owner: "B" }));
-    Object.assign(cfg, { twin: true, foes: A.concat(B), slots: [0, A.length], fi: 0, leaderName2: m.teacher2, portrait2: personSVG(m.look2) });
+    Object.assign(cfg, { twin: true, foes: A.concat(B), slots: [0, A.length], fi: 0, leaderName2: m.teacher2, portrait2: (m.svg2 ? m.svg2() : personSVG(m.look2)) });
   } else cfg.foes = m.team.map(([s, lv]) => mkFighter(s, lv, false, true));
   startBattle(cfg);
 }
@@ -6099,7 +6688,7 @@ function winMythic() {
   partyBonus(20, 30); save.mythic[id] = true; if (first) save.coins += 80; persist();
   const who = { name: m.teacher, svg: mythicFace(m) }, lines = m.win.concat(first ? ["You got 🪙 80 Word Coins!"] : ["What a brilliant practice battle!"]);
   const finish = () => afterBattle(() => !owned(m.legend) ? legendEncounter(id) : showWorld());
-  if (m.twin) dialogue([lines[0]], who, () => dialogue(lines.slice(1), { name: m.teacher2, svg: personSVG(m.look2) }, finish));
+  if (m.twin) dialogue([lines[0]], who, () => dialogue(lines.slice(1), { name: m.teacher2, svg: (m.svg2 ? m.svg2() : personSVG(m.look2)) }, finish));
   else dialogue(lines, who, finish);
 }
 function loseMythic() { const m = MYTHIC[BT.mythic]; dialogue(m.lose, { name: m.teacher, svg: mythicFace(m) }, () => afterBattle(whiteout)); }
@@ -6109,8 +6698,9 @@ function legendEncounter(id) {
 }
 function wingPins() {
   if (!BUILDINGS.length || !AREA_RECTS.wing) return "";
-  const pin = (x, y, icon, label, locked) => `<span class="rpin${locked ? " locked" : ""}" style="left:${(x + .5) / MW * 100}%;top:${(y + .5) / MH * 100}%"><i>${locked ? "🔒" : icon}</i><b>${label}</b></span>`;
-  return Object.values(MYTHIC).map(m => { const b = BUILDINGS.find(b => b.id === m.id); return b ? pin(b.x + b.w / 2 - .5, b.y + b.h / 2, m.icon, m.short, !mythicNeedOK(m)) : ""; }).join("") + pin(21, 66, "🏥", "Ms Shaw", false);
+  const pin = (x, y, icon, label, locked, up) => `<button class="rpin${locked ? " locked" : ""}${up ? " up" : ""}" style="left:${(x + .5) / MW * 100}%;top:${(y + .5) / MH * 100}%" data-act="travelInfo" data-arg="wing" aria-label="${esc(label)}"><i>${locked ? "🔒" : icon}</i><b>${label}</b></button>`;
+  const items = Object.values(MYTHIC).map(m => { const b = BUILDINGS.find(b => b.id === m.id); return b ? [b.x + b.w / 2 - .5, b.y + b.h / 2, m.icon, m.short, !mythicNeedOK(m)] : null; }).filter(Boolean).concat([[21, 66, "🏥", "Ms Shaw", false]]).sort((p, q) => p[0] - q[0]);
+  return items.map((it, i) => pin(...it, i % 2 === 1)).join("");
 }
 
 MOVE_FX.mega = async (a, b, m) => {
@@ -6262,7 +6852,7 @@ function sparEnd(won) {
 /* ---------- Nature Playground: your creatures roam safely ---------- */
 const NATURE = { mons: [], key: "" };
 function natureFill(force) {
-  if (!AREA_RECTS.nature || !MAP.length) return;
+  if (!AREA_RECTS.nature || !MAP.length || CUR_MAP !== "school") return;
   const p = party(), ids = Object.keys(save.team).filter(id => SPECIES[id] && !p.includes(id));
   const key = ids.slice().sort().join();
   if (!force && key === NATURE.key) return;
@@ -6323,7 +6913,7 @@ function rangerTalk() {
 }
 function playPins() {
   if (!AREA_RECTS.adventure) return "";
-  const pin = (id, icon, label) => { const [x, y, w, h] = AREA_RECTS[id]; return `<span class="rpin" style="left:${(x + w / 2) / MW * 100}%;top:${(y + h / 2) / MH * 100}%"><i>${icon}</i><b>${label}</b></span>`; };
+  const pin = (id, icon, label) => { const [x, y, w, h] = AREA_RECTS[id]; return `<button class="rpin" style="left:${(x + w / 2) / MW * 100}%;top:${(y + h / 2) / MH * 100}%" data-act="travelInfo" data-arg="${id}"><i>${icon}</i><b>${label}</b></button>`; };
   return pin("adventure", "🛝", "Adventure") + pin("nature", "🌳", "Nature");
 }
 
@@ -6399,17 +6989,24 @@ const CHAPTERS = [
 const CH = Object.fromEntries(CHAPTERS.map(c => [c.id, c]));
 const fillStory = (t, ch) => t.replace(/\{place\}/g, regionName(ch.area()));
 function chapterReady(ch) {
+  if (typeof ch.need === "string" && ch.need.startsWith("chap:")) return !!(save.chapters || {})[ch.need.slice(5)];
+  if (ch.map === "high") return hsBadgeCount() >= ch.need;
   if (ch.need === "all") return allBadges();
   if (ch.need === "champ") return !!save.story.champion;
   return route().filter(z => save.badges[z]).length >= ch.need;
 }
-function currentChapter() {
+function currentChapter(map) {
   if (!save || !save.buddy) return null;
+  map = map || CUR_MAP;
   save.chapters = save.chapters || {};
-  for (const ch of CHAPTERS) { if (save.chapters[ch.id]) continue; return chapterReady(ch) ? ch : null; }
+  for (const ch of CHAPTERS) { if ((ch.map || "school") !== map || save.chapters[ch.id]) continue; return chapterReady(ch) ? ch : null; }
   return null;
 }
 function whoOf(ch) {
+  if (ch.who === "mrh") return { name: "Mr H ULTRA", look: null, svg: mrHUltraSVG() };
+  if (ch.who === "auto") return { name: "Autowrong", look: null, svg: autowrongSVG() };
+  if (ch.who === "sterling") return { name: "Dr Sterling", look: STERLING_LOOK, svg: personSVG(STERLING_LOOK) };
+  if (ch.who === "hsgrunt") return { name: ch.grunt, look: GLITCH_LOOK, svg: personSVG(GLITCH_LOOK) };
   if (ch.who === "rival") return { name: "Sunny", look: RIVAL_LOOK, svg: personSVG(RIVAL_LOOK) };
   if (ch.who === "grunt") return { name: ch.grunt, look: JUMBLER_LOOK, svg: personSVG(JUMBLER_LOOK) };
   if (ch.who === "typo") return { name: "Captain Typo", look: TYPO_LOOK, svg: personSVG(TYPO_LOOK) };
@@ -6417,7 +7014,7 @@ function whoOf(ch) {
 }
 const sayWho = w => w === "prof" || w === "mac" ? w : w === "rival" ? { name: "Sunny", svg: personSVG(RIVAL_LOOK) } : w;
 function storySpot(area) {
-  const [x0, y0, w, h] = AREA_RECTS[area], ground = AREA_GROUND[area], cx = x0 + w / 2, cy = y0 + h / 2, cands = [];
+  const [x0, y0, w, h] = HS_RECTS[area] || AREA_RECTS[area], ground = HS_GROUND[area] || AREA_GROUND[area], cx = x0 + w / 2, cy = y0 + h / 2, cands = [];
   const bad = (x, y) => { for (let j = -1; j <= 1; j++) for (let i = -1; i <= 1; i++) { const t = MAP[y + j] && MAP[y + j][x + i]; if (t === "D" || t === "H" || t === "S" || t === "B") return true; } return false; };
   for (let y = y0 + 1; y < y0 + h - 1; y++) for (let x = x0 + 1; x < x0 + w - 1; x++) {
     const t = MAP[y][x]; if ((t !== ground && t !== "F") || REGION[y][x] !== area || bad(x, y)) continue;
@@ -6454,7 +7051,7 @@ function runChapter(ch) {
   dialogue(lines, { name: who.name, svg: who.svg }, () => startBattle({
     mode: "story", chapter: ch.id, z: area, mine: myFighters(party()), foes: ch.team().map(([id, lv]) => mkFighter(id, lv, false, true)),
     leaderName: who.name, portrait: who.svg, scene: area === "office" ? officeScene() : ZONE[area] || ZONE.custom,
-    topics: ch.who === "grunt" || ch.who === "typo" ? (areaTopics(area).length ? areaTopics(area) : enabledCats()) : enabledCats(), hard: ch.n >= 5
+    topics: ch.who === "grunt" || ch.who === "typo" ? (areaTopics(area).length ? areaTopics(area) : enabledCats()) : enabledCats(), hard: ch.n >= 5 || ch.map === "high"
   }));
 }
 function giveReward(r) {
@@ -6467,6 +7064,7 @@ function finishChapter(ch) {
   save.chapters = save.chapters || {}; save.chapters[ch.id] = true; giveReward(ch.reward); persist();
   const who = whoOf(ch);
   const next = () => {
+    if (ch.onFinish) return ch.onFinish();
     if (ch.id === "c7") { prepareGym("champion"); return; }
     if (ch.id === "c8") toast("🌀 Muddle creatures now appear in the tall grass!");
     showWorld();
@@ -6480,18 +7078,27 @@ function loseStory() {
   dialogue([ch.who === "rival" ? "Yes! I won! Practise your answers and come back for a rematch." : "Ha! Come back when your team is stronger!"], { name: who.name, svg: who.svg }, () => afterBattle(whiteout));
 }
 function storyAnnounce() {
+  if (app.dataset.screen !== "world") return;
   const ch = currentChapter(); if (!ch || save.chapSeen === ch.id) return;
   save.chapSeen = ch.id; persist();
   document.querySelectorAll(".chapcard").forEach(x => x.remove());
   const c = document.createElement("div"); c.className = "chapcard"; c.setAttribute("role", "status");
-  c.innerHTML = `<small>📖 Chapter ${ch.n}</small><b>${ch.title}</b><span>${esc(fillStory(ch.quest, ch))}</span>`;
+  c.innerHTML = `<small>📖 ${ch.map === "high" ? "Wordsworth High · " : ""}Chapter ${ch.n}</small><b>${ch.title}</b><span>${esc(fillStory(ch.quest, ch))}</span>`;
   document.body.appendChild(c); jingle("levelup");
   setTimeout(() => c.remove(), reduced ? 2500 : 3600);
   if (ch.call) setTimeout(() => { if (app.dataset.screen === "world" && !DLG && ov.hidden) dialogue(ch.call.map(l => fillStory(l, ch)), sayWho(ch.callWho)); }, reduced ? 300 : 3000);
 }
-function storyHTML() {
-  const cur = currentChapter(); save.chapters = save.chapters || {};
-  return `<h3 class="dexh">📖 The Great Jumble</h3><div class="storylist">${CHAPTERS.map(ch => {
+function storyHTML() { return storyHTMLSchool() + (save.hs ? storyHTMLHigh() : ""); }
+function storyHTMLHigh() {
+  const cur = currentChapter("high");
+  return `<h3 class="dexh">🎓 Wordsworth High: The Autowrong Uprising</h3><div class="storylist">${HS_CHAPTERS.map(ch => {
+    const done = save.chapters[ch.id], isCur = cur && cur.id === ch.id;
+    return `<div class="schap ${done ? "done" : isCur ? "cur" : "locked"}"><i>${done ? "✅" : isCur ? "▶️" : "🔒"}</i><div><b>Chapter ${ch.n}: ${done || isCur ? ch.title : "???"}</b>
+      ${isCur ? `<small>${esc(fillStory(ch.quest, ch))}</small>` : done ? `<small>${ch.summary}</small>` : ""}</div></div>`; }).join("")}</div>`;
+}
+function storyHTMLSchool() {
+  const cur = currentChapter("school"); save.chapters = save.chapters || {};
+  return `<h3 class="dexh">📖 The Great Jumble</h3><div class="storylist">${CHAPTERS.filter(c => !c.map).map(ch => {
     const done = save.chapters[ch.id], isCur = cur && cur.id === ch.id;
     return `<div class="schap ${done ? "done" : isCur ? "cur" : "locked"}"><i>${done ? "✅" : isCur ? "▶️" : "🔒"}</i><div><b>Chapter ${ch.n}: ${done || isCur ? ch.title : "???"}</b>
       ${isCur ? `<small>${esc(fillStory(ch.quest, ch))}</small>` : done ? `<small>${ch.summary}</small>` : ""}</div></div>`; }).join("")}</div>`;
@@ -6505,6 +7112,7 @@ function jumbleText(s) {
 }
 function signLines(x, y) {
   const txt = SIGNS[x + "," + y], ch = currentChapter(), reg = regionAt(x, y);
+  if (ch && ch.autowrong && reg === ch.area()) return [autoWrongText(txt), "🤖 Autowrong has “corrected” this sign! Can you spot the wrong words?"];
   if (ch && ch.scramble && (reg === ch.area() || reg === "gate")) return [jumbleText(txt), "🌀 Someone has scrambled this sign! Can you still read it?"];
   return [txt];
 }
@@ -6516,6 +7124,382 @@ MOVE_FX.muddle = async (a, b, m) => {
   }
   await Promise.all(ps); burst(b, ["🌀"], m ? 8 : 5, "emo small");
 };
+
+/* ===================== EXPANSION: WORDSWORTH HIGH ===================== */
+let CUR_MAP = "school";
+const HS_RECTS = {
+  hs_quad: [24, 52, 20, 16], hs_english: [4, 52, 18, 16], hs_science: [46, 52, 18, 16],
+  hs_drama: [4, 32, 18, 18], hs_yard: [24, 32, 20, 18], hs_history: [46, 32, 18, 18],
+  hs_languages: [4, 12, 18, 18], hs_admin: [24, 12, 20, 18], hs_stadium: [46, 12, 18, 18]
+};
+const HS_GROUND = { hs_quad: "p", hs_english: "g", hs_science: "q", hs_drama: "m", hs_yard: ".", hs_history: "r", hs_languages: "v", hs_admin: "p", hs_stadium: "g" };
+const HS_REQ = { hs_quad: 0, hs_english: 0, hs_science: 0, hs_drama: 2, hs_yard: 2, hs_history: 3, hs_languages: 4, hs_stadium: 5, hs_admin: 6 };
+const HS_ORDER = ["hs_english", "hs_science", "hs_drama", "hs_history", "hs_languages", "hs_stadium"];
+const HS_POOL = {
+  hs_english: ["highlightbug", "paragrub", "highlightbug", "paragrub", "highlightning", "paragriffin"],
+  hs_science: ["atomite", "atomite", "beakit", "orbitot", "atomammoth"],
+  hs_drama: ["spotlit", "spotlit", "drumlet", "rhymchick", "spotlion"],
+  hs_yard: ["highlightbug", "paragrub", "atomite", "spotlit", "scrollet", "sneakeet", "hellotl"],
+  hs_history: ["scrollet", "scrollet", "pastini", "scrollamander"],
+  hs_languages: ["hellotl", "hellotl", "pastini", "mewcab", "polyglotl"],
+  hs_stadium: ["sneakeet", "sneakeet", "marathawk"],
+  hs_admin: ["glitchling", "glitchling", "glitchaos"]
+};
+const HS_LV = { hs_english: 42, hs_science: 44, hs_yard: 47, hs_drama: 47, hs_history: 50, hs_languages: 53, hs_stadium: 55, hs_admin: 58 };
+const HS_TOPICS = { hs_english: ["spelling", "vocab"], hs_science: ["affixes"], hs_drama: ["punctuation"], hs_history: ["grammar"], hs_languages: ["homophones"], hs_stadium: ["wordclass"] };
+const HS_ZONES = {
+  hs_quad: ["Main Quad", "🏫", ["#8FD3FF", "#E0F5FF"], "#D9D2C3", "#C4BCAA", "lockers"],
+  hs_english: ["English Department", "🪶", ["#FFD9A8", "#FFF3D6"], "#74C65C", "#62B34D", "garden"],
+  hs_science: ["Science Labs", "⚛️", ["#14306E", "#5B8FF0"], "#B5BAC6", "#8A8F9E", "steam"],
+  hs_drama: ["Drama Theatre", "🎭", ["#3A1F5C", "#7E4BBD"], "#8A3A4A", "#6E2A3A", "theatre"],
+  hs_yard: ["Year 7 Courtyard", "🌳", ["#A6E0C8", "#EAFBF2"], "#74C65C", "#62B34D", "meadow"],
+  hs_history: ["History Hall", "📜", ["#E8C98A", "#FFF3D6"], "#C9A46A", "#A8874F", "peaks"],
+  hs_languages: ["Languages Wing", "🌏", ["#9FE3FF", "#FFF3D6"], "#E8C98A", "#D9A066", "italy"],
+  hs_admin: ["Admin Block", "🏛️", ["#1d1b3a", "#3A1F5C"], "#3A3D52", "#2A2D40", "server"],
+  hs_stadium: ["Sports Stadium", "🏟️", ["#14306E", "#4FA8E8"], "#3E9B4E", "#2E7D32", "sports"]
+};
+Object.entries(HS_ZONES).forEach(([id, [name, icon, sky, g1, g2, deco]]) => { ZONE[id] = { id, name, icon, sky, g1, g2, deco }; REGION_NAME[id] = name; });
+Object.assign(REGION_TRACK, { hs_quad: "town", hs_english: "meadow", hs_science: "harbour", hs_drama: "pond", hs_yard: "meadow", hs_history: "town", hs_languages: "harbour", hs_admin: "pond", hs_stadium: "harbour" });
+
+const BUS_LOOK = { skin: "#F1C27D", hair: "#D9A400", hairStyle: "short", outfit: "#FFC93C", outfit2: "#1d1b3a", hat: "beanie" };
+const STERLING_LOOK = { skin: "#8D5524", hair: "#1E1E1E", hairStyle: "bun", outfit: "#14306E", outfit2: "#FFD447", glasses: true,
+  prop: `<g transform="translate(150 140) rotate(20)"><rect x="-6" y="-18" width="12" height="36" rx="5" fill="#FFF3D6" stroke="#1d1b3a" stroke-width="3"/><path d="M-6 0 H6" stroke="#E63946" stroke-width="4"/></g>` };
+const GLITCH_LOOK = { skin: "#FFDBAC", hair: "#2EE6D6", hairStyle: "spiky", outfit: "#2A1640", outfit2: "#FF4F97" };
+const busWho = () => ({ name: "Bus Driver Bev", svg: personSVG(BUS_LOOK) });
+const hsBadgeCount = () => Object.values((save && save.hsBadges) || {}).filter(Boolean).length;
+const PRIMARY_LEGENDS = () => SPECIES_LIST.filter(s => s.rarity >= 4 && !s.hs).map(s => s.id);
+const hsReady = () => !!(save && save.story && save.story.champion) && PRIMARY_LEGENDS().every(id => owned(id));
+
+const HS_HEADS = {
+  hs_english: { name: "Ms Wordsworth", title: "Head of English", badge: "Quill Badge", icon: "🪶", roof: "#C2384C", label: "ENGLISH",
+    look: { skin: "#F7D6BF", hair: "#B0263A", hairStyle: "long", outfit: "#C2384C", outfit2: "#FFF3D6", glasses: true, prop: `<path d="M150 150 Q160 110 176 96 Q168 124 154 152Z" fill="#fff" stroke="#1d1b3a" stroke-width="3"/>` },
+    team: [["highlightning", 46], ["paragriffin", 47], ["vowelion", 48]],
+    hello: ["Welcome to Wordsworth High. I’m Ms Wordsworth, Head of English.", "Yes, like the poet. No, I’m not related. Probably.", "In high school, words get longer and trickier. Let’s see if your spelling is ready!"],
+    win: ["Magnificent! Your spelling is simply sublime.", "Please accept the Quill Badge."], lose: ["A valiant effort. Revise, rewrite and return!"],
+    after: ["Remember: read widely, and the right words will find you."] },
+  hs_science: { name: "Dr Neutron", title: "Head of Science", badge: "Atom Badge", icon: "⚛️", roof: "#3F6FD8", label: "SCIENCE",
+    look: { skin: "#E0AC69", hair: "#E9ECF5", hairStyle: "grey", outfit: "#F4F6FB", outfit2: "#3F6FD8", glasses: true, prop: `<g transform="translate(152 146)"><circle r="6" fill="#FF7A3A" stroke="#1d1b3a" stroke-width="2"/><ellipse rx="16" ry="6" fill="none" stroke="#2E9C93" stroke-width="2.5"/><ellipse rx="16" ry="6" fill="none" stroke="#2E9C93" stroke-width="2.5" transform="rotate(60)"/></g>` },
+    team: [["atomammoth", 48], ["erlenmyrex", 49], ["rebuildozer", 50]],
+    hello: ["Ah, a new test subject! I mean… student. I’m Dr Neutron.", "Science words are built from parts: bio- means life, micro- means tiny, -ology means the study of.", "Hypothesis: you can’t beat me. Let’s test it!"],
+    win: ["Fascinating! My hypothesis was wrong. That’s science!", "The Atom Badge is yours."], lose: ["Experiment failed! Adjust your method and try again."],
+    after: ["Biology, microscope, telephone… every science word is a little puzzle."] },
+  hs_drama: { name: "Ms Marlowe", title: "Head of Drama", badge: "Mask Badge", icon: "🎭", roof: "#7E1F3A", label: "THEATRE",
+    look: { skin: "#C68642", hair: "#2B2B2B", hairStyle: "curly", outfit: "#7E1F3A", outfit2: "#FFD447", prop: `<g transform="translate(150 146)"><path d="M-14 -12 Q0 -18 14 -12 Q14 10 0 14 Q-14 10 -14 -12Z" fill="#fff" stroke="#1d1b3a" stroke-width="3"/><path d="M-6 -2 h3 M3 -2 h3 M-5 6 Q0 10 5 6" stroke="#1d1b3a" stroke-width="2.5" fill="none"/></g>` },
+    team: [["spotlion", 50], ["commacat", 51], ["kaboomerang", 52]],
+    hello: ["“Welcome to the theatre!” said Ms Marlowe, dramatically.", "See those speech marks? In a script, every comma and full stop changes how a line is spoken.", "Places, everyone! Curtain up!"],
+    win: ["Bravo! Encore! A standing ovation!", "“Take the Mask Badge,” she said, beaming."], lose: ["Cut! Let’s run that scene again later."],
+    after: ["“Speech marks go around the words people actually say,” she reminded you."] },
+  hs_history: { name: "Mr Archibald", title: "Head of History", badge: "Scroll Badge", icon: "📜", roof: "#7A4A22", label: "HISTORY",
+    look: { skin: "#FFDBAC", hair: "#B5BAC6", hairStyle: "grey", outfit: "#5A3A1A", outfit2: "#E8D2B6", glasses: true, prop: `<g transform="translate(150 144)"><rect x="-12" y="-14" width="24" height="28" rx="3" fill="#FFF3D6" stroke="#1d1b3a" stroke-width="3"/><rect x="-15" y="-17" width="30" height="7" rx="3" fill="#C9962B" stroke="#1d1b3a" stroke-width="2.5"/></g>` },
+    team: [["scrollamander", 52], ["tensaurus", 53], ["questiosaur", 54]],
+    hello: ["Ahem. Mr Archibald, Head of History. Everything in history happened in the past tense.", "We walked, we ran, we wrote. Not “we walkeded”.", "Let us make some history of our own!"],
+    win: ["Remarkable! That battle will go down in history.", "The Scroll Badge is yours."], lose: ["History repeats itself. You may try again!"],
+    after: ["Past, present and future: always check your tenses match."] },
+  hs_languages: { name: "Señora Rivera", title: "Head of Languages", badge: "Globe Badge", icon: "🌏", roof: "#E63946", label: "LANGUAGES",
+    look: { skin: "#E0AC69", hair: "#3A1F1A", hairStyle: "bun", outfit: "#E63946", outfit2: "#FFD447", prop: `<g transform="translate(152 146)"><circle r="14" fill="#5B8FF0" stroke="#1d1b3a" stroke-width="3"/><path d="M-14 0 H14 M0 -14 Q9 0 0 14 Q-9 0 0 -14" fill="none" stroke="#fff" stroke-width="2"/></g>` },
+    team: [["polyglotl", 54], ["echowl", 55], ["rhymingo", 56]],
+    hello: ["¡Hola! I’m Señora Rivera, Head of Languages.", "In English, some words sound the same but mean different things: their, there and they’re!", "¡Vamos! Let’s battle!"],
+    win: ["¡Increíble! You know your homophones!", "Take the Globe Badge. ¡Felicidades!"], lose: ["¡Casi! Almost! Try again soon."],
+    after: ["Listen carefully, then look carefully. Homophones are tricky in every language."] },
+  hs_stadium: { name: "Mr P", title: "Head of PE", badge: "Sprint Badge", icon: "🏃", roof: "#2E7D32", label: "SPORTS CENTRE", svg: () => mrPSVG(),
+    team: [["marathawk", 57], ["swiftshell", 57], ["commandingo", 58], ["verbolt", 59]],
+    hello: ["Well, look who made it to high school. Told you legends never stop training.", "I coach at both schools now. Sports Shed after lunch, Stadium before. I don’t sleep.", "Verbs are action words. And this? This is ACTION. Let’s go!"],
+    win: ["Now THAT’S a personal best. Respect.", "The Sprint Badge. You earned every step of it."], lose: ["Good hustle. Hit the track and come back stronger."],
+    after: ["Run, jump, throw, win. Verbs, every one of them."] }
+};
+
+/* ---------- the map ---------- */
+function buildHigh() {
+  MAP = Array.from({ length: MH }, () => Array(MW).fill("T"));
+  REGION = Array.from({ length: MH }, () => Array(MW).fill(null));
+  BUILDINGS = []; NPCS = []; SIGNS = {}; BARRIERS = {}; DOORS = {}; HIDDEN = [];
+  const set = (x, y, t) => { if (x >= 0 && y >= 0 && x < MW && y < MH) MAP[y][x] = t; };
+  const r = seeded(1977);
+  for (let y = 0; y < MH; y++) for (let x = 0; x < MW; x++) if (x < 2 || y < 2 || x >= MW - 2 || y >= MH - 2) MAP[y][x] = "W";
+  for (let y = 70; y < MH - 2; y++) for (let x = 2; x < MW - 2; x++) MAP[y][x] = y >= 72 ? "W" : "T";
+  for (const [id, [x0, y0, w, h]] of Object.entries(HS_RECTS)) {
+    for (let y = y0; y < y0 + h; y++) for (let x = x0; x < x0 + w; x++) { MAP[y][x] = (x === x0 || y === y0 || x === x0 + w - 1 || y === y0 + h - 1) ? "T" : HS_GROUND[id]; REGION[y][x] = id; }
+  }
+  // scenery first, so lanes and buildings can overwrite it
+  for (const [id, [x0, y0, w, h]] of Object.entries(HS_RECTS)) {
+    for (let y = y0 + 1; y < y0 + h - 1; y++) for (let x = x0 + 1; x < x0 + w - 1; x++) {
+      const k = r(); if (id === "hs_quad" || id === "hs_admin") { if (k < 0.04) set(x, y, "F"); continue; }
+      if (k < 0.05) set(x, y, "T"); else if (k < 0.12) set(x, y, "F");
+    }
+  }
+  const grass = (x0, y0, w, h, id) => { for (let y = y0; y < y0 + h; y++) for (let x = x0; x < x0 + w; x++) { set(x, y, ","); REGION[y][x] = id; } };
+  for (const [id, [x0, y0, w, h]] of Object.entries(HS_RECTS)) {
+    if (id === "hs_quad") continue;
+    const cy = y0 + (h >> 1);
+    if (id === "hs_admin") { grass(x0 + 2, cy + 3, 4, 3, id); continue; }
+    if (id === "hs_stadium") { for (let y = cy + 2; y < y0 + h - 2; y++) for (let x = x0 + 2; x < x0 + w - 2; x++) set(x, y, (y === cy + 2 || y === y0 + h - 3 || x === x0 + 2 || x === x0 + w - 3) ? "s" : "g"); grass(x0 + 5, cy + 4, 8, 2, id); continue; }
+    grass(x0 + 2, cy + 2, 5, 3, id); grass(x0 + w - 7, cy + 2, 5, 3, id);
+    if (h > 16) grass(x0 + w - 7, y0 + 2, 4, 2, id);
+  }
+  // lanes
+  const hl = (y, x1, x2) => { for (let x = Math.min(x1, x2); x <= Math.max(x1, x2); x++) set(x, y, "="); };
+  const vl = (x, y1, y2) => { for (let y = Math.min(y1, y2); y <= Math.max(y1, y2); y++) set(x, y, "="); };
+  for (const [x0, y0, w, h] of Object.values(HS_RECTS)) hl(y0 + (h >> 1), x0 + 1, x0 + w - 2);
+  hl(60, 20, 25); hl(60, 42, 47); hl(41, 20, 25); hl(41, 42, 47); hl(21, 20, 25); hl(21, 42, 47);
+  vl(34, 41, 60); vl(13, 41, 60); vl(55, 41, 60); vl(13, 21, 41); vl(55, 21, 41); vl(34, 21, 41);
+  const gate = (x, y, n) => { set(x, y, "B"); BARRIERS[x + "," + y] = "hs:" + n; };
+  gate(34, 51, 2); gate(13, 51, 2); gate(55, 51, 3); gate(13, 31, 4); gate(55, 31, 5); gate(34, 31, 6); gate(23, 41, 2); gate(44, 41, 3);
+  // buildings
+  const bld = (x, y, w, h, kind, id, label, roof, dx = 2) => {
+    BUILDINGS.push({ x, y, w, h, kind, id, label, roof, doorOff: dx });
+    for (let j = y; j < y + h; j++) for (let i = x; i < x + w; i++) set(i, j, "H");
+    set(x + dx, y + h - 1, "D"); DOORS[(x + dx) + "," + (y + h - 1)] = { kind, id };
+    for (let j = y + h; MAP[j] && MAP[j][x + dx] !== "=" && j < y + h + 8; j++) set(x + dx, j, "=");
+  };
+  for (const id of HS_ORDER) { const [x0, y0] = HS_RECTS[id], h = HS_HEADS[id]; bld(x0 + 2, y0 + 2, 5, 4, "hsgym", id, h.label, h.roof); }
+  bld(26, 54, 5, 4, "hsshop", "hs_canteen", "CANTEEN", "#F28B30");
+  bld(37, 54, 5, 4, "nurse", "hs_nurse", "NURSE", "#E63946");
+  bld(31, 13, 7, 5, "hsoffice", "hs_principal", "PRINCIPAL", "#14306E", 3);
+  bld(25, 15, 5, 4, "room", "staffroom", "STAFFROOM", "#5C3487");
+  bld(38, 15, 5, 4, "hsserver", "hs_server", "SERVER ROOM", "#2A1640");
+  // the bus (no door) and lockers in the quad
+  BUSY: { const b = { x: 26, y: 64, w: 5, h: 2, kind: "bus", id: "hs_bus" }; BUILDINGS.push(b); for (let j = 64; j < 66; j++) for (let i = 26; i < 31; i++) set(i, j, "H"); }
+  for (let x = 32; x <= 35; x++) set(x, 54, "L");
+  for (let x = 46; x <= 49; x++) set(x, 43, "L");
+  const sign = (x, y, t) => { set(x, y, "S"); SIGNS[x + "," + y] = t; };
+  sign(36, 62, "🏫 Welcome to Wordsworth High School! Departments: English (west), Science (east), Drama, History, Languages and the Sports Stadium. Win all six department badges!");
+  sign(31, 62, "🚌 Bus stop. Buses back to the primary school leave whenever you’re ready.");
+  sign(33, 50, "🔒 Year 7 Courtyard: students with 2 department badges.");
+  sign(9, 59, "🪶 English Department. Head of English: Ms Wordsworth.");
+  sign(51, 59, "⚛️ Science Labs. Head of Science: Dr Neutron. Safety goggles at all times!");
+  sign(9, 40, "🎭 Drama Theatre. Head of Drama: Ms Marlowe. Tonight’s show: “Much Ado About Commas”.");
+  sign(51, 40, "📜 History Hall. Head of History: Mr Archibald. Mind the dinosaur skeleton.");
+  sign(9, 20, "🌏 Languages Wing. Head of Languages: Señora Rivera. ¡Bienvenidos!");
+  sign(51, 20, "🏟️ Sports Stadium. Head of PE: Mr P. No walking on the track. Running only.");
+  sign(30, 20, "🏛️ Admin Block. Principal Dr Sterling. Staff only beyond this point.");
+  NPCS.push({ kind: "bus", x: 31, y: 63, dir: "down", name: "Bus Driver Bev", look: BUS_LOOK, lines: [] });
+  addHSTrainers();
+  for (const n of NPCS) if (!WALK.has(MAP[n.y][n.x])) MAP[n.y][n.x] = HS_GROUND[REGION[n.y][n.x]] || "p";
+}
+const HS_TRAINERS = [["Ava", "Debate Captain"], ["Noah", "Spelling Bee Champ"], ["Willow", "Poetry Slammer"], ["Jasper", "Science Whiz"], ["Matilda", "Drama Captain"], ["Theo", "History Buff"],
+  ["Lucia", "Language Learner"], ["Kai", "School Captain"], ["Ruby", "Footy Captain"], ["Hugo", "Yearbook Editor"], ["Zara", "Essay Ace"], ["Felix", "Exchange Student"], ["Sienna", "Robotics Rookie"], ["Archie", "Library Monitor"]];
+const HS_TR_INTRO = ["Year 7, huh? Let’s see what you’ve got!", "I’ve got an essay due, but I’ve always got time for a battle.", "Senior students don’t lose to newbies. Battle!", "My creatures have been studying all term. Ready?"];
+function addHSTrainers() {
+  const r = seeded(4242), ri = a => a[Math.floor(r() * a.length)]; let k = 0;
+  const nearBad = (x, y) => { for (let j = -1; j <= 1; j++) for (let i = -1; i <= 1; i++) { const t = MAP[y + j] && MAP[y + j][x + i]; if (t === "D" || t === "H" || t === "S" || t === "B" || t === "L") return true; } return false; };
+  for (const id of ["hs_english", "hs_science", "hs_yard", "hs_drama", "hs_history", "hs_languages", "hs_stadium"]) {
+    const [x0, y0, w, h] = HS_RECTS[id], cands = [];
+    for (let y = y0 + 1; y < y0 + h - 1; y++) for (let x = x0 + 1; x < x0 + w - 1; x++) {
+      const t = MAP[y][x]; if (t !== HS_GROUND[id] && t !== "F") continue; if (nearBad(x, y)) continue;
+      for (const d of ["left", "right", "up", "down"]) { const [dx, dy] = DIRS[d]; if (MAP[y + dy] && MAP[y + dy][x + dx] === "=") { cands.push({ x, y, d }); break; } }
+    }
+    let placed = 0;
+    while (placed < 2 && cands.length) {
+      const c = cands.splice(Math.floor(r() * cands.length), 1)[0];
+      if (NPCS.some(n => Math.abs(n.x - c.x) + Math.abs(n.y - c.y) < 4)) continue;
+      const [name, title] = HS_TRAINERS[k % HS_TRAINERS.length], lv = HS_LV[id] + placed;
+      const pool = HS_POOL[id], team = Array.from({ length: 2 + (placed ? 1 : 0) }, () => { const s = SPECIES[ri(pool)]; return [s.id, lv + Math.floor(r() * 2)]; });
+      const out = ri(LOOK_OUT);
+      NPCS.push({ kind: "trainer", hs: true, id: `hstr-${id}-${placed}`, x: c.x, y: c.y, dir: c.d, name, title, area: id, lv, team, lines: [], topics: (HS_TOPICS[id] || []).filter(t => settings.cats[t]),
+        look: { skin: ri(LOOK_SKIN), hair: ri(LOOK_HAIR), hairStyle: ri(LOOK_STYLE), outfit: out[0], outfit2: out[1], hat: r() < 0.2 ? "beanie" : "none" },
+        intro: HS_TR_INTRO[k % HS_TR_INTRO.length], win: TR_WIN[k % TR_WIN.length], lose: TR_LOSE[k % TR_LOSE.length], after: "High school is tough, but you’re tougher!" });
+      placed++; k++;
+    }
+  }
+}
+function loadMap(id) {
+  CUR_MAP = id === "high" ? "high" : "school";
+  if (CUR_MAP === "high") buildHigh(); else { buildWorld(); placeTreasures(); }
+  NATURE.mons = []; NATURE.key = "";
+}
+function hsPlace(z) { return HS_ZONES[z] ? HS_ZONES[z][0] : z; }
+
+/* ---------- the bus ---------- */
+function busTalk() {
+  if (CUR_MAP === "high") return dialogue(["Heading back to the primary school? Hop on!"], busWho(), () => showModal(`<div class="qcard center" role="dialog" aria-modal="true"><h2>🚌 Ride the bus?</h2><p>Back to the primary school’s School Gate.</p><div class="row" style="justify-content:center"><button class="btn" data-act="busGo" data-arg="school">All aboard!</button><button class="btn ghost" data-act="close">Not yet</button></div></div>`));
+  if (!hsReady()) {
+    const need = PRIMARY_LEGENDS().filter(id => !owned(id)), have = PRIMARY_LEGENDS().length - need.length;
+    return dialogue(["G’day! This bus goes to Wordsworth High School.", "Only the most amazing primary school explorers can ride it. You need to:",
+      `${save.story && save.story.champion ? "✅" : "❌"} Beat Principal Mr Mac and become School Champion.`,
+      `${need.length ? "❌" : "✅"} Befriend every legendary creature (${have}/${PRIMARY_LEGENDS().length}).${need.length ? ` Still missing: ${need.map(id => inDex(id) ? SPECIES[id].name : "???").join(", ")}.` : ""}`,
+      "Come back when you’re ready!"], busWho());
+  }
+  dialogue(save.hs ? ["Back to Wordsworth High? Hop on!"] : ["Whoa. School Champion AND every legendary? You’re ready for high school!", "Next stop: Wordsworth High School! Mind the gap."], busWho(), () => showModal(`<div class="qcard center" role="dialog" aria-modal="true"><h2>🚌 Ride the bus?</h2><p>Next stop: Wordsworth High School.</p><div class="row" style="justify-content:center"><button class="btn" data-act="busGo" data-arg="high">All aboard!</button><button class="btn ghost" data-act="close">Not yet</button></div></div>`));
+}
+function busGo(to) {
+  closeModal(); document.querySelectorAll(".chapcard").forEach(x => x.remove());
+  const first = to === "high" && !save.hs;
+  const fx = document.createElement("div"); fx.className = "scootfx busfx"; fx.innerHTML = `<div class="scoot" aria-hidden="true">🚌</div><b>${to === "high" ? "Riding the bus to Wordsworth High…" : "Riding the bus back to the primary school…"}</b>`;
+  document.body.appendChild(fx); jingle("item");
+  setTimeout(() => {
+    const p = to === "high" ? { x: 34, y: 62, dir: "up", map: "high" } : (BUS_SCHOOL_SPOT || { x: 26, y: 59, dir: "down", map: "school" });
+    save.pos = Object.assign({}, p, { map: to === "high" ? "high" : "school" });
+    if (to === "high") save.hs = Object.assign(save.hs || {}, { arrived: true });
+    loadMap(save.pos.map);
+    if (W) { W.x = p.x; W.y = p.y; W.fx = p.x; W.fy = p.y; W.dir = p.dir; W.moving = false; W.held = null; W.region = null; const by = walkable(p.x, p.y + 1) ? p.y + 1 : p.y; W.buddy.x = p.x; W.buddy.y = by; W.buddy.fx = p.x; W.buddy.fy = by; }
+    STORY_COOL = first ? 0 : 3; persist(); showWorld(); netPos(true);
+    if (first) setTimeout(hsTitleCard, reduced ? 100 : 500);
+  }, reduced ? 200 : 1100);
+  setTimeout(() => fx.remove(), reduced ? 500 : 1800);
+}
+function hsTitleCard() {
+  const c = document.createElement("div"); c.className = "hstitle"; c.setAttribute("role", "dialog");
+  c.innerHTML = `<div class="hstin"><small>EXPANSION</small><b>WORD WILDS 2</b><i>🎓 Wordsworth High</i><span>New creatures, six departments, six badges, and something glitchy hiding in the Admin Block…</span><button class="btn" data-act="hsTitleClose">Let’s go!</button></div>`;
+  document.body.appendChild(c); jingle("victory");
+}
+let BUS_SCHOOL_SPOT = null;
+function addSchoolBus() {
+  const set = (x, y, t) => { if (MAP[y] && x >= 0 && x < MW) MAP[y][x] = t; };
+  const ok = [19, 20, 21, 22, 23].every(x => [59, 60].every(y => MAP[y][x] === "p"));
+  if (!ok) return;
+  BUILDINGS.push({ x: 19, y: 59, w: 5, h: 2, kind: "bus", id: "school_bus" });
+  for (let y = 59; y <= 60; y++) for (let x = 19; x <= 23; x++) set(x, y, "H");
+  NPCS.push({ kind: "bus", x: 25, y: 59, dir: "left", name: "Bus Driver Bev", look: BUS_LOOK, lines: [] });
+  BUS_SCHOOL_SPOT = { x: 25, y: 60, dir: "down" };
+  SIGNS["24,58"] = "🚌 Bus stop: Wordsworth High School. Only School Champions who have befriended every legendary may ride."; set(24, 58, "S");
+}
+function drawBus(g, b) {
+  const X = b.x * TS, Y = b.y * TS, Wd = b.w * TS, H = b.h * TS;
+  g.fillStyle = "rgba(0,0,0,.25)"; g.beginPath(); g.ellipse(X + Wd / 2, Y + H + 1, Wd / 2, 4, 0, 0, Math.PI * 2); g.fill();
+  g.fillStyle = "#FFC93C"; g.strokeStyle = "#1d1b3a"; g.lineWidth = 1.2;
+  g.beginPath(); g.roundRect ? g.roundRect(X + 1, Y - 10, Wd - 2, H + 8, 4) : g.rect(X + 1, Y - 10, Wd - 2, H + 8); g.fill(); g.stroke();
+  g.fillStyle = "#BDE8FF"; for (let i = 0; i < 6; i++) { g.fillRect(X + 6 + i * 12, Y - 6, 9, 7); g.strokeRect(X + 6 + i * 12, Y - 6, 9, 7); }
+  g.fillStyle = "#1d1b3a"; g.fillRect(X + 2, Y + 4, Wd - 4, 3);
+  g.fillStyle = "#1d1b3a"; g.font = "bold 5px sans-serif"; g.textAlign = "center"; g.fillText("SCHOOL BUS", X + Wd / 2, Y + 14);
+  for (const wx of [X + 14, X + Wd - 14]) { g.fillStyle = "#1d1b3a"; g.beginPath(); g.arc(wx, Y + H - 2, 5, 0, Math.PI * 2); g.fill(); g.fillStyle = "#B5BAC6"; g.beginPath(); g.arc(wx, Y + H - 2, 2, 0, Math.PI * 2); g.fill(); }
+  g.fillStyle = "#FFF6C2"; g.fillRect(X + Wd - 5, Y + 6, 3, 3);
+}
+
+/* ---------- departments, badges and the Principal ---------- */
+const headWho = id => { const h = HS_HEADS[id]; return { name: h.name, svg: h.svg ? h.svg() : personSVG(h.look) }; };
+function hsDoor(id) {
+  save.hsBadges = save.hsBadges || {};
+  const h = HS_HEADS[id], who = headWho(id);
+  if (save.hsBadges[id]) return dialogue(h.after, who, () => showModal(`<div class="qcard center" role="dialog" aria-modal="true"><h2>Practice battle?</h2><p>${esc(h.name)} is happy to battle again. Your team still gains experience.</p>
+    <div class="row" style="justify-content:center"><button class="btn" data-act="hsRematch" data-arg="${id}">⚔️ Battle</button><button class="btn ghost" data-act="close">Not now</button></div></div>`));
+  dialogue(h.hello, who, () => startHS(id));
+}
+function startHS(id, rematch) {
+  const h = HS_HEADS[id], t = (HS_TOPICS[id] || []).filter(c => settings.cats[c]);
+  startBattle({ mode: "hsgym", hs: id, rematch: !!rematch, z: id, mine: myFighters(party()), foes: h.team.map(([s, lv]) => mkFighter(s, lv, false, true)),
+    leaderName: h.name, portrait: headWho(id).svg, scene: ZONE[id], topics: t.length ? t : enabledCats(), hard: true });
+}
+function winHS() {
+  const id = BT.hs, h = HS_HEADS[id]; save.hsBadges = save.hsBadges || {};
+  const first = !save.hsBadges[id];
+  partyBonus(20, 30); if (first) { save.hsBadges[id] = true; save.coins += 100; } persist();
+  dialogue(first ? h.win : ["What a brilliant practice battle!"], headWho(id), () => afterBattle(() => first ? hsBadgeScreen(id) : showWorld()));
+}
+function loseHS() { const h = HS_HEADS[BT.hs]; dialogue(h.lose, headWho(BT.hs), () => afterBattle(whiteout)); }
+function hsBadgeScreen(id) {
+  const h = HS_HEADS[id]; app.dataset.screen = "badge"; jingle("victory");
+  app.innerHTML = `<section class="evo"><p class="evomsg">You earned the <b>${h.badge}</b>!</p><div class="hsbadge" aria-hidden="true">${h.icon}</div>
+    <p class="center">🪙 +100 Word Coins · 🎓 ${hsBadgeCount()}/6 department badges</p>
+    <div class="row" style="justify-content:center"><button class="btn" data-act="hsAfterBadge">Brilliant!</button></div></section>`;
+}
+function hsAfterBadge() {
+  const n = hsBadgeCount(), next = HS_ORDER.find(z => !save.hsBadges[z]);
+  const opens = { 1: "Brilliant start! The Science Labs are just east of the Main Quad.", 2: "The Year 7 Courtyard and the Drama Theatre are now open!", 3: "History Hall is now open!", 4: "The Languages Wing is now open!", 5: "The Sports Stadium is now open!", 6: "The Admin Block is open. Something glitchy is waiting there…" }[n];
+  dialogue([opens || "Nice work!", next ? `Next up: ${HS_HEADS[next].name} at the ${hsPlace(next)}.` : "You have every department badge!"], busWho(), showWorld);
+}
+function principalDoor() {
+  const who = { name: "Dr Sterling", svg: personSVG(STERLING_LOOK) };
+  if (save.chapters && save.chapters.h6) return dialogue(["Our Valedictorian! My door is always open to you.", "Have you visited the Staffroom? I hear two teachers are waiting for a rematch…"], who);
+  dialogue(["Dr Sterling’s office. A note on the door says: “In a meeting. Please come back when you have all six department badges.”"], { name: "Office door", svg: SIGN_SVG });
+}
+function serverDoor() {
+  if (!(save.chapters && save.chapters.h5)) return dialogue(["The Server Room hums and crackles. Glitchy red light leaks under the door…", "It’s locked. Whatever is in there isn’t ready to come out yet."], { name: "Server Room", svg: SIGN_SVG });
+  if (!owned("autocorrex")) return dialogue(["Autocorrex is curled up on top of a server, humming happily.", "It looks like it wants to be friends!"], { name: "Server Room", svg: SIGN_SVG }, () => { curZone = ZONE.hs_admin; startEncounter(SPECIES.autocorrex); });
+  dialogue(["The servers hum quietly. Every spellchecker in the school is working perfectly now."], { name: "Server Room", svg: SIGN_SVG });
+}
+function showCanteen() {
+  app.dataset.screen = "lab";
+  app.innerHTML = topbar("map") + `<h2 class="center">🍕 Wordsworth High Canteen</h2>
+    <div class="goalcard big"><div class="gp">${personSVG({ skin: "#F7D6BF", hair: "#5A3A1A", hairStyle: "bun", outfit: "#F28B30", outfit2: "#fff" })}</div><div><b>The canteen manager says:</b><p>“Berries, Golden Books and Mystery Eggs! Same prices as the primary school. Don’t tell anyone.”</p><p class="hint">${esc(nextGoalText())}</p></div></div>
+    <div class="coins">🪙 <b>${save.coins}</b> Word Coins</div>${shopHTML()}${navbar("map")}`;
+}
+
+/* ---------- glitchy signs ---------- */
+const AUTOWRONG_SWAP = { the: "teh", to: "too", your: "you’re", their: "there", here: "hear", school: "skool", welcome: "wellcome", high: "hi", with: "wiht", and: "adn", students: "studence", department: "deparment", badges: "badjes", science: "sience", history: "histery", head: "hed", every: "evry", please: "pleese", only: "onley" };
+function autoWrongText(s) { return s.replace(/[A-Za-z’]+/g, w => { const lw = w.toLowerCase(), rep = AUTOWRONG_SWAP[lw]; if (!rep) return w; return w[0] === w[0].toUpperCase() ? rep[0].toUpperCase() + rep.slice(1) : rep; }); }
+
+/* ---------- the story ---------- */
+const HS_CHAPTERS = [
+  { id: "h1", n: 1, map: "high", title: "First Day Nerves", need: 0, area: () => "hs_quad", who: "rival",
+    quest: "Someone familiar is waiting for you in the Main Quad.", summary: "Sunny started at Wordsworth High too, and you heard the speakers glitch.",
+    intro: ["No way! You’re here too?! I knew you’d make it!", "I’ve been training non-stop since primary school. My team is SO much stronger now.", "First-day battle, for old times’ sake?"],
+    team: () => [[rivalStarter(true), 45], ["highlightbug", 44]],
+    win: ["Okay, okay, you’re still amazing.", "Hey… did the speakers just say “Wellcome too Wordsworth Hi Skool”?"],
+    after: ["*crackle* WELLCOME TOO WORDSWORTH HI SKOOL. PLEESE GO TOO YOU’RE CLASSES. *bzzt*", "…Ahem. Sorry about that, students. Our computer system has been acting strangely. I’m Dr Sterling, your principal. Work hard, and win all six department badges!"],
+    afterWho: { name: "Dr Sterling (on the speakers)", svg: personSVG(STERLING_LOOK) }, reward: { coins: 60, berry: 3 } },
+  { id: "h2", n: 2, map: "high", title: "Glitches in the Labs", need: 1, area: () => "hs_science", who: "hsgrunt", grunt: "Glitch Gus", autowrong: true,
+    quest: "Something is “correcting” the signs in the {place}. Find out who!", summary: "You stopped Glitch Gus and heard the name Autowrong for the first time.",
+    call: ["Psst! It’s Sunny. The signs in the {place} have gone weird.", "Every word is being “corrected” into the WRONG word. Go and check it out!"], callWho: "rival",
+    intro: ["Heh heh. Like my upgrades? I’m helping Autowrong “fix” every sign.", "Autowrong is the smartest spellchecker ever. It corrects EVERYTHING. Even words that were already right!", "Want to stop me? Bring it!"],
+    team: () => [["glitchling", 47], ["glitchling", 48], ["atomite", 48]],
+    win: ["Error! Error! My glitches are crashing!", "Fine! But Autowrong is in the Server Room under the Admin Block, and it’s getting STRONGER every day!"],
+    after: ["Autowrong? It’s the school’s old spellchecker program. It was switched off years ago…", "If it’s back online, nobody’s writing will be safe. Keep earning badges. You’ll need them to reach the Admin Block."], afterWho: { name: "Dr Neutron", svg: personSVG(HS_HEADS.hs_science.look) },
+    reward: { coins: 80, book: 2 } },
+  { id: "h3", n: 3, map: "high", title: "Mr H… ULTRA!", need: 3, area: () => "hs_yard", who: "mrh",
+    quest: "A huge burst of energy is coming from the {place}…", summary: "You battled Mr H in his ULTRA form, and he joined the fight against Autowrong.",
+    call: ["Did you feel that?! The whole school just shook!", "It came from the {place}. Something… or someone… is powering up!"], callWho: "rival",
+    intro: ["Well, well! If it isn’t my favourite Bobtails explorer. All grown up!", "I teach Year 7 here now. And I’ve been training. Every prefix. Every suffix. Every… single… day.", "UN-believable power. RE-charged and UN-stoppable. Behold… MR H… ULTRA!"],
+    team: () => [["suffixaroo", 54], ["unbelievahippo", 55], ["atomammoth", 56]],
+    win: ["UN-BELIEVABLE! You’ve got even stronger than me!", "Listen closely. Autowrong has been changing words all over the school. It even tried to “correct” my name to Mr Hay.", "When you have all six badges, meet me at the Admin Block. We’ll shut it down together!"],
+    reward: { coins: 100, book: 2, berry: 3 } },
+  { id: "h4", n: 4, map: "high", title: "Sunny’s Last Stand", need: 5, area: () => "hs_history", who: "rival",
+    quest: "Sunny is waiting for you in the {place}.", summary: "You and Sunny had one last battle before facing Autowrong.",
+    intro: ["Before you face Autowrong, I need to know. Are you REALLY ready?", "This is my strongest team ever. Don’t hold back!"],
+    team: () => [[rivalStarter(true), 57], ["polyglotl", 56], ["scrollamander", 57]],
+    win: ["Yep. You’re ready. You’ve always been ready.", "Go get that glitchy robot. I’ll be cheering for you!"], reward: { coins: 100, berry: 4, egg: "mystery" } },
+  { id: "h5", n: 5, map: "high", title: "The Autowrong Uprising", need: 6, area: () => "hs_admin", who: "auto",
+    quest: "You have every department badge! Stop Autowrong in the {place}.", summary: "You defeated Autowrong, and it rebooted as a friendly creature called Autocorrex.",
+    intro: ["WELLCOME, USER. I AM AUTOWRONG. I CORRECT ALL ERRORS.", "YOUR → YOU’RE. THEIR → THERE. CAT → HAT. EVERYTHING WILL BE CORRECTED.", "RESISTANCE IS SPELLED R-E-Z-I-S-T-E-N-S. PREPARE FOR CORRECTION."],
+    team: () => [["glitchling", 60], ["glitchaos", 61], ["typogre", 61], ["glitchaos", 62]],
+    win: ["ERROR… ERROR… SPELLING… CORRECT… I… was only… trying to help…", "…", "Rebooting… *beep* Hello! I am Autocorrex. I will only fix words that are actually wrong. Sorry about the signs!"],
+    after: ["Ha! Switch it off and on again. Works every time.", "Look at that. It’s shrunk into a little creature. I think it wants to be friends!"], afterWho: { name: "Mr H", svg: mrHUltraSVG() },
+    reward: { coins: 150, book: 3 }, onFinish: () => { curZone = ZONE.hs_admin; jingle("evolve"); dialogue(["✨ Autocorrex is a legendary creature! Answer questions to win its trust.", "If it runs off, you’ll find it in the Server Room."], { name: "Autocorrex", svg: creatureSVG(SPECIES.autocorrex) }, () => startEncounter(SPECIES.autocorrex)); } },
+  { id: "h6", n: 6, map: "high", title: "Valedictorian", need: "chap:h5", area: () => "hs_admin", who: "sterling",
+    quest: "Principal Dr Sterling wants to see you in the {place}.", summary: "You beat Principal Dr Sterling and became Wordsworth High’s Valedictorian!",
+    intro: ["You saved our school from Autowrong. Thank you.", "Every year, our best student is named Valedictorian. To earn it, you must beat me.", "I’ve been an English teacher for thirty years. I won’t go easy on you!"],
+    team: () => [["paragriffin", 63], ["scrollamander", 63], ["polyglotl", 64], ["alphawolf", 64], ["wordwyrm", 65]],
+    win: ["Extraordinary. Simply extraordinary.", "I hereby name you… Valedictorian of Wordsworth High School!"],
+    reward: { coins: 250, book: 3, berry: 5 }, onFinish: () => hsGraduation() }
+];
+CHAPTERS.push(...HS_CHAPTERS); HS_CHAPTERS.forEach(c => { CH[c.id] = c; });
+function hsGraduation() {
+  app.dataset.screen = "badge"; jingle("victory");
+  app.innerHTML = `<section class="evo grad"><div class="gradhat" aria-hidden="true">🎓</div><p class="evomsg">Congratulations, <b>${esc(save.name || "Explorer")}</b>!</p>
+    <h2 class="center">Valedictorian of Wordsworth High</h2>
+    <p class="center">📖 ${dexCount()} creatures befriended · 🏅 ${Object.values(save.badges).filter(Boolean).length} class badges · 🎓 ${hsBadgeCount()} department badges</p>
+    <div class="row" style="justify-content:center"><button class="btn" data-act="hsGradDone">Throw your hat in the air!</button></div></section>`;
+}
+function hsGradDone() {
+  dialogue(["Psst. Hey, Valedictorian. It’s me, Mr H. Still ULTRA, obviously.", "Mr P and I are in the Staffroom. We’ve got one more challenge for you…", "…and a MEGA LEGENDARY that only appears for true graduates."], { name: "Mr H", svg: mrHUltraSVG() }, showWorld);
+}
+function hsGoalText() {
+  const ch = currentChapter(); if (ch) return fillStory(ch.quest, ch);
+  const next = HS_ORDER.find(id => !(save.hsBadges || {})[id]);
+  if (next) return `Earn the ${HS_HEADS[next].badge} from ${HS_HEADS[next].name} at the ${hsPlace(next)}.`;
+  if (save.chapters && save.chapters.h6 && !owned("alphabetaurus")) return "🎓 Mr H and Mr P are waiting for you in the Staffroom!";
+  return "🎓 You’re the Valedictorian of Wordsworth High! Keep filling your Word Book.";
+}
+
+/* ---------- map screen ---------- */
+const HS_LINKS = [["hs_quad", "hs_english"], ["hs_quad", "hs_science"], ["hs_quad", "hs_yard"], ["hs_english", "hs_drama"], ["hs_science", "hs_history"], ["hs_yard", "hs_drama"], ["hs_yard", "hs_history"], ["hs_drama", "hs_languages"], ["hs_history", "hs_stadium"], ["hs_yard", "hs_admin"], ["hs_admin", "hs_languages"], ["hs_admin", "hs_stadium"]];
+function hsIslandSVG() {
+  const k = 400 / MW, kk = 500 / MH, c = id => { const [x, y, w, h] = HS_RECTS[id]; return [(x + w / 2) * k, (y + h / 2) * kk]; };
+  return `<svg viewBox="0 0 400 500" class="islandsvg" aria-hidden="true"><rect width="400" height="500" rx="24" fill="#4FA8E8"/><rect x="${2 * k}" y="${10 * kk}" width="${64 * k}" height="${60 * kk}" rx="16" fill="#62B34D" stroke="#2E7D32" stroke-width="4"/>
+    ${HS_LINKS.map(([a, b]) => { const [x1, y1] = c(a), [x2, y2] = c(b); return `<path d="M${x1} ${y1} L${x2} ${y2}" stroke="#E8D2B6" stroke-width="7" stroke-linecap="round"/>`; }).join("")}
+    ${Object.entries(HS_RECTS).map(([id, [x, y, w, h]]) => `<rect x="${x * k}" y="${y * kk}" width="${w * k}" height="${h * kk}" rx="10" fill="${ZONE[id].g1}" stroke="#1d1b3a" stroke-opacity=".35" stroke-width="2"/>`).join("")}</svg>`;
+}
+function showHSMap() {
+  document.querySelectorAll(".chapcard").forEach(x => x.remove());
+  app.dataset.screen = "map";
+  const here = W ? regionAt(W.x, W.y) : null;
+  app.innerHTML = topbar("explore") + `<h2 class="center">🗺️ Wordsworth High</h2><p class="hint center maphint">🛴 Tap a place you’ve visited to scoot there.</p><div class="island">${hsIslandSVG()}
+    ${Object.entries(HS_RECTS).map(([id, [x, y, w, h]]) => {
+      const locked = hsBadgeCount() < HS_REQ[id] && settings.story !== false, head = HS_HEADS[id], got = save.hsBadges && save.hsBadges[id];
+      return `<button class="zpin${id === here ? " here" : ""}${locked ? " locked" : ""}" style="left:${(x + w / 2) / MW * 100}%;top:${(y + h / 2) / MH * 100}%" data-act="${locked ? "hsLocked" : "travelInfo"}" data-arg="${id}">
+        <span class="zicon" aria-hidden="true">${locked ? "🔒" : ZONE[id].icon}${got ? `<i class="pinbadge hsmini">${head.icon}</i>` : ""}</span><b>${hsPlace(id).replace(" Department", "").replace("Year 7 ", "")}</b>${head ? `<small>${got ? "✅ badge" : head.name}</small>` : ""}</button>`; }).join("")}
+    ${friendPins()}</div>
+    <div class="goalstrip" data-act="quests" role="button" tabindex="0">📜 ${nextGoalText()}</div>${navbar("map")}`;
+}
 
 /* ===================== PLAY WITH FRIENDS (Supabase Realtime) ===================== */
 /* Rooms use Supabase Realtime “broadcast” and “presence”, so no database tables are needed.
@@ -6769,7 +7753,7 @@ function netPos(force) {
   const inWorld = app.dataset.screen === "world" && !!W;
   const p = { pid: NET.pid, name: save.name || "Explorer", colour: save.colour || "blue", buddy: save.buddy,
     status: inWorld ? "world" : app.dataset.screen === "battle" || app.dataset.screen === "encounter" ? "battle" : "busy",
-    x: W ? W.x : 26, y: W ? W.y : 57, dir: W ? W.dir : "down", run: !!(W && W.running) };
+    x: W ? W.x : 26, y: W ? W.y : 57, dir: W ? W.dir : "down", run: !!(W && W.running), m: CUR_MAP };
   const key = [p.x, p.y, p.dir, p.status, p.buddy].join();
   if (!force && key === NET.lastPos) return;
   NET.lastPos = key;
@@ -6783,7 +7767,7 @@ function onPos(p) {
   if (!Number.isFinite(tx) || !Number.isFinite(ty) || tx < 0 || ty < 0 || tx >= MW || ty >= MH) return;
   const o = o0 || (NET.others[p.pid] = { pid: p.pid, fx: tx, fy: ty, x: tx, y: ty, bx: tx, by: ty - 1, bfx: tx, bfy: ty - 1 });
   if (tx !== o.x || ty !== o.y) { o.bx = o.x; o.by = o.y; }
-  o.x = tx; o.y = ty;
+  o.x = tx; o.y = ty; o.m = p.m === "high" ? "high" : "school";
   if (Math.abs(tx - o.fx) + Math.abs(ty - o.fy) > 2) { o.fx = tx; o.fy = ty; o.bx = tx; o.by = ty - 1; o.bfx = o.bx; o.bfy = o.by; }
   o.name = String(p.name || "Explorer").slice(0, 14); o.colour = TRAINER_COLOURS[p.colour] ? p.colour : "blue";
   o.buddy = SPECIES[p.buddy] ? p.buddy : null; o.dir = DIRS[p.dir] ? p.dir : "down"; o.run = !!p.run;
@@ -6799,6 +7783,7 @@ function updateOthers(dt) {
 }
 function drawOthersEnts(g, ents, now) {
   for (const o of Object.values(NET.others)) {
+    if ((o.m || "school") !== CUR_MAP) continue;
     const alpha = o.status === "world" ? 1 : 0.45, bs = o.buddy && SPECIES[o.buddy];
     if (bs) ents.push({ y: o.bfy, draw: () => { const s = svgSprite(bs.id, creatureSVG(bs), 22); g.globalAlpha = alpha; dropShadow(g, o.bfx * TS, o.bfy * TS, 12); if (s) g.drawImage(s, o.bfx * TS - 3, o.bfy * TS - 7 + Math.round(Math.sin(now / 160 + 1)), 22, 22); g.globalAlpha = 1; } });
     const fr = o.moving ? (Math.floor((o.anim || 0) / (o.run ? RUN_MS : STEP_MS)) % 2 ? 1 : 2) : 0;
@@ -6806,7 +7791,7 @@ function drawOthersEnts(g, ents, now) {
   }
 }
 function drawNameTags(g) {
-  const list = Object.values(NET.others); if (!list.length) return;
+  const list = Object.values(NET.others).filter(o => (o.m || "school") === CUR_MAP); if (!list.length) return;
   g.font = "bold 5px 'Baloo 2', 'Trebuchet MS', sans-serif"; g.textAlign = "center"; g.textBaseline = "middle";
   for (const o of list) {
     const label = o.name + (o.status === "battle" ? " ⚔️" : o.status === "busy" ? " …" : "");
@@ -6818,7 +7803,7 @@ function drawNameTags(g) {
   }
   g.textAlign = "start"; g.textBaseline = "alphabetic";
 }
-function friendAt(x, y) { return Object.values(NET.others).find(o => o.status === "world" && Math.round(o.fx) === x && Math.round(o.fy) === y); }
+function friendAt(x, y) { return Object.values(NET.others).find(o => o.status === "world" && (o.m || "school") === CUR_MAP && Math.round(o.fx) === x && Math.round(o.fy) === y); }
 function friendMenu(o) {
   if (!NET.peers.some(p => p.pid === o.pid)) return;
   SFX.blip();
@@ -6835,7 +7820,7 @@ function netEmote(kind) {
 }
 function netBack() { if (NET.back === "world" || !NET.ch) showWorld(); else showRoom(); }
 function friendPins() {
-  return Object.values(NET.others).map(o => `<span class="fpin" style="left:${(o.x + .5) / MW * 100}%;top:${(o.y + .5) / MH * 100}%"><i style="background:${(TRAINER_COLOURS[o.colour] || TRAINER_COLOURS.blue).hat}"></i><b>${esc(o.name)}</b></span>`).join("");
+  return Object.values(NET.others).filter(o => (o.m || "school") === CUR_MAP).map(o => `<span class="fpin" style="left:${(o.x + .5) / MW * 100}%;top:${(o.y + .5) / MH * 100}%"><i style="background:${(TRAINER_COLOURS[o.colour] || TRAINER_COLOURS.blue).hat}"></i><b>${esc(o.name)}</b></span>`).join("");
 }
 
 /* ---------- teacher settings ---------- */
@@ -7035,6 +8020,8 @@ Object.assign(ACT, {
   online: () => showOnline(), netCreate: () => joinRoom(newCode()), netJoin: () => joinRoom((document.getElementById("joincode") || {}).value),
   netLeave: () => leaveRoom(false), netTrade: pid => netAsk(pid, "trade"), netBattle: pid => netAsk(pid, "battle"), netYes, netNo,
   tradePick, tradeReady, tradeCancel, tradeAfter: id => tradeAfter(id), pvpDone,
+  busGo: to => busGo(to), hsTitleClose: () => document.querySelectorAll(".hstitle").forEach(x => x.remove()), hsRematch: id => { closeModal(); startHS(id, true); }, hsAfterBadge, hsGradDone,
+  hsLocked: id => toast(`🔒 You need ${HS_REQ[id]} department badges to go there.`),
   trainPick, trainStart: id => trainStart(id), coachSpar, naturePat: id => naturePat(id), natureSwap: a => natureSwap(a),
   bTarget, mythicRematch: id => { closeModal(); startMythic(id, true); },
   worldTrade: pid => { closeModal(); netAsk(pid, "trade"); }, worldBattle: pid => { closeModal(); netAsk(pid, "battle"); }, netEmote
