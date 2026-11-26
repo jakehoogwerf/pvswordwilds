@@ -1259,7 +1259,7 @@ label.field .tinput{margin-top:4px;font-size:1rem}
    To let pupils trade and battle with friends on every device, paste your Supabase
    Project URL and anon public key below (Supabase: Project Settings, then API).
    Leave them empty to keep online play switched off. */
-const ONLINE_CONFIG = { url: "https://awxmgiindzlwtgoxtxdt.supabase.co", anonKey: "sb_publishable_9YTsc1bf-_IZKj-KdmQVfg_uOhr997p" };
+const ONLINE_CONFIG = { url: "", anonKey: "" };
 
 /* ---------- helpers ---------- */
 const app = document.getElementById("app");
@@ -6156,7 +6156,7 @@ function teamPut(id) {
 let save = store.get(PKEY("save"), null);
 function newSave() { return { buddy: null, team: {}, seen: {}, caught: 0 }; }
 let lastSavePing = 0;
-function persist() { if (!save) return; store.set(PKEY("save"), save); if (typeof savedPing === "function") savedPing(); if (typeof reportSoon === "function") reportSoon(); }
+function persist() { if (!save) return; store.set(PKEY("save"), save); if (typeof savedPing === "function") savedPing(); try { reportSoon(); } catch (e) { setTimeout(() => { try { reportSoon(); } catch (e2) {} }, 3000); } }
 function owned(id) { return !!(save && save.team[id]); }
 function zonesOpen() {
   const custom = parseCustom(settings.custom).length;
@@ -8074,8 +8074,8 @@ async function sbClient() {
   if (!NET.sb) NET.sb = lib.createClient(cfg.u, cfg.k, { auth: { persistSession: false, autoRefreshToken: false }, realtime: { params: { eventsPerSecond: 20 } } });
   return NET.sb;
 }
-const cleanCode = c => String(c || "").toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 12);
-const classCode = () => cleanCode((save && save.classCode) || settings.classCode);
+function cleanCode(c) { return String(c || "").toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 12); }
+function classCode() { return cleanCode((save && save.classCode) || (settings && settings.classCode)); }
 function progressSummary() {
   const topics = {};
   for (const cat of Object.keys(CATS)) {
@@ -8088,9 +8088,9 @@ function progressSummary() {
     champ: !!(save.story && save.story.champion), vale: !!(save.chapters && save.chapters.h6), charm: !!save.charm,
     topLv: lvls.length ? Math.max(...lvls) : 1, asked: prog.asked || 0, chapters: Object.keys(save.chapters || {}).length, topics };
 }
-let REPORT_T = 0, REPORT_TIMER = null;
+var REPORT_T = 0, REPORT_TIMER = null;
 function reportSoon() {
-  if (!save || !save.buddy || !classCode() || !netCfg()) return;
+  if (typeof NET === "undefined" || !save || !save.buddy || !classCode() || !netCfg()) return;
   clearTimeout(REPORT_TIMER);
   REPORT_TIMER = setTimeout(reportNow, Math.max(5000, 60000 - (Date.now() - REPORT_T)));
 }
@@ -8143,7 +8143,7 @@ async function dashCopySQL() {
   const t = document.getElementById("dashsql"), m = document.getElementById("sqlmsg");
   try { await navigator.clipboard.writeText(DASH_SQL); if (m) m.textContent = "✅ Copied!"; } catch (e) { if (t) { t.select(); document.execCommand && document.execCommand("copy"); } if (m) m.textContent = "Selected. Press Ctrl+C (or Cmd+C) to copy."; }
 }
-let DASH = null;
+var DASH = null;
 async function dashOpen() {
   const code = cleanCode(document.getElementById("dashCode").value), pin = document.getElementById("dashPin").value, msg = document.getElementById("dashmsg");
   const say = t => { if (msg) msg.textContent = t; };
