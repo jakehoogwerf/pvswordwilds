@@ -2329,6 +2329,20 @@ const SPECIES_LIST = [
   { id: "pharaowl", name: "Pharaowl", type: "grammar", arch: "bird", stage: 2, rarity: 3, hs: true, habitat: "hs", desc: "Found at Wordsworth High. An ancient owl king. It always uses the past tense." },
   { id: "bouncub", name: "Bouncub", type: "wordclass", arch: "pup", stage: 1, evo: "slamdunkey", rarity: 2, hs: true, habitat: "hs", desc: "Found at Wordsworth High. A bear cub who never stops bouncing. Bounce is a verb!" },
   { id: "slamdunkey", name: "Slamdunkey", type: "wordclass", arch: "pup", stage: 2, rarity: 3, hs: true, habitat: "hs", desc: "Found at Wordsworth High. It jumps, dunks and scores. Every move is an action verb." },
+  { id: "telepup", name: "Telepup", type: "affixes", arch: "pup", stage: 1, evo: "telescorpion", rarity: 2, hs: true, habitat: "hs", desc: "Found at Wordsworth High. A puppy with a telescope. Tele- means far away." },
+  { id: "telescorpion", name: "Telescorpion", type: "affixes", arch: "dino", stage: 2, rarity: 3, hs: true, habitat: "hs", desc: "Found at Wordsworth High. Its tail is a telescope. It reads words written on faraway stars." },
+  { id: "quotter", name: "Quotter", type: "punctuation", arch: "pup", stage: 1, evo: "monologator", rarity: 2, hs: true, habitat: "hs", desc: "Found at Wordsworth High. An otter that always holds a pair of speech marks." },
+  { id: "monologator", name: "Monologator", type: "punctuation", arch: "dino", stage: 2, rarity: 3, hs: true, habitat: "hs", desc: "Found at Wordsworth High. An alligator actor that never forgets its speech marks. “To be or not to be…”" },
+  { id: "yesterbun", name: "Yesterbun", type: "grammar", arch: "pup", stage: 1, evo: "hareloom", rarity: 2, hs: true, habitat: "hs", desc: "Found at Wordsworth High. A bunny with a clock. It always talks about yesterday." },
+  { id: "hareloom", name: "Hareloom", type: "grammar", arch: "pup", stage: 2, rarity: 3, hs: true, habitat: "hs", desc: "Found at Wordsworth High. A royal hare with a monocle. Its stories all happened long ago, in the past tense." },
+  { id: "pearling", name: "Pearling", type: "homophones", arch: "blob", stage: 1, evo: "pearadise", rarity: 2, hs: true, habitat: "hs", desc: "Found at Wordsworth High. A pear that knows “pear” and “pair” sound the same." },
+  { id: "pearadise", name: "Pearadise", type: "homophones", arch: "blob", stage: 2, rarity: 3, hs: true, habitat: "hs", desc: "Found at Wordsworth High. A pair of pears. Get it? They always stick together." },
+  { id: "swimp", name: "Swimp", type: "wordclass", arch: "blob", stage: 1, evo: "splashark", rarity: 2, hs: true, habitat: "hs", desc: "Found at Wordsworth High. A shrimp in swimming goggles. Swim, splash, dive: all verbs!" },
+  { id: "splashark", name: "Splashark", type: "wordclass", arch: "blob", stage: 2, rarity: 3, hs: true, habitat: "hs", desc: "Found at Wordsworth High. The fastest swimmer in the school pool. Every move is an action verb." },
+  { id: "quillet", name: "Quillet", type: "vocab", arch: "bird", stage: 1, evo: "quillionaire", rarity: 2, hs: true, habitat: "hs", desc: "Found at Wordsworth High. A little bird with a feather quill. It collects fancy words." },
+  { id: "quillionaire", name: "Quillionaire", type: "vocab", arch: "bird", stage: 2, rarity: 3, hs: true, habitat: "hs", desc: "Found at Wordsworth High. It owns a million words, and it spends them wisely." },
+  { id: "bugbyte", name: "Bugbyte", type: "muddle", arch: "blob", stage: 1, evo: "bugzilla", rarity: 2, hs: true, habitat: "hs", desc: "Found at Wordsworth High. A tiny computer bug that scrambles letters in your homework." },
+  { id: "bugzilla", name: "Bugzilla", type: "muddle", arch: "dino", stage: 2, rarity: 3, hs: true, habitat: "hs", desc: "Found at Wordsworth High. ERROR 404: spelling not found. A giant glitchy bug from the Server Room." },
   { id: "autocorrex", name: "Autocorrex", type: "legend", arch: "blob", stage: 2, rarity: 4, hs: true, habitat: "hs", fLv: 60, desc: "The rebooted Autowrong. Now it only fixes words that are actually wrong. A legendary of Wordsworth High." },
   { id: "alphabetaurus", name: "Alphabetaurus", type: "mega", arch: "dino", stage: 2, rarity: 5, hs: true, habitat: "hs", fLv: 70, desc: "The second MEGA LEGENDARY. A colossal dragon made of every letter from A to Z. Only true graduates can befriend it." },
   // ---- even more creatures ----
@@ -4253,6 +4267,70 @@ Object.assign(HAND, {
     <path d="M128 124 Q152 96 158 60" fill="none" stroke="${OL}" stroke-width="16" stroke-linecap="round"/><path d="M128 124 Q152 96 158 60" fill="none" stroke="#9AA0B5" stroke-width="10" stroke-linecap="round"/>
     <path d="M74 64 L62 22 L86 50Z M114 60 L124 18 L102 48Z" fill="#9AA0B5" ${HO}/><ellipse cx="96" cy="78" rx="30" ry="32" fill="#9AA0B5" ${HO}/><ellipse cx="96" cy="98" rx="20" ry="14" fill="#E6E6EE" ${HO}/>
     <circle cx="90" cy="98" r="2.5" fill="${OL}"/><circle cx="102" cy="98" r="2.5" fill="${OL}"/>${eyes2(84, 108, 72, 7, true)}</g>`
+});
+
+Object.assign(HAND, {
+  telepup: () => `${hs(38)}<g class="idle"><g transform="translate(130 96) rotate(-30)"><rect x="-6" y="-8" width="44" height="16" rx="4" fill="#3F6FD8" ${HO}/><rect x="34" y="-11" width="10" height="22" rx="3" fill="#B5BAC6" ${HO}/></g>
+    <ellipse cx="96" cy="150" rx="30" ry="26" fill="#F2C27A" ${HO}/><ellipse cx="68" cy="110" rx="10" ry="18" fill="#C98A4B" ${HO}/><ellipse cx="124" cy="110" rx="10" ry="18" fill="#C98A4B" ${HO}/>
+    <circle cx="96" cy="112" r="26" fill="#F2C27A" ${HO}/>${eyes2(86, 106, 108, 6)}<ellipse cx="96" cy="122" rx="5" ry="4" fill="${OL}"/>${signBoard(70, 52, 44, "tele-", "#fff", 11)}</g>`,
+  telescorpion: () => `${hs(62)}<g class="idle"><path d="M140 150 Q180 120 160 80 Q150 60 130 66" fill="none" stroke="${OL}" stroke-width="18" stroke-linecap="round"/><path d="M140 150 Q180 120 160 80 Q150 60 130 66" fill="none" stroke="#9B5DE5" stroke-width="12" stroke-linecap="round"/>
+    <g transform="translate(122 62) rotate(-150)"><rect x="-4" y="-9" width="40" height="18" rx="4" fill="#3F6FD8" ${HO}/><circle cx="36" cy="0" r="10" fill="#BDE8FF" ${HO}/></g>
+    ${[0, 1, 2].map(i => `<path d="M${70 - i * 6} ${150 + i * 10} l-24 ${8 + i * 4} M${130 + i * 6} ${150 + i * 10} l20 ${8 + i * 4}" stroke="${OL}" stroke-width="5" stroke-linecap="round"/>`).join("")}
+    <ellipse cx="100" cy="150" rx="40" ry="28" fill="#9B5DE5" ${HO}/><path d="M64 128 Q40 110 36 90 M136 128 Q160 120 166 104" stroke="${OL}" stroke-width="7" stroke-linecap="round" fill="none"/>
+    <circle cx="34" cy="86" r="10" fill="#7E4BBD" ${HO}/>${eyes2(88, 112, 140, 8, true)}${[["⭐", 40, 40], ["✨", 176, 30]].map(([t, x, y]) => `<text x="${x}" y="${y}" font-size="18">${t}</text>`).join("")}</g>`,
+  quotter: () => `${hs(38)}<g class="hop"><ellipse cx="100" cy="150" rx="28" ry="30" fill="#8B5A2B" ${HO}/><ellipse cx="100" cy="158" rx="16" ry="18" fill="#E8C28E"/>
+    <circle cx="100" cy="108" r="26" fill="#8B5A2B" ${HO}/><circle cx="78" cy="88" r="7" fill="#8B5A2B" ${HO}/><circle cx="122" cy="88" r="7" fill="#8B5A2B" ${HO}/><ellipse cx="100" cy="118" rx="12" ry="9" fill="#E8C28E"/>${eyes2(90, 110, 104, 6)}<ellipse cx="100" cy="114" rx="4" ry="3" fill="${OL}"/>
+    <g transform="translate(42 112)"><g transform="translate(0 0)"><circle cx="0" cy="0" r="7" fill="#fff" stroke="${OL}" stroke-width="3"/><path d="M-5 -4 Q-6 -16 4 -20" fill="none" stroke="${OL}" stroke-width="3.5" stroke-linecap="round"/></g><g transform="translate(16 0)"><circle cx="0" cy="0" r="7" fill="#fff" stroke="${OL}" stroke-width="3"/><path d="M-5 -4 Q-6 -16 4 -20" fill="none" stroke="${OL}" stroke-width="3.5" stroke-linecap="round"/></g></g><g transform="translate(158 112) scale(-1 1)"><g transform="translate(0 0)"><circle cx="0" cy="0" r="7" fill="#fff" stroke="${OL}" stroke-width="3"/><path d="M-5 -4 Q-6 -16 4 -20" fill="none" stroke="${OL}" stroke-width="3.5" stroke-linecap="round"/></g><g transform="translate(16 0)"><circle cx="0" cy="0" r="7" fill="#fff" stroke="${OL}" stroke-width="3"/><path d="M-5 -4 Q-6 -16 4 -20" fill="none" stroke="${OL}" stroke-width="3.5" stroke-linecap="round"/></g></g>
+  </g>`,
+  monologator: () => `${hs(62)}<g class="idle"><path d="M136 160 Q180 168 190 140" fill="none" stroke="${OL}" stroke-width="16" stroke-linecap="round"/><path d="M136 160 Q180 168 190 140" fill="none" stroke="#3E9B4E" stroke-width="10" stroke-linecap="round"/>
+    <ellipse cx="76" cy="184" rx="14" ry="7" fill="#2E7D32" ${HO}/><ellipse cx="124" cy="184" rx="14" ry="7" fill="#2E7D32" ${HO}/><ellipse cx="100" cy="148" rx="44" ry="36" fill="#3E9B4E" ${HO}/>
+    <path d="M70 120 Q70 140 100 142 Q130 140 130 120Z" fill="#7E1F3A" ${HO}/><path d="M78 124 V140 M122 124 V140" stroke="#FFD447" stroke-width="3"/>
+    <path d="M60 80 Q60 52 100 50 Q140 52 140 80 L166 92 Q170 104 156 106 L100 108 Q60 106 60 80Z" fill="#3E9B4E" ${HO}/><path d="M104 96 L160 98" stroke="${OL}" stroke-width="3"/>${[112, 124, 136, 148].map(x => `<path d="M${x} 97 l4 5 4 -5" fill="#fff" stroke="${OL}" stroke-width="1.5"/>`).join("")}
+    ${eyes2(80, 104, 70, 8, true)}<g transform="translate(40 128) rotate(-10)"><path d="M-10 -14 Q0 -20 10 -14 Q10 6 0 10 Q-10 6 -10 -14Z" fill="#fff" ${HO}/><path d="M-4 -4 h2 M3 -4 h2 M-4 2 Q0 6 4 2" stroke="${OL}" stroke-width="2" fill="none"/></g>${bubble(160, 36, 54, "To be…")}</g>`,
+  yesterbun: () => `${hs(38)}<g class="hop"><ellipse cx="100" cy="152" rx="28" ry="26" fill="#E9ECF5" ${HO}/><path d="M86 100 Q78 60 88 50 Q96 62 94 100Z M114 100 Q122 60 112 50 Q104 62 106 100Z" fill="#E9ECF5" ${HO}/>
+    <circle cx="100" cy="114" r="24" fill="#E9ECF5" ${HO}/>${eyes2(91, 109, 110, 6)}<ellipse cx="100" cy="122" rx="4" ry="3" fill="#FF8FA3" stroke="${OL}" stroke-width="2"/>
+    <g transform="translate(140 150)"><circle r="16" fill="#FFF3D6" ${HO}/><path d="M0 0 V-10 M0 0 L-8 4" stroke="${OL}" stroke-width="3" stroke-linecap="round"/><path d="M-20 -10 q-6 6 0 12" fill="none" stroke="#E63946" stroke-width="3"/><path d="M-26 -6 l6 -4 l2 6" fill="#E63946"/></g></g>`,
+  hareloom: () => `${hs(62)}<g class="idle"><ellipse cx="74" cy="184" rx="16" ry="7" fill="#C9B6FF" ${HO}/><ellipse cx="126" cy="184" rx="16" ry="7" fill="#C9B6FF" ${HO}/>
+    <path d="M56 182 Q50 116 100 108 Q150 116 144 182Z" fill="#E3D4FF" ${HO}/><path d="M64 120 Q100 140 136 120 L140 180 H60Z" fill="#7E1F3A" ${HO}/><circle cx="100" cy="134" r="10" fill="#FFD447" ${HO}/><path d="M100 126 V142 M92 134 H108" stroke="${OL}" stroke-width="2"/>
+    <path d="M82 70 Q66 20 78 8 Q92 22 92 68Z M118 70 Q134 20 122 8 Q108 22 108 68Z" fill="#E3D4FF" ${HO}/><circle cx="100" cy="82" r="28" fill="#E3D4FF" ${HO}/>
+    <circle cx="112" cy="80" r="10" fill="none" stroke="#C9962B" stroke-width="3"/><path d="M122 82 Q130 96 124 110" fill="none" stroke="#C9962B" stroke-width="2"/>${eyes2(88, 112, 80, 6)}<ellipse cx="100" cy="94" rx="4" ry="3" fill="#FF8FA3" stroke="${OL}" stroke-width="2"/>
+    <path d="M78 58 L86 48 L94 56 L100 44 L106 56 L114 48 L122 58Z" fill="#FFD447" ${HO}/></g>`,
+  pearling: () => `${hs(36)}<g class="hop"><path d="M100 76 Q96 64 104 56" fill="none" stroke="#7A4A22" stroke-width="5" stroke-linecap="round"/><path d="M104 62 Q120 54 124 66 Q112 70 104 62Z" fill="#6CC66B" ${HO}/>
+    <path d="M100 76 Q78 80 82 108 Q60 128 66 156 Q74 184 100 184 Q126 184 134 156 Q140 128 118 108 Q122 80 100 76Z" fill="#B5D94A" ${HO}/>${eyes2(90, 110, 130, 7)}${smile(100, 146, 5)}
+    ${signBoard(100, 30, 70, "pear/pair", "#fff", 11)}</g>`,
+  pearadise: () => `${hs(62)}<g class="idle">${[[-1, "#B5D94A"], [1, "#E9D84A"]].map(([d, c]) => `<path d="M${100 + d * 40} 60 Q${100 + d * 22} 66 ${100 + d * 26} 96 Q${100 + d * 6} 116 ${100 + d * 12} 150 Q${100 + d * 22} 186 ${100 + d * 42} 186 Q${100 + d * 62} 186 ${100 + d * 70} 150 Q${100 + d * 76} 116 ${100 + d * 56} 96 Q${100 + d * 58} 66 ${100 + d * 40} 60Z" fill="${c}" ${HO}/>`).join("")}
+    ${[-40, 40].map(dx => `${eyes2(100 + dx - 9, 100 + dx + 9, 126, 6)}${smile(100 + dx, 142, 5)}`).join("")}
+    ${[["#E63946", -1], ["#FF7A3A", 0], ["#9B5DE5", 1]].map(([c, i]) => `<path d="M100 64 Q${100 + i * 40} 20 ${100 + i * 70} 26" fill="none" stroke="${OL}" stroke-width="9" stroke-linecap="round"/><path d="M100 64 Q${100 + i * 40} 20 ${100 + i * 70} 26" fill="none" stroke="${c}" stroke-width="5" stroke-linecap="round"/>`).join("")}
+    <text x="100" y="104" text-anchor="middle" font-family="${CF}" font-weight="800" font-size="20" fill="#E63946">♥</text></g>`,
+  swimp: () => `${hs(34)}<g class="hop"><path d="M40 170 q15 -10 30 0 t30 0 t30 0 t30 0" fill="none" stroke="#4FA8E8" stroke-width="5" stroke-linecap="round"/>
+    <path d="M70 120 Q90 90 130 100 Q150 110 140 140 Q120 160 90 150 Q72 144 70 120Z" fill="#FF9AB5" ${HO}/>${[0, 1, 2].map(i => `<path d="M${96 + i * 12} 102 Q${100 + i * 12} 126 ${92 + i * 12} 150" fill="none" stroke="#E86A8A" stroke-width="3"/>`).join("")}
+    <path d="M70 120 L50 130 L56 112Z" fill="#FF9AB5" ${HO}/><path d="M130 102 Q150 70 170 66 M128 104 Q160 86 178 92" fill="none" stroke="${OL}" stroke-width="2.5"/>
+    <rect x="112" y="108" width="30" height="12" rx="6" fill="#3F6FD8" ${HO}/><circle cx="120" cy="114" r="4" fill="#BDE8FF"/><circle cx="134" cy="114" r="4" fill="#BDE8FF"/></g>`,
+  splashark: () => `${hs(62)}<g class="idle"><path d="M20 172 q20 -14 40 0 t40 0 t40 0 t40 0" fill="none" stroke="#4FA8E8" stroke-width="7" stroke-linecap="round"/>
+    <path d="M30 120 Q80 70 150 92 Q180 104 186 130 Q160 160 100 160 Q50 160 30 120Z" fill="#5B8FF0" ${HO}/><path d="M60 140 Q110 160 170 140 Q150 156 100 158 Q70 156 60 140Z" fill="#E3F6FF"/>
+    <path d="M100 82 L112 40 L130 92Z" fill="#5B8FF0" ${HO}/><path d="M34 120 L8 96 L14 140Z" fill="#5B8FF0" ${HO}/>
+    <path d="M150 132 L176 132" stroke="${OL}" stroke-width="3"/>${[152, 160, 168].map(x => `<path d="M${x} 132 l3 5 3 -5" fill="#fff" stroke="${OL}" stroke-width="1.5"/>`).join("")}
+    <rect x="132" y="98" width="40" height="14" rx="7" fill="#E63946" ${HO}/><circle cx="144" cy="105" r="5" fill="#BDE8FF"/><circle cx="160" cy="105" r="5" fill="#BDE8FF"/><circle cx="144" cy="106" r="2.5" fill="${OL}"/><circle cx="160" cy="106" r="2.5" fill="${OL}"/></g>`,
+  quillet: () => `${hs(36)}<g class="hop"><path d="M120 120 Q160 80 170 40 Q150 70 126 104Z" fill="#fff" ${HO}/><path d="M124 112 L166 46" stroke="#B5BAC6" stroke-width="2"/>
+    <circle cx="96" cy="132" r="30" fill="#5B8FF0" ${HO}/><ellipse cx="96" cy="144" rx="16" ry="14" fill="#E3EDFF"/>${eyes2(86, 106, 126, 6)}<path d="M92 136 L100 136 L96 142Z" fill="#FFB020" stroke="${OL}" stroke-width="2"/>
+    <path d="M84 162 l-4 14 M108 162 l4 14" stroke="${OL}" stroke-width="4" stroke-linecap="round"/><circle cx="56" cy="176" r="6" fill="#1d1b3a"/><path d="M60 172 Q72 160 70 150" fill="none" stroke="#1d1b3a" stroke-width="2"/></g>`,
+  quillionaire: () => `${hs(62)}<g class="idle"><g class="flapBL" style="transform-origin:72px 116px"><path d="M74 112 Q28 90 14 120 Q40 120 34 140 Q58 128 74 134Z" fill="#3F6FD8" ${HO}/></g><g class="flapBR" style="transform-origin:128px 116px"><path d="M126 112 Q172 90 186 120 Q160 120 166 140 Q142 128 126 134Z" fill="#3F6FD8" ${HO}/></g>
+    <ellipse cx="100" cy="140" rx="36" ry="42" fill="#5B8FF0" ${HO}/><path d="M86 104 L100 120 L114 104 L114 180 H86Z" fill="#1d1b3a" ${HO}/><path d="M96 110 L100 118 L104 110 L102 140 H98Z" fill="#E63946"/>
+    <circle cx="100" cy="76" r="28" fill="#5B8FF0" ${HO}/><path d="M76 52 H124 L120 34 H80Z" fill="#1d1b3a" ${HO}/><rect x="70" y="50" width="60" height="6" rx="3" fill="#1d1b3a"/><path d="M80 44 H120" stroke="#FFD447" stroke-width="3"/>
+    <circle cx="112" cy="74" r="9" fill="none" stroke="#FFD447" stroke-width="3"/>${eyes2(88, 112, 74, 6)}<path d="M96 86 L106 86 L100 94Z" fill="#FFB020" stroke="${OL}" stroke-width="2"/>
+    <path d="M136 150 Q176 110 182 66 Q164 100 140 136Z" fill="#FFD447" ${HO}/>${[["🪙", 30, 180], ["🪙", 164, 186]].map(([t, x, y]) => `<text x="${x}" y="${y}" font-size="16">${t}</text>`).join("")}</g>`,
+  bugbyte: () => `${hs(34)}<g class="idle"><g opacity=".5"><ellipse cx="96" cy="130" rx="30" ry="24" fill="#FF4F97"/><ellipse cx="104" cy="130" rx="30" ry="24" fill="#2EE6D6"/></g>
+    ${[-1, 1].map(d => [0, 1, 2].map(i => `<path d="M${100 + d * 24} ${120 + i * 10} l${d * 20} ${-6 + i * 6}" stroke="${OL}" stroke-width="4" stroke-linecap="round"/>`).join("")).join("")}
+    <ellipse cx="100" cy="130" rx="30" ry="24" fill="#3FD16A" ${HO}/><path d="M100 106 V154" stroke="${OL}" stroke-width="3"/><rect x="84" y="118" width="8" height="8" fill="#1d1b3a"/><rect x="108" y="128" width="8" height="8" fill="#1d1b3a"/>
+    <circle cx="100" cy="98" r="16" fill="#2A1640" ${HO}/><rect x="90" y="94" width="6" height="6" fill="#FF4F4F"/><rect x="104" y="94" width="6" height="6" fill="#FF4F4F"/><path d="M92 82 L84 66 M108 82 L116 66" stroke="${OL}" stroke-width="3"/>
+    <text x="100" y="58" text-anchor="middle" font-family="monospace" font-weight="800" font-size="12" fill="#3FD16A">01001</text></g>`,
+  bugzilla: () => `${hs(66)}<g class="idle"><g opacity=".45"><path d="M40 186 Q40 100 100 90 Q160 100 160 186Z" fill="#FF4F97" transform="translate(-5 0)"/><path d="M40 186 Q40 100 100 90 Q160 100 160 186Z" fill="#2EE6D6" transform="translate(5 0)"/></g>
+    <path d="M140 160 Q184 166 190 130" fill="none" stroke="${OL}" stroke-width="16" stroke-linecap="round"/><path d="M140 160 Q184 166 190 130" fill="none" stroke="#3FD16A" stroke-width="10" stroke-linecap="round"/>
+    <path d="M40 186 Q40 100 100 90 Q160 100 160 186Z" fill="#3FD16A" ${HO}/>${[0, 1, 2, 3].map(i => `<rect x="${62 + (i % 2) * 44}" y="${112 + i * 16}" width="14" height="14" fill="#1d1b3a" opacity=".75"/>`).join("")}
+    ${[-24, -8, 8, 24].map(dx => `<path d="M${92 + dx} ${92 - Math.abs(dx) * .3} l8 -18 8 18Z" fill="#2A1640" ${HO}/>`).join("")}
+    <path d="M58 74 Q56 40 100 38 Q144 40 142 74 Q144 96 120 100 L80 100 Q56 96 58 74Z" fill="#3FD16A" ${HO}/><rect x="74" y="60" width="14" height="12" fill="#FF4F4F" ${HO}/><rect x="112" y="60" width="14" height="12" fill="#FF4F4F" ${HO}/>
+    <path d="M78 86 h44" stroke="${OL}" stroke-width="4"/>${[82, 94, 106, 118].map(x => `<rect x="${x}" y="86" width="5" height="6" fill="#fff" stroke="${OL}" stroke-width="1"/>`).join("")}
+    <text x="100" y="26" text-anchor="middle" font-family="monospace" font-weight="800" font-size="12" fill="#FF4F4F">404</text></g>`
 });
 
 /* ---------- people, badges and eggs ---------- */
@@ -7200,14 +7278,14 @@ const HS_GROUND = { hs_quad: "p", hs_english: "g", hs_science: "q", hs_drama: "m
 const HS_REQ = { hs_quad: 0, hs_english: 0, hs_science: 0, hs_drama: 2, hs_yard: 2, hs_history: 3, hs_languages: 4, hs_stadium: 5, hs_admin: 6 };
 const HS_ORDER = ["hs_english", "hs_science", "hs_drama", "hs_history", "hs_languages", "hs_stadium"];
 const HS_POOL = {
-  hs_english: ["highlightbug", "paragrub", "essnail", "essnail", "essaysaur", "highlightbug", "paragrub", "highlightning", "paragriffin"],
-  hs_science: ["atomite", "atomite", "microbee", "microbee", "macrobee", "beakit", "orbitot", "atomammoth"],
-  hs_drama: ["spotlit", "spotlit", "debat", "debat", "debatross", "drumlet", "rhymchick", "spotlion"],
-  hs_yard: ["lockling", "lockling", "lockerkraken", "debat", "microbee", "bouncub", "highlightbug", "paragrub", "atomite", "spotlit", "scrollet", "sneakeet", "hellotl"],
-  hs_history: ["scrollet", "scrollet", "mummew", "mummew", "pharaowl", "pastini", "scrollamander"],
-  hs_languages: ["hellotl", "hellotl", "debat", "lockling", "pastini", "mewcab", "polyglotl"],
-  hs_stadium: ["sneakeet", "sneakeet", "bouncub", "bouncub", "marathawk", "slamdunkey"],
-  hs_admin: ["glitchling", "glitchling", "glitchaos", "lockling", "lockerkraken"]
+  hs_english: ["quillet", "quillet", "quillionaire", "highlightbug", "paragrub", "essnail", "essnail", "essaysaur", "highlightbug", "paragrub", "highlightning", "paragriffin"],
+  hs_science: ["telepup", "telepup", "telescorpion", "atomite", "atomite", "microbee", "microbee", "macrobee", "beakit", "orbitot", "atomammoth"],
+  hs_drama: ["quotter", "quotter", "monologator", "spotlit", "spotlit", "debat", "debat", "debatross", "drumlet", "rhymchick", "spotlion"],
+  hs_yard: ["lockling", "lockling", "yesterbun", "quotter", "swimp", "pearling", "lockerkraken", "debat", "microbee", "bouncub", "highlightbug", "paragrub", "atomite", "spotlit", "scrollet", "sneakeet", "hellotl"],
+  hs_history: ["yesterbun", "yesterbun", "hareloom", "scrollet", "scrollet", "mummew", "mummew", "pharaowl", "pastini", "scrollamander"],
+  hs_languages: ["pearling", "pearling", "pearadise", "hellotl", "hellotl", "debat", "lockling", "pastini", "mewcab", "polyglotl"],
+  hs_stadium: ["swimp", "swimp", "splashark", "sneakeet", "sneakeet", "bouncub", "bouncub", "marathawk", "slamdunkey"],
+  hs_admin: ["bugbyte", "bugbyte", "bugzilla", "glitchling", "glitchling", "glitchaos", "lockling", "lockerkraken"]
 };
 const HS_LV = { hs_english: 42, hs_science: 44, hs_yard: 47, hs_drama: 47, hs_history: 50, hs_languages: 53, hs_stadium: 55, hs_admin: 58 };
 const HS_TOPICS = { hs_english: ["spelling", "vocab"], hs_science: ["affixes"], hs_drama: ["punctuation"], hs_history: ["grammar"], hs_languages: ["homophones"], hs_stadium: ["wordclass"] };
