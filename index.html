@@ -1249,30 +1249,32 @@ label.field .tinput{margin-top:4px;font-size:1rem}
 .wchip{display:inline-block;padding:1px 7px;border-radius:99px;font-weight:800;font-size:.75rem;border:2px solid #1d1b3a;margin:1px}
 .wchip.low{background:#FFB3B3}.wchip.mid{background:#FFE8A3}.wchip.ok{background:#B9F2C9}
 .dtbars{display:grid;gap:6px;margin:8px 0}.dtbar{display:grid;grid-template-columns:110px 1fr;gap:2px 8px;align-items:center}.dtbar small{grid-column:2;color:#C9D3F5}
-/* big-screen layout: game screen about 70% of the height, controls either side of the touch screen */
-@media (min-width:700px) and (min-aspect-ratio:1/1){
-  #app[data-screen=world],#app[data-screen=battle]{max-width:none;padding:8px 10px}
-  #app[data-screen=world] .dsl,#app[data-screen=battle] .dsl{--ch:min(calc(70dvh - 40px),calc(100dvh - 335px));width:min(calc(100vw - 24px),calc(var(--ch) * 1.2222 + 44px));max-width:none}
-  #app[data-screen=battle] .stage{max-width:none;aspect-ratio:176/144}
-  #app[data-screen=battle] .bigbtns{grid-template-columns:repeat(4,1fr)}
-  #app[data-screen=world] .dsl-top{padding:10px 14px 6px}
-  #app[data-screen=world] .dsl-spk{margin-top:5px}
-  #app[data-screen=world] .dsl-bot{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:16px;padding:10px 16px 12px}
-  #app[data-screen=world] .dsl-ctrl{display:contents}
-  #app[data-screen=world] .dsl-ctrl .dpad{grid-column:1;grid-row:1}
-  #app[data-screen=world] .dsl-ctrl .abxy{grid-column:3;grid-row:1}
+/* big screens: game screen on the left (about 70%), buttons in a column on the right (about 30%) */
+@media (min-width:760px) and (min-aspect-ratio:5/4){
+  #app:is([data-screen=world],[data-screen=battle],[data-screen=encounter]){max-width:none;padding:10px 10px 6px}
+  #app:is([data-screen=world],[data-screen=battle],[data-screen=encounter]) .dsl{--ar:1.3333;--lw:min(calc(70vw - 40px),calc((100dvh - 64px) * var(--ar)));display:grid;grid-template-columns:var(--lw) 1fr;width:min(calc(100vw - 20px),calc(var(--lw) / .7));max-width:none;margin:0 auto}
+  #app[data-screen=world] .dsl{--ar:1.2222}
+  #app:is([data-screen=world],[data-screen=battle],[data-screen=encounter]) .dsl-hinge{display:none}
+  #app:is([data-screen=world],[data-screen=battle],[data-screen=encounter]) .dsl-top{border-radius:22px 6px 6px 22px;padding:12px 10px 8px 14px;display:flex;flex-direction:column;justify-content:center}
+  #app:is([data-screen=world],[data-screen=battle],[data-screen=encounter]) .dsl-bot{border-radius:6px 26px 26px 6px;border-left:4px solid #AEB7CC;padding:12px 12px 14px;display:flex;flex-direction:column;justify-content:space-between;gap:12px;min-width:0}
+  #app:is([data-screen=world],[data-screen=battle],[data-screen=encounter]) .stage{max-width:none}
+  #app:is([data-screen=world],[data-screen=battle],[data-screen=encounter]) .scr-bot{flex:1;display:flex;flex-direction:column;justify-content:center;min-width:0}
+  #app[data-screen=world] .scr-bot{justify-content:flex-start}
+  #app[data-screen=world] .tbar{font-size:.95rem;padding:5px 8px 5px 12px}
+  #app[data-screen=world] .tmenu{grid-template-columns:1fr 1fr;grid-auto-rows:1fr;gap:8px;flex:1;align-content:stretch;margin-bottom:10px}
+  #app[data-screen=world] .tt{min-height:48px;font-size:1rem;justify-content:center;gap:2px}
+  #app[data-screen=world] .tt b{font-size:1.7rem}
+  #app[data-screen=world] .tgoal{font-size:.92rem;padding:8px 10px}
+  #app[data-screen=world] .dsl-ctrl{margin-top:0;padding:0 4px;display:flex;justify-content:space-between;align-items:center}
   #app[data-screen=world] .dsl-mid{display:none}
-  #app[data-screen=world] .scr-bot{grid-column:2;grid-row:1;min-width:0}
-  #app[data-screen=world] .scr-bot{container-type:inline-size}
-  #app[data-screen=world] .tmenu{grid-template-columns:repeat(4,1fr);gap:5px;margin-bottom:6px}
-  #app[data-screen=world] .tt{min-height:44px;font-size:.74rem;padding:3px 2px}
-  #app[data-screen=world] .tt b{font-size:1.1rem}
+  #app:is([data-screen=world],[data-screen=battle],[data-screen=encounter]) .bigbtns{grid-template-columns:1fr;gap:10px}
+  #app:is([data-screen=world],[data-screen=battle],[data-screen=encounter]) .bb{min-height:64px;font-size:1.05rem}
+  #app:is([data-screen=world],[data-screen=battle],[data-screen=encounter]) .dstext{font-size:1.05rem}
 }
-@container (min-width:560px){
-  #app[data-screen=world] .tmenu{grid-template-columns:repeat(8,1fr);gap:6px}
-  #app[data-screen=world] .tt{min-height:50px}
-  #app[data-screen=world] .tt b{font-size:1.3rem}
-  #app[data-screen=world] .tbar{margin-bottom:6px}
+@media (min-width:760px) and (min-aspect-ratio:5/4) and (max-height:640px){
+  #app[data-screen=world] .tt{min-height:34px;font-size:.8rem} #app[data-screen=world] .tt b{font-size:1.2rem}
+  #app[data-screen=world] .dsl-ctrl{transform:scale(.85);transform-origin:center bottom}
+  #app:is([data-screen=world],[data-screen=battle],[data-screen=encounter]) .bb{min-height:46px}
 }
 </style>
 </head>
